@@ -10,19 +10,20 @@ export const colors = {
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.background2
+        backgroundColor: "white"
     },
     gradient: {
         ...StyleSheet.absoluteFillObject
     },
     scrollview: {
         flex: 1,
-        paddingTop: 50
+        paddingTop: 10
     },
     scrollviewContentContainer: {
-        paddingBottom: 50
+        paddingBottom: 10
     },
     exampleContainer: {
+        flex: 1,
         marginBottom: 30
     },
     title: {
