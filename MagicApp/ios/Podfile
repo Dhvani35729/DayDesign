@@ -40,4 +40,8 @@ target 'magic' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
+
 end
