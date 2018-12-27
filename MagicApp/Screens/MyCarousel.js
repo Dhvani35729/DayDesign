@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StatusBar } from 'react-native';
+import { View, ScrollView, Text, StatusBar, TextInput } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from '../styles/SliderEntry';
 import SliderEntry from '../components/SliderEntry';
@@ -39,10 +39,6 @@ export default class MyCarousel extends Component {
 
     return (
       <View style={styles.exampleContainer}>
-        <Text style={styles.title}>Example 1</Text>
-        <Text style={styles.subtitle}>
-          No momentum | Loop | Autoplay | Parallax | Scale | Opacity | Pagination with tappable dots
-        </Text>
         <Carousel
           ref={c => {
             if (!this.state.slider1Ref) {
@@ -52,7 +48,10 @@ export default class MyCarousel extends Component {
           data={ENTRIES1}
           renderItem={this._renderItemWithParallax}
           sliderWidth={sliderWidth}
+          sliderHeight={sliderWidth}
           itemWidth={itemWidth}
+          itemHeight={itemWidth}
+          vertical={true}
           hasParallaxImages={true}
           firstItem={SLIDER_1_FIRST_ITEM}
           inactiveSlideScale={0.94}
@@ -60,25 +59,14 @@ export default class MyCarousel extends Component {
           enableMomentum={false}
           containerCustomStyle={styles.slider}
           contentContainerCustomStyle={styles.sliderContentContainer}
-          loop={true}
+          loop={false}
           loopClonesPerSide={2}
           autoplay={true}
           autoplayDelay={500}
           autoplayInterval={3000}
           onSnapToItem={index => this.setState({ slider1ActiveSlide: index })}
         />
-        <Pagination
-          dotsLength={ENTRIES1.length}
-          activeDotIndex={slider1ActiveSlide}
-          containerStyle={styles.paginationContainer}
-          dotColor={'rgba(255, 255, 255, 0.92)'}
-          dotStyle={styles.paginationDot}
-          inactiveDotColor={colors.black}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.6}
-          carouselRef={slider1Ref}
-          tappableDots={!!slider1Ref}
-        />
+
       </View>
     );
   }
@@ -105,6 +93,14 @@ export default class MyCarousel extends Component {
       </View>
     );
   }
+  // <ScrollView
+  //   style={styles.scrollview}
+  //   contentContainerStyle={styles.scrollviewContentContainer}
+  //   indicatorStyle={'white'}
+  //   scrollEventThrottle={200}
+  //   directionalLockEnabled={true}>
+  //
+  // </ScrollView>
 
   render() {
     return (
@@ -114,14 +110,8 @@ export default class MyCarousel extends Component {
           backgroundColor={'rgba(0, 0, 0, 0.3)'}
           barStyle={'light-content'}
         />
-        <ScrollView
-          style={styles.scrollview}
-          contentContainerStyle={styles.scrollviewContentContainer}
-          indicatorStyle={'white'}
-          scrollEventThrottle={200}
-          directionalLockEnabled={true}>
-          {this.example2}
-        </ScrollView>
+              {this.example1}
+
       </View>
     );
   }

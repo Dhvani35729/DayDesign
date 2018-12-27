@@ -26,7 +26,7 @@ export default StyleSheet.create({
     },
     imageContainer: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: colors.black,
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius
     },
@@ -47,7 +47,7 @@ export default StyleSheet.create({
         left: 0,
         right: 0,
         height: entryBorderRadius,
-        backgroundColor: 'white'
+        backgroundColor: colors.black
     },
     radiusMaskEven: {
         backgroundColor: colors.black
@@ -57,7 +57,7 @@ export default StyleSheet.create({
         paddingTop: 20 - entryBorderRadius,
         paddingBottom: 20,
         paddingHorizontal: 16,
-        backgroundColor: 'white',
+        backgroundColor: colors.black,
         borderBottomLeftRadius: entryBorderRadius,
         borderBottomRightRadius: entryBorderRadius
     },
@@ -65,7 +65,7 @@ export default StyleSheet.create({
         backgroundColor: colors.black
     },
     title: {
-        color: colors.black,
+        color: 'white',
         fontSize: 13,
         fontWeight: 'bold',
         letterSpacing: 0.5
@@ -75,7 +75,7 @@ export default StyleSheet.create({
     },
     subtitle: {
         marginTop: 6,
-        color: colors.gray,
+        color: 'rgba(255, 255, 255, 0.7)',
         fontSize: 12,
         fontStyle: 'italic'
     },
