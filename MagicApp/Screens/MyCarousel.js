@@ -46,7 +46,6 @@ export default class MyCarousel extends Component {
             }
           }}
           data={ENTRIES1}
-
           renderItem={this._renderItemWithParallax}
           sliderWidth={sliderWidth}
           sliderHeight={sliderWidth}

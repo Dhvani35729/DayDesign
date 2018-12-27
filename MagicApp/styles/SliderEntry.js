@@ -19,6 +19,7 @@ const entryBorderRadius = 8;
 
 export default StyleSheet.create({
     slideInnerContainer: {
+        flex: 1,
         width: itemWidth,
         height: slideHeight,
         paddingHorizontal: itemHorizontalMargin,
