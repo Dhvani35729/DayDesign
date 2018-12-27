@@ -6,7 +6,7 @@ import SliderEntry from '../components/SliderEntry';
 import styles, { colors } from '../styles/index';
 import { ENTRIES1, ENTRIES2 } from '../static/entries';
 
-const SLIDER_1_FIRST_ITEM = 1;
+const SLIDER_1_FIRST_ITEM = 0;
 
 export default class MyCarousel extends Component {
 
@@ -46,6 +46,7 @@ export default class MyCarousel extends Component {
             }
           }}
           data={ENTRIES1}
+
           renderItem={this._renderItemWithParallax}
           sliderWidth={sliderWidth}
           sliderHeight={sliderWidth}
