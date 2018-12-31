@@ -13,6 +13,7 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 // import TodoScreen from './scenes/todo/TodoScene'
 import GroupScreen from './Screens/GroupScreen'
 import MyCarousel from './Screens/MyCarousel'
+import GroupsTwo from './Screens/GroupsTwo'
 
 import firebase from 'react-native-firebase'
 //
@@ -111,10 +112,10 @@ export const createRootNavigator = (signedIn = false) => {
   return  createAppContainer(createSwitchNavigator(
     {
       SignedIn: {
-        screen: GroupScreen
+        screen: GroupsTwo
       },
       SignedOut: {
-        screen: GroupScreen
+        screen: GroupsTwo
       }
     },
     {
