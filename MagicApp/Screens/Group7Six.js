@@ -14,6 +14,8 @@ export default class Group7Six extends React.Component {
 
 	constructor(props) {
 		super(props)
+		console.log("hello");
+		console.log(this.props.item)
 	}
 
 	componentDidMount() {
@@ -58,7 +60,7 @@ export default class Group7Six extends React.Component {
 							position: "absolute",
 						}}>
 						<Text
-							style={styles.projectIdeaThrowarText}>Project Idea Throwaround</Text>
+							style={styles.projectIdeaThrowarText}>{this.props.item.name}</Text>
 						<Text
 							style={styles.newText}>2 New</Text>
 					</View>
