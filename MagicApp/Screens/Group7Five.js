@@ -1,12 +1,4 @@
-//
-//  Group7Five.js
-//  magic version 1
-//
-//  Created by dhvani&dhrumil.
-//  Copyright © 2018 magic. All rights reserved.
-//
-
-import { StyleSheet, View, Text } from "react-native"
+import { Text, StyleSheet, View } from "react-native"
 import React from "react"
 
 
@@ -62,9 +54,21 @@ export default class Group7Five extends React.Component {
 						<View
 							style={{
 								flexDirection: "row",
+								justifyContent: "center",
 							}}>
 							<View
 								style={styles.viewView}/>
+							<View
+								style={{
+									width: "100%",
+									height: "100%",
+									flexDirection: "row",
+									justifyContent: "center",
+									position: "absolute",
+								}}>
+								<Text
+									style={styles.textText}>{"\n"}6 {"\n"}</Text>
+							</View>
 							<View
 								style={{
 									width: "100%",
@@ -99,20 +103,9 @@ export default class Group7Five extends React.Component {
 									flexDirection: "row",
 									justifyContent: "center",
 									position: "absolute",
-								}}>
-								<Text
-									style={styles.textText}>{"\
-"}</Text>
-							</View>
+								}}/>
 						</View>
 					</View>
-					<View
-						style={{
-							width: "100%",
-							height: "100%",
-							justifyContent: "center",
-							position: "absolute",
-						}}/>
 				</View>
 			</View>
 	}
@@ -137,35 +130,35 @@ const styles = StyleSheet.create({
 		height: 150,
 	},
 	federationHallText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(74, 78, 82)',
 		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "bold",
 		textAlign: "left",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginBottom: 14,
 		alignSelf: "flex-end",
 	},
 	pmText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(74, 78, 82)',
 		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "bold",
 		textAlign: "left",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginBottom: 1,
 		alignSelf: "flex-end",
 	},
 	tdInformationSessiText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(74, 78, 82)',
 		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "bold",
 		textAlign: "left",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginLeft: 10,
 		marginRight: 27,
 		marginTop: 3,
@@ -174,51 +167,51 @@ const styles = StyleSheet.create({
 	viewView: {
 		backgroundColor: 'rgb(74, 78, 82)',
 		borderRadius: 43,
-		marginLeft: 31,
-		marginRight: 31,
 		marginTop: 18,
-		flex: 1,
+		width: 87,
+		height: 87,
+	},
+	textText: {
+		color: 'rgb(127, 177, 233)',
+		fontSize: 34,
+		fontStyle: "normal",
+		fontWeight: "bold",
+		textAlign: "center",
+		lineHeight: 0,
+		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginTop: 18,
 	},
 	goingText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(240, 240, 240)',
 		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "normal",
 		textAlign: "center",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginTop: 82,
 	},
 	newText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(74, 78, 82)',
 		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "bold",
 		textAlign: "left",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginLeft: 10,
 		marginTop: 7,
 	},
 	freeText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(127, 177, 233)',
 		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "bold",
 		textAlign: "center",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginRight: 10,
 		marginTop: 6,
-	},
-	textText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		color: 'rgb(127, 177, 233)',
-		fontSize: 34,
-		fontStyle: "normal",
-		fontWeight: "bold",
-		textAlign: "center",
-		letterSpacing: 0,
-		alignSelf: "center",
 	},
 })

@@ -1,11 +1,3 @@
-//
-//  Group7Six.js
-//  magic version 1
-//
-//  Created by dhvani&dhrumil.
-//  Copyright © 2018 magic. All rights reserved.
-//
-
 import { StyleSheet, View, Text } from "react-native"
 import React from "react"
 
@@ -14,8 +6,6 @@ export default class Group7Six extends React.Component {
 
 	constructor(props) {
 		super(props)
-		console.log("hello");
-		console.log(this.props.item)
 	}
 
 	componentDidMount() {
@@ -60,7 +50,7 @@ export default class Group7Six extends React.Component {
 							position: "absolute",
 						}}>
 						<Text
-							style={styles.projectIdeaThrowarText}>{this.props.item.name}</Text>
+							style={styles.projectIdeaThrowarText}>Project Idea Throwaround</Text>
 						<Text
 							style={styles.newText}>2 New</Text>
 					</View>
@@ -82,8 +72,7 @@ export default class Group7Six extends React.Component {
 						position: "absolute",
 					}}>
 					<Text
-						style={styles.textText}>{"\
-"}</Text>
+						style={styles.textText}>{"8 going\n"}</Text>
 				</View>
 				<View
 					style={{
@@ -92,7 +81,7 @@ export default class Group7Six extends React.Component {
 						position: "absolute",
 					}}>
 					<Text
-						style={styles.goingText}>8 going</Text>
+						style={styles.goingText}>Free Food</Text>
 				</View>
 			</View>
 	}
@@ -101,10 +90,10 @@ export default class Group7Six extends React.Component {
 const styles = StyleSheet.create({
 	group7: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		width: '50%',
+		width: 150,
 		height: 182,
-	padding: 7,
-	marginBottom: 20,
+		padding: 7,
+		marginBottom: 20,
 		justifyContent: "center",
 	},
 	group6View: {
