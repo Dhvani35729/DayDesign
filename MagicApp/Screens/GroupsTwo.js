@@ -70,7 +70,7 @@ export default class GroupsTwo extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return (<Group7Six item={item}/>)
+		return (<Group7Five /> )
 	}
 
 	render() {
