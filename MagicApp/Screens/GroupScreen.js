@@ -32,24 +32,34 @@ export default class GroupScreen extends React.Component {
 
 	groupFlatListMockData = [{
 		key: "1",
+		name: "Artifical Intelligence Updates",
 	}, {
 		key: "2",
+		name: "NBA Finals",
 	}, {
 		key: "3",
+			name: "NBA Finals",
 	}, {
 		key: "4",
+			name: "NBA Finals",
 	}, {
 		key: "5",
+			name: "NBA Finals",
 	}, {
 		key: "6",
+			name: "NBA Finals",
 	}, {
 		key: "7",
+			name: "NBA Finals",
 	}, {
 		key: "8",
+			name: "NBA Finals",
 	}, {
 		key: "9",
+			name: "NBA Finals",
 	}, {
 		key: "10",
+			name: "NBA Finals",
 	}]
 
 	renderGroupFlatListCell = ({ item }) => {
