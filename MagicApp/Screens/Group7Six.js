@@ -17,11 +17,11 @@ export default class Group7Six extends React.Component {
 	}
 
 	componentDidMount() {
-	
+
 	}
 
 	render() {
-	
+
 		return <View
 				style={styles.group7}>
 				<View
@@ -99,8 +99,9 @@ export default class Group7Six extends React.Component {
 const styles = StyleSheet.create({
 	group7: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		width: 150,
+		width: '50%',
 		height: 182,
+		padding: 7,
 		justifyContent: "center",
 	},
 	group6View: {

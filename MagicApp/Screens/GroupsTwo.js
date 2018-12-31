@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from "react-native"
 import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
@@ -15,7 +15,7 @@ import Group7Six from "./Group7Six"
 export default class GroupsTwo extends React.Component {
 
 	static navigationOptions = ({ navigation }) => {
-	
+
 		const { params = {} } = navigation.state
 		return {
 				header: null,
@@ -29,11 +29,11 @@ export default class GroupsTwo extends React.Component {
 	}
 
 	componentDidMount() {
-	
+
 	}
 
 	onMiscBigButtonPressed = () => {
-	
+			
 	}
 
 	groupFlatListMockData = [{
@@ -59,16 +59,17 @@ export default class GroupsTwo extends React.Component {
 	}]
 
 	renderGroupFlatListCell = ({ item }) => {
-	
-		return <Group7Five/>
+
+		return (<Group7Six/>)
 	}
 
 	render() {
-	
+
 		return <View
 				style={styles.groupsView}>
-				<View
-					style={styles.group5SearchBar}/>
+				<TextInput
+					placeholder="Search groups or restaurants"
+					style={styles.group5TextInput}/>
 				<View
 					style={{
 						flexDirection: "row",
@@ -93,6 +94,7 @@ export default class GroupsTwo extends React.Component {
 					style={styles.groupFlatListViewWrapper}>
 					<FlatList
 						horizontal={false}
+						numColumns={2}
 						renderItem={this.renderGroupFlatListCell}
 						data={this.groupFlatListMockData}
 						style={styles.groupFlatList}/>
@@ -166,6 +168,23 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		width: 315,
 		flex: 1,
+	},
+	group5TextInput: {
+		backgroundColor: 'rgb(255, 255, 255)',
+		borderRadius: 17,
+		borderWidth: 1,
+		borderColor: 'rgb(196, 201, 223)',
+		borderStyle: "solid",
+		color: 'rgb(134, 142, 150)',
+		fontSize: 13,
+		fontStyle: "normal",
+		fontWeight: "bold",
+		textAlign: "center",
+		letterSpacing: 0,
+		marginLeft: 30,
+		marginRight: 30,
+		marginTop: 53,
+		alignSelf: "stretch",
 	},
 	groupFlatList: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',

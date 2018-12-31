@@ -8,10 +8,7 @@
 
 import { TextInput, FlatList, View, Text, StyleSheet } from "react-native"
 import React from "react"
-import Group7 from "./Group7"
-import MyCarousel from './MyCarousel'
-import CardView from 'react-native-cardview'
-import Carousel from 'react-native-snap-carousel';
+import GroupsTwo from './GroupsTwo'
 
 export default class GroupScreen extends React.Component {
 
@@ -57,7 +54,7 @@ export default class GroupScreen extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return <Group7/>
+		return <GroupsTwo/>
 	}
 
 
@@ -81,17 +78,9 @@ export default class GroupScreen extends React.Component {
 
 		return(
 
-			<View
-					style={styles.groupsView}>
-					<TextInput
-						placeholder="Search groups or restaurants"
-						style={styles.group5TextInput}/>
-					<Text
-						style={styles.group5Text}>All Groups</Text>
 
-						<MyCarousel />
 
-							</View>
+						<GroupsTwo />
 
 
 
