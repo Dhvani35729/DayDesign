@@ -90,7 +90,7 @@ export default class Group7Six extends React.Component {
 						position: "absolute",
 					}}>
 					<Text
-						style={styles.goingText}> </Text>
+						style={styles.goingText}>8 going</Text>
 				</View>
 			</View>
 	}
@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		width: '50%',
 		height: 182,
-		padding: 7,
+	padding: 7,
+	marginBottom: 20,
 		justifyContent: "center",
 	},
 	group6View: {
