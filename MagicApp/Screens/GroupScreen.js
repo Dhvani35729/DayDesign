@@ -9,6 +9,9 @@
 import { TextInput, FlatList, View, Text, StyleSheet } from "react-native"
 import React from "react"
 import GroupsTwo from './GroupsTwo'
+import DeviceInfo from 'react-native-device-info';
+import firebase from 'react-native-firebase'
+
 
 export default class GroupScreen extends React.Component {
 
@@ -24,9 +27,73 @@ export default class GroupScreen extends React.Component {
 
 	constructor(props) {
 		super(props)
+			 this.state = { groupData: [] };
+			 console.log('sotp')
+			 console.log(this.state)
+	}
+
+	loadGroups(my){
+
+		firebase.database().ref('groups').on('value', function(snapshot) {
+
+  	console.log(snapshot.val());
+		console.log(my.state)
+		console.log("hi")
+		my.setState({groupData: snapshot.val()});
+
+		// for(var i = 1; i < snapshot.val().length; i++){
+		// 		console.log(i);
+		// 		console.log(snapshot.val()[i].group_name);
+		// 		var group = [];
+		// 		group.push(snapshot.val()[i].group_name);
+		// 		group.push(snapshot.val()[i].number_going);
+		// 		group.push(snapshot.val()[i].location_name);
+		// 		group.push(snapshot.val()[i].free_food);
+		// 		group.push(snapshot.val()[i].people);
+		// 		group.push(snapshot.val()[i].time);
+		// 		// console.log(group);
+		// 		var joined = my.state.groupData.concat(group);
+		// 		my.setState({ groupData: joined })
+		// }
+
+	console.log(my.state);
+		console.log("data ^");
+});
+
+
+
+
 	}
 
 	componentDidMount() {
+		let my = this;
+		this.loadGroups(my);
+
+		console.log(DeviceInfo.getUniqueID());
+	 const uniqueId = DeviceInfo.getUniqueID();
+		//
+		// console.log(uniqueId);
+		console.log(firebase.database().ref(uniqueId));
+		console.log("----");
+
+		firebase.database().ref(uniqueId).child('num_opened').once('value').then(function(snapshot) {
+		if(snapshot.val() == null){
+
+			var updates = {};
+			updates['/num_opened'] = 1;
+			firebase.database().ref(uniqueId).update(updates);
+
+		}
+		else{
+
+			var updates = {};
+			updates['/num_opened'] = snapshot.val()+1;
+			firebase.database().ref(uniqueId).update(updates);
+
+		}
+
+		});
+
 
 	}
 
@@ -62,10 +129,10 @@ export default class GroupScreen extends React.Component {
 			name: "NBA Finals",
 	}]
 
-	renderGroupFlatListCell = ({ item }) => {
-
-		return <GroupsTwo/>
-	}
+	// renderGroupFlatListCell = ({ item }) => {
+	//
+	// 	return <GroupsTwo/>
+	// }
 
 
 
@@ -90,7 +157,7 @@ export default class GroupScreen extends React.Component {
 
 
 
-						<GroupsTwo />
+						<GroupsTwo groupData={this.state.groupData}/>
 
 
 

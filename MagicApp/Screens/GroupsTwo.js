@@ -32,6 +32,7 @@ export default class GroupsTwo extends React.Component {
 
 	}
 
+
 	onMiscBigButtonPressed = () => {
 
 	}
@@ -70,7 +71,7 @@ export default class GroupsTwo extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return (<Group7Five /> )
+		return (<Group7Five item={item}/> )
 	}
 
 	render() {
@@ -106,12 +107,13 @@ export default class GroupsTwo extends React.Component {
 						horizontal={false}
 						numColumns={2}
 						renderItem={this.renderGroupFlatListCell}
-						data={this.groupFlatListMockData}
+						data={this.props.groupData}
 						style={styles.groupFlatList}/>
 				</View>
 			</View>
 	}
 }
+
 
 const styles = StyleSheet.create({
 	groupsView: {
