@@ -9,6 +9,7 @@ target 'magic' do
 
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
    'RCTLinkingIOS',
+      'RCTImage',
  ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   
@@ -43,5 +44,7 @@ target 'magic' do
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
   pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 end

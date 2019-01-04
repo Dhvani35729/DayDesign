@@ -1,16 +1,52 @@
-import { Text, StyleSheet, View } from "react-native"
+import { Text, StyleSheet, View,  Dimensions, Platform, PixelRatio } from "react-native"
 import React from "react"
+
+const {
+  width: SCREEN_WIDTH,
+  height: SCREEN_HEIGHT,
+} = Dimensions.get('window');
+
+// based on iphone 5s's scale
+const scale = SCREEN_WIDTH / 320;
+
+export function normalize(size) {
+  const newSize = size * scale
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+  }
+}
+
+export function	tConvert (time) {
+	 // Check correct time format and split into components
+	 time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+	 if (time.length > 1) { // If time format correct
+		 time = time.slice (1);  // Remove full string match value
+		 time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+		 time[0] = +time[0] % 12 || 12; // Adjust hours
+	 }
+	 return time.join (''); // return adjusted time or original string
+ }
 
 
 export default class Group7Five extends React.Component {
 
+
+
 	constructor(props) {
 		super(props)
+		console.log(tConvert(this.props.item.time))
+		console.log("Su che")
+
 	}
 
 	componentDidMount() {
 
 	}
+
+
 
 	render() {
 
@@ -30,7 +66,7 @@ export default class Group7Five extends React.Component {
 								flexDirection: "row",
 							}}>
 							<Text
-								style={styles.federationHallText}>Federation Hall</Text>
+								style={styles.federationHallText}>{this.props.item.location_name}</Text>
 							<View
 								style={{
 									width: "100%",
@@ -39,7 +75,7 @@ export default class Group7Five extends React.Component {
 									position: "absolute",
 								}}>
 								<Text
-									style={styles.pmText}>5:00PM  </Text>
+									style={styles.pmText}>{tConvert(this.props.item.time)}</Text>
 							</View>
 						</View>
 					</View>
@@ -49,8 +85,10 @@ export default class Group7Five extends React.Component {
 							height: "100%",
 							position: "absolute",
 						}}>
-						<Text
-							style={styles.tdInformationSessiText}>TD Information Session</Text>
+
+						<Text numberOfLines={2}
+        adjustsFontSizeToFit={true}
+							style={styles.tdInformationSessiText}>{this.props.item.group_name}</Text>
 						<View
 							style={{
 								flexDirection: "row",
@@ -67,7 +105,7 @@ export default class Group7Five extends React.Component {
 									position: "absolute",
 								}}>
 								<Text
-									style={styles.textText}>{"\n"}6 {"\n"}</Text>
+									style={styles.textText}>{"\n"}{this.props.item.number_going} {"\n"}</Text>
 							</View>
 							<View
 								style={{
@@ -78,24 +116,26 @@ export default class Group7Five extends React.Component {
 									position: "absolute",
 								}}>
 								<Text
-									style={styles.goingText}> </Text>
+                                    style={styles.goingText}>Going</Text>
 							</View>
 						</View>
 						<View
 							style={{
 								flexDirection: "row",
 							}}>
-							<Text
-								style={styles.newText}>5 New</Text>
+
 							<View
 								style={{
 									flex: 1,
 									flexDirection: "row",
 									justifyContent: "flex-end",
 								}}>
+								{this.props.item.free_food &&
 								<Text
 									style={styles.freeText}>Free Food</Text>
+												}
 							</View>
+
 							<View
 								style={{
 									width: "100%",
@@ -115,13 +155,15 @@ const styles = StyleSheet.create({
 	group7: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		width: 150,
-		height: 182,
+		height: 190,
+		padding: 7,
+		marginBottom: 10,
 		justifyContent: "center",
 	},
 	group6View: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		alignSelf: "stretch",
-		height: 182,
+		height: 180,
 	},
 	bitmapView: {
 		backgroundColor: 'rgba(155, 155, 155, 0.15)',
@@ -153,7 +195,6 @@ const styles = StyleSheet.create({
 	},
 	tdInformationSessiText: {
 		color: 'rgb(74, 78, 82)',
-		fontSize: 10,
 		fontStyle: "normal",
 		fontWeight: "bold",
 		textAlign: "left",
@@ -167,7 +208,7 @@ const styles = StyleSheet.create({
 	viewView: {
 		backgroundColor: 'rgb(74, 78, 82)',
 		borderRadius: 43,
-		marginTop: 18,
+		marginTop: 10,
 		width: 87,
 		height: 87,
 	},
@@ -180,7 +221,7 @@ const styles = StyleSheet.create({
 		lineHeight: 0,
 		letterSpacing: 0,
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginTop: 18,
+		marginTop: -5,
 	},
 	goingText: {
 		color: 'rgb(240, 240, 240)',
@@ -190,7 +231,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		letterSpacing: 0,
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginTop: 82,
+		marginTop: 80,
 	},
 	newText: {
 		color: 'rgb(74, 78, 82)',
