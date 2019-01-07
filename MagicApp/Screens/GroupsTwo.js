@@ -97,135 +97,99 @@ export default class GroupsTwo extends React.Component {
 		 visible={this.state.modalCreateVisible}
 		  onRequestClose={() => {this.setCreateModalVisible(false)}}
 	>
-
 	<View
-		style={styles.artboard2View}>
-		<View
-			 style={styles.backgroundView}>
-
-
-					<TouchableHighlight onPress={() => { this.setCreateModalVisible(!this.state.modalCreateVisible);}}>
- 					<Image
- 						source={require("./../assets/images/ic-close-4.png")}
- 						style={styles.icCloseImage}/>
-						 </TouchableHighlight>
-
-
-
- 					<View
- 						style={{
- 							flex: 1,
- 							flexDirection: "row",
- 							justifyContent: "flex-end",
- 						}}>
- 						<Image
- 							source={require("./../assets/images/ic-cart.png")}
- 							style={styles.icCartImage}/>
- 					</View>
- 				</View>
+			style={styles.artboard2View}>
+			<View
+				style={{
+					flexDirection: "row",
+				}}>
+				<TouchableOpacity
+					onPress={() => { this.setCreateModalVisible(!this.state.modalCreateVisible);}}
+					style={styles.icCloseButton}>
+					<Image
+						source={require("./../assets/images/ic-close-2.png")}
+						style={styles.icCloseButtonImage}/>
+				</TouchableOpacity>
 				<View
 					style={{
-						width: "100%",
-						height: "100%",
-						position: "absolute",
+						flex: 1,
+						flexDirection: "row",
+						justifyContent: "flex-end",
 					}}>
-					<Image
-						source={require("./../assets/images/bitmap-3.png")}
-						style={styles.bitmapImage}/>
-						<View
-						style={styles.contentView}>
-
-						<Image
-							source={require("./../assets/images/bg.png")}
-							style={styles.bgImage}/>
-						<View
-							style={{
-								width: "100%",
-								height: "100%",
-								justifyContent: "center",
-								position: "absolute",
-							}}>
-
-							<View
-							style={styles.formView}>
-							<View
-									style={styles.edittextTextonlyPlaceholderView}>
-									<Text
-										style={styles.paymentText}>Group Name</Text>
-									<View
-										style={{
-											flex: 1,
-											justifyContent: "flex-end",
-										}}>
-										<TextInput
-										placeholder="NBA Finals"
-											style={styles.TextTextInput}
-										/>
-
-									</View>
-								</View>
-
-								<View
-									style={{
-										flex: 1,
-										justifyContent: "flex-end",
-									}}>
-									<View
-										style={styles.edittextTextonlyPlaceholderThreeView}>
-										<Text
-											style={styles.paymentThreeText}>Time</Text>
-										<View
-											style={{
-												flex: 1,
-												justifyContent: "flex-end",
-											}}>
-											<TextInput
-											placeholder="7:00 PM"
-											style={styles.TextThreeTextInput}/>
-										</View>
-									</View>
-								</View>
-
+					<View
+						style={styles.viewView}>
+						<TouchableOpacity
+							onPress={() => { console.log("next screen");}}
+							style={styles.icCartButton}>
+							<Image
+								source={require("./../assets/images/ic-cart.png")}
+								style={styles.icCartButtonImage}/>
 								<View
 									style={{
 										width: "100%",
 										height: "100%",
-										justifyContent: "center",
 										position: "absolute",
 									}}>
-									<View
-										style={styles.edittextTextonlyPlaceholderTwoView}>
-										<Text
-											style={styles.paymentTwoText}>Venue</Text>
-										<View
-											style={{
-												flex: 1,
-												justifyContent: "flex-end",
-											}}>
-											<TextInput
-											placeholder="William's Cafe"
-											style={styles.TextTwoTextInput}/>
-										</View>
-									</View>
+									<Image
+										source={require("./../assets/images/bitmap-3.png")}
+										style={styles.bitmapImage}/>
 								</View>
-
-
-							</View>
-
-
-							</View>
-
-
-
-						</View>
-
-
-
+						</TouchableOpacity>
 
 					</View>
+				</View>
+			</View>
+			<View
+				style={styles.contentView}>
+				<View
+					style={styles.formView}>
+					<View
+						style={styles.edittextTextonlyPlaceholderView}>
+						<Text
+							style={styles.paymentText}>Group Name</Text>
+						<View
+							style={{
+								flex: 1,
+								justifyContent: "flex-end",
+							}}>
+							<TextInput
+							placeholder="NBA Finals"
+							style={styles.TextTextInput}/>
 
+						</View>
+					</View>
+					<View
+						style={styles.edittextTextonlyPlaceholderTwoView}>
+						<Text
+							style={styles.paymentTwoText}>Venue</Text>
+						<View
+							style={{
+								flex: 1,
+								justifyContent: "flex-end",
+							}}>
+							<TextInput
+							placeholder="William's Cafe"
+							style={styles.TextTwoTextInput}/>
+						</View>
+					</View>
+					<View
+						style={styles.edittextTextonlyPlaceholderThreeView}>
+						<Text
+							style={styles.paymentThreeText}>Time</Text>
+						<View
+							style={{
+								flex: 1,
+								justifyContent: "flex-end",
+							}}>
+							<TextInput
+							placeholder="7:00 PM"
+							style={styles.TextThreeTextInput}/>
+						</View>
+					</View>
+				</View>
+			</View>
+		</View>
 
-		 </View>
 
 	 </Modal>
 
@@ -274,11 +238,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	group5SearchBar: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		borderRadius: 17,
-		borderWidth: 1,
-		borderColor: 'rgb(196, 201, 223)',
-		borderStyle: "solid",
 		color: 'rgb(0, 0, 0)',
 		fontFamily: ".SFNSText",
 		fontSize: 12,
@@ -286,13 +245,18 @@ const styles = StyleSheet.create({
 		fontWeight: "normal",
 		textAlign: "left",
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		borderRadius: 17,
+		borderWidth: 1,
+		borderColor: 'rgb(196, 201, 223)',
+		borderStyle: "solid",
+		marginLeft: 30,
+		marginRight: 30,
 		marginTop: 48,
-		alignSelf: "center",
-		width: 315,
-		flex: 1,
+		alignSelf: "stretch",
+		height: 44,
 	},
 	group5Text: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(33, 34, 36)',
 		fontSize: 18,
 		fontStyle: "normal",
@@ -300,6 +264,7 @@ const styles = StyleSheet.create({
 		textAlign: "left",
 		lineHeight: 0,
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginLeft: 30,
 		marginTop: 35,
 	},
@@ -314,6 +279,10 @@ const styles = StyleSheet.create({
 		width: 58,
 		height: 25,
 	},
+	miscBigButtonButtonImage: {
+		resizeMode: "contain",
+		marginRight: 10,
+	},
 	miscBigButtonButtonText: {
 		color: 'rgb(255, 255, 255)',
 		fontSize: 14,
@@ -323,9 +292,10 @@ const styles = StyleSheet.create({
 		lineHeight: 0,
 		letterSpacing: 0,
 	},
-	miscBigButtonButtonImage: {
-		resizeMode: "contain",
-		marginRight: 10,
+	groupFlatList: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		width: "100%",
+		height: "100%",
 	},
 	groupFlatListViewWrapper: {
 		marginTop: 27,
@@ -357,67 +327,87 @@ const styles = StyleSheet.create({
 		height: "100%",
 	},
 	artboard2View: {
-		backgroundColor: 'rgba(255, 255, 255, 0.0)',
+		backgroundColor: 'rgba(55, 58, 61,  0.95)',
 		flex: 1,
-		justifyContent: "center",
 	},
-	backgroundView: {
-		backgroundColor: 'rgba(55, 58, 61, 0.95)',
-		alignSelf: "stretch",
-		height: 812,
-		flexDirection: "row",
-	},
-	icCloseImage: {
+	icCloseButton: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		shadowColor: 'rgba(0, 0, 0, 0.10594995)',
 		shadowRadius: 3,
 		shadowOpacity: 1,
-		resizeMode: "center",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
 		marginLeft: 19,
 		marginTop: 36,
 		width: 60,
 		height: 60,
 	},
-	icCartImage: {
+	icCloseButtonImage: {
+		resizeMode: "contain",
+	},
+	icCloseButtonText: {
+		color: 'rgb(0, 0, 0)',
+		fontFamily: ".SFNSText",
+		fontSize: 12,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		letterSpacing: 0,
+	},
+	viewView: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		resizeMode: "center",
-		marginRight: 18,
+		marginRight: 16,
 		marginTop: 6,
-		width: 60,
+		width: 63.92,
 		height: 90,
+	},
+	icCartButton: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		alignSelf: "flex-end",
+		width: 63.92,
+		height: 90,
+	},
+	icCartButtonImage: {
+		resizeMode: "contain",
+	},
+	icCartButtonText: {
+		color: 'rgb(0, 0, 0)',
+		fontFamily: ".SFNSText",
+		fontSize: 12,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		letterSpacing: 0,
 	},
 	bitmapImage: {
 		resizeMode: "center",
-		marginRight: 34,
-		marginTop: 54,
+		backgroundColor: 'rgba(255, 255, 255, 0.0)',
+		marginRight: 18,
+		marginTop: 48,
 		alignSelf: "flex-end",
 		width: 27,
 		height: 27,
 	},
 	contentView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		backgroundColor: 'rgb(255, 255, 255)',
+		borderRadius: 22,
 		marginLeft: 16,
 		marginRight: 16,
-		marginTop: 60,
+		marginTop: 45,
 		alignSelf: "stretch",
 		height: 200,
-		justifyContent: "center",
-	},
-	bgImage: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		borderRadius: 22,
-		resizeMode: "stretch",
-		marginRight: -1,
-		alignSelf: "stretch",
-		height: 201,
 	},
 	formView: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginLeft: 13,
 		marginRight: 19,
+		marginTop: 21,
 		alignSelf: "stretch",
 		height: 158,
-
 	},
 	edittextTextonlyPlaceholderView: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -425,66 +415,36 @@ const styles = StyleSheet.create({
 		height: 48,
 	},
 	paymentText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(0, 0, 0)',
 		fontSize: 12,
 		fontStyle: "normal",
 		fontWeight: "normal",
 		textAlign: "left",
 		letterSpacing: 0.34,
-	},
-	TextTextInput: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		color: 'rgb(74, 74, 74)',
-		fontSize: 16,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		lineHeight: 0,
-		letterSpacing: 0,
-		marginBottom: 1,
-	},
-	edittextTextonlyPlaceholderThreeView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		alignSelf: "stretch",
-		height: 48,
-	},
-	paymentThreeText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		color: 'rgb(0, 0, 0)',
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0.34,
-	},
-	TextThreeTextInput: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		color: 'rgb(74, 74, 74)',
-		fontSize: 16,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		lineHeight: 0,
-		letterSpacing: 0,
-		marginBottom: 1,
+		marginRight: 236,
+		width: 75,
+		height: 16,
 	},
 	edittextTextonlyPlaceholderTwoView: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginTop: 7,
 		alignSelf: "stretch",
 		height: 48,
 	},
 	paymentTwoText: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(0, 0, 0)',
 		fontSize: 12,
 		fontStyle: "normal",
 		fontWeight: "normal",
 		textAlign: "left",
 		letterSpacing: 0.34,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginRight: 274,
+		width: 37,
+		height: 16,
 	},
 	TextTwoTextInput: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		color: 'rgb(74, 74, 74)',
 		fontSize: 16,
 		fontStyle: "normal",
@@ -492,8 +452,53 @@ const styles = StyleSheet.create({
 		textAlign: "left",
 		lineHeight: 0,
 		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
 		marginRight: 4,
 		marginBottom: 1,
 		alignSelf: "stretch",
-	}
+	},
+	TextTextInput: {
+		color: 'rgb(74, 74, 74)',
+		fontSize: 16,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		lineHeight: 0,
+		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginRight: 5,
+		marginBottom: 1,
+		alignSelf: "stretch",
+	},
+	edittextTextonlyPlaceholderThreeView: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginTop: 7,
+		alignSelf: "stretch",
+		height: 48,
+	},
+	paymentThreeText: {
+		color: 'rgb(0, 0, 0)',
+		fontSize: 12,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		letterSpacing: 0.34,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginRight: 282,
+		width: 29,
+		height: 16,
+	},
+	TextThreeTextInput: {
+		color: 'rgb(74, 74, 74)',
+		fontSize: 16,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		lineHeight: 0,
+		letterSpacing: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginRight: 6,
+		marginBottom: 1,
+		alignSelf: "stretch",
+	},
 })
