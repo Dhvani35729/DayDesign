@@ -11,6 +11,7 @@ import React from "react"
 import GroupsTwo from './GroupsTwo'
 import DeviceInfo from 'react-native-device-info';
 import firebase from 'react-native-firebase'
+// import ArtBoard from './ArtBoard'
 
 
 export default class GroupScreen extends React.Component {
@@ -156,8 +157,7 @@ export default class GroupScreen extends React.Component {
 		return(
 
 
-
-						<GroupsTwo groupData={this.state.groupData}/>
+ <GroupsTwo groupData={this.state.groupData}/>
 
 
 
@@ -167,6 +167,7 @@ export default class GroupScreen extends React.Component {
 	}
 }
 
+	// <GroupsTwo groupData={this.state.groupData}/>
 const styles = StyleSheet.create({
 	groupsView: {
 		backgroundColor: 'rgb(255, 255, 255)',
