@@ -6,13 +6,17 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert } from "react-native"
 import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
 
 
 export default class GroupsTwo extends React.Component {
+
+	state = {
+	 modalCreateVisible: false,
+ };
 
 	static navigationOptions = ({ navigation }) => {
 
@@ -22,7 +26,12 @@ export default class GroupsTwo extends React.Component {
 				headerLeft: null,
 				headerRight: null,
 			}
+
 	}
+	setCreateModalVisible(visible) {
+    this.setState({modalCreateVisible: visible});
+  }
+
 
 	constructor(props) {
 		super(props)
@@ -34,6 +43,10 @@ export default class GroupsTwo extends React.Component {
 
 
 	onMiscBigButtonPressed = () => {
+
+		console.log("create");
+		this.setCreateModalVisible(true);
+
 
 	}
 
@@ -78,6 +91,145 @@ export default class GroupsTwo extends React.Component {
 
 		return <View
 				style={styles.groupsView}>
+				<Modal
+		 animationType="fade"
+		 transparent={true}
+		 visible={this.state.modalCreateVisible}
+		  onRequestClose={() => {this.setCreateModalVisible(false)}}
+	>
+
+	<View
+		style={styles.artboard2View}>
+		<View
+			 style={styles.backgroundView}>
+
+
+					<TouchableHighlight onPress={() => { this.setCreateModalVisible(!this.state.modalCreateVisible);}}>
+ 					<Image
+ 						source={require("./../assets/images/ic-close-4.png")}
+ 						style={styles.icCloseImage}/>
+						 </TouchableHighlight>
+
+
+
+ 					<View
+ 						style={{
+ 							flex: 1,
+ 							flexDirection: "row",
+ 							justifyContent: "flex-end",
+ 						}}>
+ 						<Image
+ 							source={require("./../assets/images/ic-cart.png")}
+ 							style={styles.icCartImage}/>
+ 					</View>
+ 				</View>
+				<View
+					style={{
+						width: "100%",
+						height: "100%",
+						position: "absolute",
+					}}>
+					<Image
+						source={require("./../assets/images/bitmap-3.png")}
+						style={styles.bitmapImage}/>
+						<View
+						style={styles.contentView}>
+
+						<Image
+							source={require("./../assets/images/bg.png")}
+							style={styles.bgImage}/>
+						<View
+							style={{
+								width: "100%",
+								height: "100%",
+								justifyContent: "center",
+								position: "absolute",
+							}}>
+
+							<View
+							style={styles.formView}>
+							<View
+									style={styles.edittextTextonlyPlaceholderView}>
+									<Text
+										style={styles.paymentText}>Group Name</Text>
+									<View
+										style={{
+											flex: 1,
+											justifyContent: "flex-end",
+										}}>
+										<TextInput
+										placeholder="NBA Finals"
+											style={styles.TextTextInput}
+										/>
+
+									</View>
+								</View>
+
+								<View
+									style={{
+										flex: 1,
+										justifyContent: "flex-end",
+									}}>
+									<View
+										style={styles.edittextTextonlyPlaceholderThreeView}>
+										<Text
+											style={styles.paymentThreeText}>Time</Text>
+										<View
+											style={{
+												flex: 1,
+												justifyContent: "flex-end",
+											}}>
+											<TextInput
+											placeholder="7:00 PM"
+											style={styles.TextThreeTextInput}/>
+										</View>
+									</View>
+								</View>
+
+								<View
+									style={{
+										width: "100%",
+										height: "100%",
+										justifyContent: "center",
+										position: "absolute",
+									}}>
+									<View
+										style={styles.edittextTextonlyPlaceholderTwoView}>
+										<Text
+											style={styles.paymentTwoText}>Venue</Text>
+										<View
+											style={{
+												flex: 1,
+												justifyContent: "flex-end",
+											}}>
+											<TextInput
+											placeholder="William's Cafe"
+											style={styles.TextTwoTextInput}/>
+										</View>
+									</View>
+								</View>
+
+
+							</View>
+
+
+							</View>
+
+
+
+						</View>
+
+
+
+
+					</View>
+
+
+		 </View>
+
+	 </Modal>
+
+
 				<TextInput
 					placeholder="Search groups or restaurants"
 					style={styles.group5TextInput}/>
@@ -104,6 +256,7 @@ export default class GroupsTwo extends React.Component {
 				<View
 					style={styles.groupFlatListViewWrapper}>
 					<FlatList
+					 keyboardShouldPersistTaps='always'
 						horizontal={false}
 						numColumns={2}
 						renderItem={this.renderGroupFlatListCell}
@@ -203,4 +356,144 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 	},
+	artboard2View: {
+		backgroundColor: 'rgba(255, 255, 255, 0.0)',
+		flex: 1,
+		justifyContent: "center",
+	},
+	backgroundView: {
+		backgroundColor: 'rgba(55, 58, 61, 0.95)',
+		alignSelf: "stretch",
+		height: 812,
+		flexDirection: "row",
+	},
+	icCloseImage: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		shadowColor: 'rgba(0, 0, 0, 0.10594995)',
+		shadowRadius: 3,
+		shadowOpacity: 1,
+		resizeMode: "center",
+		marginLeft: 19,
+		marginTop: 36,
+		width: 60,
+		height: 60,
+	},
+	icCartImage: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		resizeMode: "center",
+		marginRight: 18,
+		marginTop: 6,
+		width: 60,
+		height: 90,
+	},
+	bitmapImage: {
+		resizeMode: "center",
+		marginRight: 34,
+		marginTop: 54,
+		alignSelf: "flex-end",
+		width: 27,
+		height: 27,
+	},
+	contentView: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginLeft: 16,
+		marginRight: 16,
+		marginTop: 60,
+		alignSelf: "stretch",
+		height: 200,
+		justifyContent: "center",
+	},
+	bgImage: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		borderRadius: 22,
+		resizeMode: "stretch",
+		marginRight: -1,
+		alignSelf: "stretch",
+		height: 201,
+	},
+	formView: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		marginLeft: 13,
+		marginRight: 19,
+		alignSelf: "stretch",
+		height: 158,
+
+	},
+	edittextTextonlyPlaceholderView: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		alignSelf: "stretch",
+		height: 48,
+	},
+	paymentText: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		color: 'rgb(0, 0, 0)',
+		fontSize: 12,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		letterSpacing: 0.34,
+	},
+	TextTextInput: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		color: 'rgb(74, 74, 74)',
+		fontSize: 16,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		lineHeight: 0,
+		letterSpacing: 0,
+		marginBottom: 1,
+	},
+	edittextTextonlyPlaceholderThreeView: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		alignSelf: "stretch",
+		height: 48,
+	},
+	paymentThreeText: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		color: 'rgb(0, 0, 0)',
+		fontSize: 12,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		letterSpacing: 0.34,
+	},
+	TextThreeTextInput: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		color: 'rgb(74, 74, 74)',
+		fontSize: 16,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		lineHeight: 0,
+		letterSpacing: 0,
+		marginBottom: 1,
+	},
+	edittextTextonlyPlaceholderTwoView: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		alignSelf: "stretch",
+		height: 48,
+	},
+	paymentTwoText: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		color: 'rgb(0, 0, 0)',
+		fontSize: 12,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		letterSpacing: 0.34,
+	},
+	TextTwoTextInput: {
+		backgroundColor: 'rgba(0, 0, 0, 0.0)',
+		color: 'rgb(74, 74, 74)',
+		fontSize: 16,
+		fontStyle: "normal",
+		fontWeight: "normal",
+		textAlign: "left",
+		lineHeight: 0,
+		letterSpacing: 0,
+		marginRight: 4,
+		marginBottom: 1,
+		alignSelf: "stretch",
+	}
 })
