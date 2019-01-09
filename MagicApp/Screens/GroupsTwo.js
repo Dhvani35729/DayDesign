@@ -10,12 +10,19 @@ import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, M
 import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
+import firebase from 'react-native-firebase'
 
 
 export default class GroupsTwo extends React.Component {
 
 	state = {
 	 modalCreateVisible: false,
+	 newGroupName: "",
+	 newGroupTime: "",
+	 newGroupLocation: "",
+	 errorMessage: null,
+	 successMessage: null,
+	 modalDetailVisible: false
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -45,6 +52,7 @@ export default class GroupsTwo extends React.Component {
 	onMiscBigButtonPressed = () => {
 
 		console.log("create");
+		// this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
 		this.setCreateModalVisible(true);
 
 
@@ -84,13 +92,60 @@ export default class GroupsTwo extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return (<Group7Five item={item}/> )
+		return (<Group7Five item={item} /> )
+	}
+
+	createNewGroup(){
+			console.log(this.state.newGroupLocation);
+			   const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible} = this.state
+				  var that = this;
+			if (newGroupLocation.trim() == "" || newGroupName.trim() == "" || newGroupTime.trim() == "") {
+	       this.setState({errorMessage: "Please fill in all fields!"});
+	     }
+			 else{
+
+
+
+
+			var groupCount = 0;
+ firebase.database().ref('groups_count').once('value').then(function(snapshot) {
+  	console.log(snapshot.val());
+		groupCount = snapshot.val();
+
+		var updates = {};
+		updates['/key/'] = groupCount;
+		updates['/free_food/'] = false;
+		updates['/group_name/'] = newGroupName;
+		updates['/location_name/'] = newGroupLocation;
+		updates['/time/'] = newGroupTime;
+		updates['/number_going/'] = 1;
+		// updates['/people/'] = 1;
+		// updates['/creator/'] = 1;
+
+		 firebase.database().ref('groups/' + groupCount).update(updates);
+
+		 var update_count = {};
+		 update_count['/groups_count/'] = ++groupCount;
+		 firebase.database().ref().update(update_count);
+
+		 // this.setCreateModalVisible(!modalCreateVisible);
+		 that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
+		 that.setState({modalCreateVisible: !modalCreateVisible});
+		 that.setState({successMessage: "Group Added!"})
+
+});
+	 }
+			// Write the new post's data simultaneously in the posts list and the user's post list.
+
+
+
 	}
 
 	render() {
 
 		return <View
 				style={styles.groupsView}>
+				<MyModal modalVisible={this.state.modalDetailVisible}/>
 				<Modal
 		 animationType="fade"
 		 transparent={true}
@@ -119,7 +174,7 @@ export default class GroupsTwo extends React.Component {
 					<View
 						style={styles.viewView}>
 						<TouchableOpacity
-							onPress={() => { console.log("next screen");}}
+							onPress={() => {this.createNewGroup()}}
 							style={styles.icCartButton}>
 							<Image
 								source={require("./../assets/images/ic-cart.png")}
@@ -154,6 +209,8 @@ export default class GroupsTwo extends React.Component {
 							}}>
 							<TextInput
 							placeholder="NBA Finals"
+							onChangeText={newGroupName => this.setState({newGroupName}) }
+							value={this.state.newGroupName}
 							style={styles.TextTextInput}/>
 
 						</View>
@@ -169,6 +226,8 @@ export default class GroupsTwo extends React.Component {
 							}}>
 							<TextInput
 							placeholder="William's Cafe"
+							onChangeText={newGroupLocation => this.setState({newGroupLocation}) }
+							value={this.state.newGroupLocation}
 							style={styles.TextTwoTextInput}/>
 						</View>
 					</View>
@@ -182,10 +241,19 @@ export default class GroupsTwo extends React.Component {
 								justifyContent: "flex-end",
 							}}>
 							<TextInput
+							type="time"
 							placeholder="7:00 PM"
-							style={styles.TextThreeTextInput}/>
+							onChangeText={newGroupTime => this.setState({newGroupTime}) }
+							value={this.state.newGroupTime}
+						/>
+
+
 						</View>
 					</View>
+					{this.state.errorMessage &&
+         <Text style={{ color: 'red', marginTop: 5}}>
+           {this.state.errorMessage}
+         </Text>}
 				</View>
 			</View>
 		</View>
@@ -201,6 +269,10 @@ export default class GroupsTwo extends React.Component {
 					style={{
 						flexDirection: "row",
 					}}>
+					{this.state.successMessage &&
+				 <Text style={{ color: 'green'}}>
+					 {this.state.successMessage}
+				 </Text>}
 					<Text
 						style={styles.group5Text}>All Groups</Text>
 					<View
@@ -502,3 +574,68 @@ const styles = StyleSheet.create({
 		alignSelf: "stretch",
 	},
 })
+
+
+export class MyModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        isModalVisible: props.modalVisible
+    };
+    console.log(props.modalVisible);
+    console.log("close bro");
+  };
+
+  _setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
+  render() {
+    return (
+        <View>
+            <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.isModalVisible}
+            onRequestClose={() => {alert("Modal has been closed.")}}
+            >
+                <View style={styles_modal.container}>
+                    <View style={styles_modal.innerContainer}>
+                        <Text>Item Detail</Text>
+                        <TouchableHighlight
+                            style={styles_modal.buttonContainer}
+                            onPress={() => { this._setModalVisible(false) }}>
+                            <Text style={styles_modal.buttonText}>Close</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    );
+  }
+}
+
+const styles_modal = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: 'transparent',
+  },
+  innerContainer: {
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: '#34495e',
+ },
+ buttonContainer: {
+    paddingVertical: 15,
+    marginTop: 20,
+    backgroundColor: '#2c3e50',
+    borderRadius: 15
+ },
+ buttonText: {
+    textAlign: 'center',
+    color: '#ecf0f1',
+    fontWeight: '700'
+ },
+});
