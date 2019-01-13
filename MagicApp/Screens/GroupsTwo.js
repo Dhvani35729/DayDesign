@@ -24,6 +24,7 @@ export default class GroupsTwo extends React.Component {
 	 errorMessage: null,
 	 successMessage: null,
 	 modalDetailVisible: false,
+	 groupName: "",
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -157,7 +158,14 @@ export default class GroupsTwo extends React.Component {
 		this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
 	}
 
-	 updateModal = (visible) => {this.setState({modalDetailVisible: !this.state.modalDetailVisible}); console.log('here');}
+	 updateModal = (group_name) => {
+		 this.setState({modalDetailVisible: !this.state.modalDetailVisible});
+		 this.setState({groupName: group_name});
+		 console.log(this.state.groupName);
+		 console.log('here');
+
+
+	 }
 
 	 setModalVisible(visible) {
 	this.setState({modalDetailVisible: visible});
@@ -178,6 +186,7 @@ export default class GroupsTwo extends React.Component {
           <View style={{marginTop: 22}}>
             <View>
               <Text>Hello World!</Text>
+							<Text>{this.state.groupName}</Text>
 
               <TouchableHighlight
                 onPress={() => {
