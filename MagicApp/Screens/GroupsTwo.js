@@ -58,8 +58,12 @@ export default class GroupsTwo extends React.Component {
 	onMiscBigButtonPressed = () => {
 
 		console.log("create");
+		console.log(this.state.modalCreateVisible);
+
+		this.setCreateModalVisible(!this.state.modalCreateVisible);
+
 		// this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
-		this.setCreateModalVisible(true);
+
 
 
 	}
@@ -155,11 +159,35 @@ export default class GroupsTwo extends React.Component {
 
 	 updateModal = (visible) => {this.setState({modalDetailVisible: !this.state.modalDetailVisible}); console.log('here');}
 
+	 setModalVisible(visible) {
+	this.setState({modalDetailVisible: visible});
+}
+
 	render() {
 
 		return <View
 				style={styles.groupsView}>
 				<MyModal modalVisible={this.state.modalCreateVisible}/>
+				<Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalDetailVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{marginTop: 22}}>
+            <View>
+              <Text>Hello World!</Text>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalDetailVisible);
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
 
 				<TextInput
 					placeholder="Search groups or restaurants"
@@ -173,7 +201,7 @@ export default class GroupsTwo extends React.Component {
 					 {this.state.successMessage}
 				 </Text>}
 					<Text
-						style={styles.group5Text}>{this.state.modalCreateVisible.toString()}</Text>
+						style={styles.group5Text}>Today's Groups</Text>
 					<View
 						style={{
 							flex: 1,
