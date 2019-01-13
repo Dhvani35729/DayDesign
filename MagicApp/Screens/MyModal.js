@@ -22,7 +22,7 @@ export default class MyModal extends React.Component {
     if(this.props.modalVisible != prevProps.modalVisible) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
     {
            console.log("RE RENDER ME!");
-              this.setState({isModalVisible: this.props.modalVisible});
+              this.setState({isModalVisible: true});
     }
 }
 
@@ -92,7 +92,7 @@ export default class MyModal extends React.Component {
           flexDirection: "row",
         }}>
         <TouchableOpacity
-          onPress={() => { this._setModalVisible(!this.state.isModalVisible);}}
+          onPress={() => { this._setModalVisible(!this.state.isModalVisible); }}
           style={styles.icCloseButton}>
           <Image
             source={require("./../assets/images/ic-close-2.png")}
