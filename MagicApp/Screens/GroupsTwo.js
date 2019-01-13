@@ -12,6 +12,7 @@ import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
 import firebase from 'react-native-firebase'
 import MyModal from './MyModal'
+import Menu from './Menu'
 
 
 export default class GroupsTwo extends React.Component {
@@ -41,6 +42,10 @@ export default class GroupsTwo extends React.Component {
     this.setState({modalCreateVisible: visible});
   }
 
+	updateCreateState(){
+		  this.setState({modalCreateVisible: false});
+	}
+
 
 	constructor(props) {
 		super(props)
@@ -53,6 +58,11 @@ export default class GroupsTwo extends React.Component {
 		console.log(this.props);
 		console.log('nav-groups-two');
 
+	}
+
+	componentDidUpdate(){
+		console.log("im new");
+	
 	}
 
 
@@ -183,19 +193,9 @@ export default class GroupsTwo extends React.Component {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View style={{marginTop: 22}}>
-            <View>
-              <Text>Hello World!</Text>
-							<Text>{this.state.groupName}</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalDetailVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
+      	<View>
+					<Menu />
+				</View>
         </Modal>
 
 				<TextInput
