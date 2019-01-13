@@ -11,6 +11,7 @@ import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
 import firebase from 'react-native-firebase'
+import MyModal from './MyModal'
 
 
 export default class GroupsTwo extends React.Component {
@@ -22,7 +23,7 @@ export default class GroupsTwo extends React.Component {
 	 newGroupLocation: "",
 	 errorMessage: null,
 	 successMessage: null,
-	 modalDetailVisible: false
+	 modalDetailVisible: false,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -42,9 +43,14 @@ export default class GroupsTwo extends React.Component {
 
 	constructor(props) {
 		super(props)
+
+		// this.updateText1 = this.updateText1
+		this.updateModal = this.updateModal;
 	}
 
 	componentDidMount() {
+		console.log(this.props);
+		console.log('nav-groups-two');
 
 	}
 
@@ -92,7 +98,7 @@ export default class GroupsTwo extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return (<Group7Five item={item} /> )
+		return (<Group7Five item={item} nav={this.props.nav} see={this.canYouSee} updateModalCB={this.updateModal}/> )
 	}
 
 	createNewGroup(){
@@ -141,126 +147,19 @@ export default class GroupsTwo extends React.Component {
 
 	}
 
+	canYouSee(){
+		console.log("You found me <3");
+		console.log(this);
+		this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
+	}
+
+	 updateModal = (visible) => {this.setState({modalDetailVisible: !this.state.modalDetailVisible}); console.log('here');}
+
 	render() {
 
 		return <View
 				style={styles.groupsView}>
-				<MyModal modalVisible={this.state.modalDetailVisible}/>
-				<Modal
-		 animationType="fade"
-		 transparent={true}
-		 visible={this.state.modalCreateVisible}
-		  onRequestClose={() => {this.setCreateModalVisible(false)}}
-	>
-	<View
-			style={styles.artboard2View}>
-			<View
-				style={{
-					flexDirection: "row",
-				}}>
-				<TouchableOpacity
-					onPress={() => { this.setCreateModalVisible(!this.state.modalCreateVisible);}}
-					style={styles.icCloseButton}>
-					<Image
-						source={require("./../assets/images/ic-close-2.png")}
-						style={styles.icCloseButtonImage}/>
-				</TouchableOpacity>
-				<View
-					style={{
-						flex: 1,
-						flexDirection: "row",
-						justifyContent: "flex-end",
-					}}>
-					<View
-						style={styles.viewView}>
-						<TouchableOpacity
-							onPress={() => {this.createNewGroup()}}
-							style={styles.icCartButton}>
-							<Image
-								source={require("./../assets/images/ic-cart.png")}
-								style={styles.icCartButtonImage}/>
-								<View
-									style={{
-										width: "100%",
-										height: "100%",
-										position: "absolute",
-									}}>
-									<Image
-										source={require("./../assets/images/bitmap-3.png")}
-										style={styles.bitmapImage}/>
-								</View>
-						</TouchableOpacity>
-
-					</View>
-				</View>
-			</View>
-			<View
-				style={styles.contentView}>
-				<View
-					style={styles.formView}>
-					<View
-						style={styles.edittextTextonlyPlaceholderView}>
-						<Text
-							style={styles.paymentText}>Group Name</Text>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: "flex-end",
-							}}>
-							<TextInput
-							placeholder="NBA Finals"
-							onChangeText={newGroupName => this.setState({newGroupName}) }
-							value={this.state.newGroupName}
-							style={styles.TextTextInput}/>
-
-						</View>
-					</View>
-					<View
-						style={styles.edittextTextonlyPlaceholderTwoView}>
-						<Text
-							style={styles.paymentTwoText}>Venue</Text>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: "flex-end",
-							}}>
-							<TextInput
-							placeholder="William's Cafe"
-							onChangeText={newGroupLocation => this.setState({newGroupLocation}) }
-							value={this.state.newGroupLocation}
-							style={styles.TextTwoTextInput}/>
-						</View>
-					</View>
-					<View
-						style={styles.edittextTextonlyPlaceholderThreeView}>
-						<Text
-							style={styles.paymentThreeText}>Time</Text>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: "flex-end",
-							}}>
-							<TextInput
-							type="time"
-							placeholder="7:00 PM"
-							onChangeText={newGroupTime => this.setState({newGroupTime}) }
-							value={this.state.newGroupTime}
-						/>
-
-
-						</View>
-					</View>
-					{this.state.errorMessage &&
-         <Text style={{ color: 'red', marginTop: 5}}>
-           {this.state.errorMessage}
-         </Text>}
-				</View>
-			</View>
-		</View>
-
-
-	 </Modal>
-
+				<MyModal modalVisible={this.state.modalCreateVisible}/>
 
 				<TextInput
 					placeholder="Search groups or restaurants"
@@ -274,7 +173,7 @@ export default class GroupsTwo extends React.Component {
 					 {this.state.successMessage}
 				 </Text>}
 					<Text
-						style={styles.group5Text}>All Groups</Text>
+						style={styles.group5Text}>{this.state.modalCreateVisible.toString()}</Text>
 					<View
 						style={{
 							flex: 1,
@@ -301,6 +200,7 @@ export default class GroupsTwo extends React.Component {
 				</View>
 			</View>
 	}
+
 }
 
 
@@ -574,68 +474,3 @@ const styles = StyleSheet.create({
 		alignSelf: "stretch",
 	},
 })
-
-
-export class MyModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        isModalVisible: props.modalVisible
-    };
-    console.log(props.modalVisible);
-    console.log("close bro");
-  };
-
-  _setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
-
-  render() {
-    return (
-        <View>
-            <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.isModalVisible}
-            onRequestClose={() => {alert("Modal has been closed.")}}
-            >
-                <View style={styles_modal.container}>
-                    <View style={styles_modal.innerContainer}>
-                        <Text>Item Detail</Text>
-                        <TouchableHighlight
-                            style={styles_modal.buttonContainer}
-                            onPress={() => { this._setModalVisible(false) }}>
-                            <Text style={styles_modal.buttonText}>Close</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-            </Modal>
-        </View>
-    );
-  }
-}
-
-const styles_modal = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: 'transparent',
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-    backgroundColor: '#34495e',
- },
- buttonContainer: {
-    paddingVertical: 15,
-    marginTop: 20,
-    backgroundColor: '#2c3e50',
-    borderRadius: 15
- },
- buttonText: {
-    textAlign: 'center',
-    color: '#ecf0f1',
-    fontWeight: '700'
- },
-});
