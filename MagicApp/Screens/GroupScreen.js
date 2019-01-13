@@ -70,6 +70,10 @@ export default class GroupScreen extends React.Component {
 		let my = this;
 		this.loadGroups(my);
 
+		console.log(this.props.navigation);
+		console.log('nav-groups-screen');
+		// this.props.navigation.navigate('MyModal')
+
 		console.log(DeviceInfo.getUniqueID());
 	 const uniqueId = DeviceInfo.getUniqueID();
 		//
@@ -157,7 +161,7 @@ export default class GroupScreen extends React.Component {
 		return(
 
 
- <GroupsTwo groupData={this.state.groupData}/>
+ <GroupsTwo groupData={this.state.groupData} nav={this.props.navigation}/>
 
 
 
