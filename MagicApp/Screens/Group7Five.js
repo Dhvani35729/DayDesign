@@ -83,17 +83,24 @@ export default class Group7Five extends React.Component {
 
         console.log("Su che")
         console.log();
-        
+
+        this.see = this.props.see.bind(this);
+         // updateState = updateState.bind(this)
 
 
+    }
 
+    see(){
+      console.log(this.state);
+      console.log("worked?");
     }
 
 
 
     componentDidMount() {
-
-
+      // const { nav } = this.props
+      console.log(this.props);
+      console.log('nav');
 
     }
 
@@ -101,6 +108,16 @@ export default class Group7Five extends React.Component {
 
     setInfoModalVisible(visible){
         this.setState({modalInfoVisible: visible});
+    }
+
+    openInfo(){
+      console.log("pressed :>");
+      this.props.updateModalCB(true);
+      // this.updateState({modalInfoVisible: true});
+      // console.log(this.props.see);
+      // this.see();
+      // this.props.nav.navigate('MyModal');
+
     }
 
 
@@ -113,7 +130,7 @@ export default class Group7Five extends React.Component {
         style={styles.group7}>
 
 
-        <TouchableHighlight onPress={() => {this.setInfoModalVisible(true);}} underlayColor="white">
+        <TouchableHighlight onPress={() => {this.openInfo()}} underlayColor="white">
         <View
 
         style={styles.group6View}>
