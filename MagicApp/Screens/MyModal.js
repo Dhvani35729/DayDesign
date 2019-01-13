@@ -18,6 +18,14 @@ export default class MyModal extends React.Component {
 
   };
 
+  componentDidUpdate(prevProps) {
+    if(this.props.modalVisible != prevProps.modalVisible) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+    {
+           console.log("RE RENDER ME!");
+              this.setState({isModalVisible: this.props.modalVisible});
+    }
+}
+
   _setModalVisible(visible) {
     this.setState({isModalVisible: visible});
   }
