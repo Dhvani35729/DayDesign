@@ -159,8 +159,7 @@ export default class GroupScreen extends React.Component {
 	render() {
 
 		return(
-
-
+		
  <GroupsTwo groupData={this.state.groupData} nav={this.props.navigation}/>
 
 
