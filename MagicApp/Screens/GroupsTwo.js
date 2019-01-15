@@ -99,16 +99,30 @@ export default class GroupsTwo extends React.Component {
 
     if(!my.state.friendData || my.state.friendData.length != numPeople || key != my.state.key){
 
-      my.setState({friendData: []});
+      if(numPeople == 1){
+        my.setState({friendData: [{key: "0", name: "Loading Patel", prompt: "Loading"}]});
+        console.log(my.state.friendData);
+        console.log("should be reset ^^");
+            var counter = 1;
+      }
+      else{
+            my.setState({friendData: []});
+                var counter = 0;
+      }
+
+
       if(my.state.friendData){
         console.log(my.state.friendData.length);
       }
       console.log(key);
       console.log("key ^");
-      var counter = 0;
+
       for(var i = 0; i < numPeople; i++){
 
             firebase.database().ref(Object.keys(people)[i]).on('value', function(snapshot) {
+
+              // my.setState({friendData: []});
+
     var friend = {};
               var friendID = snapshot.key;
               console.log(friendID);
@@ -127,16 +141,27 @@ export default class GroupsTwo extends React.Component {
                 console.log(friend["key"])
                 my.state.friendData.push(friend);
                 counter++;
+
+                if(numPeople == 1){
+                     my.setState({friendData: my.state.friendData.slice(1)});
+                }
+
+
                 // my.setState({ friendData: [...my.state.friendData, ...friend] }) //simple value
 
-            });
+            }, function(error){
+
+            }
+          );
 
 
 
         console.log("ID GET NOW");
 
 
+
       }
+
       console.log(my.state.friendData);
        console.log("got all users");
       my.setState({modalDetailVisible: !my.state.modalDetailVisible});
@@ -264,6 +289,12 @@ export default class GroupsTwo extends React.Component {
 		return (<Group7Five item={item} nav={this.props.nav} see={this.canYouSee} updateModalCB={this.updateModal}/> )
 	}
 
+  showEmptyListView = () => {
+    <View>
+      <Text>Loading</Text>
+    </View>
+}
+
 	createNewGroup(){
 			console.log(this.state.newGroupLocation);
 			   const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible} = this.state
@@ -356,7 +387,22 @@ export default class GroupsTwo extends React.Component {
 		 console.log(item);
 		 console.log("what u give me");
 		 this.setState({item: item});
-     this.loadFriends(this, item.key, item.number_going, item.people);
+     if(item.number_going == 1){
+         this.loadFriends(this, item.key, item.number_going, item.people);
+       //   this.setState({friendData: [{key: "0", name: "Loading Patel", prompt: "Loading"}]},
+       //   this.loadFriends(this, item.key, item.number_going, item.people)
+       // );
+
+
+     }
+     else{
+          this.loadFriends(this, item.key, item.number_going, item.people);
+     }
+
+     // if(item.number_going == 1){
+     //        this.setState({friendData: this.state.friendData.slice(1)});
+     // }
+
 		 // console.log(this.state.item);
 		 console.log('here');
 
@@ -388,7 +434,7 @@ export default class GroupsTwo extends React.Component {
 						 }}>
 						 <TouchableOpacity
 						 style={styles.buttonButton}
-						   onPress={() => { this.setDetailModalVisible(!this.state.modalDetailVisible);}}>
+						   onPress={() => { this.setDetailModalVisible(!this.state.modalDetailVisible); this.setState({friendData: []})}}>
 						 <Image
 						 source={require("./../assets/images/ic-close.png")}
 						 style={styles.buttonButtonImage}/>
@@ -416,6 +462,7 @@ export default class GroupsTwo extends React.Component {
 						 renderItem={this.renderViewFlatListCell}
              data={this.state.friendData}
              extraData={this.state}
+             ListEmptyComponent={this.showEmptyListView()}
 						 style={styles.viewFlatList}/>
 						 </View>
 						 </View>
