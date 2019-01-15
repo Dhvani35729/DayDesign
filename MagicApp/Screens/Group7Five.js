@@ -113,7 +113,7 @@ export default class Group7Five extends React.Component {
     openInfo(){
       console.log("pressed :>");
       console.log(this.props.item.group_name);
-      this.props.updateModalCB(this.props.item.group_name);
+      this.props.updateModalCB(this.props.item);
       // this.updateState({modalInfoVisible: true});
       // console.log(this.props.see);
       // this.see();
