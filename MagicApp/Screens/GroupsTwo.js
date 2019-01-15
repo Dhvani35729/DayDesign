@@ -50,6 +50,8 @@ export default class GroupsTwo extends React.Component {
 	 successMessage: null,
 	 modalDetailVisible: false,
 	 item: {location_name: "loading", group_name: "", time:"loading"},
+   friendData: [],
+   key: -1,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -92,6 +94,124 @@ export default class GroupsTwo extends React.Component {
 		console.log("im new");
 
 	}
+
+  loadFriends(my, key, numPeople, people){
+
+    if(!my.state.friendData || my.state.friendData.length != numPeople || key != my.state.key){
+
+      my.setState({friendData: []});
+      if(my.state.friendData){
+        console.log(my.state.friendData.length);
+      }
+      console.log(key);
+      console.log("key ^");
+      var counter = 0;
+      for(var i = 0; i < numPeople; i++){
+
+            firebase.database().ref(Object.keys(people)[i]).on('value', function(snapshot) {
+    var friend = {};
+              var friendID = snapshot.key;
+              console.log(friendID);
+              console.log(counter);
+              console.log(snapshot.key);
+              console.log('y u break');
+
+                  friend["prompt"] = people[friendID].prompt;
+                friend["key"] = counter.toString();
+                console.log(snapshot.val());
+                friend["id"] = friendID;
+                friend["name"] = snapshot.val().name;
+
+                console.log("dets ^^");
+                console.log(friend["id"])
+                console.log(friend["key"])
+                my.state.friendData.push(friend);
+                counter++;
+                // my.setState({ friendData: [...my.state.friendData, ...friend] }) //simple value
+
+            });
+
+
+
+        console.log("ID GET NOW");
+
+
+      }
+      console.log(my.state.friendData);
+       console.log("got all users");
+      my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+      my.setState({key: key});
+
+  //     firebase.database().ref('groups').child(key).child('people').on('value', function(snapshot) {
+  //
+  //     console.log(snapshot.val());
+  //     // console.log(my.state)
+  //     console.log("inside loading friends");
+  //     // my.setState({friendData: snapshot.val()});
+  //     console.log(numPeople);
+  //
+  //
+  //     for(var i = 0; i < numPeople; i++){
+  //       var friend = {};
+  //       var friendID = Object.keys(snapshot.val())[i];
+  //       console.log(friendID);
+  //       console.log(i);
+  //
+  //       console.log('y u break');
+  //         console.log(snapshot.val())
+  //           friend["prompt"] = snapshot.val()[friendID].prompt;
+  //
+  //
+  //           firebase.database().ref(friendID).on('value', function(snapshot) {
+  //               friend["key"] = i.toString();
+  //               console.log(snapshot.val());
+  //               friend["id"] = friendID;
+  //               friend["name"] = snapshot.val().name;
+  //
+  //               console.log("dets ^^");
+  //               console.log(friend["id"])
+  //               console.log(friend["key"])
+  //               my.state.friendData.push(friend);
+  //               // my.setState({ friendData: [...my.state.friendData, ...friend] }) //simple value
+  //
+  //           });
+  //
+  //
+  //
+  //       console.log("ID GET NOW");
+  //
+  //     }
+  //     console.log(my.state.friendData);
+  //     console.log("got all users");
+  //       my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+  //       my.setState({key: key});
+  //     // 		console.log(i);
+  //     // 		console.log(snapshot.val()[i].group_name);
+  //     // 		var group = [];
+  //     // 		group.push(snapshot.val()[i].group_name);
+  //     // 		group.push(snapshot.val()[i].number_going);
+  //     // 		group.push(snapshot.val()[i].location_name);
+  //     // 		group.push(snapshot.val()[i].free_food);
+  //     // 		group.push(snapshot.val()[i].people);
+  //     // 		group.push(snapshot.val()[i].time);
+  //     // 		// console.log(group);
+  //     // 		var joined = my.state.groupData.concat(group);
+  //     // 		my.setState({ groupData: joined })
+  //     // }
+  //
+  //   // console.log(my.state);
+  //     console.log("friend data ^");
+  // });
+    }
+    else{
+          my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+    }
+
+
+
+
+
+  }
 
 
 	onMiscBigButtonPressed = () => {
@@ -223,7 +343,7 @@ export default class GroupsTwo extends React.Component {
 
 		renderViewFlatListCell = ({ item }) => {
 	    console.log("open friends");
-			return(<Friend />)
+			return(<Friend item={item} />)
 		}
 
 	canYouSee(){
@@ -235,8 +355,8 @@ export default class GroupsTwo extends React.Component {
 	 updateModal = (item) => {
 		 console.log(item);
 		 console.log("what u give me");
-		 this.setState({modalDetailVisible: !this.state.modalDetailVisible});
 		 this.setState({item: item});
+     this.loadFriends(this, item.key, item.number_going, item.people);
 		 // console.log(this.state.item);
 		 console.log('here');
 
@@ -294,7 +414,8 @@ export default class GroupsTwo extends React.Component {
 						 <FlatList
 						 horizontal={false}
 						 renderItem={this.renderViewFlatListCell}
-						 data={this.viewFlatListMockData}
+             data={this.state.friendData}
+             extraData={this.state}
 						 style={styles.viewFlatList}/>
 						 </View>
 						 </View>

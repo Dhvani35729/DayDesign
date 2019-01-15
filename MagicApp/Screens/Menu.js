@@ -89,7 +89,8 @@ export default class Menu extends React.Component {
 
 	renderViewFlatListCell = ({ item }) => {
     console.log("open friends");
-		return(<Friend />)
+    // console.log(this.state.friendData);
+		return(<Friend item={item}/>)
 	}
 
 	render() {
