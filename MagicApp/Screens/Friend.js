@@ -14,6 +14,8 @@ export default class Friend extends React.Component {
 
     constructor(props) {
         super(props)
+        console.log(props);
+        console.log("in friend props");
     }
 
     componentDidMount() {
@@ -33,14 +35,14 @@ export default class Friend extends React.Component {
         style={styles.avatarImage}/>
         <View>
         <Text
-        style={styles.jeremyHarrisonText}>Jeremy Harrison</Text>
+        style={styles.jeremyHarrisonText}>{this.props.item.name}</Text>
         <View
         style={{
         flex: 1,
        justifyContent: "center",
         }}>
         <Text
-        style={styles.iLikeBasketballAnText}>I like basketball and my name is blablbalbalbalblablab and dasdadasds fsfsd.</Text>
+        style={styles.iLikeBasketballAnText}>{this.props.item.prompt}</Text>
         </View>
         </View>
         </View>
