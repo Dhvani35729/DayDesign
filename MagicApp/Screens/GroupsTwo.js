@@ -56,6 +56,7 @@ export default class GroupsTwo extends React.Component {
    key: -1,
    modalJoinVisible: false,
    notInEvent: true,
+   data: [],
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -97,12 +98,29 @@ export default class GroupsTwo extends React.Component {
 	componentDidMount() {
 		console.log(this.props);
 		console.log('nav-groups-two');
+
 	}
+
+
+  searchFilterFunction = text => {
+    console.log(this.arrayholder);
+    const newData = this.arrayholder.filter(item => {
+      const itemData = `${item.location_name.toUpperCase()} ${item.group_name.toUpperCase()}}`;
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    this.setState({
+      data: newData,
+    });
+  };
+
 
   componentDidUpdate(prevProps) {
     if(this.props.groupData != prevProps.groupData) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
     {
            console.log("RE RENDER ME!");
+             this.arrayholder = this.props.groupData;
+             this.setState({data: this.props.groupData});
            if(this.state.modalDetailVisible == true){
              // modal is open
              var item = this.props.groupData[this.state.key];
@@ -140,8 +158,8 @@ export default class GroupsTwo extends React.Component {
             var counter = 1;
       }
       else{
-            my.setState({friendData: []});
-                var counter = 0;
+            my.setState({friendData: [{key: "0", name: "Loading Patel", prompt: "Loading"}]});
+                var counter = 1;
       }
 
 
@@ -151,6 +169,7 @@ export default class GroupsTwo extends React.Component {
       console.log(key);
       console.log("key ^");
       var found = false;
+      var sliced = false;
       for(var i = 0; i < numPeople; i++){
 
             firebase.database().ref(Object.keys(people)[i]).on('value', function(snapshot) {
@@ -184,6 +203,12 @@ export default class GroupsTwo extends React.Component {
 
                 if(numPeople == 1){
                      my.setState({friendData: my.state.friendData.slice(1)});
+                }
+                else{
+                  if(sliced == false){
+                     my.setState({friendData: my.state.friendData.slice(1)});
+                     sliced = true;
+                  }
                 }
 
 
@@ -369,7 +394,7 @@ else{
   updates['/number_going'] = numPeople + 1;
 firebase.database().ref('groups/' + this.state.key).update(updates);
 
-
+  this.setJoinModalVisible(!this.state.modalJoinVisible);
 }
 
 
@@ -580,7 +605,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
                        <View
                          style={styles.viewView}>
                          <TouchableOpacity
-                           onPress={() => {this.joinEvent(); this.setJoinModalVisible(!this.state.modalJoinVisible);}}
+                           onPress={() => {this.joinEvent();}}
                            style={styles.icCartButton}>
                            <Image
                              source={require("./../assets/images/ic-cart.png")}
@@ -652,7 +677,8 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
 				<TextInput
 					placeholder="Search groups or restaurants"
-					style={styles.group5TextInput}/>
+          onChangeText={text => this.searchFilterFunction(text)}
+					style={styles.group5TwoTextInput}/>
 				<View
 					style={{
 						flexDirection: "row",
@@ -666,8 +692,9 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 					<View
 						style={{
 							flex: 1,
-							flexDirection: "row",
-							justifyContent: "flex-end",
+              flexDirection: "row-reverse",
+         marginLeft: 30,
+         marginTop: 35,
 						}}>
 						<TouchableOpacity
 							onPress={this.onMiscBigButtonPressed}
@@ -684,7 +711,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 						horizontal={false}
 						numColumns={2}
 						renderItem={this.renderGroupFlatListCell}
-						data={this.props.groupData}
+						data={this.state.data}
 						style={styles.groupFlatList}/>
 				</View>
 			</View>
@@ -718,40 +745,46 @@ const styles = StyleSheet.create({
 		height: 44,
 	},
 	group5Text: {
-		color: 'rgb(33, 34, 36)',
-		fontSize: 18,
-		fontStyle: "normal",
-		fontWeight: "bold",
-		textAlign: "left",
-		lineHeight: 0,
-		letterSpacing: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginLeft: 30,
-		marginTop: 35,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                                  color: 'rgb(33, 34, 36)',
+                                  fontSize: 18,
+                                  fontStyle: "normal",
+                                  fontWeight: "bold",
+                                  //textAlign: "right",
+                                  //lineHeight: 0,
+                                  //letterSpacing: 0,
+                                marginLeft: 30,
+                                  marginTop: 35,
+                                 // width: 251.38,
+
 	},
 	miscBigButtonButton: {
-		backgroundColor: 'rgb(98, 179, 255)',
-		borderRadius: 10,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		marginRight: 30,
-		marginTop: 35,
-		width: 58,
-		height: 25,
+    backgroundColor: 'rgb(98, 179, 255)',
+                                  borderRadius: 10,
+                                //  position: 'absolute',
+                                // alignItems: "center",
+                                // justifyContent: "center",
+                         //    marginLeft: 140,
+                           //       marginTop: 35,
+                                  width: 58,
+                                  height: 25,
+
 	},
 	miscBigButtonButtonImage: {
 		resizeMode: "contain",
 		marginRight: 10,
 	},
 	miscBigButtonButtonText: {
-		color: 'rgb(255, 255, 255)',
-		fontSize: 14,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "center",
-		lineHeight: 0,
-		letterSpacing: 0,
+    color: 'rgb(255, 255, 255)',
+                                   fontSize: 14,
+                                   fontStyle: "normal",
+                                   fontWeight: "normal",
+                                   textAlign: "center",
+                                   justifyContent: "center",
+                                   alignSelf: "center",
+                                   //flex: 1,
+                                 //  flexDirection: "row",
+
 	},
 	groupFlatList: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -765,6 +798,24 @@ const styles = StyleSheet.create({
 		width: 315,
 		flex: 1,
 	},
+  group5TwoTextInput: {
+                              backgroundColor: 'rgb(255, 255, 255)',
+                              borderRadius: 17,
+                              borderWidth: 1,
+                              borderColor: 'rgb(196, 201, 223)',
+                              borderStyle: "solid",
+                              color: 'rgb(134, 142, 150)',
+                              fontSize: 13,
+                              fontStyle: "normal",
+                              fontWeight: "bold",
+                              textAlign: "center",
+                              letterSpacing: 0,
+                              marginTop: 53,
+                              marginLeft: 30,
+                              marginRight: 30,
+                              height: 40,
+                              alignSelf: "stretch",
+                              },
 	group5TextInput: {
 		backgroundColor: 'rgb(255, 255, 255)',
 		borderRadius: 17,
@@ -780,6 +831,7 @@ const styles = StyleSheet.create({
 		marginLeft: 30,
 		marginRight: 30,
 		marginTop: 53,
+    height: 40,
 		alignSelf: "stretch",
 	},
 	groupFlatList: {
@@ -860,7 +912,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginTop: 45,
     alignSelf: "stretch",
-    height: 200,
+    height: 160,
   },
   formView: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -883,7 +935,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     letterSpacing: 0.34,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginRight: 236,
+    // marginRight: 236,
     width: 75,
     height: 16,
   },
@@ -901,7 +953,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     letterSpacing: 0.34,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginRight: 274,
+    // marginRight: 274,
     width: 37,
     height: 16,
   },
@@ -911,12 +963,16 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontWeight: "normal",
     textAlign: "left",
-    lineHeight: 0,
+    // lineHeight: 0,
     letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginRight: 4,
-    marginBottom: 1,
+    // marginRight: 4,
+    // marginBottom: 1,
     alignSelf: "stretch",
+    padding: 0,
+                            margin: 0,
+                            borderWidth: 0,
+
   },
   TextTextInput: {
     color: 'rgb(74, 74, 74)',
@@ -924,12 +980,13 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontWeight: "normal",
     textAlign: "left",
-    lineHeight: 0,
-    letterSpacing: 0,
+    // lineHeight: 0,
+    // letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginRight: 5,
-    marginBottom: 1,
     alignSelf: "stretch",
+    padding: 0,
+                                margin: 0,
+                                borderWidth: 0,
   },
   edittextTextonlyPlaceholderThreeView: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -945,7 +1002,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     letterSpacing: 0.34,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginRight: 282,
+    // marginRight: 282,
     width: 29,
     height: 16,
   },
@@ -955,12 +1012,15 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontWeight: "normal",
     textAlign: "left",
-    lineHeight: 0,
+    // lineHeight: 0,
     letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
     marginRight: 6,
-    marginBottom: 1,
     alignSelf: "stretch",
+    padding: 0,
+                               margin: 0,
+                               borderWidth: 0,
+
   },
 
 	menuView: {
