@@ -55,6 +55,7 @@ export default class GroupsTwo extends React.Component {
    friendData: [],
    key: -1,
    modalJoinVisible: false,
+   notInEvent: true,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -89,20 +90,46 @@ export default class GroupsTwo extends React.Component {
 
 		// this.updateText1 = this.updateText1
 		this.updateModal = this.updateModal;
+
+
 	}
 
 	componentDidMount() {
 		console.log(this.props);
 		console.log('nav-groups-two');
-
 	}
 
-	componentDidUpdate(){
-		console.log("im new");
+  componentDidUpdate(prevProps) {
+    if(this.props.groupData != prevProps.groupData) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+    {
+           console.log("RE RENDER ME!");
+           if(this.state.modalDetailVisible == true){
+             // modal is open
+             var item = this.props.groupData[this.state.key];
+             console.log("RENDER THIS ITEM");
+             console.log(item);
+             this.loadFriends(this, item.key, item.number_going, item.people, true);
 
-	}
+           }
+    }
+    if(this.props.uniqueId != prevProps.uniqueId){
+      console.log(this.props.uniqueId);
+      console.log("ID");
+      var that = this;
+      firebase.database().ref(this.props.uniqueId).once('value').then(function(snapshot) {
+        console.log(snapshot.val());
+        console.log("moi name ^^");
+        if(snapshot.val()){
+          if(snapshot.val().name){
+            that.setState({newName: snapshot.val().name});
+          }
+        }
+  });
+    }
 
-  loadFriends(my, key, numPeople, people){
+}
+
+  loadFriends(my, key, numPeople, people, joined){
 
     if(!my.state.friendData || my.state.friendData.length != numPeople || key != my.state.key){
 
@@ -123,7 +150,7 @@ export default class GroupsTwo extends React.Component {
       }
       console.log(key);
       console.log("key ^");
-
+      var found = false;
       for(var i = 0; i < numPeople; i++){
 
             firebase.database().ref(Object.keys(people)[i]).on('value', function(snapshot) {
@@ -132,6 +159,12 @@ export default class GroupsTwo extends React.Component {
 
               var friend = {};
               var friendID = snapshot.key;
+              if(friendID == my.props.uniqueId){
+                found = true;
+                my.setState({notInEvent: false});
+              }
+
+
               console.log(friendID);
               console.log(counter);
               console.log(snapshot.key);
@@ -168,10 +201,16 @@ export default class GroupsTwo extends React.Component {
 
 
       }
+      if(found == false){
+          my.setState({notInEvent: true});
+      }
 
       console.log(my.state.friendData);
        console.log("got all users");
-      my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+       if(joined == false){
+               my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+       }
+
       my.setState({key: key});
 
   //     firebase.database().ref('groups').child(key).child('people').on('value', function(snapshot) {
@@ -236,7 +275,9 @@ export default class GroupsTwo extends React.Component {
   // });
     }
     else{
-          my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+      if(joined == false){
+              my.setState({modalDetailVisible: !my.state.modalDetailVisible});
+      }
     }
 
 
@@ -327,6 +368,7 @@ else{
  console.log("BBPL");
   updates['/number_going'] = numPeople + 1;
 firebase.database().ref('groups/' + this.state.key).update(updates);
+
 
 }
 
@@ -428,7 +470,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 		 console.log("what u give me");
 		 this.setState({item: item});
      if(item.number_going == 1){
-         this.loadFriends(this, item.key, item.number_going, item.people);
+         this.loadFriends(this, item.key, item.number_going, item.people, false);
        //   this.setState({friendData: [{key: "0", name: "Loading Patel", prompt: "Loading"}]},
        //   this.loadFriends(this, item.key, item.number_going, item.people)
        // );
@@ -436,7 +478,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
      }
      else{
-          this.loadFriends(this, item.key, item.number_going, item.people);
+          this.loadFriends(this, item.key, item.number_going, item.people, false);
      }
 
      // if(item.number_going == 1){
@@ -481,13 +523,14 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 						 <Text
 						 style={styles.buttonButtonText}></Text>
 						 </TouchableOpacity>
-						 <TouchableOpacity
+{		this.state.notInEvent &&	 <TouchableOpacity
 						 style={styles.buttonTwoButton}
               onPress={() => { this.setJoinModalVisible(!this.state.modalJoinVisible); }}>
 						 <Image
 						 source={require("./../assets/images/bob-2.png")}
 						 style={styles.buttonButtonImage}/>
-						 </TouchableOpacity>
+						 </TouchableOpacity> }
+
 						 </View>
 						 <View
 						 style={styles.restHeaderView}>
@@ -921,7 +964,7 @@ const styles = StyleSheet.create({
   },
 
 	menuView: {
-	backgroundColor: 'rgb(55, 58, 61)',
+	backgroundColor: 'rgba(55, 58, 61, 0.95)',
 	flex: 1,
 	},
 	buttonButton: {
