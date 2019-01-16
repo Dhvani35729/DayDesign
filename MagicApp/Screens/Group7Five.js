@@ -1,5 +1,4 @@
 import { Text, StyleSheet, View,  Dimensions, Platform, PixelRatio, TouchableHighlight, Modal } from "react-native"
-
 import React from "react"
 import Menu from './Menu'
 
@@ -224,14 +223,10 @@ export default class Group7Five extends React.Component {
 
         style={{
 
-        width: "100%",
-
-        height: "100%",
-
-        flexDirection: "row",
-
+          width: 87,
+        height: 87,
+        alignItems: "center",
         justifyContent: "center",
-
         position: "absolute",
 
         }}>
@@ -245,16 +240,11 @@ export default class Group7Five extends React.Component {
         <View
 
         style={{
-
-        width: "100%",
-
-        height: "100%",
-
-        flexDirection: "row",
-
-        justifyContent: "center",
-
-        position: "absolute",
+          width: 87,
+          height: 87,
+          alignSelf: 'flex-start',
+          justifyContent: "center",
+          position: "absolute",
 
         }}>
 
@@ -270,7 +260,7 @@ export default class Group7Five extends React.Component {
 
         style={{
 
-        flexDirection: "row",
+        flexDirection: "column",
 
         }}>
 
@@ -430,13 +420,15 @@ const styles = StyleSheet.create({
 
                                  marginLeft: 10,
 
-                                 marginRight: 27,
+                                 marginRight: 10,
 
                                  marginTop: 3,
 
-                                 height: 26,
+                                  alignSelf: "stretch",
 
-                                 alignSelf: "stretch",
+                                 height: 27,
+
+
 
                                  },
 
@@ -464,19 +456,17 @@ const styles = StyleSheet.create({
 
                                  fontWeight: "bold",
 
-                                 textAlign: "center",
+                                 // textAlign: "center",
+                                 //
+                                 // lineHeight: 0,
+                                 //
+                                 // letterSpacing: 0,
 
-                                 lineHeight: 0,
 
-                                 letterSpacing: 0,
-
-                                 width: 87,
-
-                                 height: 87,
 
                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
 
-                                 marginTop: -5,
+
 
                                  },
 
@@ -496,7 +486,7 @@ const styles = StyleSheet.create({
 
                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
 
-                                 marginTop: 80,
+                                 marginTop: 70,
 
                                  },
 
