@@ -46,12 +46,15 @@ export default class GroupsTwo extends React.Component {
 	 newGroupName: "",
 	 newGroupTime: "",
 	 newGroupLocation: "",
+   newName: "",
+   newIntro: "",
 	 errorMessage: null,
 	 successMessage: null,
 	 modalDetailVisible: false,
 	 item: {location_name: "loading", group_name: "", time:"loading"},
    friendData: [],
    key: -1,
+   modalJoinVisible: false,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -71,6 +74,10 @@ export default class GroupsTwo extends React.Component {
 	setDetailModalVisible(visible){
 		this.setState({modalDetailVisible: visible});
 	}
+
+  setJoinModalVisible(visible){
+    this.setState({modalJoinVisible: visible});
+  }
 
 	updateCreateState(){
 		  this.setState({modalCreateVisible: false});
@@ -123,7 +130,7 @@ export default class GroupsTwo extends React.Component {
 
               // my.setState({friendData: []});
 
-    var friend = {};
+              var friend = {};
               var friendID = snapshot.key;
               console.log(friendID);
               console.log(counter);
@@ -295,6 +302,39 @@ export default class GroupsTwo extends React.Component {
     </View>
 }
 
+joinEvent(){
+
+  userID = this.props.uniqueId;
+
+  const { newName, newIntro, friendData} = this.state
+  var numPeople = friendData.length;
+  console.log(friendData.length)
+   var that = this;
+
+if (newName.trim() == "") {
+  this.setState({errorMessage: "Please fill in your name!"});
+}
+else{
+
+  var updates_1 = {};
+  updates_1['/name/'] = newName;
+ firebase.database().ref(userID).update(updates_1);
+
+ var updates = {};
+ updates['/people/' + userID + '/prompt'] = newIntro;
+
+ console.log(numPeople);
+ console.log("BBPL");
+  updates['/number_going'] = numPeople + 1;
+firebase.database().ref('groups/' + this.state.key).update(updates);
+
+}
+
+
+
+
+}
+
 	createNewGroup(){
 			console.log(this.state.newGroupLocation);
 			   const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible} = this.state
@@ -420,10 +460,10 @@ export default class GroupsTwo extends React.Component {
 				<MyModal modalVisible={this.state.modalCreateVisible}/>
 				<Modal
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.state.modalDetailVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+            this.setDetailModalVisible(!this.state.modalDetailVisible); this.setState({friendData: []})
           }}>
 
 					<View
@@ -442,7 +482,8 @@ export default class GroupsTwo extends React.Component {
 						 style={styles.buttonButtonText}></Text>
 						 </TouchableOpacity>
 						 <TouchableOpacity
-						 style={styles.buttonTwoButton}>
+						 style={styles.buttonTwoButton}
+              onPress={() => { this.setJoinModalVisible(!this.state.modalJoinVisible); }}>
 						 <Image
 						 source={require("./../assets/images/bob-2.png")}
 						 style={styles.buttonButtonImage}/>
@@ -466,6 +507,103 @@ export default class GroupsTwo extends React.Component {
 						 style={styles.viewFlatList}/>
 						 </View>
 						 </View>
+
+             <Modal
+              animationType="slide"
+               transparent={true}
+               visible={this.state.modalJoinVisible}
+               onRequestClose={() => {
+                 this.setJoinModalVisible(!this.state.modalJoinVisible);
+               }}>
+               <View
+                   style={styles.artboard2View}>
+                   <View
+                     style={{
+                       flexDirection: "row",
+                     }}>
+                     <TouchableOpacity
+                       onPress={() => { this.setJoinModalVisible(!this.state.modalJoinVisible); }}
+                       style={styles.icCloseButton}>
+                       <Image
+                         source={require("./../assets/images/ic-close-2.png")}
+                         style={styles.icCloseButtonImage}/>
+                     </TouchableOpacity>
+                     <View
+                       style={{
+                         flex: 1,
+                         flexDirection: "row",
+                         justifyContent: "flex-end",
+                       }}>
+                       <View
+                         style={styles.viewView}>
+                         <TouchableOpacity
+                           onPress={() => {this.joinEvent(); this.setJoinModalVisible(!this.state.modalJoinVisible);}}
+                           style={styles.icCartButton}>
+                           <Image
+                             source={require("./../assets/images/ic-cart.png")}
+                             style={styles.icCartButtonImage}/>
+                             <View
+                               style={{
+                                 width: "100%",
+                                 height: "100%",
+                                 position: "absolute",
+                               }}>
+                               <Image
+                                 source={require("./../assets/images/bitmap-3.png")}
+                                 style={styles.bitmapImage}/>
+                             </View>
+                         </TouchableOpacity>
+
+                       </View>
+                     </View>
+                   </View>
+                   <View
+                     style={styles.contentView}>
+                     <View
+                       style={styles.formView}>
+                       <View
+                         style={styles.edittextTextonlyPlaceholderView}>
+                         <Text
+                           style={styles.paymentText}>Your Name</Text>
+                         <View
+                           style={{
+                             flex: 1,
+                             justifyContent: "flex-end",
+                           }}>
+                           <TextInput
+                           placeholder="Kobe Patel"
+                           onChangeText={newName => this.setState({newName}) }
+                           value={this.state.newName}
+                           style={styles.TextTextInput}/>
+
+                         </View>
+                       </View>
+                       <View
+                         style={styles.edittextTextonlyPlaceholderTwoView}>
+                         <Text
+                           style={styles.paymentTwoText}>Intro</Text>
+                         <View
+                           style={{
+                             flex: 1,
+                             justifyContent: "flex-end",
+                           }}>
+                           <TextInput
+                           placeholder="Bring your laptop!"
+                           onChangeText={newIntro => this.setState({newIntro}) }
+                           value={this.state.newIntro}
+                           style={styles.TextTwoTextInput}/>
+                         </View>
+                       </View>
+
+                       {this.state.errorMessage &&
+                      <Text style={{ color: 'red', marginTop: 5}}>
+                        {this.state.errorMessage}
+                      </Text>}
+                     </View>
+                   </View>
+                 </View>
+
+              </Modal>
 
         </Modal>
 
@@ -606,181 +744,181 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 	},
-	artboard2View: {
-		backgroundColor: 'rgba(55, 58, 61,  0.95)',
-		flex: 1,
-	},
-	icCloseButton: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		shadowColor: 'rgba(0, 0, 0, 0.10594995)',
-		shadowRadius: 3,
-		shadowOpacity: 1,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		marginLeft: 19,
-		marginTop: 36,
-		width: 60,
-		height: 60,
-	},
-	icCloseButtonImage: {
-		resizeMode: "contain",
-	},
-	icCloseButtonText: {
-		color: 'rgb(0, 0, 0)',
-		fontFamily: ".SFNSText",
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0,
-	},
-	viewView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 16,
-		marginTop: 6,
-		width: 63.92,
-		height: 90,
-	},
-	icCartButton: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		alignSelf: "flex-end",
-		width: 63.92,
-		height: 90,
-	},
-	icCartButtonImage: {
-		resizeMode: "contain",
-	},
-	icCartButtonText: {
-		color: 'rgb(0, 0, 0)',
-		fontFamily: ".SFNSText",
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0,
-	},
-	bitmapImage: {
-		resizeMode: "center",
-		backgroundColor: 'rgba(255, 255, 255, 0.0)',
-		marginRight: 18,
-		marginTop: 48,
-		alignSelf: "flex-end",
-		width: 27,
-		height: 27,
-	},
-	contentView: {
-		backgroundColor: 'rgb(255, 255, 255)',
-		borderRadius: 22,
-		marginLeft: 16,
-		marginRight: 16,
-		marginTop: 45,
-		alignSelf: "stretch",
-		height: 200,
-	},
-	formView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginLeft: 13,
-		marginRight: 19,
-		marginTop: 21,
-		alignSelf: "stretch",
-		height: 158,
-	},
-	edittextTextonlyPlaceholderView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		alignSelf: "stretch",
-		height: 48,
-	},
-	paymentText: {
-		color: 'rgb(0, 0, 0)',
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0.34,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 236,
-		width: 75,
-		height: 16,
-	},
-	edittextTextonlyPlaceholderTwoView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginTop: 7,
-		alignSelf: "stretch",
-		height: 48,
-	},
-	paymentTwoText: {
-		color: 'rgb(0, 0, 0)',
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0.34,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 274,
-		width: 37,
-		height: 16,
-	},
-	TextTwoTextInput: {
-		color: 'rgb(74, 74, 74)',
-		fontSize: 16,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		lineHeight: 0,
-		letterSpacing: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 4,
-		marginBottom: 1,
-		alignSelf: "stretch",
-	},
-	TextTextInput: {
-		color: 'rgb(74, 74, 74)',
-		fontSize: 16,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		lineHeight: 0,
-		letterSpacing: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 5,
-		marginBottom: 1,
-		alignSelf: "stretch",
-	},
-	edittextTextonlyPlaceholderThreeView: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginTop: 7,
-		alignSelf: "stretch",
-		height: 48,
-	},
-	paymentThreeText: {
-		color: 'rgb(0, 0, 0)',
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0.34,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 282,
-		width: 29,
-		height: 16,
-	},
-	TextThreeTextInput: {
-		color: 'rgb(74, 74, 74)',
-		fontSize: 16,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		lineHeight: 0,
-		letterSpacing: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		marginRight: 6,
-		marginBottom: 1,
-		alignSelf: "stretch",
-	},
+  artboard2View: {
+    backgroundColor: 'rgba(55, 58, 61,  0.95)',
+    flex: 1,
+  },
+  icCloseButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    shadowColor: 'rgba(0, 0, 0, 0.10594995)',
+    shadowRadius: 3,
+    shadowOpacity: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 19,
+    marginTop: 36,
+    width: 60,
+    height: 60,
+  },
+  icCloseButtonImage: {
+    resizeMode: "contain",
+  },
+  icCloseButtonText: {
+    color: 'rgb(0, 0, 0)',
+    fontFamily: ".SFNSText",
+    fontSize: 12,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    letterSpacing: 0,
+  },
+  viewView: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 16,
+    marginTop: 6,
+    width: 63.92,
+    height: 90,
+  },
+  icCartButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-end",
+    width: 63.92,
+    height: 90,
+  },
+  icCartButtonImage: {
+    resizeMode: "contain",
+  },
+  icCartButtonText: {
+    color: 'rgb(0, 0, 0)',
+    fontFamily: ".SFNSText",
+    fontSize: 12,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    letterSpacing: 0,
+  },
+  bitmapImage: {
+    resizeMode: "center",
+    backgroundColor: 'rgba(255, 255, 255, 0.0)',
+    marginRight: 18,
+    marginTop: 48,
+    alignSelf: "flex-end",
+    width: 27,
+    height: 27,
+  },
+  contentView: {
+    backgroundColor: 'rgb(255, 255, 255)',
+    borderRadius: 22,
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 45,
+    alignSelf: "stretch",
+    height: 200,
+  },
+  formView: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginLeft: 13,
+    marginRight: 19,
+    marginTop: 21,
+    alignSelf: "stretch",
+    height: 158,
+  },
+  edittextTextonlyPlaceholderView: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    alignSelf: "stretch",
+    height: 48,
+  },
+  paymentText: {
+    color: 'rgb(0, 0, 0)',
+    fontSize: 12,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    letterSpacing: 0.34,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 236,
+    width: 75,
+    height: 16,
+  },
+  edittextTextonlyPlaceholderTwoView: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginTop: 7,
+    alignSelf: "stretch",
+    height: 48,
+  },
+  paymentTwoText: {
+    color: 'rgb(0, 0, 0)',
+    fontSize: 12,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    letterSpacing: 0.34,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 274,
+    width: 37,
+    height: 16,
+  },
+  TextTwoTextInput: {
+    color: 'rgb(74, 74, 74)',
+    fontSize: 16,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    lineHeight: 0,
+    letterSpacing: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 4,
+    marginBottom: 1,
+    alignSelf: "stretch",
+  },
+  TextTextInput: {
+    color: 'rgb(74, 74, 74)',
+    fontSize: 16,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    lineHeight: 0,
+    letterSpacing: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 5,
+    marginBottom: 1,
+    alignSelf: "stretch",
+  },
+  edittextTextonlyPlaceholderThreeView: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginTop: 7,
+    alignSelf: "stretch",
+    height: 48,
+  },
+  paymentThreeText: {
+    color: 'rgb(0, 0, 0)',
+    fontSize: 12,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    letterSpacing: 0.34,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 282,
+    width: 29,
+    height: 16,
+  },
+  TextThreeTextInput: {
+    color: 'rgb(74, 74, 74)',
+    fontSize: 16,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "left",
+    lineHeight: 0,
+    letterSpacing: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    marginRight: 6,
+    marginBottom: 1,
+    alignSelf: "stretch",
+  },
 
 	menuView: {
 	backgroundColor: 'rgb(55, 58, 61)',

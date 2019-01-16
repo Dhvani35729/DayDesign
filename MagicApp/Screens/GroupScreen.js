@@ -28,7 +28,7 @@ export default class GroupScreen extends React.Component {
 
 	constructor(props) {
 		super(props)
-			 this.state = { groupData: [] };
+			 this.state = { groupData: [], uniqueId: null };
 			 console.log('sotp')
 			 console.log(this.state)
 	}
@@ -76,6 +76,7 @@ export default class GroupScreen extends React.Component {
 
 		console.log(DeviceInfo.getUniqueID());
 	 const uniqueId = DeviceInfo.getUniqueID();
+	 this.setState({uniqueId: uniqueId});
 		//
 		// console.log(uniqueId);
 		console.log(firebase.database().ref(uniqueId));
@@ -159,8 +160,8 @@ export default class GroupScreen extends React.Component {
 	render() {
 
 		return(
-		
- <GroupsTwo groupData={this.state.groupData} nav={this.props.navigation}/>
+
+ <GroupsTwo groupData={this.state.groupData} nav={this.props.navigation} uniqueId={this.state.uniqueId}/>
 
 
 
