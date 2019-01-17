@@ -224,10 +224,30 @@ export default class Group7Five extends React.Component {
         style={{
 
           width: 87,
-        height: 87,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "absolute",
+          height: 87,
+          alignSelf: 'flex-end',
+          justifyContent: "center",
+          position: "absolute",
+          flexDirection: "row",
+
+          // width: "80%",
+          // height: "80%",
+          // flexDirection: "column",
+          // justifyContent: "space-between",
+          // alignItems: "center",
+          // display: "flex",
+          // position: "absolute",
+
+       // width: 80,
+       //   height: 87,
+       //
+       // justifyContent: "center",
+       // // margin: 0 auto,
+       // // alignSelf: "stretch",
+       // alignItems: "center",
+       // // flexDirection: "column-reverse",
+       //
+       // position: "absolute",
 
         }}>
 
@@ -237,6 +257,8 @@ export default class Group7Five extends React.Component {
 
         </View>
 
+
+
         <View
 
         style={{
@@ -245,7 +267,6 @@ export default class Group7Five extends React.Component {
           alignSelf: 'flex-start',
           justifyContent: "center",
           position: "absolute",
-
         }}>
 
         <Text
@@ -450,7 +471,7 @@ const styles = StyleSheet.create({
 
                                  color: 'rgb(127, 177, 233)',
 
-                                 fontSize: 34,
+                                 fontSize: 24,
 
                                  fontStyle: "normal",
 
