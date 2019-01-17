@@ -524,7 +524,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
 		return <View
 				style={styles.groupsView}>
-				<MyModal modalVisible={this.state.modalCreateVisible}/>
+				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId}/>
 				<Modal
           animationType="slide"
           transparent={true}
