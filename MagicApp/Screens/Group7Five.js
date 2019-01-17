@@ -70,6 +70,7 @@ export default class Group7Five extends React.Component {
 
   	state = {
   	 modalInfoVisible: false,
+     disabled: false,
    };
 
 
@@ -92,6 +93,8 @@ export default class Group7Five extends React.Component {
     see(){
       console.log(this.state);
       console.log("worked?");
+
+
     }
 
 
@@ -100,6 +103,27 @@ export default class Group7Five extends React.Component {
       // const { nav } = this.props
       console.log(this.props);
       console.log('nav');
+
+      var hours = new Date().getHours(); //Current Hours
+      var min = new Date().getMinutes(); //Current Minutes
+      //var sec = new Date().getSeconds(); //Current Seconds
+      var eventHour = this.props.item.time.substr(0, 2);
+      var eventMin = this.props.item.time.substr(3, 5);
+      console.log(eventHour);
+      if(eventHour < hours){
+        this.setState({disabled: true});
+      }
+      else if(eventHour == hours){
+        if(eventMin < min){
+              this.setState({disabled: true});
+        }
+        else{
+            this.setState({disabled: false});
+        }
+      }
+      else{
+          this.setState({disabled: false});
+      }
 
     }
 
@@ -112,7 +136,31 @@ export default class Group7Five extends React.Component {
     openInfo(){
       console.log("pressed :>");
       console.log(this.props.item.group_name);
-      this.props.updateModalCB(this.props.item);
+      var hours = new Date().getHours(); //Current Hours
+      var min = new Date().getMinutes(); //Current Minutes
+      //var sec = new Date().getSeconds(); //Current Seconds
+      var eventHour = this.props.item.time.substr(0, 2);
+      var eventMin = this.props.item.time.substr(3, 5);
+      console.log(eventHour);
+      if(eventHour < hours){
+        this.setState({disabled: true});
+      }
+      else if(eventHour == hours){
+        if(eventMin < min){
+              this.setState({disabled: true});
+        }
+        else{
+            this.setState({disabled: false});
+          this.props.updateModalCB(this.props.item);
+        }
+      }
+      else{
+          this.setState({disabled: false});
+                this.props.updateModalCB(this.props.item);
+      }
+
+
+
       // this.updateState({modalInfoVisible: true});
       // console.log(this.props.see);
       // this.see();
@@ -127,10 +175,10 @@ export default class Group7Five extends React.Component {
 
         return <View
 
-        style={styles.group7}>
+        opacity={this.state.disabled ? 0.5 : 1}style={styles.group7}>
 
 
-        <TouchableHighlight onPress={() => {this.openInfo()}} underlayColor="white">
+        <TouchableHighlight onPress={() => {this.openInfo()}}  disabled={this.state.disabled} underlayColor="white" >
         <View
 
         style={styles.group6View}>
@@ -346,7 +394,7 @@ const styles = StyleSheet.create({
                                  group7: {
 
                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
-
+                                 //opacity: {this.state.disabled ? 0.5 : 1},
                                  width: 150,
 
                                  height: 190,
