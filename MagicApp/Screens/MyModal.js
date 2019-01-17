@@ -1,6 +1,7 @@
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert, Keyboard } from "react-native"
 import React from "react"
 import firebase from 'react-native-firebase'
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export default class MyModal extends React.Component {
 
@@ -12,7 +13,8 @@ export default class MyModal extends React.Component {
       newGroupLocation: "",
       errorMessage: null,
       successMessage: null,
-        isModalVisible: props.modalVisible
+        isModalVisible: props.modalVisible,
+         isDateTimePickerVisible: false,
     };
     console.log(props.modalVisible);
     console.log("close bro");
@@ -23,6 +25,16 @@ export default class MyModal extends React.Component {
    // console.log(utcDate);
 
   };
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+ _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+ _handleDatePicked = (time) => {
+   console.log('A time has been picked: ', time.getHours() + ':' + time.getMinutes());
+   this.setState({newGroupTime: ("0" + time.getHours()).slice(-2) + ':' + ("0" + time.getMinutes()).slice(-2)});
+   this._hideDateTimePicker();
+ };
 
   componentDidUpdate(prevProps) {
     if(this.props.modalVisible != prevProps.modalVisible) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
@@ -194,12 +206,22 @@ export default class MyModal extends React.Component {
                 // flex: 1,
                 // justifyContent: "flex-end",
               }}>
+
               <TextInput
               type="time"
               placeholder="7:00 PM"
               onChangeText={newGroupTime => this.setState({newGroupTime}) }
               value={this.state.newGroupTime}
+              onFocus={() => {this._showDateTimePicker(); Keyboard.dismiss();}}
             />
+
+            <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+          titleIOS="Pick a time"
+          mode="time"
+        />
 
 
             </View>
