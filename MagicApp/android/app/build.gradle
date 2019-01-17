@@ -120,6 +120,7 @@ android {
     // because of firestore:
     multiDexEnabled true
   }
+
   splits {
     abi {
       reset()
