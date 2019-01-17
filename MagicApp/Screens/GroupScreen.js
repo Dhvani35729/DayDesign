@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { TextInput, FlatList, View, Text, StyleSheet } from "react-native"
+import { TextInput, FlatList, View, Text, StyleSheet, AppState } from "react-native"
 import React from "react"
 import GroupsTwo from './GroupsTwo'
 import DeviceInfo from 'react-native-device-info';
@@ -28,7 +28,7 @@ export default class GroupScreen extends React.Component {
 
 	constructor(props) {
 		super(props)
-			 this.state = { groupData: [], uniqueId: null };
+			 this.state = { groupData: [], uniqueId: null,  appState: AppState.currentState };
 			 console.log('sotp')
 			 console.log(this.state)
 	}
@@ -40,7 +40,35 @@ export default class GroupScreen extends React.Component {
   	console.log(snapshot.val());
 		console.log(my.state)
 		console.log("hi")
-		my.setState({groupData: snapshot.val()});
+
+		var date = new Date().getDate(); //Current Date
+		var month = new Date().getMonth() + 1; //Current Month
+		var year = new Date().getFullYear(); //Current Year
+		// var hours = new Date().getHours(); //Current Hours
+		// var min = new Date().getMinutes(); //Current Minutes
+		// var sec = new Date().getSeconds(); //Current Seconds
+		//var curr_date =
+		var now = new Date(year, date, month);
+		// console.log(date+'-'+month+'-'+year+' '+hours+':'+min+':'+sec);
+
+		var todayGroups = []
+
+		for(var i = 0; i < snapshot.val().length; i++){
+			 	var full_date = snapshot.val()[i].date_stamp;
+				console.log(full_date)
+				var check_date = new Date(full_date.substring(0, 4), full_date.substring(5, 7), full_date.substring(8, 10));
+				console.log(check_date);
+				//console.log(now);
+				if(check_date < now){
+ 				console.log("Selected date is in the past");
+				}
+				else{
+					 console.log("Selected date is NOT in the past");
+					 	todayGroups.push(snapshot.val()[i]);
+				}
+		}
+		console.log(todayGroups);
+		my.setState({groupData: todayGroups});
 
 		// for(var i = 1; i < snapshot.val().length; i++){
 		// 		console.log(i);
@@ -69,6 +97,8 @@ export default class GroupScreen extends React.Component {
 	componentDidMount() {
 		let my = this;
 		this.loadGroups(my);
+
+		 AppState.addEventListener('change', this._handleAppStateChange);
 
 		console.log(this.props.navigation);
 		console.log('nav-groups-screen');
@@ -102,6 +132,18 @@ export default class GroupScreen extends React.Component {
 
 
 	}
+
+	componentWillUnmount() {
+	 AppState.removeEventListener('change', this._handleAppStateChange);
+ }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!');
+			this.loadGroups(this);
+    }
+    this.setState({appState: nextAppState});
+  }
 
 	groupFlatListMockData = [{
 		key: "1",
