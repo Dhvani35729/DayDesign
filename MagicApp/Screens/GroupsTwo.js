@@ -123,7 +123,8 @@ export default class GroupsTwo extends React.Component {
              this.setState({data: this.props.groupData});
            if(this.state.modalDetailVisible == true){
              // modal is open
-             var item = this.props.groupData[this.state.key];
+             var item = this.props.groupData[this.state.key-1];
+             console.log(this.state.key);
              console.log("RENDER THIS ITEM");
              console.log(item);
              this.loadFriends(this, item.key, item.number_going, item.people, true);
@@ -175,41 +176,44 @@ export default class GroupsTwo extends React.Component {
             firebase.database().ref(Object.keys(people)[i]).on('value', function(snapshot) {
 
               // my.setState({friendData: []});
+              if(snapshot.key){
+                var friend = {};
+                var friendID = snapshot.key;
+                if(friendID == my.props.uniqueId){
+                  found = true;
+                  my.setState({notInEvent: false});
+                }
 
-              var friend = {};
-              var friendID = snapshot.key;
-              if(friendID == my.props.uniqueId){
-                found = true;
-                my.setState({notInEvent: false});
-              }
 
-
-              console.log(friendID);
-              console.log(counter);
-              console.log(snapshot.key);
-              console.log('y u break');
+                console.log(friendID);
+                console.log(counter);
+                console.log(snapshot.key);
+                console.log('y u break');
 
                   friend["prompt"] = people[friendID].prompt;
-                friend["key"] = counter.toString();
-                console.log(snapshot.val());
-                friend["id"] = friendID;
-                friend["name"] = snapshot.val().name;
+                  friend["key"] = counter.toString();
+                  console.log(snapshot.val());
+                  friend["id"] = friendID;
+                  friend["name"] = snapshot.val().name;
 
-                console.log("dets ^^");
-                console.log(friend["id"])
-                console.log(friend["key"])
-                my.state.friendData.push(friend);
-                counter++;
+                  console.log("dets ^^");
+                  console.log(friend["id"])
+                  console.log(friend["key"])
+                  my.state.friendData.push(friend);
+                  counter++;
 
-                if(numPeople == 1){
-                     my.setState({friendData: my.state.friendData.slice(1)});
-                }
-                else{
-                  if(sliced == false){
-                     my.setState({friendData: my.state.friendData.slice(1)});
-                     sliced = true;
+                  if(numPeople == 1){
+                       my.setState({friendData: my.state.friendData.slice(1)});
                   }
-                }
+                  else{
+                    if(sliced == false){
+                       my.setState({friendData: my.state.friendData.slice(1)});
+                       sliced = true;
+                    }
+                  }
+
+              }
+
 
 
                 // my.setState({ friendData: [...my.state.friendData, ...friend] }) //simple value
