@@ -118,14 +118,17 @@ export default class Menu extends React.Component {
         </View>
         <View
         style={styles.restHeaderView}>
+        <View style={{width: 10}} onStartShouldSetResponder={() => {console.log("scroll bro");}}>
         <Text
         style={styles.theTandoorText}>{this.props.item.location_name + ' | ' + this.props.item.group_name}</Text>
+        </View>
         <Text
         style={styles.pmText}>{tConvert(this.props.item.time)}</Text>
         </View>
         <View
         style={styles.viewFlatListViewWrapper}>
         <FlatList
+         keyboardShouldPersistTaps='always'
         horizontal={false}
         renderItem={this.renderViewFlatListCell}
         data={this.viewFlatListMockData}
@@ -197,8 +200,8 @@ const styles = StyleSheet.create({
                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
                                  marginLeft: 20,
                                  marginTop: 20,
-                                 width: 318,
                                  height: 33,
+
                                  },
                                  pmText: {
                                  color: 'rgb(113, 118, 122)',

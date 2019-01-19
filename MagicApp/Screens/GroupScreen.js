@@ -68,6 +68,41 @@ export default class GroupScreen extends React.Component {
 				}
 		}
 		console.log(todayGroups);
+
+//		console.log(eventHour);
+
+		todayGroups.sort(function (a, b) {
+
+			var aHours = a.time.substr(0, 2);
+			var aMin = a.time.substr(3, 5);
+
+			var bHours = b.time.substr(0, 2);
+			var bMin = b.time.substr(3, 5);
+
+
+			if(aHours < bHours){
+				console.log("less than");
+				return 1;
+			}
+			else if(aHours == bHours){
+				if(aMin < bMin){
+					console.log("less than");
+							return 1;
+				}
+				else if(aMin == bMin){
+					return 0;
+				}
+				else{
+					console.log("more than");
+						return -1;
+				}
+			}
+			else{
+						console.log("more than");
+						return -1;
+			}
+		});
+
 		my.setState({groupData: todayGroups});
 
 		// for(var i = 1; i < snapshot.val().length; i++){
