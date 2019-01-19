@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert, ScrollView } from "react-native"
 import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
@@ -57,6 +57,7 @@ export default class GroupsTwo extends React.Component {
    modalJoinVisible: false,
    notInEvent: true,
    data: [],
+   scrollEnabled: true,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -116,18 +117,33 @@ export default class GroupsTwo extends React.Component {
 
 
   componentDidUpdate(prevProps) {
+    console.log(this.state);
+    console.log("still here ^^");
+    var getKey = this.state.key;
     if(this.props.groupData != prevProps.groupData) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
     {
            console.log("RE RENDER ME!");
              this.arrayholder = this.props.groupData;
              this.setState({data: this.props.groupData});
            if(this.state.modalDetailVisible == true){
-             // modal is open
-             var item = this.props.groupData[this.state.key-1];
-             console.log(this.state.key);
-             console.log("RENDER THIS ITEM");
-             console.log(item);
-             this.loadFriends(this, item.key, item.number_going, item.people, true);
+             if(getKey != -1){
+
+               // modal is open
+               var item;
+               for(var i = 0; i < this.props.groupData.length; i++){
+                 if(this.props.groupData[i].key == getKey){
+                    item = this.props.groupData[i];
+                 }
+               }
+              // var item = this.props.groupData[this.state.key-1];
+               console.log(this.props.groupData);
+               console.log(getKey);
+               console.log("RENDER THIS ITEM");
+               console.log(item);
+               this.loadFriends(this, item.key, item.number_going, item.people, true);
+
+             }
+
 
            }
     }
@@ -363,7 +379,7 @@ export default class GroupsTwo extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return (<Group7Five item={item} nav={this.props.nav} see={this.canYouSee} updateModalCB={this.updateModal}/> )
+		return (<Group7Five item={item} nav={this.props.nav} see={this.canYouSee} updateModalCB={this.updateModal} setScroll={this.setScroll}/> )
 	}
 
   showEmptyListView = () => {
@@ -494,10 +510,16 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 		this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
 	}
 
+  setScroll = (item) => {
+    console.log("enabled");
+      this.setState({scrollEnabled: item});
+  }
+
 	 updateModal = (item) => {
 		 console.log(item);
 		 console.log("what u give me");
 		 this.setState({item: item});
+     this.setState({scrollEnabled: true});
      if(item.number_going == 1){
          this.loadFriends(this, item.key, item.number_going, item.people, false);
        //   this.setState({friendData: [{key: "0", name: "Loading Patel", prompt: "Loading"}]},
@@ -545,7 +567,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 						 }}>
 						 <TouchableOpacity
 						 style={styles.buttonButton}
-						   onPress={() => { this.setDetailModalVisible(!this.state.modalDetailVisible); this.setState({friendData: []})}}>
+						   onPress={() => {this.setState({scrollEnabled: true}); this.setDetailModalVisible(!this.state.modalDetailVisible); this.setState({friendData: []})}}>
 						 <Image
 						 source={require("./../assets/images/ic-close.png")}
 						 style={styles.buttonButtonImage}/>
@@ -563,9 +585,13 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 						 </View>
 						 <View
 						 style={styles.restHeaderView}>
+             <View style={{	height: 50}}>
+             <ScrollView horizontal={true}>
 						 <Text
 						 style={styles.theTandoorText}>{this.state.item.location_name + ' | ' + this.state.item.group_name}</Text>
-						 <Text
+             </ScrollView>
+             </View>
+          	 <Text
 						 style={styles.pmText}>{tConvert(this.state.item.time)}</Text>
 						 </View>
 						 <View
@@ -712,6 +738,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 					style={styles.groupFlatListViewWrapper}>
 					<FlatList
 					 keyboardShouldPersistTaps='always'
+           scrollEnabled={this.state.scrollEnabled}
 						horizontal={false}
 						numColumns={2}
 						renderItem={this.renderGroupFlatListCell}
@@ -1088,8 +1115,7 @@ const styles = StyleSheet.create({
 	backgroundColor: 'rgba(0, 0, 0, 0.0)',
 	marginLeft: 20,
 	marginTop: 20,
-	width: 318,
-	height: 33,
+
 	},
 	pmText: {
 	color: 'rgb(113, 118, 122)',
