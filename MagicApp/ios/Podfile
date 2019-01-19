@@ -8,8 +8,15 @@ target 'magic' do
   # Pods for magic
 
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  'Core',
+  'CxxBridge', # Include this for RN >= 0.47
+  'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
+  'RCTText',
+  'RCTNetwork',
+  'RCTWebSocket', # needed for debugging
    'RCTLinkingIOS',
       'RCTImage',
+      
  ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   
@@ -38,7 +45,7 @@ target 'magic' do
 
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-
+  
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
@@ -47,4 +54,12 @@ target 'magic' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == "React"
+            target.remove_from_project
+        end
+    end
 end

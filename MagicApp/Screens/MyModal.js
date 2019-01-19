@@ -3,6 +3,8 @@ import React from "react"
 import firebase from 'react-native-firebase'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
+const height = 220;
+
 export default class MyModal extends React.Component {
 
   constructor(props) {
@@ -13,8 +15,11 @@ export default class MyModal extends React.Component {
       newGroupLocation: "",
       errorMessage: null,
       successMessage: null,
+      newName: "",
+      height: 220,
         isModalVisible: props.modalVisible,
          isDateTimePickerVisible: false,
+         hasName: false,
     };
     console.log(props.modalVisible);
     console.log("close bro");
@@ -35,12 +40,42 @@ export default class MyModal extends React.Component {
    this.setState({newGroupTime: ("0" + time.getHours()).slice(-2) + ':' + ("0" + time.getMinutes()).slice(-2)});
    this._hideDateTimePicker();
  };
+ componentDidMount(){
+   console.log(this.props);
+   console.log('wtf');
+   if(this.props.hasName != null){
+     console.log("here");
+         this.setState({hasName: this.props.hasName});
+         if(this.props.hasName == false){
+           console.log('here-height');
+          this.setState({height: 280});
+         }
+         else{
+              this.setState({height: 220});
+         }
+   }
+ }
 
   componentDidUpdate(prevProps) {
     if(this.props.modalVisible != prevProps.modalVisible) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
     {
            console.log("RE RENDER ME!");
               this.setState({isModalVisible: true});
+              console.log(this.props.hasName);
+              this.setState({hasName: this.props.hasName});
+    }
+    if(this.props.hasName != prevProps.hasName) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+    {
+        console.log(this.props.hasName)
+        console.log("name bro");
+              this.setState({hasName: this.props.hasName});
+              if(this.props.hasName == false){
+                   console.log('here-height');
+                this.setState({height: 280});
+              }
+              else{
+                  this.setState({height: 220});
+              }
     }
 }
 
@@ -52,16 +87,68 @@ export default class MyModal extends React.Component {
 			console.log(this.state.newGroupLocation);
       console.log(this.props)
       console.log("creating..");
-			   const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible} = this.state
+			   const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible, newName} = this.state
 				  var that = this;
 			if (newGroupLocation.trim() == "" || newGroupName.trim() == "" || newGroupTime.trim() == "") {
 	       this.setState({errorMessage: "Please fill in all fields!"});
 	     }
 			 else{
+         if(this.state.hasName == false){
+           if (newName.trim() == "") {
+     	       this.setState({errorMessage: "Please fill in your name!"});
+     	     }
+           else{
+             this.setState({errorMessage: null});
+             var updates_1 = {};
+             updates_1['/name/'] = newName;
+            firebase.database().ref(that.props.uniqueId).update(updates_1);
 
 
+            			var groupCount = 0;
+             firebase.database().ref('groups_count').once('value').then(function(snapshot) {
+              	console.log(snapshot.val());
+            		groupCount = snapshot.val();
 
+            		var updates = {};
+            		updates['/key/'] = groupCount;
+                updates['/creator/'] = that.props.uniqueId;
+            		updates['/free_food/'] = false;
+            		updates['/group_name/'] = newGroupName;
+            		updates['/location_name/'] = newGroupLocation;
+            		updates['/time/'] = newGroupTime;
+            		updates['/number_going/'] = 1;
+            	   updates['/people/' + that.props.uniqueId + '/prompt'] = "Group Creator";
 
+                 var date = new Date().getDate(); //Current Date
+                 var month = new Date().getMonth() + 1; //Current Month
+                 var year = new Date().getFullYear(); //Current Year
+                 // var hours = new Date().getHours(); //Current Hours
+                 // var min = new Date().getMinutes(); //Current Minutes
+                 // var sec = new Date().getSeconds(); //Current Seconds
+                 // console.log(date+'-'+month+'-'+year+' '+hours+':'+min+':'+sec);
+                //Print results
+                // var formattedNumber = ("0" + myNumber).slice(-2);
+                 updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
+            		// updates['/creator/'] = 1;
+
+            		 firebase.database().ref('groups/' + groupCount).update(updates);
+
+            		 var update_count = {};
+            		 update_count['/groups_count/'] = ++groupCount;
+            		 firebase.database().ref().update(update_count);
+
+            		 // this.setCreateModalVisible(!modalCreateVisible);
+            		 that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
+            		 // that.setState({modalCreateVisible: !modalCreateVisible});
+                 that._setModalVisible(!that.state.isModalVisible)
+            		 that.setState({successMessage: "Group Added!"})
+
+            });
+
+           }
+         }
+         else{
+           this.setState({errorMessage: null});
 			var groupCount = 0;
  firebase.database().ref('groups_count').once('value').then(function(snapshot) {
   	console.log(snapshot.val());
@@ -102,6 +189,7 @@ export default class MyModal extends React.Component {
 		 that.setState({successMessage: "Group Added!"})
 
 });
+}
 	 }
 			// Write the new post's data simultaneously in the posts list and the user's post list.
 
@@ -125,7 +213,7 @@ export default class MyModal extends React.Component {
           flexDirection: "row",
         }}>
         <TouchableOpacity
-          onPress={() => { this._setModalVisible(!this.state.isModalVisible); }}
+          onPress={() => { 	 this.setState({errorMessage: null}); this._setModalVisible(!this.state.isModalVisible); }}
           style={styles.icCloseButton}>
           <Image
             source={require("./../assets/images/ic-close-2.png")}
@@ -160,10 +248,30 @@ export default class MyModal extends React.Component {
           </View>
         </View>
       </View>
+
       <View
-        style={styles.contentView}>
+        style={[styles.contentView, {height: this.state.height}]}>
         <View
           style={styles.formView}>
+          {!this.state.hasName &&
+            <View
+            style={styles.edittextTextonlyPlaceholderViewName}>
+            <Text
+              style={styles.paymentText}>Your Name</Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "flex-end",
+              }}>
+              <TextInput
+              placeholder="Kobe Patel"
+              onChangeText={newName => this.setState({newName}) }
+              value={this.state.newName}
+              style={styles.TextTextInput}/>
+            </View>
+          </View>
+        }
+
           <View
             style={styles.edittextTextonlyPlaceholderView}>
             <Text
@@ -222,12 +330,12 @@ export default class MyModal extends React.Component {
           titleIOS="Pick a time"
           mode="time"
         />
-
-
             </View>
           </View>
+
+
           {this.state.errorMessage &&
-         <Text style={{ color: 'red', marginTop: 5}}>
+         <Text style={{ color: 'red', marginTop: 7}}>
            {this.state.errorMessage}
          </Text>}
         </View>
@@ -315,7 +423,6 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginTop: 45,
     alignSelf: "stretch",
-    height: 220,
   },
   formView: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -329,6 +436,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
     alignSelf: "stretch",
     height: 48,
+  },
+  edittextTextonlyPlaceholderViewName: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    alignSelf: "stretch",
+    height: 48,
+    marginBottom: 7,
   },
   paymentText: {
     color: 'rgb(0, 0, 0)',

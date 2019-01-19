@@ -47,6 +47,7 @@ export default class GroupsTwo extends React.Component {
 	 newGroupTime: "",
 	 newGroupLocation: "",
    newName: "",
+   hasName: false,
    newIntro: "",
 	 errorMessage: null,
 	 successMessage: null,
@@ -99,6 +100,9 @@ export default class GroupsTwo extends React.Component {
 	componentDidMount() {
 		console.log(this.props);
 		console.log('nav-groups-two');
+    // check here
+
+
 
 	}
 
@@ -120,6 +124,8 @@ export default class GroupsTwo extends React.Component {
     console.log(this.state);
     console.log("still here ^^");
     var getKey = this.state.key;
+
+
     if(this.props.groupData != prevProps.groupData) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
     {
            console.log("RE RENDER ME!");
@@ -157,6 +163,10 @@ export default class GroupsTwo extends React.Component {
         if(snapshot.val()){
           if(snapshot.val().name){
             that.setState({newName: snapshot.val().name});
+              that.setState({hasName: true});
+          }
+          else{
+            that.setState({hasName: false});
           }
         }
   });
@@ -401,10 +411,11 @@ if (newName.trim() == "") {
   this.setState({errorMessage: "Please fill in your name!"});
 }
 else{
-
+this.setState({errorMessage: null});
   var updates_1 = {};
   updates_1['/name/'] = newName;
  firebase.database().ref(userID).update(updates_1);
+ this.setState({hasName: true});
 
  var updates = {};
  updates['/people/' + userID + '/prompt'] = newIntro;
@@ -550,7 +561,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
 		return <View
 				style={styles.groupsView}>
-				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId}/>
+				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId} hasName={this.state.hasName}/>
 				<Modal
           animationType="slide"
           transparent={true}
@@ -620,7 +631,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
                        flexDirection: "row",
                      }}>
                      <TouchableOpacity
-                       onPress={() => { this.setJoinModalVisible(!this.state.modalJoinVisible); }}
+                       onPress={() => {  this.setState({errorMessage: null}); this.setJoinModalVisible(!this.state.modalJoinVisible); }}
                        style={styles.icCloseButton}>
                        <Image
                          source={require("./../assets/images/ic-close-2.png")}
@@ -635,7 +646,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
                        <View
                          style={styles.viewView}>
                          <TouchableOpacity
-                           onPress={() => {this.joinEvent();}}
+                           onPress={() => { this.joinEvent();}}
                            style={styles.icCartButton}>
                            <Image
                              source={require("./../assets/images/ic-cart.png")}
