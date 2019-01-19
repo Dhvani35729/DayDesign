@@ -31,6 +31,8 @@ export default class GroupScreen extends React.Component {
 			 this.state = { groupData: [], uniqueId: null,  appState: AppState.currentState };
 			 console.log('sotp')
 			 console.log(this.state)
+			 let my = this;
+			 this.loadGroups(my);
 	}
 
 	loadGroups(my){
@@ -130,8 +132,8 @@ export default class GroupScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		let my = this;
-		this.loadGroups(my);
+		// let my = this;
+		// this.loadGroups(my);
 
 		 AppState.addEventListener('change', this._handleAppStateChange);
 

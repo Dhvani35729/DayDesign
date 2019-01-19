@@ -207,6 +207,26 @@ PODS:
     - React
   - React/Core (0.57.1):
     - yoga (= 0.57.1.React)
+  - React/CxxBridge (0.57.1):
+    - Folly (= 2016.10.31.00)
+    - React/Core
+    - React/cxxreact
+  - React/cxxreact (0.57.1):
+    - boost-for-react-native (= 1.63.0)
+    - Folly (= 2016.10.31.00)
+    - React/jschelpers
+    - React/jsinspector
+  - React/DevSupport (0.57.1):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.57.1)
+  - React/jschelpers (0.57.1):
+    - Folly (= 2016.10.31.00)
+    - React/PrivateDatabase
+  - React/jsinspector (0.57.1)
+  - React/PrivateDatabase (0.57.1)
+  - React/RCTBlob (0.57.1):
+    - React/Core
   - React/RCTImage (0.57.1):
     - React/Core
     - React/RCTNetwork
@@ -214,6 +234,12 @@ PODS:
     - React/Core
   - React/RCTNetwork (0.57.1):
     - React/Core
+  - React/RCTText (0.57.1):
+    - React/Core
+  - React/RCTWebSocket (0.57.1):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
   - RNDeviceInfo (0.21.5):
     - React
   - RNGestureHandler (1.0.12):
@@ -241,8 +267,14 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -351,6 +383,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 02f4cdf31ac3a1336018e7f5f167dd90f805a1ec
+PODFILE CHECKSUM: ed80d57e251daf59da699db6e5e80a67292c32f6
 
 COCOAPODS: 1.5.3
