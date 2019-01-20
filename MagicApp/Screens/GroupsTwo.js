@@ -14,6 +14,8 @@ import firebase from 'react-native-firebase'
 import MyModal from './MyModal'
 import Menu from './Menu'
 import Friend from "./Friend"
+import DeviceInfo from 'react-native-device-info';
+import RNExitApp from 'react-native-exit-app';
 
 
 export function    tConvert (time) {
@@ -94,8 +96,43 @@ export default class GroupsTwo extends React.Component {
 
 		// this.updateText1 = this.updateText1
 		this.updateModal = this.updateModal;
-     let my = this;
-     this.loadGroups(my);
+
+            let my = this;
+
+
+    firebase.database().ref('build_version').once('value').then(function(snapshot) {
+    if(snapshot.val() != null){
+
+      console.log(snapshot.val())
+      console.log(DeviceInfo.getBuildNumber());
+      console.log(DeviceInfo.getVersion());
+      console.log('load now');
+
+      if(snapshot.val() == DeviceInfo.getBuildNumber()){
+            my.loadGroups(my);
+      }
+      else{
+
+        Alert.alert(
+  'Old Version of App',
+  'App is not up to date! Please updae the app.',
+  [
+    {text: 'Exit App', onPress: () => RNExitApp.exitApp()},
+  ],
+  { cancelable: false });
+
+      }
+
+    }
+    else{
+
+
+
+
+    }
+
+    });
+
 
 	}
 
