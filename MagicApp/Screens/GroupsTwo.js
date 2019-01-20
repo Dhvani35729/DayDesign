@@ -109,14 +109,16 @@ export default class GroupsTwo extends React.Component {
 
   searchFilterFunction = text => {
     console.log(this.arrayholder);
-    const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.location_name.toUpperCase()} ${item.group_name.toUpperCase()}}`;
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-    this.setState({
-      data: newData,
-    });
+    if(this.arrayholder != null){
+      const newData = this.arrayholder.filter(item => {
+        const itemData = `${item.location_name.toUpperCase()} ${item.group_name.toUpperCase()}}`;
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      this.setState({
+        data: newData,
+      });
+    }
   };
 
 
@@ -526,6 +528,11 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
       this.setState({scrollEnabled: item});
   }
 
+  setHasName = (item) => {
+    console.log("has name");
+      this.setState({hasName: item});
+  }
+
 	 updateModal = (item) => {
 		 console.log(item);
 		 console.log("what u give me");
@@ -561,7 +568,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
 		return <View
 				style={styles.groupsView}>
-				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId} hasName={this.state.hasName}/>
+				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId} hasName={this.state.hasName} setHasName={this.setHasName}/>
 				<Modal
           animationType="slide"
           transparent={true}
@@ -582,8 +589,6 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 						 <Image
 						 source={require("./../assets/images/ic-close.png")}
 						 style={styles.buttonButtonImage}/>
-						 <Text
-						 style={styles.buttonButtonText}></Text>
 						 </TouchableOpacity>
 {		this.state.notInEvent &&	 <TouchableOpacity
 						 style={styles.buttonTwoButton}
@@ -1074,8 +1079,8 @@ const styles = StyleSheet.create({
 	flexDirection: "row",
 	alignItems: "center",
 	justifyContent: "center",
-	marginLeft: 30,
-	marginTop: 42,
+	marginLeft:19,
+	marginTop: 36,
 	width: 60,
 	height: 60,
 	},
@@ -1095,7 +1100,8 @@ const styles = StyleSheet.create({
 	alignItems: "center",
 	justifyContent: "center",
  marginLeft: 200,
-	marginTop: 40,
+ marginRight: 19,
+	marginTop: 35,
 	width: 60,
 	height: 60,
 	},
@@ -1147,8 +1153,8 @@ const styles = StyleSheet.create({
 
 	},
 	viewFlatListViewWrapper: {
-	marginLeft: -3,
-	marginRight: 3,
+	// marginLeft: -3,
+	// marginRight: 3,
 	flex: 1,
 },
 })
