@@ -17,6 +17,7 @@ export default class MyModal extends React.Component {
       successMessage: null,
       newName: "",
       height: 220,
+      heightForm: 158,
         isModalVisible: props.modalVisible,
          isDateTimePickerVisible: false,
          hasName: false,
@@ -48,10 +49,10 @@ export default class MyModal extends React.Component {
          this.setState({hasName: this.props.hasName});
          if(this.props.hasName == false){
            console.log('here-height');
-          this.setState({height: 280});
+          this.setState({height: 280, heightForm: 218});
          }
          else{
-              this.setState({height: 220});
+              this.setState({height: 220, heightForm: 158});
          }
    }
  }
@@ -71,10 +72,10 @@ export default class MyModal extends React.Component {
               this.setState({hasName: this.props.hasName});
               if(this.props.hasName == false){
                    console.log('here-height');
-                this.setState({height: 280});
+                this.setState({height: 280,heightForm: 218});
               }
               else{
-                  this.setState({height: 220});
+                  this.setState({height: 220, heightForm: 158});
               }
     }
 }
@@ -99,10 +100,12 @@ export default class MyModal extends React.Component {
      	     }
            else{
              this.setState({errorMessage: null});
+
              var updates_1 = {};
              updates_1['/name/'] = newName;
             firebase.database().ref(that.props.uniqueId).update(updates_1);
-
+             //this.setState({hasName: true});
+             this.props.setHasName(true);
 
             			var groupCount = 0;
              firebase.database().ref('groups_count').once('value').then(function(snapshot) {
@@ -252,7 +255,8 @@ export default class MyModal extends React.Component {
       <View
         style={[styles.contentView, {height: this.state.height}]}>
         <View
-          style={styles.formView}>
+          style={[styles.formView, {height: this.state.heightForm}]}>
+
           {!this.state.hasName &&
             <View
             style={styles.edittextTextonlyPlaceholderViewName}>
@@ -320,6 +324,7 @@ export default class MyModal extends React.Component {
               placeholder="7:00 PM"
               onChangeText={newGroupTime => this.setState({newGroupTime}) }
               value={this.state.newGroupTime}
+                style={styles.TextTwoTextInput}
               onFocus={() => {this._showDateTimePicker(); Keyboard.dismiss();}}
             />
 
@@ -430,7 +435,6 @@ const styles = StyleSheet.create({
     marginRight: 19,
     marginTop: 21,
     alignSelf: "stretch",
-    height: 158,
   },
   edittextTextonlyPlaceholderView: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
