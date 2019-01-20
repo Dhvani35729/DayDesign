@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert, ScrollView } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert, ScrollView, AppState, StatusBar } from "react-native"
 import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
@@ -59,6 +59,7 @@ export default class GroupsTwo extends React.Component {
    notInEvent: true,
    data: [],
    scrollEnabled: true,
+    appState: AppState.currentState,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -93,7 +94,8 @@ export default class GroupsTwo extends React.Component {
 
 		// this.updateText1 = this.updateText1
 		this.updateModal = this.updateModal;
-
+     let my = this;
+     this.loadGroups(my);
 
 	}
 
@@ -102,6 +104,7 @@ export default class GroupsTwo extends React.Component {
 		console.log('nav-groups-two');
     // check here
 
+		 AppState.addEventListener('change', this._handleAppStateChange);
 
 
 	}
@@ -121,6 +124,142 @@ export default class GroupsTwo extends React.Component {
     }
   };
 
+  loadGroups(my){
+        var getKey = my.state.key;
+    firebase.database().ref('groups').on('value', function(snapshot) {
+
+    console.log(snapshot.val());
+    console.log(my.state)
+    console.log("hi")
+
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    // var hours = new Date().getHours(); //Current Hours
+    // var min = new Date().getMinutes(); //Current Minutes
+    // var sec = new Date().getSeconds(); //Current Seconds
+    //var curr_date =
+    var now = new Date(year, date, month);
+    // console.log(date+'-'+month+'-'+year+' '+hours+':'+min+':'+sec);
+
+    var todayGroups = []
+
+    for(var i = 0; i < snapshot.val().length; i++){
+        var full_date = snapshot.val()[i].date_stamp;
+        console.log(full_date)
+        var check_date = new Date(full_date.substring(0, 4), full_date.substring(5, 7), full_date.substring(8, 10));
+        console.log(check_date);
+        //console.log(now);
+        if(check_date < now){
+        console.log("Selected date is in the past");
+        }
+        else{
+           console.log("Selected date is NOT in the past");
+            todayGroups.push(snapshot.val()[i]);
+        }
+    }
+    console.log(todayGroups);
+
+//		console.log(eventHour);
+
+    todayGroups.sort(function (a, b) {
+
+      var aHours = a.time.substr(0, 2);
+      var aMin = a.time.substr(3, 5);
+
+      var bHours = b.time.substr(0, 2);
+      var bMin = b.time.substr(3, 5);
+
+
+      if(aHours < bHours){
+        console.log("less than");
+        return 1;
+      }
+      else if(aHours == bHours){
+        if(aMin < bMin){
+          console.log("less than");
+              return 1;
+        }
+        else if(aMin == bMin){
+          return 0;
+        }
+        else{
+          console.log("more than");
+            return -1;
+        }
+      }
+      else{
+            console.log("more than");
+            return -1;
+      }
+    });
+
+    // my.setState({groupData: todayGroups});
+
+
+    console.log("RE RENDER ME!");
+      my.arrayholder = todayGroups;
+      my.setState({data: todayGroups});
+    if(my.state.modalDetailVisible == true){
+      if(getKey != -1){
+
+        // modal is open
+        var item;
+        for(var i = 0; i < todayGroups.length; i++){
+          if(todayGroups[i].key == getKey){
+             item = todayGroups[i];
+          }
+        }
+       // var item = this.props.groupData[this.state.key-1];
+        console.log(todayGroups);
+        console.log(getKey);
+        console.log("RENDER THIS ITEM");
+        console.log(item);
+        this.loadFriends(my, item.key, item.number_going, item.people, true);
+
+      }
+
+
+    }
+
+    // for(var i = 1; i < snapshot.val().length; i++){
+    // 		console.log(i);
+    // 		console.log(snapshot.val()[i].group_name);
+    // 		var group = [];
+    // 		group.push(snapshot.val()[i].group_name);
+    // 		group.push(snapshot.val()[i].number_going);
+    // 		group.push(snapshot.val()[i].location_name);
+    // 		group.push(snapshot.val()[i].free_food);
+    // 		group.push(snapshot.val()[i].people);
+    // 		group.push(snapshot.val()[i].time);
+    // 		// console.log(group);
+    // 		var joined = my.state.groupData.concat(group);
+    // 		my.setState({ groupData: joined })
+    // }
+
+  console.log(my.state);
+    console.log("data ^");
+});
+
+
+
+
+  }
+
+
+  componentWillUnmount() {
+	 AppState.removeEventListener('change', this._handleAppStateChange);
+ }
+
+ _handleAppStateChange = (nextAppState) => {
+   if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+     console.log('App has come to the foreground!');
+    this.loadGroups(this);
+   }
+   this.setState({appState: nextAppState});
+ }
+
+
 
   componentDidUpdate(prevProps) {
     console.log(this.state);
@@ -128,33 +267,33 @@ export default class GroupsTwo extends React.Component {
     var getKey = this.state.key;
 
 
-    if(this.props.groupData != prevProps.groupData) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
-    {
-           console.log("RE RENDER ME!");
-             this.arrayholder = this.props.groupData;
-             this.setState({data: this.props.groupData});
-           if(this.state.modalDetailVisible == true){
-             if(getKey != -1){
-
-               // modal is open
-               var item;
-               for(var i = 0; i < this.props.groupData.length; i++){
-                 if(this.props.groupData[i].key == getKey){
-                    item = this.props.groupData[i];
-                 }
-               }
-              // var item = this.props.groupData[this.state.key-1];
-               console.log(this.props.groupData);
-               console.log(getKey);
-               console.log("RENDER THIS ITEM");
-               console.log(item);
-               this.loadFriends(this, item.key, item.number_going, item.people, true);
-
-             }
-
-
-           }
-    }
+    // if(this.props.groupData != prevProps.groupData) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+    // {
+    //        console.log("RE RENDER ME!");
+    //          this.arrayholder = this.props.groupData;
+    //          this.setState({data: this.props.groupData});
+    //        if(this.state.modalDetailVisible == true){
+    //          if(getKey != -1){
+    //
+    //            // modal is open
+    //            var item;
+    //            for(var i = 0; i < this.props.groupData.length; i++){
+    //              if(this.props.groupData[i].key == getKey){
+    //                 item = this.props.groupData[i];
+    //              }
+    //            }
+    //           // var item = this.props.groupData[this.state.key-1];
+    //            console.log(this.props.groupData);
+    //            console.log(getKey);
+    //            console.log("RENDER THIS ITEM");
+    //            console.log(item);
+    //            this.loadFriends(this, item.key, item.number_going, item.people, true);
+    //
+    //          }
+    //
+    //
+    //        }
+    // }
     if(this.props.uniqueId != prevProps.uniqueId){
       console.log(this.props.uniqueId);
       console.log("ID");
@@ -568,6 +707,12 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
 		return <View
 				style={styles.groupsView}>
+        <StatusBar
+        animated={true}
+        hidden={true}
+        backgroundColor="#F6F6F6"
+       barStyle="dark-content" // Here is where you change the font-color
+     />
 				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId} hasName={this.state.hasName} setHasName={this.setHasName}/>
 				<Modal
           animationType="slide"
