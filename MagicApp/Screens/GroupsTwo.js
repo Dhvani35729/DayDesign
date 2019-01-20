@@ -108,14 +108,14 @@ export default class GroupsTwo extends React.Component {
       console.log(DeviceInfo.getVersion());
       console.log('load now');
 
-      if(snapshot.val() == DeviceInfo.getBuildNumber()){
+      if(snapshot.val() <= DeviceInfo.getBuildNumber()){
             my.loadGroups(my);
       }
       else{
 
         Alert.alert(
   'Old Version of App',
-  'App is not up to date! Please updae the app.',
+  'App is not up to date! Please update the app.',
   [
     {text: 'Exit App', onPress: () => RNExitApp.exitApp()},
   ],
@@ -235,9 +235,13 @@ export default class GroupsTwo extends React.Component {
 
 
     console.log("RE RENDER ME!");
+    console.log(my);
       my.arrayholder = todayGroups;
       my.setState({data: todayGroups});
+      console.log("come inside");
     if(my.state.modalDetailVisible == true){
+      console.log(my.state.key);
+      getKey = my.state.key;
       if(getKey != -1){
 
         // modal is open
@@ -252,7 +256,7 @@ export default class GroupsTwo extends React.Component {
         console.log(getKey);
         console.log("RENDER THIS ITEM");
         console.log(item);
-        this.loadFriends(my, item.key, item.number_going, item.people, true);
+        my.loadFriends(my, item.key, item.number_going, item.people, true);
 
       }
 
