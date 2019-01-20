@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { TextInput, FlatList, View, Text, StyleSheet, AppState } from "react-native"
+import { TextInput, FlatList, View, Text, StyleSheet, AppState, StatusBar } from "react-native"
 import React from "react"
 import GroupsTwo from './GroupsTwo'
 import DeviceInfo from 'react-native-device-info';
@@ -30,9 +30,9 @@ export default class GroupScreen extends React.Component {
 		super(props)
 			 this.state = { groupData: [], uniqueId: null,  appState: AppState.currentState };
 			 console.log('sotp')
-			 console.log(this.state)
-			 let my = this;
-			 this.loadGroups(my);
+			// console.log(this.state)
+			// let my = this;
+			 //this.loadGroups(my);
 	}
 
 	loadGroups(my){
@@ -135,7 +135,7 @@ export default class GroupScreen extends React.Component {
 		// let my = this;
 		// this.loadGroups(my);
 
-		 AppState.addEventListener('change', this._handleAppStateChange);
+		 // AppState.addEventListener('change', this._handleAppStateChange);
 
 		console.log(this.props.navigation);
 		console.log('nav-groups-screen');
@@ -171,7 +171,7 @@ export default class GroupScreen extends React.Component {
 	}
 
 	componentWillUnmount() {
-	 AppState.removeEventListener('change', this._handleAppStateChange);
+	 // AppState.removeEventListener('change', this._handleAppStateChange);
  }
 
   _handleAppStateChange = (nextAppState) => {
