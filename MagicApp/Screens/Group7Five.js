@@ -82,9 +82,9 @@ export default class Group7Five extends React.Component {
         console.log(tConvert(this.props.item.time))
 
         console.log("Su che")
-        console.log();
+//console.log();
 
-        this.see = this.props.see.bind(this);
+        // this.see = this.props.see.bind(this);
          // updateState = updateState.bind(this)
 
 
