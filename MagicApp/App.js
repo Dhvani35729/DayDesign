@@ -20,9 +20,11 @@ export default class App extends React.Component {
         this.setState({ signedIn: true, checkedSignIn: true})
     }
     else{
+      console.log('finished');
         this.setState({ signedIn: false, checkedSignIn: true})
     }
   })
+
 
   }
 

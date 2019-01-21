@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.github.wumke.RNExitApp.RNExitAppPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -52,7 +51,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
         new MainReactPackage(),
-            new RNExitAppPackage(),
             new RNDeviceInfo(),
             new PhotoViewPackage(),
             new LinearGradientPackage(),
@@ -61,21 +59,21 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGestureHandlerPackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
-        new RNFirebaseAdMobPackage(),
-        new RNFirebaseAnalyticsPackage(),
-        new RNFirebaseAuthPackage(),
-        new RNFirebaseRemoteConfigPackage(),
-        new RNFirebaseCrashlyticsPackage(),
+//        new RNFirebaseAdMobPackage(),
+//        new RNFirebaseAnalyticsPackage(),
+//        new RNFirebaseAuthPackage(),
+//        new RNFirebaseRemoteConfigPackage(),
+//        new RNFirebaseCrashlyticsPackage(),
         new RNFirebaseDatabasePackage(),
-        new RNFirebaseFirestorePackage(),
-        new RNFirebaseFunctionsPackage(),
-        new RNFirebaseInstanceIdPackage(),
-        new RNFirebaseInvitesPackage(),
-        new RNFirebaseLinksPackage(),
-        new RNFirebaseMessagingPackage(),
-        new RNFirebaseNotificationsPackage(),
-        new RNFirebasePerformancePackage(),
-        new RNFirebaseStoragePackage()
+//        new RNFirebaseFirestorePackage(),
+//        new RNFirebaseFunctionsPackage(),
+//        new RNFirebaseInstanceIdPackage(),
+//        new RNFirebaseInvitesPackage(),
+//        new RNFirebaseLinksPackage(),
+        new RNFirebaseMessagingPackage()
+//        new RNFirebaseNotificationsPackage(),
+//        new RNFirebasePerformancePackage(),
+//        new RNFirebaseStoragePackage()
       );
     }
 
