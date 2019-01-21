@@ -64,6 +64,7 @@ export default class GroupsTwo extends React.Component {
     appState: AppState.currentState,
     wentIn: false,
     loading: true,
+    refresh: false,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -325,11 +326,14 @@ export default class GroupsTwo extends React.Component {
 
 
     console.log("RE RENDER ME!");
-    my.setState({loading: false});
-    console.log(my);
-      my.arrayholder = todayGroups;
-      my.setState({data: todayGroups});
-      console.log("come inside");
+    // my.setState({loading: false});
+
+      my.setState({data: todayGroups, loading: false},  function() {
+    //   console.log(my);
+    // console.log('next')
+      // my.arrayholder = todayGroups;
+    //   console.log("come inside");
+    //my.setState({ refresh: true});
     if(my.state.modalDetailVisible == true){
       console.log(my.state.key);
       getKey = my.state.key;
@@ -351,8 +355,8 @@ export default class GroupsTwo extends React.Component {
 
       }
 
+     }
 
-    }
 
 
         root.ref(my.props.uniqueId).once('value').then(function(snapshot) {
@@ -368,6 +372,11 @@ export default class GroupsTwo extends React.Component {
             }
           }
     });
+
+    my.arrayholder = todayGroups;
+    console.log("finished setting data")});
+
+
 
     // for(var i = 1; i < snapshot.val().length; i++){
     // 		console.log(i);
@@ -415,6 +424,7 @@ export default class GroupsTwo extends React.Component {
 
 
   componentDidUpdate(prevProps) {
+  	console.log('updating...');
     console.log(this.state);
     console.log("still here ^^");
     var getKey = this.state.key;
@@ -1064,6 +1074,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 						numColumns={2}
 						renderItem={this.renderGroupFlatListCell}
 						data={this.state.data}
+						 extraData={this.state}
 						style={styles.groupFlatList}/>
 				</View>
 			</View>

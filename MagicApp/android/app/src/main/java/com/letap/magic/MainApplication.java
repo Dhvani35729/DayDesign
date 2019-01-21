@@ -61,16 +61,16 @@ public class MainApplication extends Application implements ReactApplication {
         // add/remove these packages as appropriate
 //        new RNFirebaseAdMobPackage(),
 //        new RNFirebaseAnalyticsPackage(),
-//        new RNFirebaseAuthPackage(),
+        new RNFirebaseAuthPackage(),
 //        new RNFirebaseRemoteConfigPackage(),
 //        new RNFirebaseCrashlyticsPackage(),
-        new RNFirebaseDatabasePackage(),
+        new RNFirebaseDatabasePackage()
 //        new RNFirebaseFirestorePackage(),
 //        new RNFirebaseFunctionsPackage(),
 //        new RNFirebaseInstanceIdPackage(),
 //        new RNFirebaseInvitesPackage(),
 //        new RNFirebaseLinksPackage(),
-        new RNFirebaseMessagingPackage()
+//        new RNFirebaseMessagingPackage()
 //        new RNFirebaseNotificationsPackage(),
 //        new RNFirebasePerformancePackage(),
 //        new RNFirebaseStoragePackage()
