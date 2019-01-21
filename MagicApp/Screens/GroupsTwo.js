@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert, ScrollView, AppState, StatusBar } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, TouchableHighlight, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator } from "react-native"
 import React from "react"
 import Group7Five from "./Group7Five"
 import Group7Six from "./Group7Six"
@@ -62,6 +62,8 @@ export default class GroupsTwo extends React.Component {
    data: [],
    scrollEnabled: true,
     appState: AppState.currentState,
+    wentIn: false,
+    loading: true,
  };
 
 	static navigationOptions = ({ navigation }) => {
@@ -97,51 +99,136 @@ export default class GroupsTwo extends React.Component {
 		// this.updateText1 = this.updateText1
 		this.updateModal = this.updateModal;
 
-            let my = this;
 
-
-    firebase.database().ref('build_version').once('value').then(function(snapshot) {
-    if(snapshot.val() != null){
-
-      console.log(snapshot.val())
-      console.log(DeviceInfo.getBuildNumber());
-      console.log(DeviceInfo.getVersion());
-      console.log('load now');
-
-      if(snapshot.val() <= DeviceInfo.getBuildNumber()){
-            my.loadGroups(my);
-      }
-      else{
-
-        Alert.alert(
-  'Old Version of App',
-  'App is not up to date! Please update the app.',
-  [
-    {text: 'Exit App', onPress: () => RNExitApp.exitApp()},
-  ],
-  { cancelable: false });
-
-      }
-
-    }
-    else{
-
-
-
-
-    }
-
-    });
 
 
 	}
+
+  exitIOS(){
+    console.log("exit ios");
+  }
+
+  loadEverything(my){
+    console.log("constructing...");
+    //console.log(firebase.database().ref("build_version"));
+    console.log('firebase ^^');
+    let root = firebase.database();
+    let solid = root.ref('build_version');
+    console.log( solid.once('value'));
+    // solid.once('value').done(function(snapshot){
+    //   console.log("here");
+    // });
+    solid.once('value').then(function(snapshot) {
+    if(snapshot.val() != null){
+
+    console.log(snapshot.val())
+    console.log(DeviceInfo.getBuildNumber());
+    console.log(DeviceInfo.getVersion());
+    console.log('load now');
+    my.setState({wentIn: true});
+
+    if(snapshot.val() <= DeviceInfo.getBuildNumber()){
+        // console.log(uniqueId);
+       // console.log(firebase.database().ref(uniqueId));
+        console.log("----");
+        let fireID = root.ref(my.props.uniqueId).child('num_opened');
+        console.log(fireID);
+        console.log('firee!');
+        fireID.once('value').then(function(snapshot) {
+        if(snapshot.val() == null){
+
+         var updates = {};
+         updates['/num_opened'] = 1;
+         root.ref(my.props.uniqueId).update(updates).then(function(){
+ //alert("Data saved successfully.");
+   my.loadGroups(my, root);
+}).catch(function(error) {
+ alert("Data could not be loaded. Try reopening app." + error);
+});
+
+         //my.loadGroups(my);
+        }
+        else{
+
+         var updates = {};
+         updates['/num_opened'] = snapshot.val()+1;
+         root.ref(my.props.uniqueId).update(updates).then(function(){
+ // alert("Data saved successfully.");
+ my.loadGroups(my, root);
+}).catch(function(error) {
+ alert("Data could not be loaded. Try reopening app." + error);
+});
+             //my.loadGroups(my);
+
+        }
+
+        });
+
+    }
+    else{
+   //   AppState.addEventListener('change', this.handleNoChange);
+          if (Platform.OS == 'android') {
+     Alert.alert(
+    'Old Version of App',
+    'App is not up to date!\nPlease update the app.',
+    [
+    {text: 'Exit App', onPress: () => BackHandler.exitApp()},
+    ],
+    { cancelable: false });
+  }
+        else if (Platform.OS == 'ios') {
+          Alert.alert(
+         'Old Version of App',
+         'App is not up to date!\nPlease update the app.',
+         [
+         {text: 'Exit App', onPress: () => {RNExitApp.exitApp();}},
+         ],
+         { cancelable: false });
+
+
+        }
+
+
+
+    }
+
+    }
+    else{
+    console.log('failed?')
+
+
+
+    }
+
+    }
+
+
+
+  ).catch(function(error) {
+    alert("Data could not be loaded. Try reopening app." + error);
+  });
+
+
+  }
+
 
 	componentDidMount() {
 		console.log(this.props);
 		console.log('nav-groups-two');
     // check here
+//this.interval = setInterval(() => {console.log('update')}, 1000);
+		//
 
-		 AppState.addEventListener('change', this._handleAppStateChange);
+  // method to be executed;
+    AppState.addEventListener('change', this._handleAppStateChange);
+
+    let my = this;
+
+    this.loadEverything(my);
+
+          console.log('done firebase ^^');
+
+
 
 
 	}
@@ -161,9 +248,12 @@ export default class GroupsTwo extends React.Component {
     }
   };
 
-  loadGroups(my){
+  loadGroups(my, root){
+    console.log('loading groups...')
+  // console.log(firebase.database());
+  // console.log('firebase ^^');
         var getKey = my.state.key;
-    firebase.database().ref('groups').on('value', function(snapshot) {
+    root.ref('groups').on('value', function(snapshot) {
 
     console.log(snapshot.val());
     console.log(my.state)
@@ -235,6 +325,7 @@ export default class GroupsTwo extends React.Component {
 
 
     console.log("RE RENDER ME!");
+    my.setState({loading: false});
     console.log(my);
       my.arrayholder = todayGroups;
       my.setState({data: todayGroups});
@@ -263,6 +354,21 @@ export default class GroupsTwo extends React.Component {
 
     }
 
+
+        root.ref(my.props.uniqueId).once('value').then(function(snapshot) {
+          console.log(snapshot.val());
+          console.log("moi name ^^");
+          if(snapshot.val()){
+            if(snapshot.val().name){
+              my.setState({newName: snapshot.val().name});
+                my.setState({hasName: true});
+            }
+            else{
+              my.setState({hasName: false});
+            }
+          }
+    });
+
     // for(var i = 1; i < snapshot.val().length; i++){
     // 		console.log(i);
     // 		console.log(snapshot.val()[i].group_name);
@@ -290,16 +396,22 @@ export default class GroupsTwo extends React.Component {
 
   componentWillUnmount() {
 	 AppState.removeEventListener('change', this._handleAppStateChange);
+    //clearInterval(this.interval);
+
  }
 
  _handleAppStateChange = (nextAppState) => {
    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
      console.log('App has come to the foreground!');
-    this.loadGroups(this);
+     let root = firebase.database();
+    this.loadGroups(this, root);
+   }
+   else{
+       console.log('leaving');
+       firebase.database().ref('groups').off();
    }
    this.setState({appState: nextAppState});
  }
-
 
 
   componentDidUpdate(prevProps) {
@@ -339,19 +451,21 @@ export default class GroupsTwo extends React.Component {
       console.log(this.props.uniqueId);
       console.log("ID");
       var that = this;
-      firebase.database().ref(this.props.uniqueId).once('value').then(function(snapshot) {
-        console.log(snapshot.val());
-        console.log("moi name ^^");
-        if(snapshot.val()){
-          if(snapshot.val().name){
-            that.setState({newName: snapshot.val().name});
-              that.setState({hasName: true});
-          }
-          else{
-            that.setState({hasName: false});
-          }
-        }
-  });
+  //     firebase.database().ref(this.props.uniqueId).once('value').then(function(snapshot) {
+  //       console.log(snapshot.val());
+  //       console.log("moi name ^^");
+  //       if(snapshot.val()){
+  //         if(snapshot.val().name){
+  //           that.setState({newName: snapshot.val().name});
+  //             that.setState({hasName: true});
+  //         }
+  //         else{
+  //           that.setState({hasName: false});
+  //         }
+  //       }
+  // });
+
+
     }
 
 }
@@ -744,6 +858,8 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 	this.setState({modalDetailVisible: visible});
 }
 
+
+
 	render() {
 
 		return <View
@@ -754,7 +870,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
         backgroundColor="#F6F6F6"
        barStyle="dark-content" // Here is where you change the font-color
      />
-				<MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId} hasName={this.state.hasName} setHasName={this.setHasName}/>
+      <MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.props.uniqueId} hasName={this.state.hasName} setHasName={this.setHasName}/>
 				<Modal
           animationType="slide"
           transparent={true}
@@ -911,6 +1027,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 					placeholder="Search groups or restaurants"
           onChangeText={text => this.searchFilterFunction(text)}
 					style={styles.group5TwoTextInput}/>
+
 				<View
 					style={{
 						flexDirection: "row",
@@ -921,6 +1038,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 				 </Text>}
 					<Text
 						style={styles.group5Text}>Today's Groups</Text>
+
 					<View
 						style={{
 							flex: 1,
@@ -938,6 +1056,7 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 				</View>
 				<View
 					style={styles.groupFlatListViewWrapper}>
+          {this.state.loading &&<ActivityIndicator size="large" />}
 					<FlatList
 					 keyboardShouldPersistTaps='always'
            scrollEnabled={this.state.scrollEnabled}
@@ -954,6 +1073,11 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 	groupsView: {
 		backgroundColor: 'rgb(255, 255, 255)',
 		flex: 1,

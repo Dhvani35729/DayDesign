@@ -80,6 +80,10 @@ export default class MyModal extends React.Component {
     }
 }
 
+componentWillUnmount(){
+  console.log('done');
+
+}
   _setModalVisible(visible) {
     this.setState({isModalVisible: visible});
   }

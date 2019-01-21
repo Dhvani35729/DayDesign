@@ -28,7 +28,7 @@ export default class GroupScreen extends React.Component {
 
 	constructor(props) {
 		super(props)
-			 this.state = { groupData: [], uniqueId: null,  appState: AppState.currentState };
+			 this.state = { groupData: [], uniqueId: null };
 			 console.log('sotp')
 			// console.log(this.state)
 			// let my = this;
@@ -139,39 +139,49 @@ export default class GroupScreen extends React.Component {
 
 		console.log(this.props.navigation);
 		console.log('nav-groups-screen');
-		this.props.navigation.navigate('MyModal')
+		//this.props.navigation.navigate('MyModal')
 
 		console.log(DeviceInfo.getUniqueID());
 	 const uniqueId = DeviceInfo.getUniqueID();
 	 this.setState({uniqueId: uniqueId});
-		//
+
+	 // let solid = firebase.database().ref('build_version');
+	 // solid.once('value').then(function(snapshot) {
+		//  console.log("INSIDE");
+		//  console.log(snapshot.val());
+	 // });
+
 		// console.log(uniqueId);
-		console.log(firebase.database().ref(uniqueId));
-		console.log("----");
-
-		firebase.database().ref(uniqueId).child('num_opened').once('value').then(function(snapshot) {
-		if(snapshot.val() == null){
-
-			var updates = {};
-			updates['/num_opened'] = 1;
-			firebase.database().ref(uniqueId).update(updates);
-
-		}
-		else{
-
-			var updates = {};
-			updates['/num_opened'] = snapshot.val()+1;
-			firebase.database().ref(uniqueId).update(updates);
-
-		}
-
-		});
+		// console.log(firebase.database().ref(uniqueId));
+		// console.log("----");
+		// let fireID = firebase.database().ref(uniqueId).child('num_opened');
+		// console.log(fireID);
+		// console.log('firee!');
+		// fireID.once('value').then(function(snapshot) {
+		// if(snapshot.val() == null){
+		//
+		// 	var updates = {};
+		// 	updates['/num_opened'] = 1;
+		// 	firebase.database().ref(uniqueId).update(updates);
+		//
+		// }
+		// else{
+		//
+		// 	var updates = {};
+		// 	updates['/num_opened'] = snapshot.val()+1;
+		// 	firebase.database().ref(uniqueId).update(updates);
+		//
+		// }
+		//
+		// });
 
 
 	}
 
 	componentWillUnmount() {
 	 // AppState.removeEventListener('change', this._handleAppStateChange);
+	 console.log('leaving...');
+	 firebase.database().ref().off();
  }
 
   _handleAppStateChange = (nextAppState) => {
