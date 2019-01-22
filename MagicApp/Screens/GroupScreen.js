@@ -176,7 +176,7 @@ export default class GroupScreen extends React.Component {
 		// }
 		//
 		// });
-
+	
 
 	}
 

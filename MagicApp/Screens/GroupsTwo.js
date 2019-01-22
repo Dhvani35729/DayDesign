@@ -16,7 +16,7 @@ import Menu from './Menu'
 import Friend from "./Friend"
 import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
-
+import PushNotification from 'react-native-push-notification'
 
 export function    tConvert (time) {
 
@@ -77,6 +77,8 @@ export default class GroupsTwo extends React.Component {
 			}
 
 	}
+
+
 	setCreateModalVisible(visible) {
     this.setState({modalCreateVisible: visible});
   }
@@ -101,6 +103,39 @@ export default class GroupsTwo extends React.Component {
 		this.updateModal = this.updateModal;
 
 
+    PushNotification.configure({
+
+    // (optional) Called when Token is generated (iOS and Android)
+    onRegister: function(token) {
+        console.log( 'TOKEN:', token );
+    },
+
+    // (required) Called when a remote or local notification is opened or received
+    onNotification: function(notification) {
+        console.log( 'NOTIFICATION:', notification );
+    },
+
+    // ANDROID ONLY: (optional) GCM Sender ID.
+    senderID: "YOUR GCM SENDER ID",
+
+    // IOS ONLY (optional): default: all - Permissions to register.
+    permissions: {
+        alert: true,
+        badge: true,
+        sound: true
+    },
+
+    // Should the initial notification be popped automatically
+    // default: true
+    popInitialNotification: true,
+
+    /**
+      * (optional) default: true
+      * - Specified if permissions (ios) and token (android and ios) will requested or not,
+      * - if not, you must call PushNotificationsHandler.requestPermissions() later
+      */
+    requestPermissions: true,
+});
 
 
 	}
@@ -230,8 +265,6 @@ export default class GroupsTwo extends React.Component {
     this.loadEverything(my);
 
           console.log('done firebase ^^');
-
-
 
 
 	}
@@ -736,6 +769,29 @@ this.setState({errorMessage: null});
 firebase.database().ref('groups/' + this.state.key).update(updates);
 
   this.setJoinModalVisible(!this.state.modalJoinVisible);
+
+  var date = new Date().getDate(); //Current Date
+  var month = new Date().getMonth() + 1; //Current Month
+  var year = new Date().getFullYear(); //Current Year
+  var hours = new Date().getHours(); //Current Hours
+  var min = new Date().getMinutes(); //Current Minutes
+  //var sec = new Date().getSeconds(); //Current Seconds
+  var now = new Date(year, date, month, hours, min);
+  var eventHour = this.state.item.time.substr(0, 2);
+  var eventMin = this.state.item.time.substr(3, 5);
+  if(eventMin-10 > 0){
+    eventMin = eventMin - 10;
+  }
+  var eventDate = new Date(year, date, month, eventHour, eventMin);
+
+  var timeLeft = eventDate - now;
+  console.log(timeLeft);
+
+  PushNotification.localNotificationSchedule({
+//... You can use all the options from localNotifications
+message: "Upcoming event: " + this.state.item.group_name + " @ " + this.state.item.location_name + " in 10 minutes", // (required)
+date: new Date(Date.now() + timeLeft) // in 60 secs
+});
 }
 
 
