@@ -38,6 +38,9 @@ import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import java.util.Arrays;
 import java.util.List;
 
+import android.content.Intent; // <--- Import Intent
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  // <--- Import Package
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -51,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
         new MainReactPackage(),
+         new ReactNativePushNotificationPackage(), // <---- Add the Package
             new RNDeviceInfo(),
             new PhotoViewPackage(),
             new LinearGradientPackage(),
