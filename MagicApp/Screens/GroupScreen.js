@@ -136,6 +136,8 @@ export default class GroupScreen extends React.Component {
 		// this.loadGroups(my);
 
 		 // AppState.addEventListener('change', this._handleAppStateChange);
+	// this.createNotificationListeners(); //add this line
+
 
 		console.log(this.props.navigation);
 		console.log('nav-groups-screen');
@@ -182,6 +184,11 @@ export default class GroupScreen extends React.Component {
 	 // AppState.removeEventListener('change', this._handleAppStateChange);
 	 console.log('leaving...');
 	 firebase.database().ref().off();
+
+	 // console.log('leaving-listeners')
+	 // this.notificationListener();
+	 // this.notificationOpenedListener();
+
  }
 
   _handleAppStateChange = (nextAppState) => {
