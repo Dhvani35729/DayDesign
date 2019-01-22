@@ -64,14 +64,14 @@ public class MainApplication extends Application implements ReactApplication {
         new RNFirebaseAuthPackage(),
 //        new RNFirebaseRemoteConfigPackage(),
 //        new RNFirebaseCrashlyticsPackage(),
-        new RNFirebaseDatabasePackage()
+        new RNFirebaseDatabasePackage(),
 //        new RNFirebaseFirestorePackage(),
 //        new RNFirebaseFunctionsPackage(),
 //        new RNFirebaseInstanceIdPackage(),
 //        new RNFirebaseInvitesPackage(),
 //        new RNFirebaseLinksPackage(),
-//        new RNFirebaseMessagingPackage()
-//        new RNFirebaseNotificationsPackage(),
+       new RNFirebaseMessagingPackage(),
+       new RNFirebaseNotificationsPackage()
 //        new RNFirebasePerformancePackage(),
 //        new RNFirebaseStoragePackage()
       );
