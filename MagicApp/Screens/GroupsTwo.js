@@ -216,6 +216,8 @@ export default class GroupsTwo extends React.Component {
 	componentDidMount() {
 		console.log(this.props);
 		console.log('nav-groups-two');
+
+
     // check here
 //this.interval = setInterval(() => {console.log('update')}, 1000);
 		//
@@ -408,6 +410,8 @@ export default class GroupsTwo extends React.Component {
     //clearInterval(this.interval);
 
  }
+
+
 
  _handleAppStateChange = (nextAppState) => {
    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
