@@ -2,6 +2,7 @@ import React from "react";
 import {  Text, View, StyleSheet, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 import { createRootNavigator } from "./router";
 import firebase from 'react-native-firebase'
+import PushNotification from 'react-native-push-notification'
 
 export default class App extends React.Component {
 
@@ -11,11 +12,14 @@ export default class App extends React.Component {
       signedIn: false,
       checkedSignIn: false
     };
+
+    
   }
 
   componentDidMount() {
 
-  this.setState({ signedIn: false, checkedSignIn: true});
+
+this.setState({ signedIn: false, checkedSignIn: true})
 
 
   // // set props

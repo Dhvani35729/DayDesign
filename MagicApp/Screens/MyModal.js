@@ -2,6 +2,7 @@ import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, M
 import React from "react"
 import firebase from 'react-native-firebase'
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import PushNotification from 'react-native-push-notification'
 
 const height = 220;
 
@@ -138,17 +139,43 @@ componentWillUnmount(){
                  updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
             		// updates['/creator/'] = 1;
 
+
             		 firebase.database().ref('groups/' + groupCount).update(updates);
 
             		 var update_count = {};
             		 update_count['/groups_count/'] = ++groupCount;
             		 firebase.database().ref().update(update_count);
 
+                 var date = new Date().getDate(); //Current Date
+                 var month = new Date().getMonth() + 1; //Current Month
+                 var year = new Date().getFullYear(); //Current Year
+                 var hours = new Date().getHours(); //Current Hours
+                 var min = new Date().getMinutes(); //Current Minutes
+                 //var sec = new Date().getSeconds(); //Current Seconds
+                 var now = new Date(year, date, month, hours, min);
+                 var eventHour = newGroupTime.substr(0, 2);
+                 var eventMin = newGroupTime.substr(3, 5);
+                 if(eventMin-10 > 0){
+                   eventMin = eventMin - 10;
+                 }
+                 var eventDate = new Date(year, date, month, eventHour, eventMin);
+
+                 var timeLeft = eventDate - now;
+                 console.log(timeLeft);
+
+                 PushNotification.localNotificationSchedule({
+               //... You can use all the options from localNotifications
+               message: "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes", // (required)
+               date: new Date(Date.now() + timeLeft) // in 60 secs
+               });
+
             		 // this.setCreateModalVisible(!modalCreateVisible);
             		 that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
             		 // that.setState({modalCreateVisible: !modalCreateVisible});
                  that._setModalVisible(!that.state.isModalVisible)
             		 that.setState({successMessage: "Group Added!"})
+
+
 
             });
 
@@ -188,6 +215,29 @@ componentWillUnmount(){
 		 var update_count = {};
 		 update_count['/groups_count/'] = ++groupCount;
 		 firebase.database().ref().update(update_count);
+
+     var date = new Date().getDate(); //Current Date
+     var month = new Date().getMonth() + 1; //Current Month
+     var year = new Date().getFullYear(); //Current Year
+     var hours = new Date().getHours(); //Current Hours
+     var min = new Date().getMinutes(); //Current Minutes
+     //var sec = new Date().getSeconds(); //Current Seconds
+     var now = new Date(year, date, month, hours, min);
+     var eventHour = newGroupTime.substr(0, 2);
+     var eventMin = newGroupTime.substr(3, 5);
+     if(eventMin-10 > 0){
+       eventMin = eventMin - 10;
+     }
+     var eventDate = new Date(year, date, month, eventHour, eventMin);
+
+     var timeLeft = eventDate - now;
+     console.log(timeLeft);
+
+     PushNotification.localNotificationSchedule({
+   //... You can use all the options from localNotifications
+   message: "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes", // (required)
+   date: new Date(Date.now() + timeLeft) // in 60 secs
+   });
 
 		 // this.setCreateModalVisible(!modalCreateVisible);
 		 that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
