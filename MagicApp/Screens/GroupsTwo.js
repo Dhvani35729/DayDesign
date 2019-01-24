@@ -18,28 +18,6 @@ import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
 import PushNotification from 'react-native-push-notification'
 
-export function    tConvert (time) {
-
-    // Check correct time format and split into components
-
-    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-
-
-
-    if (time.length > 1) { // If time format correct
-
-        time = time.slice (1);  // Remove full string match value
-
-        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-
-        time[0] = +time[0] % 12 || 12; // Adjust hours
-
-    }
-
-    return time.join (''); // return adjusted time or original string
-
-}
-
 
 export default class GroupsTwo extends React.Component {
 
@@ -685,7 +663,7 @@ export default class GroupsTwo extends React.Component {
   }
 
 
-	onMiscBigButtonPressed = () => {
+	onCreateButtonPressed = () => {
 
 		console.log("create");
 		console.log(this.state.modalCreateVisible);
@@ -693,8 +671,6 @@ export default class GroupsTwo extends React.Component {
 		this.setCreateModalVisible(!this.state.modalCreateVisible);
 
 		// this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
-
-
 
 	}
 
@@ -732,7 +708,7 @@ export default class GroupsTwo extends React.Component {
 
 	renderGroupFlatListCell = ({ item }) => {
 
-		return (<Group7Five item={item} nav={this.props.nav} see={this.canYouSee} updateModalCB={this.updateModal} setScroll={this.setScroll}/> )
+		return (<Group7Five item={item} nav={this.props.nav} updateModalCB={this.updateModal} setScroll={this.setScroll}/> )
 	}
 
   showEmptyListView = () => {
@@ -881,7 +857,7 @@ date: new Date(Date.now() + timeLeft) // in 60 secs
 			return(<Friend item={item} />)
 		}
 
-	canYouSee(){
+	onGroupPressed(){
 		console.log("You found me <3");
 		console.log(this);
 		this.setState({ modalDetailVisible: !this.state.modalDetailVisible });
@@ -1117,7 +1093,7 @@ date: new Date(Date.now() + timeLeft) // in 60 secs
          marginTop: 35,
 						}}>
 						<TouchableOpacity
-							onPress={this.onMiscBigButtonPressed}
+							onPress={this.onCreateButtonPressed}
 							style={styles.miscBigButtonButton}>
 							<Text
 								style={styles.miscBigButtonButtonText}>Create</Text>

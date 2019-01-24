@@ -14,12 +14,12 @@ target 'magic' do
   'RCTText',
   'RCTNetwork',
   'RCTWebSocket', # needed for debugging
-   'RCTLinkingIOS',
-      'RCTImage',
-      
+  'RCTLinkingIOS',
+  'RCTImage',
+
  ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
-  
+
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
@@ -45,13 +45,10 @@ target 'magic' do
 
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-  
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
   pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
-
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 end
