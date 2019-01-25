@@ -751,23 +751,36 @@ firebase.database().ref('groups/' + this.state.key).update(updates);
   var year = new Date().getFullYear(); //Current Year
   var hours = new Date().getHours(); //Current Hours
   var min = new Date().getMinutes(); //Current Minutes
-  //var sec = new Date().getSeconds(); //Current Seconds
-  var now = new Date(year, date, month, hours, min);
-  var eventHour = this.state.item.time.substr(0, 2);
-  var eventMin = this.state.item.time.substr(3, 5);
-  if(eventMin-10 > 0){
-    eventMin = eventMin - 10;
-  }
-  var eventDate = new Date(year, date, month, eventHour, eventMin);
+  
+	var now = new Date(year, date, month, hours, min);
+	var eventHour = parseInt(this.state.item.time.substr(0, 2));
+	var eventMin = parseInt(this.state.item.time.substr(3, 5));
 
-  var timeLeft = eventDate - now;
-  console.log(timeLeft);
+	var notifMessage = "Event Now: " + this.state.item.group_name + " @ " + this.state.item.location_name;
+	if(eventHour == hours){
+		if(eventMin-10 > min){
+			eventMin = eventMin - 10;
+			notifMessage = "Upcoming event: " + this.state.item.group_name + " @ " + this.state.item.location_name + " in 10 minutes";
+		}
+	}
+	else{
+		if(eventMin-10 > 0){
+			eventMin = eventMin - 10;
+			notifMessage = "Upcoming event: " + this.state.item.group_name + " @ " + this.state.item.location_name + " in 10 minutes";
+		}
+	}
 
-  PushNotification.localNotificationSchedule({
-//... You can use all the options from localNotifications
-message: "Upcoming event: " + this.state.item.group_name + " @ " + this.state.item.location_name + " in 10 minutes", // (required)
-date: new Date(Date.now() + timeLeft) // in 60 secs
-});
+	var eventDate = new Date(year, date, month, eventHour, eventMin);
+	var timeLeft = eventDate - now;
+	// console.log(timeLeft);
+
+	PushNotification.localNotificationSchedule({
+		//... You can use all the options from localNotifications
+	message: notifMessage, // (required)
+	date: new Date(Date.now() + timeLeft) // in 60 secs
+	});
+
+
 }
 
 
