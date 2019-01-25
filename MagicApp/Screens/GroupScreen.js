@@ -14,8 +14,8 @@ import PushNotification from 'react-native-push-notification'
 import firebase from 'react-native-firebase'
 
 import Group from "./Group"
-import MyModal from './MyModal'
 import Friend from "./Friend"
+import CreateGroupModal from "./CreateGroupModal"
 
 // Function convert 24hour time to 12hour format
 export function tConvert (time) {
@@ -556,7 +556,7 @@ joinEvent(){
         backgroundColor="#F6F6F6"
        barStyle="dark-content" // Here is where you change the font-color
      />
-      <MyModal modalVisible={this.state.modalCreateVisible} uniqueId={this.state.uniqueId} hasName={this.state.hasName} setHasName={this.setHasName}/>
+      <CreateGroupModal modalVisible={this.state.modalCreateVisible} uniqueId={this.state.uniqueId} hasName={this.state.hasName} setHasName={this.setHasName}/>
 				<Modal
           animationType="slide"
           transparent={true}

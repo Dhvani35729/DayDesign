@@ -11,14 +11,14 @@ import React from 'react';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import GroupScreen from './Screens/GroupScreen'
-import MyModal from './Screens/MyModal'
+import CreateGroupModal from './Screens/CreateGroupModal'
 import firebase from 'react-native-firebase'
 
 export const createRootNavigator = (signedIn = false) => {
   return  createAppContainer(createSwitchNavigator(
     {
       SignedIn: {
-        screen: MyModal
+        screen: CreateGroupModal
       },
       SignedOut: {
         screen: GroupScreen
