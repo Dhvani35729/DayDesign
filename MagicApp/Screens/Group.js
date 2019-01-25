@@ -28,11 +28,14 @@ export default class Group extends React.Component {
   	state = {
   	 modalInfoVisible: false,
      disabled: false,
-   };
+    };
 
+    constructor(props) {
+      super(props)
+    }
 
     setInfoModalVisible(visible){
-        this.setState({modalInfoVisible: visible});
+      this.setState({modalInfoVisible: visible});
     }
 
     openInfo(){
@@ -60,11 +63,6 @@ export default class Group extends React.Component {
           this.props.updateModalDet(this.props.item);
       }
 
-    }
-
-
-    constructor(props) {
-        super(props)
     }
 
     componentDidMount() {
