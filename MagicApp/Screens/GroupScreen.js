@@ -13,7 +13,7 @@ import RNExitApp from 'react-native-exit-app';
 import PushNotification from 'react-native-push-notification'
 import firebase from 'react-native-firebase'
 
-import Group7Five from "./Group7Five"
+import Group from "./Group"
 import MyModal from './MyModal'
 import Friend from "./Friend"
 
@@ -423,7 +423,7 @@ onCreateButtonPressed = () => {
 }
 
 renderGroupFlatListCell = ({ item }) => {
-	return (<Group7Five item={item} nav={this.props.nav} updateModalCB={this.updateDetailModal} setScroll={this.setScroll}/> )
+	return (<Group item={item} nav={this.props.nav} updateModalDet={this.updateDetailModal} setScroll={this.setScroll}/> )
 }
 
 renderViewFlatListCell = ({ item }) => {
@@ -547,7 +547,8 @@ joinEvent(){
 
 	render() {
 
-		return	<View
+		return (
+      <View
 				style={styles.groupsView}>
         <StatusBar
         animated={true}
@@ -753,38 +754,15 @@ joinEvent(){
 						style={styles.groupFlatList}/>
 				</View>
 			</View>
+    );
 	}
 
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
 	groupsView: {
 		backgroundColor: 'rgb(255, 255, 255)',
 		flex: 1,
-	},
-	group5SearchBar: {
-		color: 'rgb(0, 0, 0)',
-		fontFamily: ".SFNSText",
-		fontSize: 12,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "left",
-		letterSpacing: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		borderRadius: 17,
-		borderWidth: 1,
-		borderColor: 'rgb(196, 201, 223)',
-		borderStyle: "solid",
-		marginLeft: 30,
-		marginRight: 30,
-		marginTop: 48,
-		alignSelf: "stretch",
-		height: 44,
 	},
 	group5Text: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -855,29 +833,6 @@ const styles = StyleSheet.create({
     height: 40,
     alignSelf: "stretch",
   },
-	group5TextInput: {
-		backgroundColor: 'rgb(255, 255, 255)',
-		borderRadius: 17,
-		borderWidth: 1,
-		borderColor: 'rgb(196, 201, 223)',
-		borderStyle: "solid",
-		color: 'rgb(134, 142, 150)',
-		fontSize: 13,
-		fontStyle: "normal",
-		fontWeight: "bold",
-		textAlign: "center",
-		letterSpacing: 0,
-		marginLeft: 30,
-		marginRight: 30,
-		marginTop: 53,
-    height: 40,
-		alignSelf: "stretch",
-	},
-	groupFlatList: {
-		backgroundColor: 'rgba(0, 0, 0, 0.0)',
-		width: "100%",
-		height: "100%",
-	},
   artboard2View: {
     backgroundColor: 'rgba(55, 58, 61,  0.95)',
     flex: 1,
@@ -1059,7 +1014,6 @@ const styles = StyleSheet.create({
     margin: 0,
     borderWidth: 0,
   },
-
 	menuView: {
 		backgroundColor: 'rgba(55, 58, 61, 0.95)',
 		flex: 1,
