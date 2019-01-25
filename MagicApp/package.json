@@ -1,6 +1,6 @@
 {
   "name": "magic",
-  "version": "5.1.0",
+  "version": "1.0.3",
   "private": true,
   "devDependencies": {
     "babel-jest": "23.6.0",
