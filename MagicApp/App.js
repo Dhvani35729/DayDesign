@@ -1,3 +1,11 @@
+//
+//  App.js
+//  magic version 1
+//
+//  Created by dhvani&dhrumil.
+//  Copyright © 2019 magic. All rights reserved.
+//
+
 import React from "react";
 import {  Text, View, StyleSheet, ActivityIndicator,} from 'react-native';
 import { createRootNavigator } from "./router";

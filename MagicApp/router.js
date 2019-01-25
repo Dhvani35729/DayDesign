@@ -1,3 +1,11 @@
+//
+//  router.js
+//  magic version 1
+//
+//  Created by dhvani&dhrumil.
+//  Copyright © 2019 magic. All rights reserved.
+//
+
 import React from 'react';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';

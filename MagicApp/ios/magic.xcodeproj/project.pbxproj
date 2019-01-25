@@ -53,6 +53,7 @@
 		6EEE228DDA1E46B18870EE54 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C3AB5BBFAA149EB8149CED9 /* Foundation.ttf */; };
 		7213446C2C1042DAA2C6F643 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80344B548DFA4338B29806C0 /* Feather.ttf */; };
 		7261EF09C2444F1D9A7BE52A /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 081DAF7732734EAC92D67522 /* AntDesign.ttf */; };
+		772F745A21FB4B350042CDB1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772F745921FB4B350042CDB1 /* UserNotifications.framework */; };
 		7753941C21FAC33B00E42C5A /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 775393FD21FAC2FA00E42C5A /* libRCTPushNotification.a */; };
 		77CDBEAA21CF584500977FC0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77CDBE8421CF584500977FC0 /* GoogleService-Info.plist */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -418,6 +419,8 @@
 		4D5D4E5C32834DFDA7E49392 /* RNExitApp.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNExitApp.xcodeproj; path = "../node_modules/react-native-exit-app/ios/RNExitApp.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6497AEE99B1E55DFE4B79BAA /* libPods-magic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-magic.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		772F745821FB4ABF0042CDB1 /* Vibe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Vibe.entitlements; path = magic/Vibe.entitlements; sourceTree = "<group>"; };
+		772F745921FB4B350042CDB1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		775393EB21FAC2FA00E42C5A /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		77BB3CC221D15DE700AFF55B /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		77CDBE8421CF584500977FC0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -460,6 +463,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				772F745A21FB4B350042CDB1 /* UserNotifications.framework in Frameworks */,
 				7753941C21FAC33B00E42C5A /* libRCTPushNotification.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
@@ -587,6 +591,7 @@
 		13B07FAE1A68108700A75B9A /* magic */ = {
 			isa = PBXGroup;
 			children = (
+				772F745821FB4ABF0042CDB1 /* Vibe.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -624,6 +629,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				772F745921FB4B350042CDB1 /* UserNotifications.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				6497AEE99B1E55DFE4B79BAA /* libPods-magic.a */,
 			);
@@ -895,6 +901,14 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = N63496KSVA;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1575,6 +1589,7 @@
 			baseConfigurationReference = C0C6FF443DD415D4E9AC867A /* Pods-magic.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = magic/Vibe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1603,6 +1618,7 @@
 			baseConfigurationReference = 3417786FD2AEC280150E5E0B /* Pods-magic.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = magic/Vibe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
