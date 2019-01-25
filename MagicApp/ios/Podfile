@@ -43,6 +43,7 @@ target 'magic' do
   pod 'Fabric', '~> 1.7.13'
   pod 'Crashlytics', '~> 3.10.9'
 
+  pod 'GoogleAppMeasurement', '~> 5.3.0'
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
@@ -53,10 +54,3 @@ target 'magic' do
 
 end
 
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        if target.name == "React"
-            target.remove_from_project
-        end
-    end
-end
