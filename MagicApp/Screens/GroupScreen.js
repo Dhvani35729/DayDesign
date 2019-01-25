@@ -7,7 +7,7 @@
 //
 
 import React from "react"
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator, WebView, Linking } from "react-native"
 import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
 import PushNotification from 'react-native-push-notification'
@@ -451,6 +451,16 @@ updateDetailModal = (item) => {
 	this.loadFriends(this, item.key, item.number_going, item.people, false);
 }
 
+openReport = () => {
+ Linking.canOpenURL('https://wbc-magic.weebly.com/report').then(supported => {
+   if (supported) {
+     Linking.openURL('https://wbc-magic.weebly.com/report');
+   } else {
+     console.log("Don't know how to open URI: https://wbc-magic.weebly.com/report");
+   }
+ });
+};
+
 joinEvent(){
 
   userID = this.state.uniqueId;
@@ -543,7 +553,6 @@ joinEvent(){
 	 // console.log('updating...');
 	 // console.log(this.state);
 }
-
 
 	render() {
 
@@ -753,6 +762,12 @@ joinEvent(){
 						 extraData={this.state}
 						style={styles.groupFlatList}/>
 				</View>
+        <TouchableOpacity
+          onPress={this.openReport}
+          style={styles.miscReportButtonButton}>
+          <Text
+            style={styles.miscReportButtonButtonText}>Report</Text>
+        </TouchableOpacity>
 			</View>
     );
 	}
@@ -794,6 +809,27 @@ const styles = StyleSheet.create({
 	},
 	miscBigButtonButtonText: {
     color: 'rgb(255, 255, 255)',
+    fontSize: 14,
+    fontStyle: "normal",
+    fontWeight: "normal",
+    textAlign: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    //flex: 1,
+    //flexDirection: "row",
+	},
+  miscReportButtonButton: {
+    borderRadius: 10,
+    //  position: 'absolute',
+    //  alignItems: "center",
+    //  justifyContent: "center",
+    //  marginLeft: 140,
+    // marginTop: 35,
+    width: 58,
+    height: 25,
+	},
+  miscReportButtonButtonText: {
+    color: 'rgb(0, 0, 0)',
     fontSize: 14,
     fontStyle: "normal",
     fontWeight: "normal",
