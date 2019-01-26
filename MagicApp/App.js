@@ -27,7 +27,7 @@ export default class App extends React.Component {
   this.setState({ signedIn: false, checkedSignIn: true})
 
     // TODO: Add in authentication:
-
+    //
     // firebase.auth().onAuthStateChanged(user => {
     //   if(user){
     //       this.setState({ signedIn: true, checkedSignIn: true})

@@ -6,7 +6,7 @@
 //  Copyright © 2019 magic. All rights reserved.
 //
 
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Keyboard } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Keyboard, Alert } from "react-native"
 import React from "react"
 
 import firebase from 'react-native-firebase'
@@ -38,8 +38,39 @@ export default class CreateGroupModal extends React.Component {
 
  _handleDatePicked = (time) => {
    // console.log('A time has been picked: ', time.getHours() + ':' + time.getMinutes());
-   this.setState({newGroupTime: ("0" + time.getHours()).slice(-2) + ':' + ("0" + time.getMinutes()).slice(-2)});
-   this._hideDateTimePicker();
+
+   var hours = new Date().getHours(); //Current Hours
+   var min = new Date().getMinutes(); //Current Minutes
+   if(time.getHours() < hours){
+     Alert.alert(
+  'Invalid Time',
+  'Cannot create an event in the past! Pick a time in the future.',
+  [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ],
+  {cancelable: false},
+    );
+   }
+   else if(time.getHours() == hours){
+     if(time.getMinutes() <= min){
+       Alert.alert(
+    'Invalid Time',
+    'Cannot create an event in the past! Pick a time in the future.',
+    [
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ],
+    {cancelable: false},
+      );
+     }
+     else{
+       this.setState({newGroupTime: ("0" + time.getHours()).slice(-2) + ':' + ("0" + time.getMinutes()).slice(-2)});
+       this._hideDateTimePicker();
+     }
+   }
+   else{
+     this.setState({newGroupTime: ("0" + time.getHours()).slice(-2) + ':' + ("0" + time.getMinutes()).slice(-2)});
+     this._hideDateTimePicker();
+   }
  };
 
  _setModalVisible(visible) {
