@@ -743,6 +743,7 @@ joinEvent(){
 						}}>
 						<TouchableOpacity
 							onPress={this.onCreateButtonPressed}
+              disabled={this.state.loading}
 							style={styles.miscBigButtonButton}>
 							<Text
 								style={styles.miscBigButtonButtonText}>Create</Text>

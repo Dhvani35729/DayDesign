@@ -42,22 +42,24 @@ export default class CreateGroupModal extends React.Component {
    var hours = new Date().getHours(); //Current Hours
    var min = new Date().getMinutes(); //Current Minutes
    if(time.getHours() < hours){
+     this._hideDateTimePicker();
      Alert.alert(
   'Invalid Time',
   'Cannot create an event in the past! Pick a time in the future.',
   [
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
+    {text: 'OK', onPress: () => this._showDateTimePicker()},
   ],
   {cancelable: false},
     );
    }
    else if(time.getHours() == hours){
      if(time.getMinutes() <= min){
+       this._hideDateTimePicker();
        Alert.alert(
     'Invalid Time',
     'Cannot create an event in the past! Pick a time in the future.',
     [
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
+      {text: 'OK', onPress: () => this._showDateTimePicker()},
     ],
     {cancelable: false},
       );
