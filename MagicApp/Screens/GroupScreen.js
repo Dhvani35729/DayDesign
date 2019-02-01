@@ -218,19 +218,21 @@ loadGroups(my, root){
 		// console.log(my.state)
 
 	var date = new Date().getDate(); //Current Date
-	var month = new Date().getMonth() + 1; //Current Month
+	var month = new Date().getMonth(); //Current Month
 	var year = new Date().getFullYear(); //Current Year
-	var now = new Date(year, date, month);
+	var now = new Date(year, month, date);
 	// console.log(date+'-'+month+'-'+year+' '+hours+':'+min+':'+sec);
 
 	var todayGroups = []
 
 	for(var i = 0; i < snapshot.val().length; i++){
+      // console.log(snapshot.val())
 			var full_date = snapshot.val()[i].date_stamp;
-			// console.log(full_date)
-			var check_date = new Date(full_date.substring(0, 4), full_date.substring(5, 7), full_date.substring(8, 10));
-			// console.log(check_date);
-			//console.log(now);
+      // console.log(snapshot.val()[i].date_stamp);
+			var check_date = new Date(parseInt(full_date.substring(0, 4)), parseInt(full_date.substring(8, 10))-1, parseInt(full_date.substring(5, 7)));
+      // console.log(parseInt(full_date.substring(5, 7))-1);
+      // console.log(check_date.getMonth());
+			// console.log(now.getMonth());
 			if(check_date < now){
 				// console.log("Selected date is in the past");
 				// Don't show to user
@@ -490,12 +492,12 @@ joinEvent(){
 	  this.setJoinModalVisible(!this.state.modalJoinVisible);
 
 	  var date = new Date().getDate(); //Current Date
-	  var month = new Date().getMonth() + 1; //Current Month
+	  var month = new Date().getMonth(); //Current Month
 	  var year = new Date().getFullYear(); //Current Year
 	  var hours = new Date().getHours(); //Current Hours
 	  var min = new Date().getMinutes(); //Current Minutes
 
-	  var now = new Date(year, date, month, hours, min);
+	  var now = new Date(year, month, date, hours, min);
 	  var eventHour = parseInt(this.state.item.time.substr(0, 2));
 	  var eventMin = parseInt(this.state.item.time.substr(3, 5));
 
@@ -513,7 +515,7 @@ joinEvent(){
       }
     }
 
-	  var eventDate = new Date(year, date, month, eventHour, eventMin);
+	  var eventDate = new Date(year, month, date, eventHour, eventMin);
 	  var timeLeft = eventDate - now;
 	  // console.log(timeLeft);
 
@@ -578,7 +580,7 @@ joinEvent(){
 						 style={styles.menuView}>
 						 <View
 						 style={{
-						 flexDirection: "row",
+						 // flexDirection: "column-reverse",
 						 }}>
 						 <TouchableOpacity
 						 style={styles.buttonButton}
@@ -1055,6 +1057,7 @@ const styles = StyleSheet.create({
 	menuView: {
 		backgroundColor: 'rgba(55, 58, 61, 0.95)',
 		flex: 1,
+    flexDirection: "column",
 	},
 	buttonButton: {
 		backgroundColor: 'rgba(0, 0, 0, 0.0)',
