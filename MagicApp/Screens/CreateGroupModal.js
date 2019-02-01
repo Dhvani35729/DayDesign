@@ -127,7 +127,7 @@ export default class CreateGroupModal extends React.Component {
               firebase.database().ref().update(update_count);
 
               var date = new Date().getDate(); //Current Date
-              var month = new Date().getMonth() + 1; //Current Month
+              var month = new Date().getMonth(); //Current Month
               var year = new Date().getFullYear(); //Current Year
               var hours = new Date().getHours(); //Current Hours
               var min = new Date().getMinutes(); //Current Minutes
@@ -197,12 +197,12 @@ export default class CreateGroupModal extends React.Component {
             firebase.database().ref().update(update_count);
 
             var date = new Date().getDate(); //Current Date
-            var month = new Date().getMonth() + 1; //Current Month
+            var month = new Date().getMonth(); //Current Month
             var year = new Date().getFullYear(); //Current Year
             var hours = new Date().getHours(); //Current Hours
             var min = new Date().getMinutes(); //Current Minutes
 
-            var now = new Date(year, date, month, hours, min);
+            var now = new Date(year, month, date, hours, min);
             var eventHour = parseInt(newGroupTime.substr(0, 2));
             var eventMin = parseInt(newGroupTime.substr(3, 5));
 
@@ -220,7 +220,7 @@ export default class CreateGroupModal extends React.Component {
                }
              }
 
-            var eventDate = new Date(year, date, month, eventHour, eventMin);
+            var eventDate = new Date(year, month, date, eventHour, eventMin);
             var timeLeft = eventDate - now;
             // console.log(timeLeft);
 
