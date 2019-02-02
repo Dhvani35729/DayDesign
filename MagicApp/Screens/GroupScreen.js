@@ -421,7 +421,7 @@ searchFilterFunction = text => {
 };
 
 onCreateButtonPressed = () => {
-	this.setCreateModalVisible(!this.state.modalCreateVisible);
+  this.setCreateModalVisible(!this.state.modalCreateVisible);
 }
 
 renderGroupFlatListCell = ({ item }) => {
@@ -1085,7 +1085,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
  	  marginLeft: 200,
-	  marginRight: 19,
+  	marginRight: 19,
 		marginTop: 35,
 		width: 60,
 		height: 60,
