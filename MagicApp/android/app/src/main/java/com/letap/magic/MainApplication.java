@@ -66,7 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
 //        new RNFirebaseCrashlyticsPackage(),
         new RNFirebaseDatabasePackage(),
 //        new RNFirebaseFirestorePackage(),
-//        new RNFirebaseFunctionsPackage(),
+        new RNFirebaseFunctionsPackage(),
 //        new RNFirebaseInstanceIdPackage(),
 //        new RNFirebaseInvitesPackage(),
 //        new RNFirebaseLinksPackage(),
