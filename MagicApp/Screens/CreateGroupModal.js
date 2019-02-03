@@ -81,180 +81,187 @@ export default class CreateGroupModal extends React.Component {
 
  createNewGroup(){
 
-   var addMessage = firebase.functions().httpsCallable('addMessage');
- //  console.log(addMessage({text: "Test"}))
- addMessage({text: "Test Patel", state: this.state}).then(function(result) {
-   // Read result of the Cloud Function.
-   var sanitizedMessage = result.data.text;
-   console.log(sanitizedMessage);
-   // ...
- }).catch(function(error) {
-   // Getting the Error details.
-   var code = error.code;
-   var message = error.message;
-   var details = error.details;
-   // ...
-   console.log(code)
-   console.log(message)
-   console.log(details)
- });
-  //
-  //    // console.log(this.props)
-  //    // console.log("creating..");
-  //   const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible, newName} = this.state
-  //   var that = this;
-  //   if(newGroupLocation.trim() == "" || newGroupName.trim() == "" || newGroupTime.trim() == "") {
-  //      this.setState({errorMessage: "Please fill in all fields!"});
-  //    }
-  //   else{
-  //       if(this.state.hasName == false){
-  //         if (newName.trim() == "") {
-  //            this.setState({errorMessage: "Please fill in your name!"});
-  //          }
-  //         else{
-  //           this.setState({errorMessage: null});
-  //
-  //           var updates_1 = {};
-  //           updates_1['/name/'] = newName;
-  //           firebase.database().ref(that.props.uniqueId).update(updates_1);
-  //           this.props.setHasName(true);
-  //
-  //           var groupCount = 0;
-  //           firebase.database().ref('groups_count').once('value').then(function(snapshot) {
-  //             groupCount = snapshot.val();
-  //
-  //             var updates = {};
-  //             updates['/key/'] = groupCount;
-  //             updates['/creator/'] = that.props.uniqueId;
-  //             updates['/free_food/'] = false;
-  //             updates['/group_name/'] = newGroupName;
-  //             updates['/location_name/'] = newGroupLocation;
-  //             updates['/time/'] = newGroupTime;
-  //             updates['/number_going/'] = 1;
-  //             updates['/people/' + that.props.uniqueId + '/prompt'] = "Group Creator";
-  //
-  //             var date = new Date().getDate(); //Current Date
-  //             var month = new Date().getMonth() + 1; //Current Month
-  //             var year = new Date().getFullYear(); //Current Year
-  //
-  //             updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
-  //
-  //             firebase.database().ref('groups/' + groupCount).update(updates);
-  //
-  //             var update_count = {};
-  //             update_count['/groups_count/'] = ++groupCount;
-  //             firebase.database().ref().update(update_count);
-  //
-  //             var date = new Date().getDate(); //Current Date
-  //             var month = new Date().getMonth(); //Current Month
-  //             var year = new Date().getFullYear(); //Current Year
-  //             var hours = new Date().getHours(); //Current Hours
-  //             var min = new Date().getMinutes(); //Current Minutes
-  //
-  //             var now = new Date(year, date, month, hours, min);
-  //             var eventHour = parseInt(newGroupTime.substr(0, 2));
-  //             var eventMin = parseInt(newGroupTime.substr(3, 5));
-  //
-  //             var notifMessage = "Event Now: " + newGroupName + " @ " + newGroupLocation;
-  //             if(eventHour == hours){
-  //               if(eventMin-10 > min){
-  //                 eventMin = eventMin - 10;
-  //                 notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
-  //               }
-  //             }
-  //             else{
-  //               if(eventMin-10 > 0){
-  //                 eventMin = eventMin - 10;
-  //                 notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
-  //               }
-  //             }
-  //
-  //             var eventDate = new Date(year, date, month, eventHour, eventMin);
-  //             var timeLeft = eventDate - now;
-  //             // console.log(timeLeft);
-  //
-  //             PushNotification.localNotificationSchedule({
-  //               //... You can use all the options from localNotifications
-  //             message: notifMessage, // (required)
-  //             date: new Date(Date.now() + timeLeft) // in 60 secs
-  //             });
-  //
-  //              that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
-  //             that._setModalVisible(!that.state.isModalVisible)
-  //              that.setState({successMessage: "Group Added!"})
-  //          });
-  //         }
-  //       }
-  //       else{
-  //         this.setState({errorMessage: null});
-  //
-  //         var groupCount = 0;
-  //
-  //         firebase.database().ref('groups_count').once('value').then(function(snapshot) {
-  //           groupCount = snapshot.val();
-  //
-  //           var updates = {};
-  //           updates['/key/'] = groupCount;
-  //           updates['/creator/'] = that.props.uniqueId;
-  //           updates['/free_food/'] = false;
-  //           updates['/group_name/'] = newGroupName;
-  //           updates['/location_name/'] = newGroupLocation;
-  //           updates['/time/'] = newGroupTime;
-  //           updates['/number_going/'] = 1;
-  //           updates['/people/' + that.props.uniqueId + '/prompt'] = "Group Creator";
-  //
-  //           var date = new Date().getDate(); //Current Date
-  //           var month = new Date().getMonth() + 1; //Current Month
-  //           var year = new Date().getFullYear(); //Current Year
-  //
-  //           updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
-  //
-  //           firebase.database().ref('groups/' + groupCount).update(updates);
-  //
-  //           var update_count = {};
-  //           update_count['/groups_count/'] = ++groupCount;
-  //           firebase.database().ref().update(update_count);
-  //
-  //           var date = new Date().getDate(); //Current Date
-  //           var month = new Date().getMonth(); //Current Month
-  //           var year = new Date().getFullYear(); //Current Year
-  //           var hours = new Date().getHours(); //Current Hours
-  //           var min = new Date().getMinutes(); //Current Minutes
-  //
-  //           var now = new Date(year, month, date, hours, min);
-  //           var eventHour = parseInt(newGroupTime.substr(0, 2));
-  //           var eventMin = parseInt(newGroupTime.substr(3, 5));
-  //
-  //           var notifMessage = "Event Now: " + newGroupName + " @ " + newGroupLocation;
-  //           if(eventHour == hours){
-  //              if(eventMin-10 > min){
-  //                eventMin = eventMin - 10;
-  //                notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
-  //              }
-  //            }
-  //           else{
-  //              if(eventMin-10 > 0){
-  //                eventMin = eventMin - 10;
-  //                notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
-  //              }
-  //            }
-  //
-  //           var eventDate = new Date(year, month, date, eventHour, eventMin);
-  //           var timeLeft = eventDate - now;
-  //           // console.log(timeLeft);
-  //
-  //           PushNotification.localNotificationSchedule({
-  //              //... You can use all the options from localNotifications
-  //            message: notifMessage, // (required)
-  //            date: new Date(Date.now() + timeLeft) // in 60 secs
-  //           });
-  //
-  //           that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
-  //           that._setModalVisible(!that.state.isModalVisible)
-  //           that.setState({successMessage: "Group Added!"})
-  //         });
-  //       }
-  // }
+ //   var addMessage = firebase.functions().httpsCallable('addMessage');
+ // //  console.log(addMessage({text: "Test"}))
+ // addMessage({text: "Test Patel", state: this.state}).then(function(result) {
+ //   // Read result of the Cloud Function.
+ //   var sanitizedMessage = result.data.text;
+ //   console.log(sanitizedMessage);
+ //   // ...
+ // }).catch(function(error) {
+ //   // Getting the Error details.
+ //   var code = error.code;
+ //   var message = error.message;
+ //   var details = error.details;
+ //   // ...
+ //   console.log(code)
+ //   console.log(message)
+ //   console.log(details)
+ // });
+
+     // console.log(this.props)
+     // console.log("creating..");
+    const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible, newName} = this.state
+    var that = this;
+    if(newGroupLocation.trim() == "" || newGroupName.trim() == "" || newGroupTime.trim() == "") {
+       this.setState({errorMessage: "Please fill in all fields!"});
+     }
+    else{
+        if(this.state.hasName == false){
+          if (newName.trim() == "") {
+             this.setState({errorMessage: "Please fill in your name!"});
+           }
+          else{
+            this.setState({errorMessage: null});
+
+            // database start
+
+            var updates_1 = {};
+            updates_1['/name/'] = newName;
+            firebase.database().ref(that.props.uniqueId).update(updates_1);
+            this.props.setHasName(true);
+
+            var groupCount = 0;
+            firebase.database().ref('groups_count').once('value').then(function(snapshot) {
+              groupCount = snapshot.val();
+
+              var updates = {};
+              updates['/key/'] = groupCount;
+              updates['/creator/'] = that.props.uniqueId;
+              updates['/free_food/'] = false;
+              updates['/group_name/'] = newGroupName;
+              updates['/location_name/'] = newGroupLocation;
+              updates['/time/'] = newGroupTime;
+              updates['/number_going/'] = 1;
+              updates['/people/' + that.props.uniqueId + '/prompt'] = "Group Creator";
+
+              var date = new Date().getDate(); //Current Date
+              var month = new Date().getMonth() + 1; //Current Month
+              var year = new Date().getFullYear(); //Current Year
+
+              updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
+
+              firebase.database().ref('groups/' + groupCount).update(updates);
+
+              var update_count = {};
+              update_count['/groups_count/'] = ++groupCount;
+              firebase.database().ref().update(update_count);
+
+              // database end
+
+              var date = new Date().getDate(); //Current Date
+              var month = new Date().getMonth(); //Current Month
+              var year = new Date().getFullYear(); //Current Year
+              var hours = new Date().getHours(); //Current Hours
+              var min = new Date().getMinutes(); //Current Minutes
+
+              var now = new Date(year, date, month, hours, min);
+              var eventHour = parseInt(newGroupTime.substr(0, 2));
+              var eventMin = parseInt(newGroupTime.substr(3, 5));
+
+              var notifMessage = "Event Now: " + newGroupName + " @ " + newGroupLocation;
+              if(eventHour == hours){
+                if(eventMin-10 > min){
+                  eventMin = eventMin - 10;
+                  notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
+                }
+              }
+              else{
+                if(eventMin-10 > 0){
+                  eventMin = eventMin - 10;
+                  notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
+                }
+              }
+
+              var eventDate = new Date(year, date, month, eventHour, eventMin);
+              var timeLeft = eventDate - now;
+              // console.log(timeLeft);
+
+              PushNotification.localNotificationSchedule({
+                //... You can use all the options from localNotifications
+              message: notifMessage, // (required)
+              date: new Date(Date.now() + timeLeft) // in 60 secs
+              });
+
+               that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
+              that._setModalVisible(!that.state.isModalVisible)
+               that.setState({successMessage: "Group Added!"})
+           });
+          }
+        }
+        else{
+          this.setState({errorMessage: null});
+
+          // database start
+          var groupCount = 0;
+
+          firebase.database().ref('groups_count').once('value').then(function(snapshot) {
+            groupCount = snapshot.val();
+
+            var updates = {};
+            updates['/key/'] = groupCount;
+            updates['/creator/'] = that.props.uniqueId;
+            updates['/free_food/'] = false;
+            updates['/group_name/'] = newGroupName;
+            updates['/location_name/'] = newGroupLocation;
+            updates['/time/'] = newGroupTime;
+            updates['/number_going/'] = 1;
+            updates['/people/' + that.props.uniqueId + '/prompt'] = "Group Creator";
+
+            var date = new Date().getDate(); //Current Date
+            var month = new Date().getMonth() + 1; //Current Month
+            var year = new Date().getFullYear(); //Current Year
+
+            updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
+
+            firebase.database().ref('groups/' + groupCount).update(updates);
+
+            var update_count = {};
+            update_count['/groups_count/'] = ++groupCount;
+            firebase.database().ref().update(update_count);
+
+            // database end
+
+            var date = new Date().getDate(); //Current Date
+            var month = new Date().getMonth(); //Current Month
+            var year = new Date().getFullYear(); //Current Year
+            var hours = new Date().getHours(); //Current Hours
+            var min = new Date().getMinutes(); //Current Minutes
+
+            var now = new Date(year, month, date, hours, min);
+            var eventHour = parseInt(newGroupTime.substr(0, 2));
+            var eventMin = parseInt(newGroupTime.substr(3, 5));
+
+            var notifMessage = "Event Now: " + newGroupName + " @ " + newGroupLocation;
+            if(eventHour == hours){
+               if(eventMin-10 > min){
+                 eventMin = eventMin - 10;
+                 notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
+               }
+             }
+            else{
+               if(eventMin-10 > 0){
+                 eventMin = eventMin - 10;
+                 notifMessage = "Upcoming event: " + newGroupName + " @ " + newGroupLocation + " in 10 minutes";
+               }
+             }
+
+            var eventDate = new Date(year, month, date, eventHour, eventMin);
+            var timeLeft = eventDate - now;
+            // console.log(timeLeft);
+
+            PushNotification.localNotificationSchedule({
+               //... You can use all the options from localNotifications
+             message: notifMessage, // (required)
+             date: new Date(Date.now() + timeLeft) // in 60 secs
+            });
+
+            that.setState({newGroupName: "", newGroupTime: "", newGroupLocation: ""});
+            that._setModalVisible(!that.state.isModalVisible)
+            that.setState({successMessage: "Group Added!"})
+          });
+        }
+  }
 }
 
  componentDidMount(){

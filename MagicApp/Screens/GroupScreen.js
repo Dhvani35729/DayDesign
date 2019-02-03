@@ -7,7 +7,7 @@
 //
 
 import React from "react"
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator, WebView, Linking } from "react-native"
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator, WebView, Linking, NetInfo } from "react-native"
 import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
 import PushNotification from 'react-native-push-notification'
@@ -16,6 +16,7 @@ import firebase from 'react-native-firebase'
 import Group from "./Group"
 import Friend from "./Friend"
 import CreateGroupModal from "./CreateGroupModal"
+import OfflineNotice from './OfflineNotice'
 
 // Function convert 24hour time to 12hour format
 export function tConvert (time) {
@@ -538,7 +539,7 @@ joinEvent(){
 
 		AppState.addEventListener('change', this._handleAppStateChange);
 
-		let my = this;
+    let my = this;
     this.loadEverything(my);
 
     // console.log('Done loading everything');
@@ -580,7 +581,7 @@ joinEvent(){
 						 style={styles.menuView}>
 						 <View
 						 style={{
-						 // flexDirection: "column-reverse",
+						 flexDirection: "row",
 						 }}>
 						 <TouchableOpacity
 						 style={styles.buttonButton}
@@ -724,7 +725,7 @@ joinEvent(){
 					placeholder="Search groups or restaurants"
           onChangeText={text => this.searchFilterFunction(text)}
 					style={styles.group5TwoTextInput}/>
-
+        <OfflineNotice />
 				<View
 					style={{
 						flexDirection: "row",
