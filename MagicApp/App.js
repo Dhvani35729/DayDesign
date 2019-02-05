@@ -51,9 +51,18 @@ export default class App extends React.Component {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 // ...
-                
+
+                // TODO: Reformat for better user interaction
+                alert("App has crashed: " + errorMessage);
+
 
               });
+
+        }
+        else{
+
+          // TODO: Reformat for better user interaction
+           alert("App has crashed: " + errorMessage);
 
         }
 
