@@ -430,7 +430,16 @@ searchFilterFunction = text => {
 };
 
 onCreateButtonPressed = () => {
-  this.setCreateModalVisible(!this.state.modalCreateVisible);
+
+var setName = firebase.functions().httpsCallable('setName');
+setName({name: "Kobe"}).then(function(result) {
+  // Read result of the Cloud Function.
+  var sanitizedMessage = result.data.text;
+  console.log(sanitizedMessage);
+  // ...
+});
+
+  // this.setCreateModalVisible(!this.state.modalCreateVisible);
 }
 
 renderGroupFlatListCell = ({ item }) => {
