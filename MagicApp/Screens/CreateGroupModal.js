@@ -118,7 +118,7 @@ export default class CreateGroupModal extends React.Component {
 
             var updates_1 = {};
             updates_1['/name/'] = newName;
-            firebase.database().ref(that.props.uniqueId).update(updates_1);
+            firebase.database().ref("users/" + that.props.uniqueId).update(updates_1);
             this.props.setHasName(true);
 
             var groupCount = 0;

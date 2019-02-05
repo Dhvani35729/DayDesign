@@ -27,15 +27,22 @@ class OfflineNotice extends PureComponent {
     isConnected: true
   };
 
+  _isMounted = false
+
   componentDidMount() {
+      this._isMounted = true;
     NetInfo.isConnected.fetch().then(isConnected => {
       console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-      this.setState({isConnected});
+      if(this._isMounted){
+          this.setState({isConnected});
+      }
     });
+
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
   }
 

@@ -57,6 +57,8 @@ export default class GroupScreen extends React.Component {
 	 loading: true,
  };
 
+  _isMounted = false
+
  static navigationOptions = ({ navigation }) => {
 
 	 const { params = {} } = navigation.state
@@ -143,14 +145,14 @@ export default class GroupScreen extends React.Component {
 
 		if(snapshot.val() <= DeviceInfo.getBuildNumber()){
 
-				let fireID = root.ref(my.state.uniqueId).child('num_opened');
+				let fireID = root.ref("users/" + my.state.uniqueId).child('num_opened');
 				fireID.once('value').then(function(snapshot) {
 
 				if(snapshot.val() == null){
 
 				 var updates = {};
 				 updates['/num_opened'] = 1;
-				 root.ref(my.state.uniqueId).update(updates).then(function(){
+				 root.ref("users/" + my.state.uniqueId).update(updates).then(function(){
  				   //alert("Set initial stuff, now load groups");
 					 my.loadGroups(my, root);
 
@@ -163,7 +165,7 @@ export default class GroupScreen extends React.Component {
 
 				 var updates = {};
 				 updates['/num_opened'] = snapshot.val()+1;
-				 root.ref(my.state.uniqueId).update(updates).then(function(){
+				 root.ref("users/" + my.state.uniqueId).update(updates).then(function(){
 				 // alert("Set initial stuff, now load groups");
 				 my.loadGroups(my, root);
 
@@ -277,6 +279,8 @@ loadGroups(my, root){
 		}
 	});
 
+    if(my._isMounted){
+
 		my.setState({data: todayGroups, loading: false},  function() {
 
 		// console.log("set state with group data");
@@ -299,7 +303,7 @@ loadGroups(my, root){
 
 		 }
 
-			root.ref(my.state.uniqueId).once('value').then(function(snapshot) {
+			root.ref("users/" + my.state.uniqueId).once('value').then(function(snapshot) {
 				// console.log(snapshot.val());
 				// console.log("Got name");
 				if(snapshot.val() != null){
@@ -314,8 +318,12 @@ loadGroups(my, root){
 			});
 
 		my.arrayholder = todayGroups;
+
+
+
 		// console.log("finished setting all data")});
-});
+    });
+}
 
 });
 
@@ -333,7 +341,7 @@ loadFriends(my, key, numPeople, people, joined){
 
 		for(var i = 0; i < numPeople; i++){
 
-			firebase.database().ref(Object.keys(people)[i]).on('value', function(snapshot) {
+			firebase.database().ref("users/" + Object.keys(people)[i]).on('value', function(snapshot) {
 
 						if(snapshot.key){
 
@@ -481,7 +489,7 @@ joinEvent(){
 
 		var updates_1 = {};
 	  updates_1['/name/'] = newName;
-	 	firebase.database().ref(userID).update(updates_1);
+	 	firebase.database().ref("users/" + userID).update(updates_1);
 	 	this.setState({hasName: true});
 
 	 	var updates = {};
@@ -533,21 +541,31 @@ joinEvent(){
 	componentDidMount() {
 		// console.log('In main group screen');
 
+    this._isMounted = true;
+
 		// console.log(DeviceInfo.getUniqueID());
-	 	const uniqueId = DeviceInfo.getUniqueID();
-	 	this.setState({uniqueId: uniqueId});
+	 // 	const uniqueId = DeviceInfo.getUniqueID();
 
-		AppState.addEventListener('change', this._handleAppStateChange);
+    if (firebase.auth().currentUser !== null){
+        // console.log("user id: " + firebase.auth().currentUser.uid);
+        this.setState({uniqueId: firebase.auth().currentUser.uid});
 
-    let my = this;
-    this.loadEverything(my);
+        // this.setState({uniqueId: uniqueId});
+
+      AppState.addEventListener('change', this._handleAppStateChange);
+
+       let my = this;
+       this.loadEverything(my);
+    }
+
 
     // console.log('Done loading everything');
 	}
 
 	// Remove all listeners
 	componentWillUnmount() {
-	 // console.log('leaving...');
+	  console.log('leaving...');
+    this._isMounted = false;
 	 AppState.removeEventListener('change', this._handleAppStateChange);
  }
 

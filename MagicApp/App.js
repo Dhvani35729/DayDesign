@@ -10,6 +10,20 @@ import React from "react";
 import {  Text, View, StyleSheet, ActivityIndicator, AsyncStorage, Alert, Platform} from 'react-native';
 import { createRootNavigator } from "./router";
 import firebase from 'react-native-firebase'
+import DeviceInfo from 'react-native-device-info';
+
+export function hashCode(val){
+
+var hash = 0;
+if (val.length == 0) return hash;
+for (i = 0; i < val.length; i++) {
+  char = val.charCodeAt(i);
+  hash = ((hash<<5)-hash)+char;
+  hash = hash & hash; // Convert to 32bit integer
+}
+return hash;
+
+}
 
 export default class App extends React.Component {
 
@@ -21,7 +35,40 @@ export default class App extends React.Component {
     };
   }
 
+  authenticate(email, password){
+
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        // console.log(type(errorCode))
+        // console.log(errorMessage)
+        if(errorCode = "auth/email-already-in-use" && errorMessage == "The email address is already in use by another account."){
+
+          firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+                
+
+              });
+
+        }
+
+      });
+
+  }
+
   componentDidMount() {
+
+    const uniqueId = DeviceInfo.getUniqueID();
+    var username = uniqueId + '@wbc.com';
+    var pass = hashCode(uniqueId) + '-wbcp';
+
+    // console.log(username)
+    // console.log(pass)
 
     AsyncStorage.getItem("alreadyLaunched").then(value => {
             if(value == null){
@@ -49,21 +96,20 @@ export default class App extends React.Component {
                 this.setState({firstLaunch: true});
             }
             else{
-                 this.setState({firstLaunch: false, signedIn: false, checkedSignIn: true});
+              firebase.auth().onAuthStateChanged(user => {
+                if(user){
+                    // firebase.auth().signOut();
+                    this.setState({firstLaunch: false, signedIn: true, checkedSignIn: true})
+                }
+                else{
+                    // console.log('finished');
+                    this.setState({ firstLaunch: false, signedIn: false, checkedSignIn: true})
+                    this.authenticate(username, pass);
+                }
+              })
+                // this.setState({firstLaunch: false, signedIn: false, checkedSignIn: true});
             }}) // Add some error handling, also you can simply do this.setState({fistLaunch: value == null})'
 
-
-    // TODO: Add in authentication:
-    //
-    // firebase.auth().onAuthStateChanged(user => {
-    //   if(user){
-    //       this.setState({ signedIn: true, checkedSignIn: true})
-    //   }
-    //   else{
-    //     console.log('finished');
-    //       this.setState({ signedIn: false, checkedSignIn: true})
-    //   }
-    // })
 
   }
 
