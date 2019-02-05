@@ -48,8 +48,6 @@ target 'magic' do
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-
-  pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 end
