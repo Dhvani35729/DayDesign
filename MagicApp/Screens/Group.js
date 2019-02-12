@@ -8,6 +8,7 @@
 
 import { Text, StyleSheet, View, Platform, TouchableHighlight, ScrollView } from "react-native"
 import React from "react"
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 // Function convert 24hour time to 12hour format
 export function tConvert (time) {
@@ -96,7 +97,7 @@ export default class Group extends React.Component {
       if (Platform.OS == 'android') {
         return(
 
-          <View opacity={this.state.disabled ? 0.5 : 1}style={styles.group7}>
+          <View opacity={this.state.disabled ? 0.5 : 1} style={styles.group7}>
 
           <TouchableHighlight onPress={() => {this.openInfo()}}  disabled={this.state.disabled} underlayColor="white" >
 
@@ -156,10 +157,9 @@ export default class Group extends React.Component {
         style={{
           width: 87,
           height: 87,
-          alignSelf: 'flex-end',
-          justifyContent: "center",
-          position: "absolute",
-          flexDirection: "row",
+          alignItems: "center",
+         justifyContent: "center",
+         position: "absolute",
         }}>
 
         <Text style={styles.textText}>{"\n"}{this.props.item.number_going} {"\n"}</Text>
@@ -271,10 +271,9 @@ export default class Group extends React.Component {
         style={{
           width: 87,
           height: 87,
-          alignSelf: 'flex-end',
-          justifyContent: "center",
-          position: "absolute",
-          flexDirection: "row",
+          alignItems: "center",
+         justifyContent: "center",
+         position: "absolute",
         }}>
 
         <Text style={styles.textText}>{"\n"}{this.props.item.number_going} {"\n"}</Text>
@@ -336,8 +335,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
     width: 150,
     height: 190,
-    padding: 7,
-    marginBottom: 10,
+    padding: wp('2%'),
+    marginBottom: hp('1%') ,
     justifyContent: "center",
   },
   group6View: {
@@ -359,7 +358,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginBottom: 14,
+    marginBottom: hp('1.5%'),
     alignSelf: "flex-end",
   },
   pmText: {
@@ -396,18 +395,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 3,
     alignSelf: "stretch",
-    height: 27,
+    height: hp('5%'),
   },
   viewView: {
     backgroundColor: 'rgb(74, 78, 82)',
     borderRadius: 43,
-    marginTop: 10,
+    marginTop: hp('0.9%'),
     width: 87,
     height: 87,
   },
   textText: {
     color: 'rgb(127, 177, 233)',
-    fontSize: 24,
+    fontSize: wp('10%'),
     fontStyle: "normal",
     fontWeight: "bold",
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
