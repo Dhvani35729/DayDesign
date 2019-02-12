@@ -106,7 +106,7 @@ android {
     javaMaxHeapSize "4g"
   }
   compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+  buildToolsVersion '28.0.3'
 
   defaultConfig {
     applicationId "com.letap.magic"
@@ -159,7 +159,6 @@ android {
 dependencies {
   implementation project(':react-native-push-notification')
   implementation project(':react-native-device-info')
-  implementation project(':react-native-photo-view')
   implementation project(':react-native-vector-icons')
   implementation project(':react-native-gesture-handler')
 
