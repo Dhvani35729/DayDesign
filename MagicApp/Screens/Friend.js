@@ -11,6 +11,7 @@
 
 import { View, Image, Text, StyleSheet } from "react-native";
 import React from "react";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class Friend extends React.Component {
   constructor(props) {
@@ -56,7 +57,7 @@ export default class Friend extends React.Component {
 const styles = StyleSheet.create({
   friend: {
     backgroundColor: "rgba(0, 0, 0, 0.0)",
-    height: 89
+    height: hp('13%'),
   },
   avatarImage: {
     resizeMode: "center",
@@ -64,20 +65,20 @@ const styles = StyleSheet.create({
     //marginLeft: 16,
     width: 74,
     height: 74,
-    marginLeft: 10,
-    marginRight: 10
+    marginLeft: wp('3%'),
+    marginRight: wp('3%'),
   },
   jeremyHarrisonText: {
     color: "rgb(68, 68, 68)",
-    fontSize: 20,
+    fontSize: hp('3%'),
     fontStyle: "normal",
     fontWeight: "bold",
     textAlign: "left",
-    height: 27
+    height: hp('4%'),
   },
   iLikeBasketballAnText: {
     color: "rgb(68, 68, 68)",
-    fontSize: 14,
+    fontSize: hp('2%'),
     fontStyle: "normal",
     fontWeight: "normal",
     textAlign: "left",
@@ -85,6 +86,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     paddingRight: 130,
     flex: 1,
-    height: 38
+    height: hp('9%'),
   }
 });

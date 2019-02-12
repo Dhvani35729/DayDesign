@@ -5,7 +5,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.reactnative.photoview.PhotoViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -54,7 +53,6 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
          new ReactNativePushNotificationPackage(), // <---- Add the Package
             new RNDeviceInfo(),
-            new PhotoViewPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
         new RNFirebasePackage(),

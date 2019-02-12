@@ -81,6 +81,8 @@ export default class CreateGroupModal extends React.Component {
 
  createNewGroup(){
 
+
+
  //   var addMessage = firebase.functions().httpsCallable('addMessage');
  // //  console.log(addMessage({text: "Test"}))
  // addMessage({text: "Test Patel", state: this.state}).then(function(result) {
@@ -99,6 +101,7 @@ export default class CreateGroupModal extends React.Component {
  //   console.log(details)
  // });
 
+
      // console.log(this.props)
      // console.log("creating..");
     const { newGroupName, newGroupLocation, newGroupTime, modalCreateVisible, newName} = this.state
@@ -116,10 +119,25 @@ export default class CreateGroupModal extends React.Component {
 
             // database start
 
-            var updates_1 = {};
-            updates_1['/name/'] = newName;
-            firebase.database().ref("users/" + that.props.uniqueId).update(updates_1);
-            this.props.setHasName(true);
+            var setName = firebase.functions().httpsCallable('setName');
+            setName({name: newName}).then(function(result) {
+              // Read result of the Cloud Function.
+              //console.log(sanitizedMessage);
+                      this.props.setHasName(true);
+              // ...
+            }).catch(function(error) {
+              // Getting the Error details.
+              var code = error.code;
+              var message = error.message;
+              var details = error.details;
+              // ...
+              // console.log(code)
+              // console.log(message)
+              // console.log(details)
+              alert("Error with database: " + message);
+            });
+
+
 
             var groupCount = 0;
             firebase.database().ref('groups_count').once('value').then(function(snapshot) {
