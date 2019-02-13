@@ -139,7 +139,7 @@ export default class Group extends React.Component {
           position: "absolute",
         }}>
 
-        <View style={{height: 27}} onStartShouldSetResponder={() => {this.props.setScroll(false); return true;}} onResponderRelease={() => {this.props.setScroll(true);}} >
+        <View style={{height: hp('5.8%')}} onStartShouldSetResponder={() => {this.props.setScroll(false); return true;}} onResponderRelease={() => {this.props.setScroll(true);}} >
         <ScrollView onMomentumScrollBegin={() => {console.log("started!"); }} onMomentumScrollEnd={() => {this.props.setScroll(true);}}>
         <Text adjustsFontSizeToFit={true} style={styles.tdInformationSessiText}>{this.props.item.group_name}</Text>
         </ScrollView>
@@ -162,7 +162,7 @@ export default class Group extends React.Component {
          position: "absolute",
         }}>
 
-        <Text style={styles.textText}>{"\n"}{this.props.item.number_going} {"\n"}</Text>
+        <Text style={styles.textText}>{this.props.item.number_going}</Text>
 
         </View>
 
@@ -276,7 +276,7 @@ export default class Group extends React.Component {
          position: "absolute",
         }}>
 
-        <Text style={styles.textText}>{"\n"}{this.props.item.number_going} {"\n"}</Text>
+        <Text style={styles.textText}>{this.props.item.number_going}</Text>
 
         </View>
 
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginBottom: hp('1.5%'),
+    marginBottom: hp('2%'),
     alignSelf: "flex-end",
   },
   pmText: {
@@ -382,6 +382,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
+    height: hp('5%'),
     alignSelf: "stretch",
   },
   tdInformationSessiTextIos: {
@@ -400,7 +401,9 @@ const styles = StyleSheet.create({
   viewView: {
     backgroundColor: 'rgb(74, 78, 82)',
     borderRadius: 43,
-    marginTop: hp('0.9%'),
+    //marginTop: hp('5%'),
+    //marginBottom: hp('1%'),
+   // justifyContent: "center",
     width: 87,
     height: 87,
   },
@@ -419,7 +422,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginTop: 70,
+    marginTop: hp('7.5%'),
   },
   freeText: {
     color: 'rgb(127, 177, 233)',
