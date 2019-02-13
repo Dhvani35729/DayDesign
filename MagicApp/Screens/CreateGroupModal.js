@@ -394,7 +394,7 @@ export default class CreateGroupModal extends React.Component {
             justifyContent: "flex-end",
           }}>
         <TextInput
-            placeholder="NBA Finals"
+            placeholder="Enter Group Name"
             onChangeText={newGroupName => this.setState({newGroupName}) }
             value={this.state.newGroupName}
             style={styles.TextTextInput}/>
@@ -408,7 +408,7 @@ export default class CreateGroupModal extends React.Component {
             justifyContent: "flex-end",
           }}>
         <TextInput
-          placeholder="William's Cafe"
+          placeholder="Enter Venue"
           onChangeText={newGroupLocation => this.setState({newGroupLocation}) }
           value={this.state.newGroupLocation}
           style={styles.TextTwoTextInput}/>
@@ -425,7 +425,7 @@ export default class CreateGroupModal extends React.Component {
           }}>
         <TextInput
             type="time"
-            placeholder="7:00 PM"
+            placeholder="Select Time"
             onChangeText={newGroupTime => this.setState({newGroupTime}) }
             value={this.state.newGroupTime}
             style={styles.TextTwoTextInput}
@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
   },
   icCloseButtonText: {
     color: 'rgb(0, 0, 0)',
-    fontFamily: ".SFNSText",
+   // fontFamily: ".SFNSText",
     fontSize: 12,
     fontStyle: "normal",
     fontWeight: "normal",
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
   },
   icCartButtonText: {
     color: 'rgb(0, 0, 0)',
-    fontFamily: ".SFNSText",
+    //fontFamily: ".SFNSText",
     fontSize: 12,
     fontStyle: "normal",
     fontWeight: "normal",
