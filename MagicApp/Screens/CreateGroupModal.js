@@ -6,7 +6,7 @@
 //  Copyright © 2019 magic. All rights reserved.
 //
 
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Keyboard, Alert } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Keyboard, Alert, Platform } from "react-native"
 import React from "react"
 
 import firebase from 'react-native-firebase'
@@ -42,7 +42,9 @@ export default class CreateGroupModal extends React.Component {
    var hours = new Date().getHours(); //Current Hours
    var min = new Date().getMinutes(); //Current Minutes
    if(time.getHours() < hours){
+    if (Platform.OS == 'android') {
      this._hideDateTimePicker();
+   }
      Alert.alert(
   'Invalid Time',
   'Cannot create an event in the past! Pick a time in the future.',
@@ -54,7 +56,12 @@ export default class CreateGroupModal extends React.Component {
    }
    else if(time.getHours() == hours){
      if(time.getMinutes() <= min){
-       this._hideDateTimePicker();
+
+       if (Platform.OS == 'android') {
+        this._hideDateTimePicker();
+      }
+
+
        Alert.alert(
     'Invalid Time',
     'Cannot create an event in the past! Pick a time in the future.',
