@@ -874,7 +874,7 @@ const styles = StyleSheet.create({
                                  group5TwoTextInput: {
                                  color: 'rgb(0, 0, 0)',
                               //   fontFamily: ".SFNSText",
-                                 fontSize: hp('1.5%'),
+                                 fontSize: hp('1.8%'),
                                  fontStyle: "normal",
                                  fontWeight: "bold",
                                  textAlign: "center",
