@@ -139,12 +139,12 @@ export default class Group extends React.Component {
           position: "absolute",
         }}>
 
-        <View style={{height: hp('5.8%')}} onStartShouldSetResponder={() => {this.props.setScroll(false); return true;}} onResponderRelease={() => {this.props.setScroll(true);}} >
-        <ScrollView onMomentumScrollBegin={() => {console.log("started!"); }} onMomentumScrollEnd={() => {this.props.setScroll(true);}}>
-        <Text adjustsFontSizeToFit={true} style={styles.tdInformationSessiText}>{this.props.item.group_name}</Text>
-        </ScrollView>
+      
 
-        </View>
+        <Text adjustsFontSizeToFit={true} style={styles.tdInformationSessiText}>{this.props.item.group_name}</Text>
+
+
+
 
         <View
         style={{
@@ -333,11 +333,12 @@ export default class Group extends React.Component {
 const styles = StyleSheet.create({
   group7: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    width: 150,
+    width: wp("45%"),
     height: 190,
     padding: wp('2%'),
     marginBottom: hp('1%') ,
     justifyContent: "center",
+    flex: 0.5
   },
   group6View: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',

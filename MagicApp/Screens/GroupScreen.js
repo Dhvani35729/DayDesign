@@ -23,18 +23,18 @@ import OfflineNotice from './OfflineNotice'
 export function tConvert (time) {
     // Check correct time format and split into components
     time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-    
+
     if (time.length > 1) { // If time format correct
         time = time.slice (1);  // Remove full string match value
         time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
         time[0] = +time[0] % 12 || 12; // Adjust hours
     }
-    
+
     return time.join (''); // return adjusted time or original string
 }
 
 export default class GroupScreen extends React.Component {
-    
+
     state = {
     uniqueId: null,
     modalCreateVisible: false,
@@ -57,11 +57,11 @@ export default class GroupScreen extends React.Component {
     appState: AppState.currentState,
     loading: true,
     };
-    
+
     _isMounted = false
-    
+
     static navigationOptions = ({ navigation }) => {
-        
+
         const { params = {} } = navigation.state
         return {
         header: null,
@@ -69,39 +69,39 @@ export default class GroupScreen extends React.Component {
         headerRight: null,
         }
     }
-    
+
     constructor(props) {
         super(props)
-        
+
         this.updateDetailModal = this.updateDetailModal;
-        
+
         // Configure notifications
         PushNotification.configure({
-                                   
+
                                    // (optional) Called when Token is generated (iOS and Android)
                                    onRegister: function(token) {
                                    console.log( 'TOKEN:', token );
                                    },
-                                   
+
                                    // (required) Called when a remote or local notification is opened or received
                                    onNotification: function(notification) {
                                    console.log( 'NOTIFICATION:', notification );
                                    },
-                                   
+
                                    // ANDROID ONLY: (optional) GCM Sender ID.
                                    senderID: "YOUR GCM SENDER ID",
-                                   
+
                                    // IOS ONLY (optional): default: all - Permissions to register.
                                    permissions: {
                                    alert: true,
                                    badge: true,
                                    sound: true
                                    },
-                                   
+
                                    // Should the initial notification be popped automatically
                                    // default: true
                                    popInitialNotification: true,
-                                   
+
                                    /**
                                     * (optional) default: true
                                     * - Specified if permissions (ios) and token (android and ios) will requested or not,
@@ -109,78 +109,78 @@ export default class GroupScreen extends React.Component {
                                     */
                                    requestPermissions: true,
                                    });
-        
-        
+
+
     }
-    
+
     setCreateModalVisible(visible) {
         this.setState({modalCreateVisible: visible});
     }
-    
+
     setDetailModalVisible(visible){
         this.setState({modalDetailVisible: visible});
     }
-    
+
     setJoinModalVisible(visible){
         this.setState({modalJoinVisible: visible});
     }
-    
+
     updateCreateState(){
         this.setState({modalCreateVisible: false});
     }
-    
+
     loadEverything(my){
         // console.log("constructing...");
-        
+
         let root = firebase.database();
         let solid = root.ref('build_version');
         // console.log( solid.once('value'));
         solid.once('value').then(function(snapshot) {
-                                 
+
                                  if(snapshot.val() != null){
-                                 
+
                                  // console.log(snapshot.val())
                                  // console.log(DeviceInfo.getBuildNumber());
                                  // console.log(DeviceInfo.getVersion());
                                  // console.log('load now');
-                                 
+
                                  if(snapshot.val() <= DeviceInfo.getBuildNumber()){
-                                 
+
                                  let fireID = root.ref("users/" + my.state.uniqueId).child('num_opened');
                                  fireID.once('value').then(function(snapshot) {
-                                                           
+
                                                            if(snapshot.val() == null){
-                                                           
+
                                                            var updates = {};
                                                            updates['/num_opened'] = 1;
                                                            root.ref("users/" + my.state.uniqueId).update(updates).then(function(){
                                                                                                                        //alert("Set initial stuff, now load groups");
                                                                                                                        my.loadGroups(my, root);
-                                                                                                                       
+
                                                                                                                        }).catch(function(error) {
                                                                                                                                 alert("Data could not be loaded. Try reopening app." + error);
                                                                                                                                 });
-                                                           
+
                                                            }
                                                            else{
-                                                           
+
                                                            var updates = {};
                                                            updates['/num_opened'] = snapshot.val()+1;
                                                            root.ref("users/" + my.state.uniqueId).update(updates).then(function(){
                                                                                                                        // alert("Set initial stuff, now load groups");
                                                                                                                        my.loadGroups(my, root);
-                                                                                                                       
+
                                                                                                                        }).catch(function(error) {
                                                                                                                                 alert("Data could not be loaded. Try reopening app." + error);
                                                                                                                                 });
-                                                           
+
                                                            }
-                                                           
+
                                                            });
-                                 
+
                                  }
                                  else{
-                                 
+
                                  if (Platform.OS == 'android') {
                                  Alert.alert(
                                              'Old Version of App',
@@ -204,31 +204,31 @@ export default class GroupScreen extends React.Component {
                                  else{
                                  alert("Data could not be loaded. Try reopening app." + error);
                                  }
-                                 
+
                                  }).catch(function(error) {
                                           alert("Data could not be loaded. Try reopening app." + error);
                                           });
-        
+
     }
-    
+
     loadGroups(my, root){
         // console.log('loading groups...')
-        
+
         var getKey = my.state.key;
-        
+
         root.ref('groups').on('value', function(snapshot) {
-                              
+
                               // console.log(snapshot.val());
                               // console.log(my.state)
-                              
+
                               var date = new Date().getDate(); //Current Date
                               var month = new Date().getMonth(); //Current Month
                               var year = new Date().getFullYear(); //Current Year
                               var now = new Date(year, month, date);
                               // console.log(date+'-'+month+'-'+year+' '+hours+':'+min+':'+sec);
-                              
+
                               var todayGroups = []
-                              
+
                               for(var i = 0; i < snapshot.val().length; i++){
                               // console.log(snapshot.val())
                               var full_date = snapshot.val()[i].date_stamp;
@@ -247,16 +247,16 @@ export default class GroupScreen extends React.Component {
                               }
                               }
                               // console.log(todayGroups);
-                              
+
                               // Sort from earliest time to latest time
                               todayGroups.sort(function (a, b) {
-                                               
+
                                                var aHours = a.time.substr(0, 2);
                                                var aMin = a.time.substr(3, 5);
-                                               
+
                                                var bHours = b.time.substr(0, 2);
                                                var bMin = b.time.substr(3, 5);
-                                               
+
                                                if(aHours < bHours){
                                                // console.log("less than");
                                                return 1;
@@ -279,18 +279,18 @@ export default class GroupScreen extends React.Component {
                                                return -1;
                                                }
                                                });
-                              
+
                               if(my._isMounted){
-                              
+
                               my.setState({data: todayGroups, loading: false},  function() {
-                                          
+
                                           // console.log("set state with group data");
-                                          
+
                                           if(my.state.modalDetailVisible == true){
                                           // console.log(my.state.key);
                                           getKey = my.state.key;
                                           if(getKey != -1){
-                                          
+
                                           // modal is open
                                           var item;
                                           for(var i = 0; i < todayGroups.length; i++){
@@ -298,12 +298,12 @@ export default class GroupScreen extends React.Component {
                                           item = todayGroups[i];
                                           }
                                           }
-                                          
+
                                           my.loadFriends(my, item.key, item.number_going, item.people, true);
                                           }
-                                          
+
                                           }
-                                          
+
                                           root.ref("users/" + my.state.uniqueId).once('value').then(function(snapshot) {
                                                                                                     // console.log(snapshot.val());
                                                                                                     // console.log("Got name");
@@ -317,50 +317,50 @@ export default class GroupScreen extends React.Component {
                                                                                                     }
                                                                                                     }
                                                                                                     });
-                                          
+
                                           my.arrayholder = todayGroups;
-                                          
-                                          
-                                          
+
+
+
                                           // console.log("finished setting all data")});
                                           });
                               }
-                              
+
                               });
-        
+
     }
-    
+
     loadFriends(my, key, numPeople, people, joined){
-        
+
         if(!my.state.friendData || my.state.friendData.length != numPeople || key != my.state.key){
-            
+
             my.setState({friendData: [{key: "0", name: "Loading Patel", prompt: "Loading"}]});
             var counter = 1;
-            
+
             var found = false;
             var sliced = false;
-            
+
             for(var i = 0; i < numPeople; i++){
-                
+
                 firebase.database().ref("users/" + Object.keys(people)[i]).on('value', function(snapshot) {
-                                                                              
+
                                                                               if(snapshot.key){
-                                                                              
+
                                                                               var friend = {};
                                                                               var friendID = snapshot.key;
                                                                               if(friendID == my.state.uniqueId){
                                                                               found = true;
                                                                               my.setState({notInEvent: false});
                                                                               }
-                                                                              
+
                                                                               friend["prompt"] = people[friendID].prompt;
                                                                               friend["key"] = counter.toString();
                                                                               friend["id"] = friendID;
                                                                               friend["name"] = snapshot.val().name;
-                                                                              
+
                                                                               my.state.friendData.push(friend);
                                                                               counter++;
-                                                                              
+
                                                                               if(numPeople == 1){
                                                                               my.setState({friendData: my.state.friendData.slice(1)});
                                                                               }
@@ -370,39 +370,39 @@ export default class GroupScreen extends React.Component {
                                                                               sliced = true;
                                                                               }
                                                                               }
-                                                                              
+
                                                                               }
-                                                                              
+
                                                                               }, function(error){
                                                                               alert("Data could not be loaded. Try reopening app." + error);
                                                                               });
-                
+
             }
-            
+
             if(found == false){
                 my.setState({notInEvent: true});
             }
-            
+
             // console.log(my.state.friendData);
             // console.log("got all users");
-            
+
             if(joined == false){
                 my.setState({modalDetailVisible: !my.state.modalDetailVisible});
             }
-            
+
             my.setState({key: key});
-            
+
         }
         else{
-            
+
             if(joined == false){
                 my.setState({modalDetailVisible: !my.state.modalDetailVisible});
             }
-            
+
         }
-        
+
     }
-    
+
     _handleAppStateChange = (nextAppState) => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
             // console.log('App has come to the foreground!');
@@ -415,7 +415,7 @@ export default class GroupScreen extends React.Component {
         }
         this.setState({appState: nextAppState});
     }
-    
+
     searchFilterFunction = text => {
         // console.log(this.arrayholder);
         if(this.arrayholder != null){
@@ -429,40 +429,40 @@ export default class GroupScreen extends React.Component {
                           });
         }
     };
-    
+
     onCreateButtonPressed = () => {
         this.setCreateModalVisible(!this.state.modalCreateVisible);
     }
-    
+
     renderGroupFlatListCell = ({ item }) => {
         return (<Group item={item} nav={this.props.nav} updateModalDet={this.updateDetailModal} setScroll={this.setScroll}/> )
     }
-    
+
     renderViewFlatListCell = ({ item }) => {
         return(<Friend item={item} />)
     }
-    
+
     showEmptyListView = () => {
         <View>
         <Text>Loading</Text>
         </View>
     }
-    
+
     setScroll = (item) => {
         this.setState({scrollEnabled: item});
     }
-    
+
     setHasName = (item) => {
         this.setState({hasName: item});
     }
-    
+
     updateDetailModal = (item) => {
         // console.log(item);
         this.setState({item: item});
         this.setState({scrollEnabled: true});
         this.loadFriends(this, item.key, item.number_going, item.people, false);
     }
-    
+
     openReport = () => {
         Linking.canOpenURL('https://wbc-magic.weebly.com/report').then(supported => {
                                                                        if (supported) {
@@ -472,45 +472,45 @@ export default class GroupScreen extends React.Component {
                                                                        }
                                                                        });
     };
-    
+
     joinEvent(){
-        
+
         userID = this.state.uniqueId;
-        
+
         const { newName, newIntro, friendData} = this.state
-        
+
         var numPeople = friendData.length;
         var that = this;
-        
+
         if (newName.trim() == "") {
             this.setState({errorMessage: "Please fill in your name!"});
         }
         else{
             this.setState({errorMessage: null});
-            
+
             var updates_1 = {};
             updates_1['/name/'] = newName;
             firebase.database().ref("users/" + userID).update(updates_1);
             this.setState({hasName: true});
-            
+
             var updates = {};
             updates['/people/' + userID + '/prompt'] = newIntro;
-            
+
             updates['/number_going'] = numPeople + 1;
             firebase.database().ref('groups/' + this.state.key).update(updates);
-            
+
             this.setJoinModalVisible(!this.state.modalJoinVisible);
-            
+
             var date = new Date().getDate(); //Current Date
             var month = new Date().getMonth(); //Current Month
             var year = new Date().getFullYear(); //Current Year
             var hours = new Date().getHours(); //Current Hours
             var min = new Date().getMinutes(); //Current Minutes
-            
+
             var now = new Date(year, month, date, hours, min);
             var eventHour = parseInt(this.state.item.time.substr(0, 2));
             var eventMin = parseInt(this.state.item.time.substr(3, 5));
-            
+
             var notifMessage = "Event Now: " + this.state.item.group_name + " @ " + this.state.item.location_name;
             if(eventHour == hours){
                 if(eventMin-10 > min){
@@ -524,61 +524,61 @@ export default class GroupScreen extends React.Component {
                     notifMessage = "Upcoming event: " + this.state.item.group_name + " @ " + this.state.item.location_name + " in 10 minutes";
                 }
             }
-            
+
             var eventDate = new Date(year, month, date, eventHour, eventMin);
             var timeLeft = eventDate - now;
             // console.log(timeLeft);
-            
+
             PushNotification.localNotificationSchedule({
                                                        //... You can use all the options from localNotifications
                                                        message: notifMessage, // (required)
                                                        date: new Date(Date.now() + timeLeft) // in 60 secs
                                                        });
-            
+
         }
-        
+
     }
-    
+
     componentDidMount() {
         // console.log('In main group screen');
-        
+
         this._isMounted = true;
-        
+
         // console.log(DeviceInfo.getUniqueID());
         //     const uniqueId = DeviceInfo.getUniqueID();
-        
+
         if (firebase.auth().currentUser !== null){
             // console.log("user id: " + firebase.auth().currentUser.uid);
             this.setState({uniqueId: firebase.auth().currentUser.uid});
-            
+
             // this.setState({uniqueId: uniqueId});
-            
-            
+
+
             AppState.addEventListener('change', this._handleAppStateChange);
-            
+
             let my = this;
             this.loadEverything(my);
         }
-        
-        
+
+
         // console.log('Done loading everything');
     }
-    
+
     // Remove all listeners
     componentWillUnmount() {
         console.log('leaving...');
         this._isMounted = false;
         AppState.removeEventListener('change', this._handleAppStateChange);
     }
-    
+
     // called when prop updates
     componentDidUpdate(prevProps) {
         // console.log('updating...');
         // console.log(this.state);
     }
-    
+
     render() {
-        
+
         return (
                 <View
                 style={styles.groupsView}>
@@ -596,7 +596,7 @@ export default class GroupScreen extends React.Component {
                 onRequestClose={() => {
                 this.setDetailModalVisible(!this.state.modalDetailVisible); this.setState({friendData: []})
                 }}>
-                
+
                 <View
                 style={styles.menuView}>
                 <View
@@ -617,7 +617,7 @@ export default class GroupScreen extends React.Component {
                 source={require("./../assets/images/bob-2.png")}
                 style={styles.buttonButtonImage}/>
                 </TouchableOpacity> }
-                
+
                 </View>
                 <View
                 style={styles.restHeaderView}>
@@ -641,7 +641,7 @@ export default class GroupScreen extends React.Component {
                 style={styles.viewFlatList}/>
                 </View>
                 </View>
-                
+
                 <Modal
                 animationType="slide"
                 transparent={true}
@@ -673,31 +673,21 @@ export default class GroupScreen extends React.Component {
                 onPress={() => { this.joinEvent();}}
                 style={styles.icCartButton}>
                 <Image
-                source={require("./../assets/images/ic-cart.png")}
-                style={styles.icCartButtonImage}/>
-                <View
-                style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                }}>
-                <Image
-                source={require("./../assets/images/bitmap-3.png")}
-                style={styles.bitmapImage}/>
-                </View>
+                source={require("./../assets/images/bob-2.png")}
+                style={styles.buttonButtonImage}/>
                 </TouchableOpacity>
-                
 
-                
+
+
                 </View>
                 </View>
                 </View>
-                
+
                 <View
                 style={styles.contentView}>
                 <View
                 style={styles.formView}>
-                
+
                 <View
                 style={styles.edittextTextonlyPlaceholderView}>
                 <Text
@@ -712,7 +702,7 @@ export default class GroupScreen extends React.Component {
                 onChangeText={newName => this.setState({newName}) }
                 value={this.state.newName}
                 style={styles.TextTextInput}/>
-                
+
                 </View>
                 </View>
                 <View
@@ -731,7 +721,7 @@ export default class GroupScreen extends React.Component {
                 style={styles.TextTwoTextInput}/>
                 </View>
                 </View>
-                
+
                 {this.state.errorMessage &&
                 <Text style={{ color: 'red', marginTop: 5}}>
                 {this.state.errorMessage}
@@ -739,11 +729,11 @@ export default class GroupScreen extends React.Component {
                 </View>
                 </View>
                 </View>
-                
+
                 </Modal>
-                
+
                 </Modal>
-                
+
                 <TextInput
                 placeholder="Search groups or restaurants"
                 onChangeText={text => this.searchFilterFunction(text)}
@@ -759,7 +749,7 @@ export default class GroupScreen extends React.Component {
                 </Text>}
                 <Text
                 style={styles.group5Text}>Today's Groups</Text>
-                
+
                 <View
                 style={{
                 flex: 1,
@@ -798,7 +788,7 @@ export default class GroupScreen extends React.Component {
                 </View>
                 );
     }
-    
+
 }
 
 const styles = StyleSheet.create({
@@ -875,7 +865,9 @@ const styles = StyleSheet.create({
                                  groupFlatListViewWrapper: {
                                  marginTop: hp('2%'),
                                  marginBottom: hp('3%'),
-                                 alignSelf: "center",
+                                 alignSelf: "stretch",
+                                 marginLeft: wp("4%"),
+                                 marginRight: wp("4%"),
                                  flex: 1,
                                  },
 
@@ -901,7 +893,9 @@ const styles = StyleSheet.create({
                                  },
                                  artboard2View: {
                                  backgroundColor: 'rgba(55, 58, 61,  0.95)',
-                                 flex: 1,
+                                height: 10000,
+                                 //flex: 1,
+                                 //flexDirection: "column",
                                  },
                                  icCloseButton: {
                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -911,8 +905,8 @@ const styles = StyleSheet.create({
                                  flexDirection: "row",
                                  alignItems: "center",
                                  justifyContent: "center",
-                                 marginLeft: 19,
-                                 marginTop: 36,
+                                 marginLeft: wp('7%'),
+                                 marginTop: hp('6%'),
                                  width: 60,
                                  height: 60,
                                  },
@@ -936,16 +930,21 @@ const styles = StyleSheet.create({
                                  height: 90,
                                  },
                                  icCartButton: {
-                                 backgroundColor: 'rgba(0, 0, 0, 0.0)',
-                                 flexDirection: "row",
-                                 alignItems: "center",
-                                 justifyContent: "center",
-                                 alignSelf: "flex-end",
-                                 width: 63.92,
-                                 height: 90,
+                                   flexDirection: "row",
+                                   alignItems: "center",
+                                   justifyContent: "center",
+                                   alignSelf: "flex-end",
+                                 //  position: "absolute",
+                                   //marginLeft: wp('12%'),
+                                   marginRight: wp('3%'),
+                                   marginTop: hp('5%'),
+                                 //  marginRight: wp('1%'),
+                                   width: 60,
+                                   height: 60,
                                  },
                                  icCartButtonImage: {
-                                 resizeMode: "contain",
+                                   width: 60,
+                                   height: 60,
                                  },
                                  icCartButtonText: {
                                  color: 'rgb(0, 0, 0)',
@@ -980,6 +979,7 @@ const styles = StyleSheet.create({
                                  marginRight: 19,
                                  marginTop: 21,
                                  alignSelf: "stretch",
+
                                  },
                                  edittextTextonlyPlaceholderView: {
                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -1084,50 +1084,59 @@ const styles = StyleSheet.create({
                                  // flexDirection: "column",
                                  },
                                  buttonButton: {
-                                 backgroundColor: 'rgba(0, 0, 0, 0.0)',
-                                 shadowColor: 'rgba(0, 0, 0, 0.10594995)',
-                                 shadowRadius: 3,
-                                 shadowOpacity: 1,
-                                 flexDirection: "row",
-                                 alignItems: "center",
-                                 justifyContent: "center",
-                                 marginLeft: wp('10%'),
-                                 marginTop: hp('7%'),
-                                 width: wp('5%'),
-                                 height: hp('5%'),
-                                 },
-                                 buttonButtonText: {
-                                 color: 'rgb(255, 255, 255)',
-                                 fontSize: 12,
-                                 fontStyle: "normal",
-                                 fontWeight: "normal",
-                                 textAlign: "left",
-                                 letterSpacing: 0,
-                                 },
-                                 buttonButtonImage: {
-                                 resizeMode: "contain",
-                                 },
-                                 buttonTwoButton: {
-                                 flexDirection: "row",
-                                 alignItems: "center",
-                                 justifyContent: "center",
-                                 alignSelf: "flex-end",
-                                 marginLeft: wp('70%'),
-                                 marginTop: hp('7%'),
-                                 width: wp('5%'),
-                                 height: hp('5%'),
-                                 },
-                                 buttonTwoButtonText: {
-                                 fontSize: 12,
-                                 fontStyle: "normal",
-                                 fontWeight: "normal",
-                                 textAlign: "left",
-                                 letterSpacing: 0,
-                                 },
-                                 buttonTwoButtonImage: {
-                                 resizeMode: "contain",
-                                 // marginRight: 10,
-                                 },
+                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                                  shadowColor: 'rgba(0, 0, 0, 0.10594995)',
+                                  shadowRadius: 3,
+                                  shadowOpacity: 1,
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  marginLeft: wp('7%'),
+                                  marginTop: hp('6%'),
+                                  width: 60,
+                                  height: 60,
+                                  },
+                                  buttonButtonText: {
+                                  color: 'rgb(255, 255, 255)',
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  textAlign: "left",
+                                  letterSpacing: 0,
+                                  width: 60,
+                                  height: 60,
+                                  },
+                                  buttonButtonImage: {
+                                  width: 60,
+                                  height: 60,
+                                  },
+                                  buttonTwoButton: {
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                //  alignSelf: "flex-end",
+                                //  position: "absolute",
+                                  marginLeft: wp('52%'),
+                                  //marginRight: wp('1%'),
+                                  marginTop: hp('6%'),
+                                //  marginRight: wp('1%'),
+                                  width: 60,
+                                  height: 60,
+                                  },
+                                  buttonTwoButtonText: {
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  textAlign: "left",
+                                  letterSpacing: 0,
+                                  width: 60,
+                                  height: 60,
+                                  },
+                                  buttonTwoButtonImage: {
+
+                                  width: 60,
+                                  height: 60,
+                                  },
                                  restHeaderView: {
                                  backgroundColor: 'rgb(255, 255, 255)',
                                  marginTop: 36,
@@ -1166,11 +1175,11 @@ const styles = StyleSheet.create({
                                  backgroundColor: 'rgb(246, 246, 246)',
                                  width: "100%",
                                  height: "100%",
+
                                  },
                                  viewFlatListViewWrapper: {
                                  marginLeft: -3,
                                  marginRight: 3,
-                                 flex: 1,
+                                // flex: 1,
                                  },
                                  })
-
