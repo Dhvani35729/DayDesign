@@ -741,18 +741,20 @@ export default class GroupScreen extends React.Component {
                 <OfflineNotice />
                 <View
                 style={{
-                flexDirection: "row",
+                //  flex: 1,
+               flexDirection: "row",
+               alignItems: "flex-start"
                 }}>
                 {this.state.successMessage &&
                 <Text style={{ color: 'green'}}>
                 {this.state.successMessage}
                 </Text>}
-                <Text
+                <Text numberOfLines={1} adjustsFontSizeToFit={true}
                 style={styles.group5Text}>Today's Groups</Text>
 
                 <View
                 style={{
-                flex: 1,
+                flex: 0.5,
                 flexDirection: "row-reverse",
                 marginLeft: wp('5%'),
                 marginTop: hp('4%'),
@@ -802,12 +804,12 @@ const styles = StyleSheet.create({
                                  fontSize: 18,
                                  fontStyle: "normal",
                                  fontWeight: "bold",
-                                 //textAlign: "right",
-                                 //lineHeight: 0,
-                                 //letterSpacing: 0,
+                                 // textAlign: "right",
+                                 //lineHeight: 5,
+                                 // letterSpacing: 0,
                                  marginLeft: wp('5%'),
                                  marginTop: hp('4%'),
-                                 // width: 251.38,
+                                  width: wp("88%"),
                                  },
                                  miscBigButtonButton: {
                                  backgroundColor: 'rgb(98, 179, 255)',
@@ -830,8 +832,8 @@ const styles = StyleSheet.create({
                                  fontStyle: "normal",
                                  fontWeight: "normal",
                                  textAlign: "center",
-                                 justifyContent: "center",
-                                 alignSelf: "center",
+                                // justifyContent: "center",
+                                 //alignSelf: "center",
                                  //flex: 1,
                                  //flexDirection: "row",
                                  },
@@ -853,7 +855,7 @@ const styles = StyleSheet.create({
                                  fontWeight: "normal",
                                  textAlign: "center",
                                  justifyContent: "center",
-                                 alignSelf: "center",
+                                 //alignSelf: "center",
                                  //flex: 1,
                                  //flexDirection: "row",
                                  },

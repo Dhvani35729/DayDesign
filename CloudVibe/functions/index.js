@@ -5,34 +5,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-// Take the text parameter passed to this HTTP endpoint and insert it into the
-// Realtime Database under the path /messages/:pushId/original
-exports.addMessage = functions.https.onCall((data, context) => {
-  // Grab the text parameter.
-  console.log(data)
-  const original = data.text;
-  // const sanitizedMessage = sanitizer.sanitizeText(original); // Sanitize the message.
-  // Push the new message into the Realtime Database using the Firebase Admin SDK.
-  return admin.database().ref('/messages').push({original: original}).then(() => {
-      console.log('New Message written');
-    // Returning the sanitized message to the client.
-      return { text: sanitizedMessage };
-    }
-  );
-});
-
-//
-// exports.createGroup = functions.https.onCall((data, context) => {
-//
-// // Message text passed from the client.
-// const text = data.text;
-//
-// // Authentication / user information is automatically added to the request.
-// const uid = context.auth.uid;
-// const email = context.auth.token.email || null;
-//
-// });
-
 exports.setName = functions.https.onCall((data, context) => {
 
 // Message text passed from the client.
@@ -40,7 +12,7 @@ const name = data.name;
 // Authentication / user information is automatically added to the request.
 const uid = context.auth.uid;
 const email = context.auth.token.email || null;
-console.log(context.auth)
+// console.log(context.auth)
 // email check
 // Checking that the user is authenticated.
 if (!context.auth) {
@@ -48,17 +20,15 @@ if (!context.auth) {
   throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
       'while authenticated.');
 }
-console.log(email.substring(email.indexOf("@")))
+// console.log(email.substring(email.indexOf("@")))
 if(email.substring(email.indexOf("@")).localeCompare("@wbc.com") === 0){
 
-console.log("good email")
 
 var updates_1 = {};
 updates_1['/name/'] = name;
 admin.database().ref("users/" + uid).update(updates_1).then(() => {
-    console.log('New Message written');
   // Returning the sanitized message to the client.
-    return { text: sanitizedMessage };
+    return { text: "Success" };
   }
 ).catch(function(error) {
   console.log("Data could not be saved." + error);
@@ -66,7 +36,87 @@ admin.database().ref("users/" + uid).update(updates_1).then(() => {
 
 }
 else{
-  console.log("here")
+  throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
+      'while authenticated.');
+
+}
+
+});
+
+exports.createGroup = functions.https.onCall((data, context) => {
+
+// Message text passed from the client.
+const newGroupName = data.groupName;
+const newGroupLocation = data.groupLocation;
+const newGroupTime = data.groupTime;
+
+// Authentication / user information is automatically added to the request.
+const uid = context.auth.uid;
+const email = context.auth.token.email || null;
+// console.log(context.auth)
+// email check
+// Checking that the user is authenticated.
+if (!context.auth) {
+  // Throwing an HttpsError so that the client gets the error details.
+  throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
+      'while authenticated.');
+}
+// console.log(email.substring(email.indexOf("@")))
+if(email.substring(email.indexOf("@")).localeCompare("@wbc.com") === 0){
+
+
+  var groupCount = 0;
+  admin.database().ref('groups_count').once('value').then(function(snapshot) {
+    groupCount = snapshot.val();
+
+    var updates = {};
+    updates['/key/'] = groupCount;
+    updates['/creator/'] = uid;
+    updates['/free_food/'] = false;
+    updates['/group_name/'] = newGroupName;
+    updates['/location_name/'] = newGroupLocation;
+    updates['/time/'] = newGroupTime;
+    updates['/number_going/'] = 1;
+    updates['/people/' + uid + '/prompt'] = "Group Creator";
+
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+
+    updates['/date_stamp/'] = year+'-'+("0" + date).slice(-2)+'-'+("0" + month).slice(-2);
+
+    admin.database().ref('groups/' + groupCount).update(updates).then(() => {
+      // Returning the sanitized message to the client.
+
+      var update_count = {};
+      update_count['/groups_count/'] = ++groupCount;
+      admin.database().ref().update(update_count).then(() => {
+        // Returning the sanitized message to the client.
+
+        return { text: "Success" };
+
+        }
+      ).catch(function(error) {
+        console.log("Data could not be saved." + error);
+      });
+
+      return { text: "Success" };
+
+      }
+    ).catch(function(error) {
+      console.log("Data could not be saved." + error);
+    });
+
+
+    return { text: "Success" };
+
+  }).catch(function(error) {
+    console.log("Data could not be saved." + error);
+  });
+
+
+}
+else{
   throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
       'while authenticated.');
 

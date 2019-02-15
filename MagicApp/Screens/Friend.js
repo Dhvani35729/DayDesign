@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   friend: {
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     height: hp('13%'),
-                                 marginTop: hp('2%'),
+    //marginTop: hp('2%'),
   },
   avatarImage: {
     resizeMode: "center",
@@ -88,5 +88,6 @@ const styles = StyleSheet.create({
     paddingRight: 130,
     flex: 1,
     height: hp('9%'),
+    width: wp('100%'),
   }
 });
