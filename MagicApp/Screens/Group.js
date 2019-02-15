@@ -126,7 +126,7 @@ export default class Group extends React.Component {
           position: "absolute",
         }}>
 
-        <Text style={styles.pmText}>{tConvert(this.props.item.time)}</Text>
+        <Text numberOfLines={1} style={styles.pmText}>{tConvert(this.props.item.time)}</Text>
 
         </View>
         </View>
@@ -139,7 +139,7 @@ export default class Group extends React.Component {
           position: "absolute",
         }}>
 
-      
+
 
         <Text adjustsFontSizeToFit={true} style={styles.tdInformationSessiText}>{this.props.item.group_name}</Text>
 
@@ -361,6 +361,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
     marginBottom: hp('2%'),
     alignSelf: "flex-end",
+    width: wp("100%")
   },
   pmText: {
     color: 'rgb(74, 78, 82)',
@@ -371,7 +372,9 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
     marginBottom: 1,
+    //marginTop: 10,
     alignSelf: "flex-end",
+    width: wp("100%")
   },
   tdInformationSessiText: {
     color: 'rgb(74, 78, 82)',
