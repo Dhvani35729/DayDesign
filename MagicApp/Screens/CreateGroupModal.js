@@ -125,12 +125,12 @@ export default class CreateGroupModal extends React.Component {
             this.setState({errorMessage: null});
 
             // database start
-
+            var that = this;
             var setName = firebase.functions().httpsCallable('setName');
             setName({name: newName}).then(function(result) {
               // Read result of the Cloud Function.
               //console.log(sanitizedMessage);
-                      this.props.setHasName(true);
+                      that.props.setHasName(true);
               // ...
             }).catch(function(error) {
               // Getting the Error details.
