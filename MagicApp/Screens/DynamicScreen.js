@@ -14,13 +14,14 @@ import PushNotification from 'react-native-push-notification'
 import firebase from 'react-native-firebase'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import TimeCellTwo from "./TimeCellTwo"
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
 export default class DynamicScreen extends React.Component {
 
 
     static navigationOptions = ({ navigation }) => {
-        
+
         const { params = {} } = navigation.state
         return {
         header: null,
@@ -28,15 +29,15 @@ export default class DynamicScreen extends React.Component {
         headerRight: null,
         }
     }
-    
+
     constructor(props) {
         super(props)
     }
-    
+
     componentDidMount() {
-        
+
     }
-    
+
     viewFlatListMockData = [{
                             key: "1",
                             }, {
@@ -58,14 +59,14 @@ export default class DynamicScreen extends React.Component {
                             }, {
                             key: "10",
                             }]
-    
+
     renderViewFlatListCell = ({ item }) => {
-        
-        return <TimeCellTwo/>
+
+        return <TimeCellTwo navigation={this.props.navigation}/>
     }
-    
+
     render() {
-        
+
         return <View
         style={styles.restauranthomeView}>
         <View
@@ -96,4 +97,3 @@ const styles = StyleSheet.create({
                                  flex: 1,
                                  },
                                  })
-

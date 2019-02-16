@@ -17,19 +17,19 @@ import VendorList from './VendorList'
 
 
 export default class TimeCellTwo extends React.Component {
-    
+
     state = {
     modalCreateVisible: false,
     }
-    
+
     constructor(props) {
         super(props)
     }
-    
+
     componentDidMount() {
-        
+
     }
-    
+
     viewFlatListMockData = [{
                             key: "1",
                             }, {
@@ -51,32 +51,35 @@ export default class TimeCellTwo extends React.Component {
                             }, {
                             key: "10",
                             }]
-    
+
     renderViewFlatListCell = ({ item }) => {
-        
+
         return <RestaurantCell/>
     }
-    
+
 
     setCreateModalVisible(visible) {
         this.setState({modalCreateVisible: visible});
     }
-    
+
     onSeeAllPressed = () => {
         this.setCreateModalVisible(!this.state.modalCreateVisible);
     }
 
-    
+
 //    onSeeAllPressed() {
 //        this.props.navigator.push({
 //                                  title: "Vendor List",
 //                                  component: VendorList,
 //                                  });
 //    }
-    
-    
+
+  openVendorList(){
+      this.props.navigation.navigate('VendorListScreen');
+  }
+
     render() {
-        
+
         return <View
         style={styles.timecell}>
         <View
@@ -93,6 +96,7 @@ export default class TimeCellTwo extends React.Component {
         }}>
         <TouchableOpacity
         onPress={this.onSeeAllPressed}
+        onPress={() => {this.openVendorList()}}
         style={styles.seeallButton}>
         <Text
         style={styles.seeallButtonText}>See All</Text>
@@ -169,4 +173,3 @@ const styles = StyleSheet.create({
                                  height: 106,
                                  },
                                  })
-
