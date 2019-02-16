@@ -57,23 +57,7 @@ export default class TimeCellTwo extends React.Component {
         return <RestaurantCell/>
     }
 
-
-    setCreateModalVisible(visible) {
-        this.setState({modalCreateVisible: visible});
-    }
-
-    onSeeAllPressed = () => {
-        this.setCreateModalVisible(!this.state.modalCreateVisible);
-    }
-
-
-//    onSeeAllPressed() {
-//        this.props.navigator.push({
-//                                  title: "Vendor List",
-//                                  component: VendorList,
-//                                  });
-//    }
-
+    
   openVendorList(){
       this.props.navigation.navigate('VendorListScreen');
   }
@@ -95,7 +79,6 @@ export default class TimeCellTwo extends React.Component {
         justifyContent: "flex-end",
         }}>
         <TouchableOpacity
-        onPress={this.onSeeAllPressed}
         onPress={() => {this.openVendorList()}}
         style={styles.seeallButton}>
         <Text

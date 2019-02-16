@@ -65,7 +65,7 @@ export default class MenuFour extends React.Component {
 				<View
 					style={styles.backgroundView}>
 					<Image
-						source={require("./../../assets/images/ic-close.png")}
+						source={require("./../assets/images/ic-close.png")}
 						style={styles.icCloseImage}/>
 					<View
 						style={{
@@ -74,7 +74,7 @@ export default class MenuFour extends React.Component {
 							justifyContent: "flex-end",
 						}}>
 						<Image
-							source={require("./../../assets/images/ic-cart-2.png")}
+							source={require("./../assets/images/ic-cart-2.png")}
 							style={styles.icCartImage}/>
 					</View>
 					<View
