@@ -140,12 +140,12 @@ export default class GroupScreen extends React.Component {
                                  if(snapshot.val() != null){
 
                                   //console.log(snapshot.val())
-                                  // console.log(DeviceInfo.getVersion());
+                                 // console.log(parseInt(DeviceInfo.getBuildNumber()));
                                   // console.log(snapshot.val().localeCompare(DeviceInfo.getVersion()));
-                                 // console.log(DeviceInfo.getVersion());
+                                 console.log(DeviceInfo.getVersion());
                                   // console.log('load now');
 
-                                 if(snapshot.val().localeCompare(DeviceInfo.getVersion()) <= 0){
+                                 if(snapshot.val().localeCompare(DeviceInfo.getVersion()) == 0){
 
                                  let fireID = root.ref("users/" + my.state.uniqueId).child('num_opened');
                                  fireID.once('value').then(function(snapshot) {
