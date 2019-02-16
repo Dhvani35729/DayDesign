@@ -769,6 +769,7 @@ export default class GroupScreen extends React.Component {
                 </TouchableOpacity>
                 </View>
                 </View>
+                
                 <View
                 style={styles.groupFlatListViewWrapper}>
                 {this.state.loading &&<ActivityIndicator size="large" />}
@@ -782,6 +783,7 @@ export default class GroupScreen extends React.Component {
                 extraData={this.state}
                 style={styles.groupFlatList}/>
                 </View>
+                
                 <TouchableOpacity
                 onPress={this.openReport}
                 style={styles.miscReportButtonButton}>
