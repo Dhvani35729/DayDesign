@@ -15,6 +15,7 @@ import {  Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 
 import GroupScreen from './Screens/GroupScreen'
 import DynamicScreen from './Screens/DynamicScreen'
+import VendorList from './Screens/VendorList'
 
 class LoadingScreen extends React.Component {
   render() {
@@ -27,29 +28,42 @@ class LoadingScreen extends React.Component {
   }
 }
 
+const DynamicNavigator = createStackNavigator({
+  DynamicScreen: {
+    screen: DynamicScreen,
+  },
+  VendorListScreen: {
+      screen: VendorList,
+  }
+},
+{
+  initialRouteName: "DynamicScreen"
+}
+);
+
 const AppNavigator = createMaterialBottomTabNavigator({
   GroupScreen: {
     screen: GroupScreen,
     navigationOptions: ({ navigation }) => ({
-     title: "Groups",
-     tabBarIcon: ( <Icon
-                name="heart"
-                color="#FFFF"
-                size={24}
-            />)
+      title: "Groups",
+      tabBarIcon: ( <Icon
+                 name="heart"
+                 color="#FFFF"
+                 size={24}
+             />)
    }),
    },
   DynamicScreen: {
-    screen: DynamicScreen,
+    screen: DynamicNavigator,
     navigationOptions: ({ navigation }) => ({
-     title: "Dynamic",
+     title: "Groups",
      tabBarIcon: ( <Icon
                 name="rocket"
                 color="#FFFF"
                 size={24}
             />)
    }),
-  },
+  }
 }, {
   initialRouteName: 'GroupScreen',
   activeColor: '#f0edf6',
