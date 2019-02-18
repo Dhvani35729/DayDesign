@@ -6,8 +6,9 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { Text, Image, View, StyleSheet, TouchableHighlight } from "react-native"
+import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native"
 import React from "react"
+import MenuFour from "./MenuFour"
 
 
 export default class ViewTwo extends React.Component {
@@ -26,6 +27,8 @@ export default class ViewTwo extends React.Component {
         style={styles.view}>
         
 
+        <TouchableOpacity
+        onPress={() => {this.props.navigation.navigate("MenuFour")}}>
         
         <View
         style={styles.smallRest1View}>
@@ -135,6 +138,7 @@ export default class ViewTwo extends React.Component {
         </View>
         
         
+        </TouchableOpacity>
 
         </View>
     }

@@ -56,7 +56,7 @@ export default class VendorList extends React.Component {
     
     renderViewFlatListCell = ({ item }) => {
         
-        return <ViewTwo/>
+      return <ViewTwo navigation={this.props.navigation}/>
     }
     
     render() {
