@@ -24,6 +24,8 @@ export default class RestaurantCell extends React.Component {
         
         return <View
         style={styles.restaurantcell}>
+    
+        
         <View
         style={styles.graybackgroundView}>
         <View
@@ -78,6 +80,8 @@ export default class RestaurantCell extends React.Component {
         style={styles.storetypeText}>Middle Eastern</Text>
         </View>
         </View>
+        
+        
         </View>
     }
 }
