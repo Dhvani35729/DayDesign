@@ -75,32 +75,27 @@ export default class MenuFour extends React.Component {
         style={styles.buttonButtonImage}/>
         </TouchableOpacity>
         
-        <View
-        style={{
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        }}>
+        
         
         
         
         <TouchableOpacity
         style={styles.icCartButton}
-        onPress={this.onIcCartPressed}>
+        onPress={() => {this.props.navigation.navigate("MenuTwo")}}>
         <Image
         source={require("./../assets/images/bob-2.png")}
         style={styles.buttonButtonImage}/>
         </TouchableOpacity>
         
-        </View>
+        
         
         
         
         <View
         style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
+            
+            //position: "absolute",
+        flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         }}>
@@ -111,10 +106,10 @@ export default class MenuFour extends React.Component {
         style={styles.nextmoneyText}>$2</Text>
         <View
         style={{
-        width: "100%",
-        height: "100%",
+            // width: "100%",
+            // height: "100%",
         flex: 1,
-        position: "absolute",
+            // position: "absolute",
         justifyContent: "flex-end",
         }}>
         <Text
@@ -125,9 +120,10 @@ export default class MenuFour extends React.Component {
         </View>
         <View
         style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
+            // width: "100%",
+            // height: "100%",
+            // position: "absolute",
+        flex: 1,
         }}>
         <Text
         style={styles.shawarmaPlusText}>Shawarma Plus</Text>
@@ -161,9 +157,9 @@ const styles = StyleSheet.create({
                                  flexDirection: "row",
                                  alignItems: "center",
                                  justifyContent: "center",
-                                 // padding: 0,
-                                 // marginLeft: 18,
-                                 // marginTop: 25,
+                                 padding: 0,
+                                 marginLeft: wp('5%'),
+                                 marginTop:  hp('5%'),
                                  width: 50,
                                  height: 50,
                                  },
@@ -184,10 +180,9 @@ const styles = StyleSheet.create({
                                  shadowOpacity: 1,
                                  flexDirection: "row",
                                  alignItems: "center",
-                                 justifyContent: "center",
-                                 // padding: 0,
-                                 // marginRight: 19,
-                                 // marginTop: 25,
+                                 justifyContent: "flex-start",
+                                 marginLeft: wp('61%'),
+                                 marginTop:  hp('5%'),
                                  width: 50,
                                  height: 50,
                                  },
@@ -207,7 +202,9 @@ const styles = StyleSheet.create({
                                  borderWidth: 2,
                                  borderColor: "rgb(246, 246, 246)",
                                  borderStyle: "solid",
-                                 marginTop: 15,
+                                 marginTop: hp('3%'),
+                                 marginRight: wp('95%'),
+                                 position: "relative",
                                  width: 70,
                                  height: 70,
                                  },
@@ -218,9 +215,9 @@ const styles = StyleSheet.create({
                                  fontWeight: "bold",
                                  textAlign: "center",
                                  backgroundColor: "transparent",
-                                 marginTop: 15,
+                                 marginTop: hp('1.5%'),
                                  width: 70,
-                                 height: 29.92,
+                                 //height: 29.92,
                                  },
                                  buyersneededText: {
                                  color: "white",
@@ -229,7 +226,7 @@ const styles = StyleSheet.create({
                                  fontWeight: "normal",
                                  textAlign: "center",
                                  backgroundColor: "transparent",
-                                 marginBottom: 12,
+                                 marginBottom: hp('1.5%'),
                                  width: 70,
                                  },
                                  shawarmaPlusText: {
@@ -239,9 +236,8 @@ const styles = StyleSheet.create({
                                  fontWeight: "normal",
                                  textAlign: "center",
                                  backgroundColor: "rgb(114, 167, 228)",
-                                 borderRadius: 20,
                                  overflow: 'hidden',
-                                 marginTop: hp('14%'),
+                                // marginTop: hp('14%'),
                                  width: wp('100%'),
                                  height: hp('5%'),
                                  //flex: 1,

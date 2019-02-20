@@ -9,6 +9,7 @@
 import { FlatList, Text, View, StyleSheet, TouchableOpacity, Image } from "react-native"
 import React from "react"
 import ListRest1TwoTwo from "./ListRest1TwoTwo"
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen"
 
 
 export default class MenuTwo extends React.Component {
@@ -34,6 +35,8 @@ export default class MenuTwo extends React.Component {
 	onPayWithCardPressed = () => {
 	
 	}
+    
+    
 
 	viewFlatListMockData = [{
 		key: "1",
@@ -73,7 +76,7 @@ export default class MenuTwo extends React.Component {
 							flexDirection: "row",
 						}}>
 						<Image
-							source={require("./../../assets/images/ic-close.png")}
+							source={require("./../assets/images/ic-close.png")}
 							style={styles.icCloseImage}/>
 						<View
 							style={{
@@ -83,9 +86,21 @@ export default class MenuTwo extends React.Component {
 								flexDirection: "row",
 								justifyContent: "center",
 							}}>
-							<View
-								style={styles.graybackgroundView}/>
-						</View>
+        
+        <View
+        style={styles.graybackgroundView}>
+        <Text
+        style={styles.nextmoneyText}>$2</Text>
+        <View
+        style={{
+        flex: 1,
+        justifyContent: "flex-end",
+        }}>
+        <Text
+        style={styles.buyersneededText}>145/200</Text>
+        </View>
+        </View>
+        </View>
 					</View>
 				</View>
 				<View
@@ -107,21 +122,11 @@ export default class MenuTwo extends React.Component {
 						style={styles.group3View}>
 						<Text
 							style={styles.subtotal4400Text}>SubTotal: $44.00</Text>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: "flex-end",
-							}}>
+						<View>
 							<Text
 								style={styles.total5000Text}>Total: $50.00</Text>
 						</View>
-						<View
-							style={{
-								width: "100%",
-								height: "100%",
-								position: "absolute",
-								justifyContent: "center",
-							}}>
+						<View>
 							<Text
 								style={styles.tax600Text}>Tax: $6.00</Text>
 						</View>
@@ -144,7 +149,7 @@ const styles = StyleSheet.create({
 	},
 	backgroundView: {
 		backgroundColor: "rgba(55, 58, 61, 0.9)",
-		height: 123,
+                                 height: hp('16.5%'),
 	},
 	icCloseImage: {
 		resizeMode: "center",
@@ -157,38 +162,66 @@ const styles = StyleSheet.create({
 		width: 50,
 		height: null,
 	},
-	graybackgroundView: {
-		backgroundColor: "rgba(226, 175, 47, 0.99)",
-		borderRadius: 35,
-		borderWidth: 2,
-		borderColor: "rgb(246, 246, 246)",
-		borderStyle: "solid",
-		marginTop: 15,
-		width: 70,
-		height: 70,
-		justifyContent: "center",
-		alignItems: "flex-start",
-	},
+                                 graybackgroundView: {
+                                 backgroundColor: "rgba(226, 175, 47, 0.99)",
+                                 borderRadius: 35,
+                                 borderWidth: 2,
+                                 borderColor: "rgb(246, 246, 246)",
+                                 borderStyle: "solid",
+                                 marginTop: hp('3%'),
+                                 position: "relative",
+                                 width: 70,
+                                 height: 70,
+                                 },
+                                 nextmoneyText: {
+                                 color: "white",
+                                 fontSize: 25,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 marginTop: hp('1.5%'),
+                                 width: 70,
+                                 //height: 29.92,
+                                 },
+                                 buyersneededText: {
+                                 color: "white",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 marginBottom: hp('1.5%'),
+                                 width: 70,
+                                 },
 	shawarmaPlusText: {
 		color: "rgb(246, 246, 246)",
-		fontSize: 24,
+                                 fontSize: hp('4%'),
 		fontStyle: "normal",
 		fontWeight: "normal",
 		textAlign: "center",
 		backgroundColor: "rgb(114, 167, 228)",
 		borderRadius: 20,
-		marginTop: 105,
-		width: 375,
-		flex: 1,
+     marginTop:  hp('16.5%'),
+
+		width: wp('100%'),
+                                 height: hp('5%'),
+		//flex: 1,
 	},
+                                 
+                                 
+                                 
+                                 
+                                 
 	viewFlatList: {
 		backgroundColor: "transparent",
 		width: "100%",
 		height: "100%",
 	},
 	viewFlatListViewWrapper: {
-		marginTop: 11,
+		marginTop: hp('1%'),
 		flex: 1,
+                                 marginBottom: hp('0%'),
 	},
 	group3View: {
 		backgroundColor: "transparent",
@@ -205,6 +238,7 @@ const styles = StyleSheet.create({
 		textAlign: "left",
 		backgroundColor: "transparent",
 		width: 358,
+
 	},
 	total5000Text: {
 		color: "rgb(55, 58, 61)",
@@ -214,6 +248,8 @@ const styles = StyleSheet.create({
 		textAlign: "left",
 		backgroundColor: "transparent",
 		width: 358,
+                                 marginTop: hp('2%'),
+
 	},
 	tax600Text: {
 		color: "rgb(55, 58, 61)",
@@ -222,7 +258,7 @@ const styles = StyleSheet.create({
 		fontWeight: "normal",
 		textAlign: "left",
 		backgroundColor: "transparent",
-		width: 358,
+                                 marginTop: hp('2%'),
 	},
 	payWithCardButton: {
 		backgroundColor: "transparent",
