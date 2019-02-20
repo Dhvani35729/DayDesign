@@ -17,6 +17,8 @@ import GroupScreen from './Screens/GroupScreen'
 import DynamicScreen from './Screens/DynamicScreen'
 import VendorList from './Screens/VendorList'
 import MenuFour from './Screens/MenuFour'
+import MenuTwo from './Screens/MenuTwo'
+
 
 class LoadingScreen extends React.Component {
   render() {
@@ -38,10 +40,14 @@ const DynamicNavigator = createStackNavigator({
   },
                                               MenuFour: {
                                               screen: MenuFour,
+                                              },
+                                              MenuTwo: {
+                                              screen: MenuTwo,
                                               }
 },
+                                              
 {
-  initialRouteName: "DynamicScreen"
+  initialRouteName: "MenuFour"
 }
 );
 
