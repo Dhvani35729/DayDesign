@@ -157,6 +157,7 @@ android {
 }
 
 dependencies {
+    compile project(':tipsi-stripe')
   implementation project(':react-native-push-notification')
   implementation project(':react-native-device-info')
   implementation project(':react-native-vector-icons')
