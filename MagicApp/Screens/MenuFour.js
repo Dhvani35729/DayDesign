@@ -56,7 +56,7 @@ export default class MenuFour extends React.Component {
     
     renderViewFlatListCell = ({ item }) => {
         
-        return <ListRest1/>
+        return <ListRest1 navigation={this.props.navigation}/>
     }
     
     render() {
@@ -68,7 +68,7 @@ export default class MenuFour extends React.Component {
         style={styles.backgroundView}>
         
         <TouchableOpacity
-        onPress={this.onIcClosePressed}
+        onPress={() => this.props.navigation.goBack()}
         style={styles.icCloseButton}>
         <Image
         source={require("./../assets/images/ic-close.png")}

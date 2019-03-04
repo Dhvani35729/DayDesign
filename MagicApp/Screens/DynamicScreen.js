@@ -8,6 +8,7 @@
 
 import React from "react"
 import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator, WebView, Linking, NetInfo } from "react-native"
+import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
 import PushNotification from 'react-native-push-notification'
@@ -27,6 +28,7 @@ export default class DynamicScreen extends React.Component {
         header: null,
         headerLeft: null,
         headerRight: null,
+        currentUser: null,
         }
     }
 
@@ -35,7 +37,8 @@ export default class DynamicScreen extends React.Component {
     }
 
     componentDidMount() {
-
+        const { currentUser } = firebase.auth()
+        this.setState({ currentUser })
     }
 
     viewFlatListMockData = [{
@@ -69,6 +72,16 @@ export default class DynamicScreen extends React.Component {
 
         return <View
         style={styles.restauranthomeView}>
+        
+        <Card
+        style={styles.card}
+        >
+      
+        <Text> hi </Text>
+
+        
+        </Card>
+        
         <View
         style={styles.viewFlatListViewWrapper}>
         <FlatList
@@ -91,8 +104,12 @@ const styles = StyleSheet.create({
                                  width: "100%",
                                  height: "100%",
                                  },
+                                 card: {
+                                 
+                                 backgroundColor: 'red',
+                                 },
                                  viewFlatListViewWrapper: {
-                                 marginTop: 25,
+                                 marginTop: 100,
                                  marginBottom: 6,
                                  flex: 1,
                                  },
