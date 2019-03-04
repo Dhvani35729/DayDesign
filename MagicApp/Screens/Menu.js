@@ -9,6 +9,7 @@
 import { Text, StyleSheet, FlatList, View } from "react-native"
 import React from "react"
 import ListRest1Two from "./ListRest1Two"
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen"
 
 
 export default class Menu extends React.Component {
@@ -64,14 +65,23 @@ export default class Menu extends React.Component {
 				style={styles.menuView}>
 				<View
 					style={styles.backgroundView}>
-					<View
-						style={styles.graybackgroundView}/>
+        <View
+        style={styles.graybackgroundView}>
+        <Text
+        style={styles.nextmoneyText}>$2</Text>
+        <View
+        style={{
+          flex: 1,
+        justifyContent: "flex-end",
+        }}>
+        <Text
+        style={styles.buyersneededText}>145/200</Text>
+        </View>
+        </View>
 				</View>
 				<View
 					style={{
-						width: "100%",
-						height: "100%",
-						position: "absolute",
+                    flex: 1,
 					}}>
 					<Text
 						style={styles.shawarmaPlusText}>Current Order</Text>
@@ -93,11 +103,9 @@ export default class Menu extends React.Component {
 						</View>
 						<View
 							style={{
-								flex: 1,
-								justifyContent: "flex-end",
 							}}>
 							<View
-								style={styles.viewFourView}>
+								style={styles.viewView}>
 								<Text
 									style={styles.pickUpBeforeText}>Pick-Up Before:</Text>
 								<Text
@@ -105,24 +113,24 @@ export default class Menu extends React.Component {
 							</View>
 						</View>
 					</View>
-					<View
-						style={styles.viewView}>
-						<View
-							style={styles.backgroundTwoView}/>
-						<View
-							style={{
-								width: "100%",
-								height: "100%",
-								flex: 1,
-								position: "absolute",
-								justifyContent: "flex-end",
-							}}>
-							<Text
-								style={styles.orderNumberText}>Order Number:</Text>
-							<Text
-								style={styles.mb2Text}>36MB2</Text>
-						</View>
-					</View>
+        <View
+        style={styles.viewFourView}>
+        <View
+        style={styles.backgroundTwoView}/>
+        <View
+        style={{
+        width: "100%",
+        height: "100%",
+        flex: 1,
+        position: "absolute",
+        justifyContent: "flex-end",
+        }}>
+        <Text
+        style={styles.orderNumberText}>Order Number:</Text>
+        <Text
+        style={styles.mb2Text}>36MB2</Text>
+        </View>
+        </View>
 				</View>
 			</View>
 	}
@@ -138,49 +146,69 @@ const styles = StyleSheet.create({
 		height: 123,
 		alignItems: "center",
 	},
-	graybackgroundView: {
-		backgroundColor: "rgba(226, 175, 47, 0.99)",
-		borderRadius: 35,
-		borderWidth: 2,
-		borderColor: "rgb(246, 246, 246)",
-		borderStyle: "solid",
-		marginTop: 15,
-		width: 70,
-		height: 70,
-		justifyContent: "center",
-		alignItems: "flex-start",
-	},
-	shawarmaPlusText: {
-		color: "rgb(246, 246, 246)",
-		fontSize: 24,
-		fontStyle: "normal",
-		fontWeight: "normal",
-		textAlign: "center",
-		backgroundColor: "rgb(114, 167, 228)",
-		borderRadius: 20,
-		marginTop: 105,
-		width: 375,
-		flex: 1,
-	},
-	viewFlatList: {
-		backgroundColor: "transparent",
-		width: "100%",
-		height: "100%",
-	},
-	viewFlatListViewWrapper: {
-		marginTop: 11,
-		flex: 1,
-	},
+                                 graybackgroundView: {
+                                 backgroundColor: "rgba(226, 175, 47, 0.99)",
+                                 borderRadius: 35,
+                                 borderWidth: 2,
+                                 borderColor: "rgb(246, 246, 246)",
+                                 borderStyle: "solid",
+                                 marginTop: hp('4%'),
+                                 justifyContent: "center",
+                                 width: 70,
+                                 height: 70,
+                                 },
+                                 nextmoneyText: {
+                                 color: "white",
+                                 fontSize: 25,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 marginTop: hp('1.5%'),
+                                 width: 70,
+                                 //height: 29.92,
+                                 },
+                                 buyersneededText: {
+                                 color: "white",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 marginBottom: hp('1.5%'),
+                                 width: 70,
+                                 },
+                                 shawarmaPlusText: {
+                                 color: "rgb(246, 246, 246)",
+                                 fontSize: hp('4%'),
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 backgroundColor: "rgb(114, 167, 228)",
+                                 overflow: 'hidden',
+                                 // marginTop: hp('14%'),
+                                 width: wp('100%'),
+                                 height: hp('5%'),
+                                 //flex: 1,
+                                 },
+                                 viewFlatList: {
+                                 backgroundColor: "transparent",
+                            
+                                 },
+                                 viewFlatListViewWrapper: {
+                                 marginTop: hp('1%'),
+                                 height: hp('40%'),
+
+                                 },
 	viewTwoView: {
 		backgroundColor: "transparent",
-		marginTop: 10,
+		marginTop: hp('2%'),
 		width: 361,
 		alignSelf: "center",
 		flex: 1,
 	},
 	viewThreeView: {
 		backgroundColor: "transparent",
-		height: 46,
 	},
 	statusText: {
 		color: "rgb(74, 74, 74)",
@@ -202,11 +230,12 @@ const styles = StyleSheet.create({
 		width: 361,
 	},
 	viewFourView: {
-		backgroundColor: "transparent",
-		marginLeft: 1,
-		height: 46,
-		flex: 1,
-		justifyContent: "flex-end",
+                                 backgroundColor: "transparent",
+                                 marginLeft: 6,
+                                 marginRight: 6,
+                                 marginBottom: hp('2%'),
+
+
 	},
 	pickUpBeforeText: {
 		color: "rgb(74, 74, 74)",
@@ -216,6 +245,7 @@ const styles = StyleSheet.create({
 		textAlign: "left",
 		backgroundColor: "transparent",
 		width: 360,
+
 	},
 	amText: {
 		color: "rgb(74, 74, 74)",
@@ -228,14 +258,11 @@ const styles = StyleSheet.create({
 		width: 359,
 	},
 	viewView: {
-		backgroundColor: "transparent",
-		marginLeft: 6,
-		marginRight: 6,
-		marginTop: 15,
-		marginBottom: 27,
-		height: 56,
-		flex: 1,
-		justifyContent: "flex-end",
+		
+                                 backgroundColor: "transparent",
+                                 width: 361,
+                                 alignSelf: "center",
+                                 marginTop: hp('1%'),
 	},
 	backgroundTwoView: {
 		backgroundColor: "rgb(73, 76, 79)",
