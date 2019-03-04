@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { Text, StyleSheet, View } from "react-native"
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native"
 import React from "react"
 
 
@@ -24,6 +24,9 @@ export default class ListRest1 extends React.Component {
 	
 		return <View
 				style={styles.listRest1}>
+        
+     <TouchableOpacity onPress={() => this.props.navigation.navigate('MenuThree')}>
+        
 				<View
 					style={{
 						flexDirection: "row",
@@ -67,6 +70,10 @@ export default class ListRest1 extends React.Component {
 							style={styles.textThreeText}>+23</Text>
 					</View>
 				</View>
+        
+        </TouchableOpacity>
+
+        
 			</View>
 	}
 }
@@ -75,6 +82,7 @@ const styles = StyleSheet.create({
 	listRest1: {
 		backgroundColor: "white",
 		height: 101,
+                                 marginBottom: 4,
 	},
 	group3View: {
 		backgroundColor: "transparent",
@@ -113,6 +121,7 @@ const styles = StyleSheet.create({
 	textTwoText: {
 		color: "rgba(55, 58, 61, 0.26)",
 		fontSize: 16,
+        textDecorationLine: 'line-through',
 		fontStyle: "normal",
 		fontWeight: "normal",
 		textAlign: "left",
