@@ -6,7 +6,7 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import { Text, StyleSheet, FlatList, View } from "react-native";
+import { Text, StyleSheet, FlatList, View, TouchableOpacity } from "react-native";
 import React from "react";
 import CheckoutItem from "./CheckoutItem";
 import {
@@ -82,6 +82,11 @@ export default class CurrentOrder extends React.Component {
               <Text style={styles.buyersneededText}>145/200</Text>
             </View>
           </View>
+            <TouchableOpacity
+            style={styles.buttonButton}>
+            <Text
+            style={styles.buttonButtonText}>History</Text>
+            </TouchableOpacity>
         </View>
         <View
           style={{
@@ -277,5 +282,20 @@ const styles = StyleSheet.create({
     marginRight: 1,
     marginBottom: 6,
     width: 362
-  }
+  },
+                                 buttonButton: {
+                                 //   position: "absolute",
+                                 marginLeft: wp('75%'),
+                                 marginTop: hp('-13%'),
+                                 },
+                                 buttonButtonText: {
+                                 color: "white",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 },
+                                 buttonButtonImage: {
+                                 resizeMode: "contain",
+                                 },
 });

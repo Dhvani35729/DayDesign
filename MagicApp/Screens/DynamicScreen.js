@@ -27,7 +27,6 @@ import {
   Linking,
   NetInfo
 } from "react-native";
-import { Card, ListItem, Button, Icon } from "react-native-elements";
 import DeviceInfo from "react-native-device-info";
 import RNExitApp from "react-native-exit-app";
 import PushNotification from "react-native-push-notification";
@@ -100,9 +99,80 @@ export default class DynamicScreen extends React.Component {
   render() {
     return (
       <View style={styles.restauranthomeView}>
-        <Card style={styles.card}>
-          <Text>Search</Text>
-        </Card>
+            
+            <TouchableOpacity
+            onPress={() => {this.props.navigation.navigate("CurrentOrder")}}>
+            <View
+            style={styles.viewView}>
+            <View
+            style={styles.viewTwoView}/>
+            <View
+            style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            }}>
+            <Text
+            style={styles.labelText}>Shawerma Plus</Text>
+            <View
+            style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            }}>
+            <View
+            style={styles.viewFourView}>
+            <Text
+            style={styles.labelSixText}>368b3</Text>
+            <View
+            style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            }}>
+            <Text
+            style={styles.labelFiveText}>11:30AM</Text>
+            </View>
+            <View
+            style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            flexDirection: "row",
+            justifyContent: "center",
+            }}>
+            <Text
+            style={styles.labelSevenText}>Ready</Text>
+            </View>
+            </View>
+            <View
+            style={styles.viewThreeView}>
+            <Text
+            style={styles.labelThreeText}>Order Number</Text>
+            <View
+            style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            }}>
+            <Text
+            style={styles.labelTwoText}>Pick Up By</Text>
+            </View>
+            <View
+            style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            flexDirection: "row",
+            justifyContent: "center",
+            }}>
+            <Text
+            style={styles.labelFourText}>Status</Text>
+            </View>
+            </View>
+            </View>
+            </View>
+            </View>
+            </TouchableOpacity>
 
         <View style={styles.viewFlatListViewWrapper}>
           <FlatList
@@ -127,12 +197,95 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%"
   },
-  card: {
-    backgroundColor: "red"
-  },
   viewFlatListViewWrapper: {
-    marginTop: 100,
-    marginBottom: 6,
-    flex: 1
-  }
+                                 marginTop: hp('1%'),
+                                 marginBottom: 6,
+                                 flex: 1,
+  },
+                                 viewView: {
+                                 backgroundColor: "transparent",
+                                 marginLeft: wp('4%'),
+                                 marginRight: wp('4%'),
+                                 marginTop: hp('4%'),
+                                 height: 75,
+                                 },
+                                 viewTwoView: {
+                                 backgroundColor: "rgb(227, 176, 22)",
+                                 borderRadius: 8,
+                                 width: 346,
+                                 height: 75,
+                                 alignItems: "flex-start",
+                                 },
+                                 labelText: {
+                                 color: "black",
+                                 fontSize: 18,
+                                 fontStyle: "normal",
+                                 fontWeight: "600",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 marginTop: 3,
+                                 },
+                                 viewFourView: {
+                                 backgroundColor: "transparent",
+                                 marginLeft: 9,
+                                 marginRight: 9,
+                                 marginBottom: hp('1%'),
+                                 flexDirection: "row",
+                                 },
+                                 labelSixText: {
+                                 color: "black",
+                                 fontSize: 14,
+                                 fontStyle: "normal",
+                                 fontWeight: "500",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 },
+                                 labelFiveText: {
+                                 color: "black",
+                                 fontSize: 14,
+                                 fontStyle: "normal",
+                                 fontWeight: "500",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 marginRight: 1,
+                                 },
+                                 labelSevenText: {
+                                 color: "black",
+                                 fontSize: 14,
+                                 fontStyle: "normal",
+                                 fontWeight: "500",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 },
+                                 viewThreeView: {
+                                 backgroundColor: "transparent",
+                                 marginLeft: 9,
+                                 marginRight: 9,
+                                 marginBottom: 7,
+                                 flexDirection: "row",
+                                 },
+                                 labelThreeText: {
+                                 color: "black",
+                                 fontSize: 10,
+                                 fontStyle: "normal",
+                                 fontWeight: "300",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 },
+                                 labelTwoText: {
+                                 color: "black",
+                                 fontSize: 10,
+                                 fontStyle: "normal",
+                                 fontWeight: "300",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 },
+                                 labelFourText: {
+                                 color: "black",
+                                 fontSize: 10,
+                                 fontStyle: "normal",
+                                 fontWeight: "300",
+                                 textAlign: "center",
+                                 backgroundColor: "transparent",
+                                 },
 });
