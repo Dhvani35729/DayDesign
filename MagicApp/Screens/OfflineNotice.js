@@ -1,8 +1,15 @@
-import React, { PureComponent } from 'react';
-import { View, Text, NetInfo, Dimensions, StyleSheet, Platform } from 'react-native';
-import { isIphoneX } from 'react-native-iphone-x-helper'
+import React, { PureComponent } from "react";
+import {
+  View,
+  Text,
+  NetInfo,
+  Dimensions,
+  StyleSheet,
+  Platform
+} from "react-native";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 function MiniOfflineSign() {
   if (!isIphoneX()) {
@@ -11,15 +18,13 @@ function MiniOfflineSign() {
         <Text style={styles.offlineText}>No Internet Connection</Text>
       </View>
     );
-  }
-  else {
+  } else {
     return (
       <View style={styles.offlineContainerIOS}>
         <Text style={styles.offlineText}>No Internet Connection</Text>
       </View>
     );
   }
-
 }
 
 class OfflineNotice extends PureComponent {
@@ -27,23 +32,29 @@ class OfflineNotice extends PureComponent {
     isConnected: true
   };
 
-  _isMounted = false
+  _isMounted = false;
 
   componentDidMount() {
-      this._isMounted = true;
+    this._isMounted = true;
     NetInfo.isConnected.fetch().then(isConnected => {
-      console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-      if(this._isMounted){
-          this.setState({isConnected});
+      console.log("First, is " + (isConnected ? "online" : "offline"));
+      if (this._isMounted) {
+        this.setState({ isConnected });
       }
     });
 
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      this.handleConnectivityChange
+    );
   }
 
   componentWillUnmount() {
     this._isMounted = false;
-    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+    NetInfo.isConnected.removeEventListener(
+      "connectionChange",
+      this.handleConnectivityChange
+    );
   }
 
   handleConnectivityChange = isConnected => {
@@ -55,38 +66,35 @@ class OfflineNotice extends PureComponent {
   };
 
   render() {
-
     if (!this.state.isConnected) {
       return <MiniOfflineSign />;
     }
     return null;
-
-
   }
 }
 
 const styles = StyleSheet.create({
   offlineContainer: {
-    backgroundColor: '#b52424',
+    backgroundColor: "#b52424",
     height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     width,
-    position: 'absolute',
+    position: "absolute",
     top: 0
   },
   offlineContainerIOS: {
-    backgroundColor: '#b52424',
+    backgroundColor: "#b52424",
     height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     width,
-    position: 'absolute',
+    position: "absolute",
     top: 30
   },
-  offlineText: { color: '#fff' }
+  offlineText: { color: "#fff" }
 });
 
 export default OfflineNotice;
