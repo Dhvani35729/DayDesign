@@ -19,17 +19,20 @@ import { createMaterialBottomTabNavigator } from "react-navigation-material-bott
 import firebase from "react-native-firebase";
 import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
 
+import Loading from "./Screens/Loading";
+
+import Login from "./Screens/Login";
+import SignUp from "./Screens/SignUp";
+
 import GroupScreen from "./Screens/GroupScreen";
 import DynamicScreen from "./Screens/DynamicScreen";
+
 import VendorList from "./Screens/VendorList";
-import MenuFour from "./Screens/MenuFour";
-import MenuTwo from "./Screens/MenuTwo";
-import payment from "./Screens/payment";
-import Menu from "./Screens/Menu";
-import Loading from "./Screens/Loading";
-import SignUp from "./Screens/SignUp";
-import Login from "./Screens/Login";
-import MenuThree from "./Screens/MenuThree";
+import PickMenu from "./Screens/PickMenu";
+import AddItem from "./Screens/AddItem";
+import Checkout from "./Screens/Checkout";
+import Payment from "./Screens/Payment";
+import CurrentOrder from "./Screens/CurrentOrder";
 
 class LoadingScreen extends React.Component {
   render() {
@@ -50,20 +53,20 @@ const DynamicNavigator = createStackNavigator(
     VendorListScreen: {
       screen: VendorList
     },
-    MenuFour: {
-      screen: MenuFour
+    PickMenu: {
+      screen: PickMenu
     },
-    MenuThree: {
-      screen: MenuThree
+    AddItem: {
+      screen: AddItem
     },
-    payment: {
-      screen: payment
+    Payment: {
+      screen: Payment
     },
-    Menu: {
-      screen: Menu
+    CurrentOrder: {
+      screen: CurrentOrder
     },
-    MenuTwo: {
-      screen: MenuTwo
+    Checkout: {
+      screen: Checkout
     }
   },
 
