@@ -6,111 +6,133 @@
 //  Copyright © 2019 magic. All rights reserved.
 //
 
-import React from "react"
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert, ScrollView, AppState, StatusBar, BackHandler, Platform, ActivityIndicator, WebView, Linking, NetInfo } from "react-native"
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
-import DeviceInfo from 'react-native-device-info';
-import RNExitApp from 'react-native-exit-app';
-import PushNotification from 'react-native-push-notification'
-import firebase from 'react-native-firebase'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import TimeCellTwo from "./TimeCellTwo"
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-
+import React from "react";
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Modal,
+  Alert,
+  ScrollView,
+  AppState,
+  StatusBar,
+  BackHandler,
+  Platform,
+  ActivityIndicator,
+  WebView,
+  Linking,
+  NetInfo
+} from "react-native";
+import { Card, ListItem, Button, Icon } from "react-native-elements";
+import DeviceInfo from "react-native-device-info";
+import RNExitApp from "react-native-exit-app";
+import PushNotification from "react-native-push-notification";
+import firebase from "react-native-firebase";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+import TimeCell from "./TimeCell";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
 export default class DynamicScreen extends React.Component {
 
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      header: null,
+      headerLeft: null,
+      headerRight: null,
+      currentUser: null
+    };
+  };
 
-    static navigationOptions = ({ navigation }) => {
+  constructor(props) {
+    super(props);
+  }
 
-        const { params = {} } = navigation.state
-        return {
-        header: null,
-        headerLeft: null,
-        headerRight: null,
-        currentUser: null,
-        }
+  componentDidMount() {
+    const { currentUser } = firebase.auth();
+    this.setState({ currentUser });
+  }
+
+  viewFlatListMockData = [
+    {
+      key: "1"
+    },
+    {
+      key: "2"
+    },
+    {
+      key: "3"
+    },
+    {
+      key: "4"
+    },
+    {
+      key: "5"
+    },
+    {
+      key: "6"
+    },
+    {
+      key: "7"
+    },
+    {
+      key: "8"
+    },
+    {
+      key: "9"
+    },
+    {
+      key: "10"
     }
+  ];
 
-    constructor(props) {
-        super(props)
-    }
+  renderViewFlatListCell = ({ item }) => {
+    return <TimeCell navigation={this.props.navigation} />;
+  };
 
-    componentDidMount() {
-        const { currentUser } = firebase.auth()
-        this.setState({ currentUser })
-    }
-
-    viewFlatListMockData = [{
-                            key: "1",
-                            }, {
-                            key: "2",
-                            }, {
-                            key: "3",
-                            }, {
-                            key: "4",
-                            }, {
-                            key: "5",
-                            }, {
-                            key: "6",
-                            }, {
-                            key: "7",
-                            }, {
-                            key: "8",
-                            }, {
-                            key: "9",
-                            }, {
-                            key: "10",
-                            }]
-
-    renderViewFlatListCell = ({ item }) => {
-
-        return <TimeCellTwo navigation={this.props.navigation}/>
-    }
-
-    render() {
-
-        return <View
-        style={styles.restauranthomeView}>
-        
-        <Card
-        style={styles.card}
-        >
-      
-        <Text> hi </Text>
-
-        
+  render() {
+    return (
+      <View style={styles.restauranthomeView}>
+        <Card style={styles.card}>
+          <Text>Search</Text>
         </Card>
-        
-        <View
-        style={styles.viewFlatListViewWrapper}>
-        <FlatList
-        horizontal={false}
-        renderItem={this.renderViewFlatListCell}
-        data={this.viewFlatListMockData}
-        style={styles.viewFlatList}/>
+
+        <View style={styles.viewFlatListViewWrapper}>
+          <FlatList
+            horizontal={false}
+            renderItem={this.renderViewFlatListCell}
+            data={this.viewFlatListMockData}
+            style={styles.viewFlatList}
+          />
         </View>
-        </View>
-    }
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-                                 restauranthomeView: {
-                                 backgroundColor: 'rgb(255, 255, 255)',
-                                 flex: 1,
-                                 },
-                                 viewFlatList: {
-                                 backgroundColor: 'rgba(0, 0, 0, 0.0)',
-                                 width: "100%",
-                                 height: "100%",
-                                 },
-                                 card: {
-                                 
-                                 backgroundColor: 'red',
-                                 },
-                                 viewFlatListViewWrapper: {
-                                 marginTop: 100,
-                                 marginBottom: 6,
-                                 flex: 1,
-                                 },
-                                 })
+  restauranthomeView: {
+    backgroundColor: "rgb(255, 255, 255)",
+    flex: 1
+  },
+  viewFlatList: {
+    backgroundColor: "rgba(0, 0, 0, 0.0)",
+    width: "100%",
+    height: "100%"
+  },
+  card: {
+    backgroundColor: "red"
+  },
+  viewFlatListViewWrapper: {
+    marginTop: 100,
+    marginBottom: 6,
+    flex: 1
+  }
+});
