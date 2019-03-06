@@ -46,7 +46,7 @@ export default class Login extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          // source={require("./../assets/images/sm-sq.jpg")}
+         source={require("./../assets/images/sm-sq.jpg")}
           style={styles.profileImg}
         />
         {this.state.errorMessage && (

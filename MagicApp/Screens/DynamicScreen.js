@@ -39,7 +39,6 @@ import TimeCell from "./TimeCell";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 export default class DynamicScreen extends React.Component {
-
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
@@ -50,13 +49,59 @@ export default class DynamicScreen extends React.Component {
     };
   };
 
+  _isMounted = false;
+
   constructor(props) {
     super(props);
+  }
+
+  loadRestaurants() {
+    var that = this;
+    var restaurants = [];
+    firebase
+      .database()
+      .ref("restaurants")
+      .once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childKey = childSnapshot.key;
+          var childData = childSnapshot.val();
+          // ...
+
+          console.log(childKey);
+          //  console.log(childData);
+          console.log("gotem ^^");
+
+          firebase
+            .database()
+            .ref("restaurants/" + childKey + "/public")
+            .once("value", function(snapshot) {
+              //console.log(snapshot.val());
+              if (snapshot.val().discounts_active == true) {
+                restaurants.push({
+                  restaurant_name: snapshot.val().restaurant_name,
+                  hours: snapshot.val().hours
+                });
+                //  console.log(snapshot.val().hours);
+                console.log(restaurants);
+                if (that._isMounted) {
+                  that.setState({ restaurants: restaurants });
+                }
+              }
+            });
+        });
+      });
   }
 
   componentDidMount() {
     const { currentUser } = firebase.auth();
     this.setState({ currentUser });
+    this._isMounted = true;
+    this.loadRestaurants();
+  }
+
+  componentWillUnmount() {
+    console.log("leaving...");
+    this._isMounted = false;
   }
 
   viewFlatListMockData = [
@@ -99,80 +144,77 @@ export default class DynamicScreen extends React.Component {
   render() {
     return (
       <View style={styles.restauranthomeView}>
-            
-            <TouchableOpacity
-            onPress={() => {this.props.navigation.navigate("CurrentOrder")}}>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate("CurrentOrder");
+          }}
+        >
+          <View style={styles.viewView}>
+            <View style={styles.viewTwoView} />
             <View
-            style={styles.viewView}>
-            <View
-            style={styles.viewTwoView}/>
-            <View
-            style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            }}>
-            <Text
-            style={styles.labelText}>Shawerma Plus</Text>
-            <View
-            style={{
-            flex: 1,
-            justifyContent: "flex-end",
-            }}>
-            <View
-            style={styles.viewFourView}>
-            <Text
-            style={styles.labelSixText}>368b3</Text>
-            <View
-            style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            }}>
-            <Text
-            style={styles.labelFiveText}>11:30AM</Text>
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute"
+              }}
+            >
+              <Text style={styles.labelText}>Shawerma Plus</Text>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end"
+                }}
+              >
+                <View style={styles.viewFourView}>
+                  <Text style={styles.labelSixText}>368b3</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      justifyContent: "flex-end"
+                    }}
+                  >
+                    <Text style={styles.labelFiveText}>11:30AM</Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      position: "absolute",
+                      flexDirection: "row",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <Text style={styles.labelSevenText}>Ready</Text>
+                  </View>
+                </View>
+                <View style={styles.viewThreeView}>
+                  <Text style={styles.labelThreeText}>Order Number</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      justifyContent: "flex-end"
+                    }}
+                  >
+                    <Text style={styles.labelTwoText}>Pick Up By</Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      position: "absolute",
+                      flexDirection: "row",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <Text style={styles.labelFourText}>Status</Text>
+                  </View>
+                </View>
+              </View>
             </View>
-            <View
-            style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            flexDirection: "row",
-            justifyContent: "center",
-            }}>
-            <Text
-            style={styles.labelSevenText}>Ready</Text>
-            </View>
-            </View>
-            <View
-            style={styles.viewThreeView}>
-            <Text
-            style={styles.labelThreeText}>Order Number</Text>
-            <View
-            style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            }}>
-            <Text
-            style={styles.labelTwoText}>Pick Up By</Text>
-            </View>
-            <View
-            style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            flexDirection: "row",
-            justifyContent: "center",
-            }}>
-            <Text
-            style={styles.labelFourText}>Status</Text>
-            </View>
-            </View>
-            </View>
-            </View>
-            </View>
-            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
 
         <View style={styles.viewFlatListViewWrapper}>
           <FlatList
@@ -198,94 +240,94 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   viewFlatListViewWrapper: {
-                                 marginTop: hp('1%'),
-                                 marginBottom: 6,
-                                 flex: 1,
+    marginTop: hp("1%"),
+    marginBottom: 6,
+    flex: 1
   },
-                                 viewView: {
-                                 backgroundColor: "transparent",
-                                 marginLeft: wp('4%'),
-                                 marginRight: wp('4%'),
-                                 marginTop: hp('4%'),
-                                 height: 75,
-                                 },
-                                 viewTwoView: {
-                                 backgroundColor: "rgb(227, 176, 22)",
-                                 borderRadius: 8,
-                                 width: 346,
-                                 height: 75,
-                                 alignItems: "flex-start",
-                                 },
-                                 labelText: {
-                                 color: "black",
-                                 fontSize: 18,
-                                 fontStyle: "normal",
-                                 fontWeight: "600",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 marginTop: 3,
-                                 },
-                                 viewFourView: {
-                                 backgroundColor: "transparent",
-                                 marginLeft: 9,
-                                 marginRight: 9,
-                                 marginBottom: hp('1%'),
-                                 flexDirection: "row",
-                                 },
-                                 labelSixText: {
-                                 color: "black",
-                                 fontSize: 14,
-                                 fontStyle: "normal",
-                                 fontWeight: "500",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 },
-                                 labelFiveText: {
-                                 color: "black",
-                                 fontSize: 14,
-                                 fontStyle: "normal",
-                                 fontWeight: "500",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 marginRight: 1,
-                                 },
-                                 labelSevenText: {
-                                 color: "black",
-                                 fontSize: 14,
-                                 fontStyle: "normal",
-                                 fontWeight: "500",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 },
-                                 viewThreeView: {
-                                 backgroundColor: "transparent",
-                                 marginLeft: 9,
-                                 marginRight: 9,
-                                 marginBottom: 7,
-                                 flexDirection: "row",
-                                 },
-                                 labelThreeText: {
-                                 color: "black",
-                                 fontSize: 10,
-                                 fontStyle: "normal",
-                                 fontWeight: "300",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 },
-                                 labelTwoText: {
-                                 color: "black",
-                                 fontSize: 10,
-                                 fontStyle: "normal",
-                                 fontWeight: "300",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 },
-                                 labelFourText: {
-                                 color: "black",
-                                 fontSize: 10,
-                                 fontStyle: "normal",
-                                 fontWeight: "300",
-                                 textAlign: "center",
-                                 backgroundColor: "transparent",
-                                 },
+  viewView: {
+    backgroundColor: "transparent",
+    marginLeft: wp("4%"),
+    marginRight: wp("4%"),
+    marginTop: hp("4%"),
+    height: 75
+  },
+  viewTwoView: {
+    backgroundColor: "rgb(227, 176, 22)",
+    borderRadius: 8,
+    width: 346,
+    height: 75,
+    alignItems: "flex-start"
+  },
+  labelText: {
+    color: "black",
+    fontSize: 18,
+    fontStyle: "normal",
+    fontWeight: "600",
+    textAlign: "center",
+    backgroundColor: "transparent",
+    marginTop: 3
+  },
+  viewFourView: {
+    backgroundColor: "transparent",
+    marginLeft: 9,
+    marginRight: 9,
+    marginBottom: hp("1%"),
+    flexDirection: "row"
+  },
+  labelSixText: {
+    color: "black",
+    fontSize: 14,
+    fontStyle: "normal",
+    fontWeight: "500",
+    textAlign: "center",
+    backgroundColor: "transparent"
+  },
+  labelFiveText: {
+    color: "black",
+    fontSize: 14,
+    fontStyle: "normal",
+    fontWeight: "500",
+    textAlign: "center",
+    backgroundColor: "transparent",
+    marginRight: 1
+  },
+  labelSevenText: {
+    color: "black",
+    fontSize: 14,
+    fontStyle: "normal",
+    fontWeight: "500",
+    textAlign: "center",
+    backgroundColor: "transparent"
+  },
+  viewThreeView: {
+    backgroundColor: "transparent",
+    marginLeft: 9,
+    marginRight: 9,
+    marginBottom: 7,
+    flexDirection: "row"
+  },
+  labelThreeText: {
+    color: "black",
+    fontSize: 10,
+    fontStyle: "normal",
+    fontWeight: "300",
+    textAlign: "center",
+    backgroundColor: "transparent"
+  },
+  labelTwoText: {
+    color: "black",
+    fontSize: 10,
+    fontStyle: "normal",
+    fontWeight: "300",
+    textAlign: "center",
+    backgroundColor: "transparent"
+  },
+  labelFourText: {
+    color: "black",
+    fontSize: 10,
+    fontStyle: "normal",
+    fontWeight: "300",
+    textAlign: "center",
+    backgroundColor: "transparent"
+  }
 });
