@@ -4,12 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.gettipsi.stripe.StripeReactPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.ReactNativeHost;
+import com.gettipsi.stripe.StripeReactPackage;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -52,7 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
         new MainReactPackage(),
-            new StripeReactPackage(),
+        new StripeReactPackage(),
          new ReactNativePushNotificationPackage(), // <---- Add the Package
             new RNDeviceInfo(),
             new VectorIconsPackage(),

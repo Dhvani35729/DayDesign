@@ -51,7 +51,6 @@ target 'magic' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
-  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
 
 end
 
