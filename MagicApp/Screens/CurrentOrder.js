@@ -104,7 +104,7 @@ export default class CurrentOrder extends React.Component {
           <View style={styles.viewTwoView}>
             <View style={styles.viewThreeView}>
               <Text style={styles.statusText}>Status:</Text>
-              <Text style={styles.readyText}>Ready</Text>
+              <Text style={styles.readyText}>Waiting</Text>
             </View>
             <View style={{}}>
               <View style={styles.viewView}>
@@ -199,9 +199,9 @@ const styles = StyleSheet.create({
   viewTwoView: {
     backgroundColor: "transparent",
     marginTop: hp("2%"),
-    width: 361,
     alignSelf: "center",
-    flex: 1
+    flex: 1,
+                                 marginLeft: wp('5%'),
   },
   viewThreeView: {
     backgroundColor: "transparent"
@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
   },
   viewView: {
     backgroundColor: "transparent",
-    width: 361,
     alignSelf: "center",
     marginTop: hp("1%")
   },
