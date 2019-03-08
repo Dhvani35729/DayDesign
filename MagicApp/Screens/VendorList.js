@@ -16,6 +16,10 @@ import {
 } from "react-native";
 import React from "react";
 import Vendor from "./Vendor";
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+} from "react-native-responsive-screen";
 
 export default class VendorList extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -97,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   group5TwoTextInput: {
-    borderColor: "rgb(151, 151, 151)",
     borderRadius: 17,
     borderWidth: 1,
     borderColor: "rgb(196, 201, 223)",
@@ -108,10 +111,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     letterSpacing: 0,
-    marginTop: 53,
-    marginLeft: 30,
-    marginRight: 30,
-    height: 40,
+    marginTop: hp('4%'),
+    marginHorizontal: wp('8%'),
+    height: 35,
     alignSelf: "stretch"
   },
   viewFlatList: {
@@ -120,8 +122,8 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   viewFlatListViewWrapper: {
-    marginTop: 21,
-    marginBottom: 10,
+    marginTop: hp('2%'),
+    marginBottom: hp('2%'),
     flex: 1
   }
 });

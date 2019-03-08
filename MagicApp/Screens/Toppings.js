@@ -37,7 +37,6 @@ export default class Toppings extends React.Component {
               fontWeight: "normal"
             }}
             checkedColor="#00798c"
-            checkedIcon="check-square"
             containerStyle={{
               backgroundColor: "#fff",
               height: 3,
@@ -67,6 +66,7 @@ const styles = StyleSheet.create({
   lettuceText: {
     color: "rgb(57, 60, 63)",
     fontSize: 13,
+    height: 15,
     fontStyle: "normal",
     fontWeight: "normal",
     textAlign: "left",
