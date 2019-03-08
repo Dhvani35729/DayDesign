@@ -272,16 +272,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 0,
-    marginTop: hp("2%"),
-    marginBottom: 30,
-    width: 121,
-    height: 25,
+//    padding: 0,
+    marginTop:  hp("2%"),
+//    width: 121,
+//    height: 25,
     alignSelf: "center"
   },
   payWithCardButtonImage: {
     resizeMode: "contain",
-    marginRight: 10
   },
   payWithCardButtonText: {
     color: "rgb(91, 158, 236)",

@@ -254,7 +254,6 @@ const styles = StyleSheet.create({
   viewTwoView: {
     backgroundColor: "rgb(227, 176, 22)",
     borderRadius: 8,
-    width: 346,
     height: 75,
     alignItems: "flex-start"
   },
