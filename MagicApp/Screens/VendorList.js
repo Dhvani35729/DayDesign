@@ -12,7 +12,8 @@ import {
   Image,
   View,
   TextInput,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from "react-native";
 import React from "react";
 import Vendor from "./Vendor";
@@ -77,6 +78,14 @@ export default class VendorList extends React.Component {
   render() {
     return (
       <View style={styles.vendorlistView}>
+            
+            <TouchableOpacity
+            style={styles.buttonButton}
+            onPress={() => this.props.navigation.goBack()}>
+            <Text
+            style={styles.buttonButtonText}>Back to All Hours </Text>
+            </TouchableOpacity>
+            
         <TextInput
           placeholder="Search Restaurants"
           onChangeText={text => this.searchFilterFunction(text)}
@@ -90,6 +99,7 @@ export default class VendorList extends React.Component {
             style={styles.viewFlatList}
           />
         </View>
+            
       </View>
     );
   }
@@ -111,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     letterSpacing: 0,
-    marginTop: hp('4%'),
+    marginTop: hp('1%'),
     marginHorizontal: wp('8%'),
     height: 35,
     alignSelf: "stretch"
@@ -121,6 +131,21 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%"
   },
+                                 buttonButton: {
+                                 //    position: "absolute",
+                                 marginLeft: wp('2%'),
+                                 marginTop: hp('3%'),
+                                 },
+                                 buttonButtonText: {
+                                 color: "rgba(155, 155, 155, 0.8)",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "left",
+                                 },
+                                 buttonButtonImage: {
+                                 resizeMode: "contain",
+                                 },
   viewFlatListViewWrapper: {
     marginTop: hp('2%'),
     marginBottom: hp('2%'),
