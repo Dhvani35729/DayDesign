@@ -31,7 +31,7 @@ import VendorList from "./Screens/VendorList";
 import PickMenu from "./Screens/PickMenu";
 import AddItem from "./Screens/AddItem";
 import Checkout from "./Screens/Checkout";
-import Payment from "./Screens/Payment";
+import Payment from "./Screens/payment";
 import CurrentOrder from "./Screens/CurrentOrder";
 
 class LoadingScreen extends React.Component {
