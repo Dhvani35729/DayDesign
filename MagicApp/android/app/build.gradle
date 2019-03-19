@@ -186,7 +186,7 @@ dependencies {
     // we manually add it as a dependency below with a custom version
     exclude group: 'com.android.support', module: 'customtabs'
   }
-
+  implementation "com.google.firebase:firebase-iid:17.1.0"
   // Authentication
   implementation "com.google.firebase:firebase-auth:16.0.5"
   // Analytics
@@ -208,7 +208,7 @@ dependencies {
   // Cloud Firestore
   implementation "com.google.firebase:firebase-firestore:17.1.2"
   // Cloud Messaging / FCM
-  implementation "com.google.firebase:firebase-messaging:17.3.4"
+  implementation "com.google.firebase:firebase-messaging:17.4.0"
   // Crashlytics
   implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
     transitive = true
