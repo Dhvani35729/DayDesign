@@ -50,6 +50,7 @@
 		772F745A21FB4B350042CDB1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772F745921FB4B350042CDB1 /* UserNotifications.framework */; };
 		7753941C21FAC33B00E42C5A /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 775393FD21FAC2FA00E42C5A /* libRCTPushNotification.a */; };
 		77CDBEAA21CF584500977FC0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77CDBE8421CF584500977FC0 /* GoogleService-Info.plist */; };
+		77E4C5562241321600A3C355 /* libTPSStripe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E4C5552241320300A3C355 /* libTPSStripe.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		884FF3F7B461439E88E413DB /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26011237AC4E4FCEB52767D3 /* FontAwesome5_Solid.ttf */; };
 		A563D3B847E34214A1F63032 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26A4ABAA106F4ECD90603120 /* FontAwesome5_Regular.ttf */; };
@@ -349,6 +350,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		77E4C5542241320300A3C355 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77E4C5262241320300A3C355 /* TPSStripe.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3A3A7F1A1DC27B520030F9DC;
+			remoteInfo = TPSStripe;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -410,6 +418,7 @@
 		775393EB21FAC2FA00E42C5A /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		77BB3CC221D15DE700AFF55B /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		77CDBE8421CF584500977FC0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		77E4C5262241320300A3C355 /* TPSStripe.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TPSStripe.xcodeproj; path = "../node_modules/tipsi-stripe/ios/TPSStripe.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		80344B548DFA4338B29806C0 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -441,6 +450,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77E4C5562241321600A3C355 /* libTPSStripe.a in Frameworks */,
 				772F745A21FB4B350042CDB1 /* UserNotifications.framework in Frameworks */,
 				7753941C21FAC33B00E42C5A /* libRCTPushNotification.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -665,6 +675,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		77E4C5272241320300A3C355 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				77E4C5552241320300A3C355 /* libTPSStripe.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,6 +695,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				77E4C5262241320300A3C355 /* TPSStripe.xcodeproj */,
 				775393EB21FAC2FA00E42C5A /* RCTPushNotification.xcodeproj */,
 				77BB3CC221D15DE700AFF55B /* RNGestureHandler.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -964,6 +983,10 @@
 					ProductGroup = 77BB3CC321D15DE700AFF55B /* Products */;
 					ProjectRef = 77BB3CC221D15DE700AFF55B /* RNGestureHandler.xcodeproj */;
 				},
+				{
+					ProductGroup = 77E4C5272241320300A3C355 /* Products */;
+					ProjectRef = 77E4C5262241320300A3C355 /* TPSStripe.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1247,6 +1270,13 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 77DD106021D044F400B87D9B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		77E4C5552241320300A3C355 /* libTPSStripe.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTPSStripe.a;
+			remoteRef = 77E4C5542241320300A3C355 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
