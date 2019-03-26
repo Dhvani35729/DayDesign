@@ -5,16 +5,14 @@ const express = require('express');
 const cors = require('cors')({origin: true});
 const app = express();
 
-// TODO: Remember to set token using >> firebase functions:config:set stripe.token="SECRET_STRIPE_TOKEN_HERE"
 const stripe = require('stripe')(functions.config().stripe.token);
 
 function charge(req, res) {
     const body = JSON.parse(req.body);
-    const token = body.token.id;
+    const token = body.token;
     const amount = body.charge.amount;
     const currency = body.charge.currency;
     
-    // Charge card
     stripe.charges.create({
                           amount,
                           currency,
@@ -44,7 +42,6 @@ function send(res, code, body) {
 app.use(cors);
 app.post('/', (req, res) => {
          
-         // Catch any unexpected errors to prevent crashing
          try {
          charge(req, res);
          } catch(e) {
