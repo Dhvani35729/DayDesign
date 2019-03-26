@@ -22,6 +22,8 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "add": "^2.0.6",
+    "or": "^0.2.0",
     "react": "16.5.0",
     "react-native": "^0.57.1",
     "react-native-device-info": "^0.24.3",
@@ -34,6 +36,7 @@
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-paper": "^2.10.1",
     "react-native-push-notification": "^3.1.2",
+    "react-native-render-html": "^4.1.2",
     "react-native-responsive-screen": "^1.2.0",
     "react-native-vector-icons": "^6.1.0",
     "react-navigation": "^3.0.9",
@@ -43,6 +46,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "stripe": "^6.25.1",
-    "tipsi-stripe": "^7.3.0"
+    "tipsi-stripe": "^7.3.0",
+    "yarn": "^1.13.0"
   }
 }
