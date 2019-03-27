@@ -42,9 +42,10 @@ export default class NewCardPage extends Component {
         
         const FIREBASE_FUNCTION = 'https://us-central1-payment-test-1d907.cloudfunctions.net/charge/';
         
-        const charge_amount = 500;
+        const charge_amount = 1000;
         
         const charge_currency = 'cad';
+        
         
         const options = {
             
@@ -64,6 +65,8 @@ export default class NewCardPage extends Component {
 
               
               let res = charge(response.tokenId, charge_amount, charge_currency);
+              
+
               
               
               this.props.navigation.navigate("CurrentOrder");
@@ -111,11 +114,7 @@ export default class NewCardPage extends Component {
         }
         
         
-        
-        
-        
-        
-        
+   
         
         
         
