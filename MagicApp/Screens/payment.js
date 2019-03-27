@@ -51,7 +51,7 @@ export default class NewCardPage extends Component {
             
         smsAutofillDisabled: true,
             
-        theme
+            theme
             
         };
         
@@ -62,11 +62,11 @@ export default class NewCardPage extends Component {
         .paymentRequestWithCardForm(options)
         
         .then(response => {
-
+              
               
               let res = charge(response.tokenId, charge_amount, charge_currency);
               
-
+              
               
               
               this.props.navigation.navigate("CurrentOrder");
@@ -114,7 +114,7 @@ export default class NewCardPage extends Component {
         }
         
         
-   
+        
         
         
         
@@ -133,7 +133,5 @@ export default class NewCardPage extends Component {
     
     
 }
-
-
 
 

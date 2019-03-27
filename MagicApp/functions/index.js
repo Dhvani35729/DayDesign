@@ -1,3 +1,4 @@
+
 //not written by a software engineer.
 
 const functions = require('firebase-functions');
@@ -16,45 +17,41 @@ function charge(req, res) {
     const currency = body.charge.currency;
     
     stripe.customers.create({
-                          email: "dhrumil@gmail.com",
-                          source: token,
-                          });
-    
-    const customer = stripe.customers.retrieve('cus_EmHB13vlVdmsK6');
+                            email: "dhrumil@gmail.com",
+                            source: token,
+                            });
+    //save the customer ID and other info in database
 
+    
     stripe.charges.create({
                           amount,
                           currency,
+                          capture: false,
                           customer: 'cus_EmHB13vlVdmsK6', // obtained with Stripe.js
                           }).then(charge => {
-                                                                    send(res, 200, {
-                                                                         message: 'Success',
-                                                                         charge,
-                                                                         });
-                                                                    }).catch(err => {
-                                                                             console.log(err);
-                                                                             send(res, 500, {
-                                                                                  error: err.message,
-                                                                                  });
-                                                                             });
+                                  send(res, 200, {
+                                       message: 'Success',
+                                       charge,
+                                       });
+                                  }).catch(err => {
+                                           console.log(err);
+                                           send(res, 500, {
+                                                error: err.message,
+                                                });
+                                           });
     
     
-//    stripe.charges.create({
-//                          amount,
-//                          currency,
-//                          description: 'Firebase Example',
-//                          source: token,
-//                          }).then(charge => {
-//                                  send(res, 200, {
-//                                       message: 'Success',
-//                                       charge,
-//                                       });
-//                                  }).catch(err => {
-//                                           console.log(err);
-//                                           send(res, 500, {
-//                                                error: err.message,
-//                                                });
-//                                           });
+    //the amount here is the final amount once hour is over
+
+
+                           
+    stripe.charges.capture("ch_1EIkykFx6ej5bzOrD1IKeOKe"
+, function(charge) {
+                           amount: 500;
+                           });
+                           
+    
+   
 }
 
 function send(res, code, body) {
