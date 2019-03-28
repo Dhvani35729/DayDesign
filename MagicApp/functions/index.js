@@ -1,5 +1,4 @@
 
-//not written by a software engineer.
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -16,13 +15,14 @@ function charge(req, res) {
     const amount = body.charge.amount;
     const currency = body.charge.currency;
     
+    //save the customer ID and other info in database
     stripe.customers.create({
                             email: "dhrumil@gmail.com",
                             source: token,
                             });
-    //save the customer ID and other info in database
-
     
+    
+    //save the charge ID and other info in database
     stripe.charges.create({
                           amount,
                           currency,
@@ -39,17 +39,13 @@ function charge(req, res) {
                                                 error: err.message,
                                                 });
                                            });
-    
-    
-    //the amount here is the final amount once hour is over
 
+    
+//    //the amount here is the final amount once hour is over
 
-                           
-    stripe.charges.capture("ch_1EIkykFx6ej5bzOrD1IKeOKe"
-, function(charge) {
-                           amount: 500;
-                           });
-                           
+    stripe.charges.capture('ch_1EIl3ZFx6ej5bzOrrQ4JfAaT'
+, { amount: 500 });
+
     
    
 }
