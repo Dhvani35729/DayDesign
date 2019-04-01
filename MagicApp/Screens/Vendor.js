@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end"
   },
   activeText: {
-    color: "rgb(114, 167, 228)",
+                                 color: "#E2AF2F",
                                  fontSize: 8,
                                  fontStyle: "normal",
                                  fontWeight: "normal",
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
                                  marginRight: wp('0.5%'),
   },
   textThreeText: {
-    color: "rgb(114, 167, 228)",
+                                 color: "#E2AF2F",
                                  width: wp('12%'),
                                  fontSize: 15,
                                  

@@ -26,6 +26,7 @@ import SignUp from "./Screens/SignUp";
 
 import GroupScreen from "./Screens/GroupScreen";
 import DynamicScreen from "./Screens/DynamicScreen";
+import ProfileScreen from "./Screens/GroupScreen";
 
 import VendorList from "./Screens/VendorList";
 import PickMenu from "./Screens/PickMenu";
@@ -92,20 +93,30 @@ const SignUpNavigator = createSwitchNavigator(
 
 const AppNavigator = createMaterialBottomTabNavigator(
   {
-    GroupScreen: {
-      screen: GroupScreen,
-      navigationOptions: ({ navigation }) => ({
-        title: "Groups",
-        tabBarIcon: <Icon name="group" color="#FFFF" size={20} />
-      })
-    },
+    
+                                                      ProfileScreen: {
+                                                      screen: ProfileScreen,
+                                                      navigationOptions: ({ navigation }) => ({
+                                                                                              title: "Profile",
+                                                                                              tabBarIcon: <Icon name="user-circle-o" color="#FFFF" size={20} />
+                                                                                              })
+                                                      },
     DynamicScreen: {
       screen: DynamicNavigator,
       navigationOptions: ({ navigation }) => ({
         title: "Restaurants",
         tabBarIcon: <Icon name="cutlery" color="#FFFF" size={20} />
       })
-    }
+    },
+                                                      
+                                                      GroupScreen: {
+                                                      screen: GroupScreen,
+                                                      navigationOptions: ({ navigation }) => ({
+                                                                                              title: "Groups",
+                                                                                              tabBarIcon: <Icon name="group" color="#FFFF" size={20} />
+                                                                                              })
+                                                      },
+                                                      
   },
   {
     initialRouteName: "DynamicScreen",
