@@ -26,7 +26,7 @@ import SignUp from "./Screens/SignUp";
 
 import GroupScreen from "./Screens/GroupScreen";
 import DynamicScreen from "./Screens/DynamicScreen";
-import ProfileScreen from "./Screens/GroupScreen";
+import ProfileScreen from "./Screens/Profile";
 
 import VendorList from "./Screens/VendorList";
 import PickMenu from "./Screens/PickMenu";
@@ -34,6 +34,8 @@ import AddItem from "./Screens/AddItem";
 import Checkout from "./Screens/Checkout";
 import Payment from "./Screens/payment";
 import CurrentOrder from "./Screens/CurrentOrder";
+import SendGift from "./Screens/SendGift";
+
 
 class LoadingScreen extends React.Component {
     render() {
@@ -65,6 +67,9 @@ const DynamicNavigator = createStackNavigator(
                                               },
                                               CurrentOrder: {
                                               screen: CurrentOrder
+                                              },
+                                              SendGift: {
+                                              screen: SendGift
                                               },
                                               Checkout: {
                                               screen: Checkout
