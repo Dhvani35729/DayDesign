@@ -133,6 +133,35 @@ export default class PickMenu extends React.Component {
           }}
         >
           <Text style={styles.shawarmaPlusText}>Shawarma Plus</Text>
+            
+            <View
+            style={styles.restHeaderTwoView}>
+            <Text
+            style={styles.unlockFreeText}>unlock free</Text>
+            <View
+            pointerEvents="box-none"
+            style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            }}>
+            <Text
+            style={styles.textText}>7/10</Text>
+            </View>
+            <View
+            pointerEvents="box-none"
+            style={{
+            width: "100%",
+            height: "100%",
+            flex: 1,
+            position: "absolute",
+            justifyContent: "flex-end",
+            }}>
+            <Text
+            style={styles.textTwoText}>Jawaes fdg drgy trdtdf trr fytfty</Text>
+            </View>
+            </View>
+            
+            
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
@@ -249,6 +278,47 @@ const styles = StyleSheet.create({
     height: hp("5%")
     //flex: 1,
   },
+                                 restHeaderTwoView: {
+                                 backgroundColor: "rgb(214, 112, 125)",
+                                 borderRadius: 19,
+                                 borderWidth: 2,
+                                 borderColor: "white",
+                                 borderStyle: "solid",
+                                 marginLeft: 7,
+                                 marginRight: 7,
+                                 marginTop: 5,
+                                 height: 59,
+                                 },
+                                 unlockFreeText: {
+                                 backgroundColor: "transparent",
+                                 color: "white",
+                                 fontSize: 13,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 marginTop:     1,
+                                 width: 352,
+                                 },
+                                 textText: {
+                                 backgroundColor: "transparent",
+                                 color: "white",
+                                 fontSize: 13,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 marginBottom: 1,
+                                 width: 352,
+                                 },
+                                 textTwoText: {
+                                 backgroundColor: "transparent",
+                                 color: "white",
+                                 fontSize: 18,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 marginBottom: 17,
+                                 width: 352,
+                                 },
   viewFlatList: {
     backgroundColor: "transparent",
     width: "100%",

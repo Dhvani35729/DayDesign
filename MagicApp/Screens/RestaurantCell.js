@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end"
   },
   activeText: {
-    color: "rgb(114, 167, 228)",
+                                 color: "#E2AF2F",
     fontSize: 8,
     fontStyle: "normal",
     fontWeight: "normal",
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     width: 50
   },
   currentmoneyText: {
-    color: "rgb(114, 167, 228)",
+                                 color: "#E2AF2F",
     fontSize: 21,
     fontStyle: "normal",
     fontWeight: "bold",
