@@ -69,7 +69,7 @@ export default class NewCardPage extends Component {
               
               
               
-              this.props.navigation.navigate("CurrentOrder");
+              this.props.navigation.navigate("SendGift");
               console.log(response);
               
               
