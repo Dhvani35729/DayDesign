@@ -1,126 +1,229 @@
 //
-//  ListRest1TwoTwo
-//  dynamic
+//  Friendsfriends
 //
-//  Created by dhvani&dhrumil.
-//  Copyright © 2018 magic. All rights reserved.
+//
+//  Created by dhrumil.
+//  Copyright © 2018 hackathon. All rights reserved.
 //
 
-import { Text, StyleSheet, View } from "react-native";
-import React from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from "react-native-responsive-screen";
+import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList } from "react-native"
+import React from "react"
+import RestHeader from "./RestHeader"
+import SegmentedControlTab from "react-native-segmented-control-tab"
+import ListRest1Three from "./ListRest1Three"
 
-export default class CheckoutItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  componentDidMount() {}
-
-  render() {
-    return (
-      <View style={styles.listRest1}>
-        <View style={styles.group3View}>
-          <View
-            style={{
-              flexDirection: "row"
-            }}
-          >
-            <Text style={styles.jawadSStyleChickText}>
-              Jawad's Style: Chicken Shawarma Wrap rwrwerwertyuiytuuuyu
-            </Text>
-            <Text style={styles.textText}>$11.00</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "flex-end"
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "flex-end"
-              }}
-            >
-              <Text style={styles.servingsText}>3 Servings</Text>
-              <View style={styles.groupView}>
-                <Text style={styles.textTwoText}>+23</Text>
-              </View>
-            </View>
-          </View>
+export default class Friendsfriends extends React.Component {
+    
+    static navigationOptions = ({ navigation }) => {
+        
+        const { params = {} } = navigation.state
+        return {
+        header: null,
+        headerLeft: null,
+        headerRight: null,
+        }
+    }
+    
+    constructor(props) {
+        super(props)
+    }
+    
+    componentDidMount() {
+        
+    }
+    
+    onOverridesNavigationBarSegmentedControlThirdValueChanged = () => {
+        
+    }
+    
+    onCellsButtonCellPressed = () => {
+        
+    }
+    
+    viewFlatListMockData = [{
+                            key: "1",
+                            }, {
+                            key: "2",
+                            }, {
+                            key: "3",
+                            }, {
+                            key: "4",
+                            }, {
+                            key: "5",
+                            }, {
+                            key: "6",
+                            }, {
+                            key: "7",
+                            }, {
+                            key: "8",
+                            }, {
+                            key: "9",
+                            }, {
+                            key: "10",
+                            }]
+    
+    renderViewFlatListCell = ({ item }) => {
+        
+        return <ListRest1Three
+        navigation={this.props.navigation}/>
+    }
+    
+    viewTwoFlatListMockData = [{
+                               key: "1",
+                               }, {
+                               key: "2",
+                               }, {
+                               key: "3",
+                               }, {
+                               key: "4",
+                               }, {
+                               key: "5",
+                               }, {
+                               key: "6",
+                               }, {
+                               key: "7",
+                               }, {
+                               key: "8",
+                               }, {
+                               key: "9",
+                               }, {
+                               key: "10",
+                               }]
+    
+    renderViewTwoFlatListCell = ({ item }) => {
+        
+        return <RestHeader
+        navigation={this.props.navigation}/>
+    }
+    
+    render() {
+        
+        return <View
+        style={styles.artboardView}>
+        <Text
+        style={styles.dhrumilwbcText}>dhrumilwbc</Text>
+        <View
+        style={styles.viewTwoFlatListViewWrapper}>
+        <FlatList
+        horizontal={true}
+        renderItem={this.renderViewTwoFlatListCell}
+        data={this.viewTwoFlatListMockData}
+        style={styles.viewTwoFlatList}/>
         </View>
-      </View>
-    );
-  }
+        <SegmentedControlTab
+        values={["Friends", "Gifts"]}
+        tabStyle={styles.overridesNavigationBarSegmentedControlThirdSegmentedControlTab}
+        tabTextStyle={styles.overridesNavigationBarSegmentedControlThirdSegmentedControlTabText}
+        activeTabStyle={styles.overridesNavigationBarSegmentedControlThirdSegmentedControlActiveTab}
+        activeTabTextStyle={styles.overridesNavigationBarSegmentedControlThirdSegmentedControlActiveTabText}
+        style={styles.overridesNavigationBarSegmentedControlThirdSegmentedControl}/>
+        <View
+        style={styles.viewFlatListViewWrapper}>
+        <FlatList
+        renderItem={this.renderViewFlatListCell}
+        data={this.viewFlatListMockData}
+        style={styles.viewFlatList}/>
+        </View>
+        <TouchableOpacity
+        onPress={this.onCellsButtonCellPressed}
+        style={styles.cellsButtonCellButton}>
+        <Text
+        style={styles.cellsButtonCellButtonText}>Add Friends</Text>
+        </TouchableOpacity>
+        </View>
+    }
 }
 
 const styles = StyleSheet.create({
-  listRest1: {
-    backgroundColor: "white",
-    height: 66,
-    marginBottom: 4
-  },
-  group3View: {
-    backgroundColor: "transparent",
-    width: wp("100%"),
-    height: 66
-  },
-  jawadSStyleChickText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 16,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "left",
-    backgroundColor: "transparent",
-    width: wp("80%"),
-    marginTop: 5,
-    marginLeft: 5
-  },
-  textText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 16,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    backgroundColor: "transparent",
-    marginRight: 5,
-    marginTop: 5,
-    textAlign: "right",
-    flex: 1,
-    width: wp("20%")
-  },
-  servingsText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 12,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "right",
-    backgroundColor: "transparent",
-    marginBottom: 5,
-    marginLeft: 5
-  },
-  groupView: {
-    backgroundColor: "transparent",
-    borderRadius: 11,
-    borderWidth: 1,
-    borderColor: "rgb(226, 175, 47)",
-    borderStyle: "solid",
-    marginLeft: 15,
-    marginBottom: 1,
-    width: 39,
-    height: 22,
-    justifyContent: "center"
-  },
-  textTwoText: {
-    color: "rgb(226, 175, 47)",
-    fontSize: 10,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "center",
-    backgroundColor: "transparent",
-    width: 39
-  }
-});
+                                 artboardView: {
+                                 backgroundColor: "white",
+                                 flex: 1,
+                                 },
+                                 dhrumilwbcText: {
+                                 backgroundColor: "transparent",
+                                 color: "black",
+                                 fontSize: 20,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "left",
+                                 marginLeft: 12,
+                                 marginRight: 246,
+                                 marginTop: 18,
+                                 flex: 1,
+                                 },
+                                 viewTwoFlatListViewWrapper: {
+                                 marginTop: 16,
+                                 height: 59,
+                                 },
+                                 viewTwoFlatList: {
+                                 backgroundColor: "transparent",
+                                 width: "100%",
+                                 height: "100%",
+                                 },
+                                 overridesNavigationBarSegmentedControlThirdSegmentedControl: {
+                                 backgroundColor: "transparent",
+                                 borderRadius: 4,
+                                 borderWidth: 1,
+                                 borderColor: "rgb(114, 167, 228)",
+                                 borderStyle: "solid",
+                                 color: "black",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "left",
+                                 marginLeft: 9,
+                                 marginTop: 21,
+                                 width: 239,
+                                 flex: 1,
+                                 },
+                                 overridesNavigationBarSegmentedControlThirdSegmentedControlTab: {
+                                 borderColor: "rgb(114, 167, 228)",
+                                 },
+                                 overridesNavigationBarSegmentedControlThirdSegmentedControlTabText: {
+                                 fontSize: 12,
+                                 fontWeight: "400",
+                                 color: "rgb(114, 167, 228)",
+                                 },
+                                 overridesNavigationBarSegmentedControlThirdSegmentedControlActiveTab: {
+                                 backgroundColor: "rgb(114, 167, 228)",
+                                 },
+                                 overridesNavigationBarSegmentedControlThirdSegmentedControlActiveTabText: {
+                                 color: "white",
+                                 },
+                                 viewFlatListViewWrapper: {
+                                 marginLeft: 4,
+                                 marginRight: 9,
+                                 marginTop: 10,
+                                 flex: 1,
+                                 },
+                                 viewFlatList: {
+                                 backgroundColor: "transparent",
+                                 width: "100%",
+                                 height: "100%",
+                                 },
+                                 cellsButtonCellButton: {
+                                 backgroundColor: "rgb(114, 167, 228)",
+                                 borderRadius: 11.5,
+                                 flexDirection: "row",
+                                 alignItems: "center",
+                                 justifyContent: "center",
+                                 padding: 0,
+                                 marginTop: 22,
+                                 marginBottom: 14,
+                                 width: 111,
+                                 height: 27,
+                                 alignSelf: "center",
+                                 },
+                                 cellsButtonCellButtonText: {
+                                 color: "white",
+                                 fontSize: 17,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 },
+                                 cellsButtonCellButtonImage: {
+                                 resizeMode: "contain",
+                                 marginRight: 10,
+                                 },
+                                 })
