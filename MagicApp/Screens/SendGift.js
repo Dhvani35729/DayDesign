@@ -8,7 +8,7 @@
 
 import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList } from "react-native"
 import React from "react"
-import ListRest1 from "./ListRest1"
+import FriendGiftCell from "./FriendGiftCell"
 
 
 export default class SendGift extends React.Component {
@@ -63,7 +63,7 @@ export default class SendGift extends React.Component {
     
     renderViewFlatListCell = ({ item }) => {
         
-        return <ListRest1
+        return <FriendGiftCell
         navigation={this.props.navigation}/>
     }
     

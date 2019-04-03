@@ -1,126 +1,145 @@
 //
-//  ListRest1TwoTwo
-//  dynamic
+//  Addfriends
 //
-//  Created by dhvani&dhrumil.
-//  Copyright © 2018 magic. All rights reserved.
+//
+//  Created by dhrumil.
+//  Copyright © 2018 hackathon. All rights reserved.
 //
 
-import { Text, StyleSheet, View } from "react-native";
-import React from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from "react-native-responsive-screen";
+import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList, TextInput  } from "react-native"
+import React from "react"
+import FriendCell from "./FriendCell"
 
-export default class CheckoutItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  componentDidMount() {}
-
-  render() {
-    return (
-      <View style={styles.listRest1}>
-        <View style={styles.group3View}>
-          <View
-            style={{
-              flexDirection: "row"
-            }}
-          >
-            <Text style={styles.jawadSStyleChickText}>
-              Jawad's Style: Chicken Shawarma Wrap rwrwerwertyuiytuuuyu
-            </Text>
-            <Text style={styles.textText}>$11.00</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "flex-end"
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "flex-end"
-              }}
-            >
-              <Text style={styles.servingsText}>3 Servings</Text>
-              <View style={styles.groupView}>
-                <Text style={styles.textTwoText}>+23</Text>
-              </View>
-            </View>
-          </View>
+export default class Addfriends extends React.Component {
+    
+    static navigationOptions = ({ navigation }) => {
+        
+        const { params = {} } = navigation.state
+        return {
+        header: null,
+        headerLeft: null,
+        headerRight: null,
+        }
+    }
+    
+    constructor(props) {
+        super(props)
+    }
+    
+    componentDidMount() {
+        
+    }
+    
+    onFriendNotOnVibePressed = () => {
+        
+    }
+    
+    viewFlatListMockData = [{
+                            key: "1",
+                            }, {
+                            key: "2",
+                            }, {
+                            key: "3",
+                            }, {
+                            key: "4",
+                            }, {
+                            key: "5",
+                            }, {
+                            key: "6",
+                            }, {
+                            key: "7",
+                            }, {
+                            key: "8",
+                            }, {
+                            key: "9",
+                            }, {
+                            key: "10",
+                            }]
+    
+    renderViewFlatListCell = ({ item }) => {
+        
+        return <FriendCell
+        navigation={this.props.navigation}/>
+    }
+    
+    render() {
+        
+        return <View
+        style={styles.artboardView}>
+        <TextInput
+        placeholder="Search Usernames"
+        onChangeText={text => this.searchFilterFunction(text)}
+        style={styles.groupSearchBar}
+        />
+        <View
+        style={styles.viewFlatListViewWrapper}>
+        <FlatList
+        renderItem={this.renderViewFlatListCell}
+        data={this.viewFlatListMockData}
+        style={styles.viewFlatList}/>
         </View>
-      </View>
-    );
-  }
+        <TouchableOpacity
+        onPress={this.onFriendNotOnVibePressed}
+        style={styles.friendNotOnVibeButton}>
+        <Text
+        style={styles.friendNotOnVibeButtonText}>Friend Not on Vibe? Click to Invite using Messenger.</Text>
+        </TouchableOpacity>
+        </View>
+    }
 }
 
 const styles = StyleSheet.create({
-  listRest1: {
-    backgroundColor: "white",
-    height: 66,
-    marginBottom: 4
-  },
-  group3View: {
-    backgroundColor: "transparent",
-    width: wp("100%"),
-    height: 66
-  },
-  jawadSStyleChickText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 16,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "left",
-    backgroundColor: "transparent",
-    width: wp("80%"),
-    marginTop: 5,
-    marginLeft: 5
-  },
-  textText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 16,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    backgroundColor: "transparent",
-    marginRight: 5,
-    marginTop: 5,
-    textAlign: "right",
-    flex: 1,
-    width: wp("20%")
-  },
-  servingsText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 12,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "right",
-    backgroundColor: "transparent",
-    marginBottom: 5,
-    marginLeft: 5
-  },
-  groupView: {
-    backgroundColor: "transparent",
-    borderRadius: 11,
-    borderWidth: 1,
-    borderColor: "rgb(226, 175, 47)",
-    borderStyle: "solid",
-    marginLeft: 15,
-    marginBottom: 1,
-    width: 39,
-    height: 22,
-    justifyContent: "center"
-  },
-  textTwoText: {
-    color: "rgb(226, 175, 47)",
-    fontSize: 10,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "center",
-    backgroundColor: "transparent",
-    width: 39
-  }
-});
+                                 artboardView: {
+                                 backgroundColor: "white",
+                                 flex: 1,
+                                 },
+                                 groupSearchBar: {
+                                 borderRadius: 17,
+                                 borderWidth: 1,
+                                 borderColor: "rgb(196, 201, 223)",
+                                 borderStyle: "solid",
+                                 color: "rgb(134, 142, 150)",
+                                 fontSize: 13,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 letterSpacing: 0,
+                                 marginTop: hp('1%'),
+                                 marginHorizontal: wp('8%'),
+                                 height: 35,
+                                 alignSelf: "stretch"
+                                 },
+                                 viewFlatListViewWrapper: {
+                                 marginTop: 16,
+                                 flex: 1,
+                                 },
+                                 viewFlatList: {
+                                 backgroundColor: "transparent",
+                                 width: "100%",
+                                 height: "100%",
+                                 },
+                                 friendNotOnVibeButton: {
+                                 backgroundColor: "transparent",
+                                 flexDirection: "row",
+                                 alignItems: "center",
+                                 justifyContent: "center",
+                                 padding: 0,
+                                 marginTop: 9,
+                                 marginBottom: 16,
+                                 width: 285,
+                                 height: 19,
+                                 alignSelf: "center",
+                                 },
+                                 friendNotOnVibeButtonText: {
+                                 color: "rgb(74, 144, 226)",
+                                 fontSize: 11,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 },
+                                 friendNotOnVibeButtonImage: {
+                                 resizeMode: "contain",
+                                 marginRight: 10,
+                                 },
+                                 })
