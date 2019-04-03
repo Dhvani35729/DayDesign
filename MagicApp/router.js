@@ -36,6 +36,9 @@ import Payment from "./Screens/payment";
 import CurrentOrder from "./Screens/CurrentOrder";
 import SendGift from "./Screens/SendGift";
 
+import AddFriend from "./Screens/AddFriend";
+
+
 
 class LoadingScreen extends React.Component {
     render() {
@@ -81,6 +84,24 @@ const DynamicNavigator = createStackNavigator(
                                               }
                                               );
 
+
+const ProfileNavigator = createStackNavigator(
+                                              {
+                                              ProfileScreen: {
+                                              screen: ProfileScreen
+                                              },
+                                              AddFriend: {
+                                              screen: AddFriend
+                                              }
+                                              },
+                                              
+                                              {
+                                              initialRouteName: "ProfileScreen"
+                                              }
+                                              );
+
+
+
 const SignUpNavigator = createSwitchNavigator(
                                               {
                                               Login: {
@@ -100,7 +121,7 @@ const AppNavigator = createMaterialBottomTabNavigator(
                                                       {
                                                       
                                                       ProfileScreen: {
-                                                      screen: ProfileScreen,
+                                                      screen: ProfileNavigator,
                                                       navigationOptions: ({ navigation }) => ({
                                                                                               title: "Profile",
                                                                                               tabBarIcon: <Icon name="user-circle-o" color="#FFFF" size={20} />
