@@ -9,7 +9,10 @@
 import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList, TextInput  } from "react-native"
 import React from "react"
 import FriendCell from "./FriendCell"
-
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 export default class Addfriends extends React.Component {
     
@@ -67,6 +70,14 @@ export default class Addfriends extends React.Component {
         
         return <View
         style={styles.artboardView}>
+        
+        <TouchableOpacity
+        style={styles.buttonButton}
+        onPress={() => this.props.navigation.goBack()}>
+        <Text
+        style={styles.buttonButtonText}>Cancel </Text>
+        </TouchableOpacity>
+        
         <TextInput
         placeholder="Search Usernames"
         onChangeText={text => this.searchFilterFunction(text)}
@@ -94,6 +105,21 @@ const styles = StyleSheet.create({
                                  backgroundColor: "white",
                                  flex: 1,
                                  },
+                                 buttonButton: {
+                                 //    position: "absolute",
+                                 marginLeft: wp('2%'),
+                                 marginTop: hp('3%'),
+                                 },
+                                 buttonButtonText: {
+                                 color: "rgba(155, 155, 155, 0.8)",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "left",
+                                 },
+                                 buttonButtonImage: {
+                                 resizeMode: "contain",
+                                 },
                                  groupSearchBar: {
                                  borderRadius: 17,
                                  borderWidth: 1,
@@ -105,7 +131,7 @@ const styles = StyleSheet.create({
                                  fontWeight: "bold",
                                  textAlign: "center",
                                  letterSpacing: 0,
-                                 marginTop: hp('1%'),
+                                 marginTop: hp('2%'),
                                  marginHorizontal: wp('8%'),
                                  height: 35,
                                  alignSelf: "stretch"

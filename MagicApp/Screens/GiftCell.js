@@ -8,6 +8,10 @@
 
 import { TouchableWithoutFeedback, StyleSheet, View, Text } from "react-native"
 import React from "react"
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+} from "react-native-responsive-screen";
 
 
 export default class ListRest1Four extends React.Component {
@@ -32,7 +36,7 @@ export default class ListRest1Four extends React.Component {
         navigation={this.props.navigation}
         style={styles.listRest1}>
         <Text
-        style={styles.bobDrakeGiftedYouText}>Bob Drake Gifted You +3 at Shawerma Plushhhhjjj{"\n"}j</Text>
+        style={styles.bobDrakeGiftedYouText}>Bob Drake Gifted You +3 at Shawerma Plushhhhjjj</Text>
         </View>
         </TouchableWithoutFeedback>
     }
@@ -42,17 +46,17 @@ const styles = StyleSheet.create({
                                  listRest1: {
                                  backgroundColor: "rgb(246, 246, 246)",
                                  height: 46,
+                                 marginBottom: 5,
                                  },
                                  bobDrakeGiftedYouText: {
                                  backgroundColor: "transparent",
                                  color: "rgb(55, 58, 61)",
-                                 fontSize: 16,
                                  fontStyle: "normal",
                                  fontWeight: "normal",
                                  textAlign: "center",
-                                 marginLeft: 7,
+                                 marginLeft: 6,
                                  marginRight: 6,
-                                 width: 339,
-                                 height: 45.38,
+                                 width: wp('90%'),
+                                 height: 45,
                                  },
                                  })
