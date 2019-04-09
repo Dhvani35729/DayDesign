@@ -36,7 +36,7 @@ export default class RestaurantCell extends React.Component {
                   position: "absolute"
                 }}
               >
-                <Text style={styles.currentmoneyText}>$1</Text>
+                <Text style={styles.currentmoneyText}>10%</Text>
               </View>
             </View>
             <View
@@ -56,7 +56,7 @@ export default class RestaurantCell extends React.Component {
                     position: "absolute"
                   }}
                 >
-                  <Text style={styles.nextmoneyText}>$2</Text>
+                  <Text style={styles.nextmoneyText}>15%</Text>
                 </View>
               </View>
             </View>

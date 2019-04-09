@@ -174,7 +174,7 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: "flex-end"
                     }}
                   >
-                    <Text style={styles.labelFiveText}>11:30AM</Text>
+                    <Text style={styles.labelFiveText}>11:59AM</Text>
                   </View>
                   <View
                     style={{
