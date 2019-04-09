@@ -22,6 +22,7 @@ import firebase from "react-native-firebase";
 import DeviceInfo from "react-native-device-info";
 import RNExitApp from "react-native-exit-app";
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -111,7 +112,7 @@ export default class App extends React.Component {
   launchWork(that) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-      // firebase.auth().signOut();
+       //firebase.auth().signOut();
         //  console.log("here")
         that.setState({
           firstLaunch: false,
