@@ -83,7 +83,7 @@ export default class VendorList extends React.Component {
             style={styles.buttonButton}
             onPress={() => this.props.navigation.goBack()}>
             <Text
-            style={styles.buttonButtonText}>Back to All Hours </Text>
+            style={styles.buttonButtonText}>Go Back to All Hours </Text>
             </TouchableOpacity>
             
         <TextInput
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
                                  fontStyle: "normal",
                                  fontWeight: "normal",
                                  textAlign: "left",
+                                 marginLeft: 3,
                                  },
                                  buttonButtonImage: {
                                  resizeMode: "contain",
