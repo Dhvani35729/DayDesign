@@ -109,7 +109,7 @@ export default class PickMenu extends React.Component {
             }}
           >
             <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>$2</Text>
+              <Text style={styles.nextmoneyText}>10%</Text>
               <View
                 style={{
                   // width: "100%",
@@ -119,7 +119,7 @@ export default class PickMenu extends React.Component {
                   justifyContent: "flex-end"
                 }}
               >
-                <Text style={styles.buyersneededText}>145/200</Text>
+                <Text style={styles.buyersneededText}>$95/100</Text>
               </View>
             </View>
           </View>
