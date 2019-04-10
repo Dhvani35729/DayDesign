@@ -95,8 +95,8 @@ export default class PickMenu extends React.Component {
             }}
           >
             <Image
-              source={require("./../assets/images/bob-2.png")}
-              style={styles.buttonButtonImage}
+              source={require("./../assets/images/ic-cart-2.png")}
+              style={styles.buttonButtonImageTwo}
             />
           </TouchableOpacity>
 
@@ -232,6 +232,20 @@ const styles = StyleSheet.create({
   icCartButtonImage: {
     resizeMode: "contain"
   },
+                                 
+                                 buttonButtonImage: {
+                                 resizeMode: "contain",
+                                 width: 60,
+                                 height: 60
+                                 },
+                                 buttonButtonImageTwo: {
+                                 resizeMode: "contain",
+                                 width: 60,
+                                 height: 60
+                                 },
+                                 
+                                 
+                                 
   graybackgroundView: {
     backgroundColor: "rgba(226, 175, 47, 0.99)",
     borderRadius: 35,
