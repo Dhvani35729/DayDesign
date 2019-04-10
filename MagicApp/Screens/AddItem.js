@@ -218,7 +218,7 @@ export default class AddItem extends React.Component {
                 
                 <View style={styles.graybackgroundView}>
                 
-                <Text style={styles.nextmoneyText}>$2</Text>
+                <Text style={styles.nextmoneyText}>10%</Text>
                 
                 <View
                 
@@ -238,7 +238,7 @@ export default class AddItem extends React.Component {
                 
                 >
                 
-                <Text style={styles.buyersneededText}>145/200</Text>
+                <Text style={styles.buyersneededText}>$95/100</Text>
                 
                 </View>
                 
