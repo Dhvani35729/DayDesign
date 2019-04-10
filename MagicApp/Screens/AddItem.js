@@ -394,15 +394,6 @@ export default class AddItem extends React.Component {
                 
                 </View>
                 
-                <View
-                
-                style={{
-                
-                justifyContent: "flex-end"
-                
-                }}
-                
-                >
                 
                 <View style={styles.viewTwoView}>
                
@@ -410,36 +401,18 @@ export default class AddItem extends React.Component {
                   style={styles.stepper}
 
                 value={1}
-                // size={1}
+                size={1}
                 autoRepeat={true}
                 stepValue={1}
                 onChange={(nValue, oValue) => {
                 console.log('New Value: ' + nValue + ', Old Value: ' + oValue)
                 }}
-             
+                width={wp('70%')}
+                height={40}
                 />
 
-                <View
                 
-                style={{
                 
-                flex: 1,
-                
-                flexDirection: "row",
-                
-                justifyContent: "flex-end",
-                
-                alignItems: "flex-end"
-                
-                }}
-                
-                >
-                
-                <Text style={styles.servingsText}>1 Servings</Text>
-                
-                </View>
-                
-                </View>
                 
                 </View>
                 
@@ -637,42 +610,15 @@ const styles = StyleSheet.create({
                                  
                                  marginBottom: hp('1%'),
                                  
-                                 height: 46,
+                                 height: 40,
                                  
-                                 flexDirection: "row"
+                                 alignItems: "center"
+                                 
                                  
                                  },
                                  
-                                 stepper: {
                               
-                                 
-                                 marginLeft: 5,
-                                 
-                                 marginBottom: hp('1.3%'),
-                                 
-                             
-                                 
-                                 },
-                                 
-                                 servingsText: {
-                                 
-                                 color: "rgb(114, 167, 228)",
-                                 
-                                 fontSize: 21,
-                                 
-                                 fontStyle: "normal",
-                                 
-                                 fontWeight: "bold",
-                                 
-                                 textAlign: "right",
-                                 
-                                 backgroundColor: "transparent",
-                                 
-                                 marginRight: wp('2%'),
-                                 
-                                 marginBottom: hp('1.3%'),
-                                 
-                                 },
+                              
                                  
                                  shawarmaPlusText: {
                                  
