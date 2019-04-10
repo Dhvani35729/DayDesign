@@ -32,6 +32,9 @@ import {
     
 } from "react-native";
 
+import { RNNumberStepper } from 'react-native-number-stepper';
+
+
 import React from "react";
 
 import Toppings from "./Toppings";
@@ -69,6 +72,7 @@ export default class AddItem extends React.Component {
     constructor(props) {
         
         super(props);
+
         
     }
     
@@ -153,6 +157,8 @@ export default class AddItem extends React.Component {
     
     
     render() {
+        
+
         
         return (
                 
@@ -399,15 +405,20 @@ export default class AddItem extends React.Component {
                 >
                 
                 <View style={styles.viewTwoView}>
-                
-                <Image
-                
-                source={require("./../assets/images/stepper.png")}
-                
-                style={styles.stepperImage}
-                
+               
+                <RNNumberStepper
+                  style={styles.stepper}
+
+                value={1}
+                // size={1}
+                autoRepeat={true}
+                stepValue={1}
+                onChange={(nValue, oValue) => {
+                console.log('New Value: ' + nValue + ', Old Value: ' + oValue)
+                }}
+             
                 />
-                
+
                 <View
                 
                 style={{
@@ -424,7 +435,7 @@ export default class AddItem extends React.Component {
                 
                 >
                 
-                <Text style={styles.servingsText}>3 Servings</Text>
+                <Text style={styles.servingsText}>1 Servings</Text>
                 
                 </View>
                 
@@ -632,21 +643,14 @@ const styles = StyleSheet.create({
                                  
                                  },
                                  
-                                 stepperImage: {
+                                 stepper: {
+                              
                                  
-                                 resizeMode: "center",
-                                 
-                                 backgroundColor: "transparent",
-                                 
-                                 marginLeft: wp('2%'),
+                                 marginLeft: 5,
                                  
                                  marginBottom: hp('1.3%'),
                                  
-                                 width: 94,
-                                 
-                                 height: 29,
-                                 
-                                 alignSelf: "flex-end"
+                             
                                  
                                  },
                                  
