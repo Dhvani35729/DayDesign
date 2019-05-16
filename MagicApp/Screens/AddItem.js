@@ -1,4 +1,4 @@
-//
+//checking something
 
 //  MenuThree
 
@@ -31,6 +31,9 @@ import {
     TouchableOpacity
     
 } from "react-native";
+
+import { RNNumberStepper } from 'react-native-number-stepper';
+
 
 import React from "react";
 
@@ -69,6 +72,7 @@ export default class AddItem extends React.Component {
     constructor(props) {
         
         super(props);
+
         
     }
     
@@ -154,6 +158,8 @@ export default class AddItem extends React.Component {
     
     render() {
         
+
+        
         return (
                 
                 <View style={styles.menuView}>
@@ -218,7 +224,7 @@ export default class AddItem extends React.Component {
                 
                 <View style={styles.graybackgroundView}>
                 
-                <Text style={styles.nextmoneyText}>$2</Text>
+                <Text style={styles.nextmoneyText}>10%</Text>
                 
                 <View
                 
@@ -238,7 +244,7 @@ export default class AddItem extends React.Component {
                 
                 >
                 
-                <Text style={styles.buyersneededText}>145/200</Text>
+                <Text style={styles.buyersneededText}>$95/100</Text>
                 
                 </View>
                 
@@ -388,47 +394,25 @@ export default class AddItem extends React.Component {
                 
                 </View>
                 
-                <View
-                
-                style={{
-                
-                justifyContent: "flex-end"
-                
-                }}
-                
-                >
                 
                 <View style={styles.viewTwoView}>
-                
-                <Image
-                
-                source={require("./../assets/images/stepper.png")}
-                
-                style={styles.stepperImage}
-                
-                />
-                
-                <View
-                
-                style={{
-                
-                flex: 1,
-                
-                flexDirection: "row",
-                
-                justifyContent: "flex-end",
-                
-                alignItems: "flex-end"
-                
+               
+                <RNNumberStepper
+                  style={styles.stepper}
+
+                value={1}
+                size={1}
+                autoRepeat={true}
+                stepValue={1}
+                onChange={(nValue, oValue) => {
+                console.log('New Value: ' + nValue + ', Old Value: ' + oValue)
                 }}
+                width={wp('70%')}
+                height={40}
+                />
+
                 
-                >
                 
-                <Text style={styles.servingsText}>3 Servings</Text>
-                
-                </View>
-                
-                </View>
                 
                 </View>
                 
@@ -626,49 +610,15 @@ const styles = StyleSheet.create({
                                  
                                  marginBottom: hp('1%'),
                                  
-                                 height: 46,
+                                 height: 40,
                                  
-                                 flexDirection: "row"
+                                 alignItems: "center"
                                  
-                                 },
-                                 
-                                 stepperImage: {
-                                 
-                                 resizeMode: "center",
-                                 
-                                 backgroundColor: "transparent",
-                                 
-                                 marginLeft: wp('2%'),
-                                 
-                                 marginBottom: hp('1.3%'),
-                                 
-                                 width: 94,
-                                 
-                                 height: 29,
-                                 
-                                 alignSelf: "flex-end"
                                  
                                  },
                                  
-                                 servingsText: {
-                                 
-                                 color: "rgb(114, 167, 228)",
-                                 
-                                 fontSize: 21,
-                                 
-                                 fontStyle: "normal",
-                                 
-                                 fontWeight: "bold",
-                                 
-                                 textAlign: "right",
-                                 
-                                 backgroundColor: "transparent",
-                                 
-                                 marginRight: wp('2%'),
-                                 
-                                 marginBottom: hp('1.3%'),
-                                 
-                                 },
+                              
+                              
                                  
                                  shawarmaPlusText: {
                                  

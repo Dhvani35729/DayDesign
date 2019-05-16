@@ -98,14 +98,14 @@ export default class Checkout extends React.Component {
             }
           >
             <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>$2</Text>
+              <Text style={styles.nextmoneyText}>10%</Text>
               <View
                 style={{
                   flex: 1,
                   justifyContent: "flex-end"
                 }}
               >
-                <Text style={styles.buyersneededText}>145/200</Text>
+                <Text style={styles.buyersneededText}>$95/100</Text>
               </View>
             </View>
           </View>

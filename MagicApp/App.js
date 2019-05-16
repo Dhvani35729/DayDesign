@@ -22,6 +22,7 @@ import firebase from "react-native-firebase";
 import DeviceInfo from "react-native-device-info";
 import RNExitApp from "react-native-exit-app";
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);

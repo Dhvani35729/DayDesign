@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
                                  
                                  borderWidth: 1,
                                  
-                                 borderColor: "rgb(226, 175, 47)",
+                                 borderColor: "#E2AF2F",
                                  
                                  borderStyle: "solid",
                                  
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
                                  
                                  textThreeText: {
                                  
-                                 color: "rgb(226, 175, 47)",
+                                 color: "#E2AF2F",
                                  
                                  fontSize: 10,
                                  
