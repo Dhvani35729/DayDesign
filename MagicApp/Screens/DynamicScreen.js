@@ -96,7 +96,11 @@ export default class DynamicScreen extends React.Component {
     const { currentUser } = firebase.auth();
     this.setState({ currentUser });
     this._isMounted = true;
-    this.loadRestaurants();
+
+    var db = firebase.firestore();
+    var that = this;
+    
+
   }
 
   componentWillUnmount() {

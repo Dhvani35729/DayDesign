@@ -38,7 +38,7 @@ export default class SignUp extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(user => this.props.navigation.navigate("DynamicScreen"))
+      .then(user => console.log("signed up"))
       .catch(error => this.setState({ errorMessage: error.message, loading: false }));
     }
   };
