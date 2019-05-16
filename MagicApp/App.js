@@ -77,7 +77,7 @@ export default class App extends React.Component {
                   [
                     {
                       text: "OK. I agree.",
-                      onPress: () => that.launchWork(that)
+                      onPress: () => that.checkWork(that)
                     }
                   ],
                   { cancelable: false }
@@ -89,7 +89,7 @@ export default class App extends React.Component {
                   [
                     {
                       text: "OK. I agree.",
-                      onPress: () => that.launchWork(that)
+                      onPress: () => that.checkWork(that)
                     }
                   ],
                   { cancelable: false }
@@ -99,7 +99,7 @@ export default class App extends React.Component {
               that.setState({ firstLaunch: true });
             } else {
               // console.log("not first launch");
-              that.launchWork(that);
+              that.checkWork(that);
               // this.setState({firstLaunch: false, signedIn: false, checkedSignIn: true});
             }
           }); // Add some error handling, also you can simply do this.setState({fistLaunch: value == null})'
@@ -108,18 +108,96 @@ export default class App extends React.Component {
     });
   }
 
-  launchWork(that) {
+  checkWork(that){
+      var db = firebase.firestore();
+
+      const maintRef = db.collection('general').doc('maint');
+      maintRef.get().then(function(doc) {
+        if (doc.exists) {
+            console.log("Maint data:", doc.data());
+            // console.log(doc.data().build_version.localeCompare(DeviceInfo.getVersion()));
+
+            if (doc.data().build_version.localeCompare(DeviceInfo.getVersion()) <= 0) {
+
+              // console.log("right version");
+
+              if(doc.data().status == true){
+
+                if (Platform.OS == "android") {
+                  Alert.alert(
+                    "App Under Maintenance",
+                    doc.data().message,
+                    [{ text: "Exit App", onPress: () => BackHandler.exitApp() }],
+                    { cancelable: false }
+                  );
+                } else if (Platform.OS == "ios") {
+                  Alert.alert(
+                    "App Under Maintenance",
+                    doc.data().message,
+                    [
+                      {
+                        text: "Exit App",
+                        onPress: () => {
+                          RNExitApp.exitApp();
+                        }
+                      }
+                    ],
+                    { cancelable: false }
+                  );
+                }
+              }
+              else{
+                    that.launchWork(db, that);
+              }
+
+            } else {
+              if (Platform.OS == "android") {
+                Alert.alert(
+                  "Old Version of App",
+                  "App is not up to date!\nPlease update the app.\nYour version: " + DeviceInfo.getVersion(),
+                  [{ text: "Exit App", onPress: () => BackHandler.exitApp() }],
+                  { cancelable: false }
+                );
+              } else if (Platform.OS == "ios") {
+                Alert.alert(
+                  "Old Version of App",
+                  "App is not up to date!\nPlease update the app.\nYour version: " + DeviceInfo.getVersion(),
+                  [
+                    {
+                      text: "Exit App",
+                      onPress: () => {
+                        RNExitApp.exitApp();
+                      }
+                    }
+                  ],
+                  { cancelable: false }
+                );
+              }
+            }
+
+
+              //  that.loadRestaurants();
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
+  }
+
+  launchWork(db, that) {
+
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-      //  firebase.auth().signOut();
+       // firebase.auth().signOut();
         //  console.log("here")
-        that.setState({
-          firstLaunch: false,
-          signedIn: true,
-          checkedSignIn: true
-        });
-      } else {
+
         // console.log('finished');
+        that.initUser(db, user, that);
+
+      } else {
         that.setState({
           firstLaunch: false,
           signedIn: false,
@@ -129,6 +207,121 @@ export default class App extends React.Component {
       }
     });
   }
+
+
+    initUser(db, user, that){
+    //  console.log('add to firestore');
+    //  console.log(user);
+
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+      if(dd<10) {
+          dd = '0'+dd
+      }
+      if(mm<10) {
+          mm = '0'+mm
+      }
+      var today = mm + '/' + dd + '/' + yyyy;
+
+      const usersRef = db.collection('users').doc(user.uid);
+      const usersPrivateRef = usersRef.collection('private').doc(user.uid);
+
+      usersPrivateRef.get().then(function(doc) {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+
+          if(doc.data().last_opened == today){
+
+            usersPrivateRef.update({
+                num_opened: doc.data().num_opened+1
+            })
+            .then(function() {
+                // console.log("Document successfully updated!");
+
+                that.setState({
+                  firstLaunch: false,
+                  signedIn: true,
+                  checkedSignIn: true
+                });
+
+            })
+            .catch(function(error) {
+                // The document probably doesn't exist.
+                // console.error("Error updating document: ", error);
+                that.setState({ errorMessage: error.message, loading: false })
+            });
+
+          }
+          else{
+
+            usersPrivateRef.update({
+                num_opened: doc.data().num_opened+1,
+                last_opened: today
+            })
+            .then(function() {
+                // console.log("Document successfully updated!");
+                that.setState({
+                  firstLaunch: false,
+                  signedIn: true,
+                  checkedSignIn: true
+                });
+
+            })
+            .catch(function(error) {
+                // The document probably doesn't exist.
+                //console.error("Error updating document: ", error);
+                that.setState({ errorMessage: error.message, loading: false })
+            });
+
+          }
+
+        } else {
+            // doc.data() will be undefined in this case
+            // console.log("No such document!");
+
+            usersRef.set({
+            name: "",
+            friends: []
+            })
+            .then(function(docRef) {
+                // console.log("Document written with ID: ", docRef.id);
+                usersPrivateRef.set({
+                  avg_time: 0.0,
+                  card_token: "",
+                  date_joined: today,
+                  last_opened: today,
+                  num_opened: 1,
+                  transactions: []
+                })
+                .then(function(docRef) {
+                    // console.log("Document written with ID: ", docRef.id);
+                    that.setState({
+                      firstLaunch: false,
+                      signedIn: true,
+                      checkedSignIn: true
+                    });
+                })
+                .catch(function(error) {
+                    //console.error("Error adding document: ", error);
+                    that.setState({ errorMessage: error.message, loading: false })
+                });
+
+            })
+            .catch(function(error) {
+                //console.error("Error adding document: ", error);
+                that.setState({ errorMessage: error.message, loading: false })
+            });
+
+
+        }
+    }).catch(function(error) {
+        // console.log("Error getting document:", error);
+        that.setState({ errorMessage: error.message, loading: false })
+    });
+
+    }
 
   //Remove listeners if any there
   componentWillUnmount() {}
