@@ -178,7 +178,7 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: "flex-end"
                     }}
                   >
-                    <Text style={styles.labelFiveText}>11:30AM</Text>
+                    <Text style={styles.labelFiveText}>11:59AM</Text>
                   </View>
                   <View
                     style={{
@@ -256,13 +256,13 @@ const styles = StyleSheet.create({
     height: 75
   },
   viewTwoView: {
-    backgroundColor: "rgb(227, 176, 22)",
+                                 backgroundColor: '#72A7E4',
     borderRadius: 8,
     height: 75,
     alignItems: "flex-start"
   },
   labelText: {
-    color: "black",
+    color: "white",
     fontSize: 18,
     fontStyle: "normal",
     fontWeight: "600",
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   labelSixText: {
-    color: "black",
+    color: "white",
     fontSize: 14,
     fontStyle: "normal",
     fontWeight: "500",
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   labelFiveText: {
-    color: "black",
+    color: "white",
     fontSize: 14,
     fontStyle: "normal",
     fontWeight: "500",
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     marginRight: 1
   },
   labelSevenText: {
-    color: "black",
+    color: "white",
     fontSize: 14,
     fontStyle: "normal",
     fontWeight: "500",
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   labelThreeText: {
-    color: "black",
+    color: "white",
     fontSize: 10,
     fontStyle: "normal",
     fontWeight: "300",
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   labelTwoText: {
-    color: "black",
+    color: "white",
     fontSize: 10,
     fontStyle: "normal",
     fontWeight: "300",
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   labelFourText: {
-    color: "black",
+    color: "white",
     fontSize: 10,
     fontStyle: "normal",
     fontWeight: "300",

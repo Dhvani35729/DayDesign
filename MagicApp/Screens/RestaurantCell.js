@@ -27,8 +27,9 @@ export default class RestaurantCell extends React.Component {
         >
           <View style={styles.graybackgroundView}>
             <View style={styles.currentdealView}>
-              <Text style={styles.activeText}>active</Text>
-              <View
+            <Text
+            style={styles.discountText}>discount</Text>
+            <View
                 style={{
                   width: "100%",
                   height: "100%",
@@ -36,8 +37,9 @@ export default class RestaurantCell extends React.Component {
                   position: "absolute"
                 }}
               >
-                <Text style={styles.currentmoneyText}>$1</Text>
-              </View>
+            <Text
+            style={styles.currentmoneyText}>5%</Text>
+            </View>
             </View>
             <View
               style={{
@@ -47,8 +49,9 @@ export default class RestaurantCell extends React.Component {
               }}
             >
               <View style={styles.nextdealView}>
-                <Text style={styles.buyersneededText}>8/10</Text>
-                <View
+            <Text
+            style={styles.buyersneededText}>$95/100</Text>
+            <View
                   style={{
                     width: "100%",
                     height: "100%",
@@ -56,8 +59,9 @@ export default class RestaurantCell extends React.Component {
                     position: "absolute"
                   }}
                 >
-                  <Text style={styles.nextmoneyText}>$2</Text>
-                </View>
+            <Text
+            style={styles.nextmoneyText}>10%</Text>
+            </View>
               </View>
             </View>
           </View>
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end"
   },
   activeText: {
-    color: "rgb(114, 167, 228)",
+                                 color: "#E2AF2F",
     fontSize: 8,
     fontStyle: "normal",
     fontWeight: "normal",
@@ -111,17 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     width: 50
   },
-  currentmoneyText: {
-    color: "rgb(114, 167, 228)",
-    fontSize: 21,
-    fontStyle: "normal",
-    fontWeight: "bold",
-    textAlign: "center",
-    letterSpacing: -0,
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    marginLeft: 11,
-    marginRight: 11
-  },
+  
   nextdealView: {
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     alignSelf: "center",
@@ -130,27 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end"
   },
-  buyersneededText: {
-    color: "rgb(146, 146, 146)",
-    fontSize: 8,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "center",
-    letterSpacing: -0,
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    width: 50
-  },
-  nextmoneyText: {
-    color: "rgb(155, 155, 155)",
-    fontSize: 21,
-    fontStyle: "normal",
-    fontWeight: "bold",
-    textAlign: "center",
-    letterSpacing: -0,
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    marginLeft: 11,
-    marginRight: 11
-  },
+
   nameofstoreView: {
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     height: 56
@@ -165,6 +139,44 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     width: 100
   },
+                                 discountText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(226, 175, 47)",
+                                 fontSize: 10,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 },
+                                 buyersneededText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(146, 146, 146)",
+                                 fontSize: 10,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 },
+                                 nextmoneyText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(155, 155, 155)",
+                                 fontSize: 21,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 position: "absolute",
+                                 right: 5,
+                                 top: 0,
+                                 },
+                                 currentmoneyText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(226, 175, 47)",
+                                 fontSize: 21,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 position: "absolute",
+                                 left: 5,
+                                 top: 0,
+                                 },
   storetypeText: {
     color: "rgb(146, 146, 146)",
     fontSize: 12,

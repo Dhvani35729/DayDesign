@@ -29,106 +29,99 @@ export default class Vendor extends React.Component {
             this.props.navigation.navigate("PickMenu");
           }}
         >
-          <View style={styles.smallRest1View}>
-            <Image
-              source={require("./../assets/images/group-3.png")}
-              style={styles.group3Image}
-            />
             <View
-              style={{
-                width: "100%",
-                height: "100%",
-                alignItems: "flex-end",
-                position: "absolute"
-              }}
-            >
-              <Text style={styles.shawarmaPlusText}>Shawarma Plus</Text>
-              <View style={styles.group8View}>
-                <View style={styles.group7View}>
-                  <Text style={styles.textFourText}>15%</Text>
-                  <View
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      flex: 1,
-                      justifyContent: "flex-end",
-                      alignItems: "stretch",
-                      position: "absolute"
-                    }}
-                  >
-                    <Text style={styles.textFiveText}>100/160</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    alignItems: "center"
-                  }}
-                >
-                  <View style={styles.group6View}>
-                    <Text style={styles.textText}>20%</Text>
-                    <View
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        flex: 1,
-                        justifyContent: "flex-end",
-                        alignItems: "stretch",
-                        position: "absolute"
-                      }}
-                    >
-                      <Text style={styles.textTwoText}>152/216</Text>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    flexDirection: "row",
-                    position: "absolute"
-                  }}
-                >
-                  <View style={styles.group5View}>
-                    <Text style={styles.textSixText}>124/146</Text>
-                    <View
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        alignItems: "flex-end",
-                        position: "absolute"
-                      }}
-                    >
-                      <Text style={styles.textSevenText}>20%</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: "row",
-                      justifyContent: "flex-end"
-                    }}
-                  >
-                    <View style={styles.group4View}>
-                      <Text style={styles.activeText}>active</Text>
-                      <View
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          alignItems: "flex-end",
-                          position: "absolute"
-                        }}
-                      >
-                        <Text style={styles.textThreeText}>10%</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </View>
+            style={styles.smallRest1View}>
+            <View
+            pointerEvents="box-none"
+            style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            }}>
+            <View
+            pointerEvents="box-none"
+            style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            justifyContent: "center",
+            }}>
+            <Image
+            source={require("./../assets/images/vendorpic.jpg")}
+            style={styles.rectangle3Image}/>
             </View>
-          </View>
+            <View
+            pointerEvents="box-none"
+            style={{
+            position: "absolute",
+            left: 102,
+            right: 15,
+            top: 0,
+            bottom: 13,
+            }}>
+            <Text
+            style={styles.shawarmaPlusText}>Shawarma Plus</Text>
+            <View
+            style={{
+            flex: 1,
+            }}/>
+            <View
+            pointerEvents="box-none"
+            style={{
+            height: 16,
+            flexDirection: "row",
+            alignItems: "flex-end",
+            }}>
+            <Text
+            style={styles.textFourText}>$90/100</Text>
+            <View
+            style={{
+            flex: 1,
+            }}/>
+            <Text
+            style={styles.textTwoText}>$95/100</Text>
+            <Text
+            style={styles.discountText}>discount</Text>
+            </View>
+            </View>
+            </View>
+            <View
+            pointerEvents="box-none"
+            style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            justifyContent: "center",
+            }}>
+            <View
+            pointerEvents="box-none"
+            style={{
+            height: 29,
+            marginLeft: 103,
+            marginRight: 22,
+            flexDirection: "row",
+            alignItems: "center",
+            }}>
+            <Text
+            style={styles.textFiveText}>15%</Text>
+            <View
+            style={{
+            flex: 1,
+            }}/>
+            <Text
+            style={styles.textText}>10%</Text>
+            <Text
+            style={styles.textThreeText}>5%</Text>
+            </View>
+            </View>
+            </View>
+            
         </TouchableOpacity>
       </View>
     );
@@ -142,172 +135,82 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10
   },
-  smallRest1View: {
-    backgroundColor: "rgb(255, 255, 255)",
-    borderRadius: 8.2,
-    borderWidth: 1,
-    borderColor: "rgb(151, 151, 151)",
-    borderStyle: "solid",
-    width: wp('84%'),
-    height: 87,
-    marginBottom: 10,
-    justifyContent: "center"
-  },
-  group3Image: {
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    resizeMode: "contain",
-    width: wp('33%'),
-    height: 87
-  },
-  shawarmaPlusText: {
-    color: "rgb(55, 58, 61)",
-    fontSize: 18,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "center",
-    letterSpacing: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    marginRight: wp('1%'),
-    marginTop: hp('1%'),
-  width: wp('51%'),
-  },
-  group8View: {
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    marginRight: wp('1%'),
-    marginTop: wp('3%'),
-    width: wp('51%'),
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  group7View: {
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    width: wp('12.5%'),
-    height: 30,
-    alignItems: "stretch"
-  },
-  textFourText: {
-    color: "rgba(155, 155, 155, 0.2)",
-    width: wp('12%'),
-                                 fontSize: 15,
-
-    fontStyle: "normal",
-    fontWeight: "bold",
-    textAlign: "center",
-    //letterSpacing: -0,
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    marginLeft: wp('0.5%'),
-    marginRight: wp('0.5%'),
-  },
-  textFiveText: {
-    color: "rgba(155, 155, 155, 0.2)",
-   fontSize: 8,
-    fontStyle: "normal",
-    fontWeight: "normal",
-    textAlign: "center",
-  //  letterSpacing: -0,
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    width: wp('12%'),
-    marginLeft: wp('0.5%'),
-    marginRight: wp('0.5%'),
-  },
-  group6View: {
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    marginRight: 50,
-                                 width: wp('12.5%'),
-                                 height: 30,
-    alignItems: "stretch"
-  },
-  textText: {
-    color: "rgba(155, 155, 155, 0.8)",
-                                 width: wp('12%'),
-                                 fontSize: 15,
-
-                                 fontStyle: "normal",
-                                 fontWeight: "bold",
-                                 textAlign: "center",
-                                 //letterSpacing: -0,
+                                 smallRest1View: {
+                                 backgroundColor: "rgb(255, 255, 255)",
+                                 borderRadius: 8.2,
+                                 borderWidth: 1,
+                                 borderColor: "rgb(151, 151, 151)",
+                                 borderStyle: "solid",
+                                 width: wp('84%'),
+                                 height: 87,
+                                 marginBottom: 10,
+                                 justifyContent: "center"
+                                 },
+                                 rectangle3Image: {
                                  backgroundColor: "rgba(0, 0, 0, 0.0)",
-                                 marginLeft: wp('0.5%'),
-                                 marginRight: wp('0.5%'),
-  },
-  textTwoText: {
-    color: "rgba(155, 155, 155, 0.8)",
-                                 fontSize: 8,
+                                 resizeMode: "contain",
+                                 marginLeft: 6,
+                                 width: 85,
+                                 height: 85
+                                 },
+                                 shawarmaPlusText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(55, 58, 61)",
+                                 fontSize: 18,
                                  fontStyle: "normal",
                                  fontWeight: "normal",
                                  textAlign: "center",
-                                 //  letterSpacing: -0,
-                                 backgroundColor: "rgba(0, 0, 0, 0.0)",
-                                 width: wp('12%'),
-                                 marginLeft: wp('0.5%'),
-                                 marginRight: wp('0.5%'),
-  },
-  group5View: {
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    alignSelf: "center",
-                                 width: wp('12.5%'),
-                                 height: 30,
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "flex-end"
-  },
-  textSixText: {
-    color: "rgba(155, 155, 155, 0.4)",
-                                 fontSize: 8,
+                                 alignSelf: "flex-end",
+                                 width: 210,
+                                 },
+                                 textFourText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgba(155, 155, 155, 0.4)",
+                                 fontSize: 12,
                                  fontStyle: "normal",
                                  fontWeight: "normal",
                                  textAlign: "center",
-                                 //  letterSpacing: -0,
-                                 backgroundColor: "rgba(0, 0, 0, 0.0)",
-                                 width: wp('12%'),
-                                 marginLeft: wp('0.5%'),
-                                 marginRight: wp('0.5%'),
-  },
-  textSevenText: {
-    color: "rgba(155, 155, 155, 0.4)",
-                                 width: wp('12%'),
-                                 fontSize: 15,
-
-                                 fontStyle: "normal",
-                                 fontWeight: "bold",
-                                 textAlign: "center",
-                                 //letterSpacing: -0,
-                                 backgroundColor: "rgba(0, 0, 0, 0.0)",
-                                 marginLeft: wp('0.5%'),
-                                 marginRight: wp('0.5%'),
-  },
-  group4View: {
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    alignSelf: "center",
-                                 width: wp('12.5%'),
-                                 height: 30,
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "flex-end"
-  },
-  activeText: {
-    color: "rgb(114, 167, 228)",
-                                 fontSize: 8,
+                                 },
+                                 textTwoText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgba(155, 155, 155, 0.8)",
+                                 fontSize: 12,
                                  fontStyle: "normal",
                                  fontWeight: "normal",
                                  textAlign: "center",
-                                 //  letterSpacing: -0,
-                                 backgroundColor: "rgba(0, 0, 0, 0.0)",
-                                 width: wp('12%'),
-                                 marginLeft: wp('0.5%'),
-                                 marginRight: wp('0.5%'),
-  },
-  textThreeText: {
-    color: "rgb(114, 167, 228)",
-                                 width: wp('12%'),
-                                 fontSize: 15,
-                                 
+                                 marginRight: 25,
+                                 },
+                                 discountText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(226, 175, 47)",
+                                 fontSize: 12,
+                                 fontStyle: "normal",
+                                 fontWeight: "normal",
+                                 textAlign: "center",
+                                 },
+                                 textFiveText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgba(155, 155, 155, 0.4)",
+                                 fontSize: 21,
                                  fontStyle: "normal",
                                  fontWeight: "bold",
                                  textAlign: "center",
-                                 //letterSpacing: -0,
-                                 backgroundColor: "rgba(0, 0, 0, 0.0)",
-                                 marginLeft: wp('0.5%'),
-                                 marginRight: wp('0.5%'),
-  }
+                                 },
+                                 textText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgba(155, 155, 155, 0.8)",
+                                 fontSize: 21,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 marginRight: 32,
+                                 },
+                                 textThreeText: {
+                                 backgroundColor: "transparent",
+                                 color: "rgb(226, 175, 47)",
+                                 fontSize: 21,
+                                 fontStyle: "normal",
+                                 fontWeight: "bold",
+                                 textAlign: "center",
+                                 }
 });

@@ -25,20 +25,20 @@ import {
 } from "react-native-responsive-screen";
 
 export default class SignUp extends React.Component {
-  state = { email: "", password: "", errorMessage: null, loading: false };
+    state = { email: "", password: "", Username: "", errorMessage: null, loading: false };
 
   handleSignUp = () => {
-    const { email, password } = this.state;
+    const { email, password, Username } = this.state;
      this.setState({errorMessage: null});
-    if(email.trim() == "" || password.trim() == "") {
+    if(email.trim() == "" || password.trim() == "" || Username.trim() == "") {
        this.setState({errorMessage: "Please fill in all fields!"});
      }
     else{
       this.setState({loading: true})
     firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(user => console.log("signed up"))
+      .createUserWithEmailAndPassword(email, password, Username)
+      .then(user => this.props.navigation.navigate("DynamicScreen"))
       .catch(error => this.setState({ errorMessage: error.message, loading: false }));
     }
   };
@@ -54,7 +54,14 @@ export default class SignUp extends React.Component {
           <Text style={{ color: "red" }}>{this.state.errorMessage}</Text>
         )}
         {this.state.loading && <ActivityIndicator size="large" color="#0000ff" />}
-        <TextInput
+            <TextInput
+            placeholder="Username"
+            autoCapitalize="none"
+            style={styles.textInput}
+            onChangeText={Username => this.setState({ Username })}
+            value={this.state.Username}
+            />
+            <TextInput
           placeholder="Email"
           autoCapitalize="none"
           style={styles.textInput}
