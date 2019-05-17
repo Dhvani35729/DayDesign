@@ -78,7 +78,7 @@ const DynamicNavigator = createStackNavigator(
                                               screen: Checkout
                                               }
                                               },
-                                              
+
                                               {
                                               initialRouteName: "DynamicScreen"
                                               }
@@ -94,7 +94,7 @@ const ProfileNavigator = createStackNavigator(
                                               screen: AddFriend
                                               }
                                               },
-                                              
+
                                               {
                                               initialRouteName: "ProfileScreen"
                                               }
@@ -111,7 +111,7 @@ const SignUpNavigator = createSwitchNavigator(
                                               screen: SignUp
                                               }
                                               },
-                                              
+
                                               {
                                               initialRouteName: "Login"
                                               }
@@ -119,7 +119,7 @@ const SignUpNavigator = createSwitchNavigator(
 
 const AppNavigator = createMaterialBottomTabNavigator(
                                                       {
-                                                      
+
                                                       ProfileScreen: {
                                                       screen: ProfileNavigator,
                                                       navigationOptions: ({ navigation }) => ({
@@ -134,7 +134,7 @@ const AppNavigator = createMaterialBottomTabNavigator(
                                                                                               tabBarIcon: <Icon name="cutlery" color="#FFFF" size={20} />
                                                                                               })
                                                       },
-                                                      
+
                                                       GroupScreen: {
                                                       screen: GroupScreen,
                                                       navigationOptions: ({ navigation }) => ({
@@ -142,7 +142,7 @@ const AppNavigator = createMaterialBottomTabNavigator(
                                                                                               tabBarIcon: <Icon name="group" color="#FFFF" size={20} />
                                                                                               })
                                                       },
-                                                      
+
                                                       },
                                                       {
                                                       initialRouteName: "DynamicScreen",
