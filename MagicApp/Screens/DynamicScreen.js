@@ -99,7 +99,7 @@ export default class DynamicScreen extends React.Component {
 
     var db = firebase.firestore();
     var that = this;
-    
+
 
   }
 

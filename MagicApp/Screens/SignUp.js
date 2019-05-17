@@ -55,7 +55,7 @@ export default class SignUp extends React.Component {
         )}
         {this.state.loading && <ActivityIndicator size="large" color="#0000ff" />}
             <TextInput
-            placeholder="Username"
+            placeholder="Full Name"
             autoCapitalize="none"
             style={styles.textInput}
             onChangeText={Username => this.setState({ Username })}
