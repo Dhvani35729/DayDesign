@@ -52,28 +52,28 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
         new MainReactPackage(),
-        new StripeReactPackage(),
-         new ReactNativePushNotificationPackage(), // <---- Add the Package
-            new RNDeviceInfo(),
-            new VectorIconsPackage(),
-            new RNGestureHandlerPackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
 //        new RNFirebaseAdMobPackage(),
-//        new RNFirebaseAnalyticsPackage(),
+        new RNFirebaseAnalyticsPackage(),
         new RNFirebaseAuthPackage(),
-//        new RNFirebaseRemoteConfigPackage(),
-//        new RNFirebaseCrashlyticsPackage(),
+        new RNFirebaseRemoteConfigPackage(),
+        new RNFirebaseCrashlyticsPackage(),
         new RNFirebaseDatabasePackage(),
         new RNFirebaseFirestorePackage(),
         new RNFirebaseFunctionsPackage(),
-//        new RNFirebaseInstanceIdPackage(),
-//        new RNFirebaseInvitesPackage(),
-//        new RNFirebaseLinksPackage(),
+        new RNFirebaseInstanceIdPackage(),
+        new RNFirebaseInvitesPackage(),
+        new RNFirebaseLinksPackage(),
        new RNFirebaseMessagingPackage(),
-       new RNFirebaseNotificationsPackage()
-//        new RNFirebasePerformancePackage(),
-//        new RNFirebaseStoragePackage()
+       new RNFirebaseNotificationsPackage(),
+        new RNFirebasePerformancePackage(),
+        new RNFirebaseStoragePackage(),
+        new StripeReactPackage(),
+        new ReactNativePushNotificationPackage(), // <---- Add the Package
+        new RNDeviceInfo(),
+        new VectorIconsPackage(),
+        new RNGestureHandlerPackage()
       );
     }
 
