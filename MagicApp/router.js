@@ -18,7 +18,7 @@ import {
 import {
   createMaterialBottomTabNavigator,
 } from 'react-navigation-material-bottom-tabs';
-import firebase from 'react-native-firebase';
+
 import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 
 import Loading from './Screens/Loading';
@@ -110,26 +110,28 @@ const SignUpNavigator = createSwitchNavigator (
   }
 );
 
-const AppNavigator = createSwitchNavigator (
-  {
+const AppNavigator = createMaterialBottomTabNavigator( {
+  ProfileScreen: {
+    screen: ProfileNavigator,
+    navigationOptions: ({ navigation }) => (
+      { title: "Profile", tabBarIcon: <Icon name="user-circle-o" color="#FFFF" size={20} /> }) },
+
     DynamicScreen: {
       screen: DynamicNavigator,
-      navigationOptions: ({navigation}) => ({
-        title: 'Restaurants',
-        tabBarIcon: <Icon name="cutlery" color="#FFFF" size={20} />,
-      }),
-    },
-  },
-  {
-    initialRouteName: 'DynamicScreen',
-  }
-);
+      navigationOptions: ({ navigation }) => (
+        { title: "Restaurants", tabBarIcon: <Icon name="cutlery" color="#FFFF" size={20} /> }) },
+
+    GroupScreen: {
+      screen: GroupScreen,
+      navigationOptions: ({ navigation }) => (
+        { title: "Groups", tabBarIcon: <Icon name="group" color="#FFFF" size={20} /> }) }, }, { initialRouteName: "DynamicScreen", activeColor: "#f0edf6", inactiveColor: "#3e2465", barStyle: { backgroundColor: "#72A7E4" }, shifting: true }
+  );
 
 export const createRootNavigator = (signedIn = false) => {
   return createAppContainer (
     createSwitchNavigator (
       {
-        SignedIn: AppNavigator,
+        SignedIn: DynamicNavigator,
         SignedOut: SignUpNavigator,
       },
       {
