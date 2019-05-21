@@ -124,7 +124,14 @@ const AppNavigator = createMaterialBottomTabNavigator( {
     GroupScreen: {
       screen: GroupScreen,
       navigationOptions: ({ navigation }) => (
-        { title: "Groups", tabBarIcon: <Icon name="group" color="#FFFF" size={20} /> }) }, }, { initialRouteName: "DynamicScreen", activeColor: "#f0edf6", inactiveColor: "#3e2465", barStyle: { backgroundColor: "#72A7E4" }, shifting: true }
+        { title: "Groups", tabBarIcon: <Icon name="group" color="#FFFF" size={20} /> }) }, },
+        {
+          initialRouteName: "DynamicScreen",
+          activeColor: "#f0edf6",
+          inactiveColor: "#3e2465",
+          barStyle: { backgroundColor: "#72A7E4" },
+          shifting: true
+        }
   );
 
 export const createRootNavigator = (signedIn = false) => {

@@ -24,17 +24,21 @@ import RNExitApp from "react-native-exit-app";
 
 
 export default class App extends React.Component {
+
   constructor(props) {
     super(props);
+    console.log("here we go constructed")
     this.state = {
       signedIn: false,
-      checkedSignIn: false
+      checkedSignIn: false,
+      ranAuthWork: false
     };
   }
 
   componentDidMount() {
 
     let that = this;
+    console.log("here we go mounted")
 
     AsyncStorage.getItem("alreadyLaunchedTrofi").then(value => {
       if (value == null) {
@@ -74,6 +78,7 @@ export default class App extends React.Component {
   }
 
   checkWork(that){
+    console.log("checking moi work")
       var db = firebase.firestore();
 
       const maintRef = db.collection('general').doc('maint');
@@ -103,6 +108,7 @@ export default class App extends React.Component {
                 }
               }
               else{
+                  console.log("we good")
                     totalUsers = doc.data().total_users
                     that.launchWork(db, that, totalUsers);
               }
@@ -136,14 +142,18 @@ export default class App extends React.Component {
   }
 
   launchWork(db, that, totalUsers) {
-
+    console.log("boop checking auth")
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-
-        // firebase.auth().signOut()
-        that.initUser(db, user, that, totalUsers);
+          if(this.state.ranAuthWork == false){
+            this.setState({ranAuthWork: true});
+            console.log("man is good")
+            // firebase.auth().signOut()
+            that.initUser(db, user, that, totalUsers);
+          }
 
       } else {
+        console.log("man is not good")
         that.setState({
           firstLaunch: false,
           signedIn: false,
@@ -170,7 +180,7 @@ export default class App extends React.Component {
       var today = mm + '/' + dd + '/' + yyyy;
 
       const mapRef = db.collection('general').doc('user-verification').collection(user.uid).doc('map');
-
+      console.log("starting work")
       mapRef.get().then(function(doc) {
             if (doc.exists) {
                 publicId = doc.data().public_id
@@ -179,7 +189,7 @@ export default class App extends React.Component {
 
                 usersPrivateRef.get().then(function(doc) {
                   if (doc.exists) {
-                      console.log("Document data:", doc.data());
+                       console.log("Document data:", doc.data());
 
                     if(doc.data().last_opened == today){
 
@@ -314,6 +324,7 @@ export default class App extends React.Component {
   componentWillUnmount() {}
 
   render() {
+    console.log("we rendering")
     const { checkedSignIn, signedIn, firstLaunch } = this.state;
     if (firstLaunch === null) {
       return null; // This is the 'tricky' part: The query to AsyncStorage is not finished, but we have to present something to the user. Null will just render nothing, so you can also put a placeholder of some sort, but effectively the interval between the first mount and AsyncStorage retrieving your data won't be noticeable to the user.

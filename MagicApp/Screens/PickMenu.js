@@ -20,61 +20,75 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
+import firebase from 'react-native-firebase';
 
 export default class PickMenu extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
+  static navigationOptions = ({navigation}) => {
+    const {params = {}} = navigation.state;
     return {
       header: null,
       headerLeft: null,
-      headerRight: null
+      headerRight: null,
+      currentUser: null,
     };
   };
 
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    var resData = navigation.getParam('resData', []);
+    this.state = {
+      resData: resData,
+      menu: []
+    }
+    var db = firebase.firestore();
+    this.loadMenu(this, db, resData.key);
   }
 
-  componentDidMount() {}
+  loadMenu(that, db, resId){
+    console.log(resId);
+    var menu = []
+    var menuQuery = db.collection('foods').where('restaurant_id', '==', resId);
+    menuQuery.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+          console.log(doc.id, ' => ', doc.data());
+          var food_id = doc.id;
+          var foodData = doc.data()
+
+          var food = {
+            key: food_id,
+            name: foodData.name,
+            desc: foodData.desc,
+            original_price: foodData.sales_price
+          }
+
+          menu.push(food)
+
+      });
+      that.setState({
+        menu: menu
+      })
+  });
+
+  }
+
+  componentDidMount() {
+
+
+  }
 
   viewFlatListMockData = [
     {
       key: "1"
     },
-    {
-      key: "2"
-    },
-    {
-      key: "3"
-    },
-    {
-      key: "4"
-    },
-    {
-      key: "5"
-    },
-    {
-      key: "6"
-    },
-    {
-      key: "7"
-    },
-    {
-      key: "8"
-    },
-    {
-      key: "9"
-    },
-    {
-      key: "10"
-    }
   ];
 
   renderViewFlatListCell = ({ item }) => {
-    return <MenuItem navigation={this.props.navigation} />;
+    return <MenuItem navigation={this.props.navigation} foodData={item}/>;
   };
 
   render() {
+    var menu = this.state.menu;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -133,7 +147,7 @@ export default class PickMenu extends React.Component {
           }}
         >
           <Text style={styles.shawarmaPlusText}>Shawarma Plus</Text>
-            
+
             <View
             style={styles.restHeaderTwoView}>
             <Text
@@ -160,12 +174,12 @@ export default class PickMenu extends React.Component {
             style={styles.textTwoText}>Jawaes fdg drgy trdtdf trr fytfty</Text>
             </View>
             </View>
-            
-            
+
+
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={this.viewFlatListMockData}
+              data={menu}
               style={styles.viewFlatList}
             />
           </View>
@@ -232,7 +246,7 @@ const styles = StyleSheet.create({
   icCartButtonImage: {
     resizeMode: "contain"
   },
-                                 
+
                                  buttonButtonImage: {
                                  resizeMode: "contain",
                                  width: 60,
@@ -243,9 +257,9 @@ const styles = StyleSheet.create({
                                  width: 60,
                                  height: 60
                                  },
-                                 
-                                 
-                                 
+
+
+
   graybackgroundView: {
     backgroundColor: "rgba(226, 175, 47, 0.99)",
     borderRadius: 35,

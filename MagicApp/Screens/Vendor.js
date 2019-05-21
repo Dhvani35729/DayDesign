@@ -22,6 +22,7 @@ export default class Vendor extends React.Component {
   componentDidMount() {}
 
   render() {
+    var resData = this.props.resData;
     return (
       <View style={styles.view}>
         <TouchableOpacity
@@ -64,7 +65,7 @@ export default class Vendor extends React.Component {
             bottom: 13,
             }}>
             <Text
-            style={styles.shawarmaPlusText}>Shawarma Plus</Text>
+            style={styles.shawarmaPlusText}>{resData.name}</Text>
             <View
             style={{
             flex: 1,
@@ -121,7 +122,7 @@ export default class Vendor extends React.Component {
             </View>
             </View>
             </View>
-            
+
         </TouchableOpacity>
       </View>
     );
