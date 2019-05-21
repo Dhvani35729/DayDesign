@@ -8,7 +8,6 @@
 
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import PickMenu from "./PickMenu";
 
 export default class RestaurantCell extends React.Component {
   constructor(props) {
@@ -18,11 +17,14 @@ export default class RestaurantCell extends React.Component {
   componentDidMount() {}
 
   render() {
+    var resData = this.props.resData;
     return (
       <View style={styles.restaurantcell}>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate("PickMenu");
+            this.props.navigation.navigate("PickMenu", {
+              resData: resData
+            });
           }}
         >
           <View style={styles.graybackgroundView}>
@@ -38,7 +40,7 @@ export default class RestaurantCell extends React.Component {
                 }}
               >
             <Text
-            style={styles.currentmoneyText}>5%</Text>
+            style={styles.currentmoneyText}>{resData.percent_discount}%</Text>
             </View>
             </View>
             <View
@@ -66,7 +68,7 @@ export default class RestaurantCell extends React.Component {
             </View>
           </View>
           <View style={styles.nameofstoreView}>
-            <Text style={styles.storenameText}>Shawerma Plus</Text>
+            <Text style={styles.storenameText}>{resData.name}</Text>
             <View
               style={{
                 flex: 1,
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     width: 50
   },
-  
+
   nextdealView: {
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     alignSelf: "center",

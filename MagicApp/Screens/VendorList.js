@@ -23,69 +23,33 @@ import {
 } from "react-native-responsive-screen";
 
 export default class VendorList extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    return {
-      header: null,
-      headerLeft: null,
-      headerRight: null
-    };
-  };
 
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    var hourData = navigation.getParam('hourData', []);
+    this.state = {
+      hourData: hourData
+    }
   }
 
   componentDidMount() {}
 
-  viewFlatListMockData = [
-    {
-      key: "1"
-    },
-    {
-      key: "2"
-    },
-    {
-      key: "3"
-    },
-    {
-      key: "4"
-    },
-    {
-      key: "5"
-    },
-    {
-      key: "6"
-    },
-    {
-      key: "7"
-    },
-    {
-      key: "8"
-    },
-    {
-      key: "9"
-    },
-    {
-      key: "10"
-    }
-  ];
-
   renderViewFlatListCell = ({ item }) => {
-    return <Vendor navigation={this.props.navigation} />;
+    return <Vendor navigation={this.props.navigation} resData={item} />;
   };
 
   render() {
     return (
       <View style={styles.vendorlistView}>
-            
+
             <TouchableOpacity
             style={styles.buttonButton}
             onPress={() => this.props.navigation.goBack()}>
             <Text
             style={styles.buttonButtonText}>Go Back to All Hours </Text>
             </TouchableOpacity>
-            
+
         <TextInput
           placeholder="Search Restaurants"
           onChangeText={text => this.searchFilterFunction(text)}
@@ -95,11 +59,11 @@ export default class VendorList extends React.Component {
           <FlatList
             horizontal={false}
             renderItem={this.renderViewFlatListCell}
-            data={this.viewFlatListMockData}
+            data={this.state.hourData}
             style={styles.viewFlatList}
           />
         </View>
-            
+
       </View>
     );
   }

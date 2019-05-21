@@ -16,15 +16,39 @@ import {
 } from "react-native";
 import React from "react";
 import RestaurantCell from "./RestaurantCell";
-import VendorList from "./VendorList";
+
+function tConvert (time) {
+  // Check correct time format and split into components
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) { // If time format correct
+    time = time.slice (1);  // Remove full string match value
+    time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join (''); // return adjusted time or original string
+}
+
 
 export default class TimeCell extends React.Component {
-  state = {
-    modalCreateVisible: false
-  };
 
   constructor(props) {
     super(props);
+
+    var displayHour = ""
+
+    var hourId = parseInt(this.props.hourId)
+    if(hourId < 10){
+      displayHour = tConvert("0" + hourId.toString() + ":00")
+    }
+    else{
+      displayHour = tConvert(hourId.toString() + ":00")
+    }
+
+    this.state = {
+      displayHour: displayHour
+    }
+
   }
 
   componentDidMount() {}
@@ -33,44 +57,20 @@ export default class TimeCell extends React.Component {
     {
       key: "1"
     },
-    {
-      key: "2"
-    },
-    {
-      key: "3"
-    },
-    {
-      key: "4"
-    },
-    {
-      key: "5"
-    },
-    {
-      key: "6"
-    },
-    {
-      key: "7"
-    },
-    {
-      key: "8"
-    },
-    {
-      key: "9"
-    },
-    {
-      key: "10"
-    }
   ];
 
   renderViewFlatListCell = ({ item }) => {
-    return <RestaurantCell navigation={this.props.navigation} />;
+    return <RestaurantCell navigation={this.props.navigation} resData={item} />;
   };
 
   openVendorList() {
-    this.props.navigation.navigate("VendorListScreen");
+    this.props.navigation.navigate("VendorListScreen", {
+      hourData: this.props.hourData,
+    });
   }
 
   render() {
+    var displayHour = this.state.displayHour;
     return (
       <View style={styles.timecell}>
         <View
@@ -78,7 +78,7 @@ export default class TimeCell extends React.Component {
             flexDirection: "row"
           }}
         >
-          <Text style={styles.timeText}>10:00 AM</Text>
+          <Text style={styles.timeText}>{ displayHour }</Text>
           <View
             style={{
               flex: 1,
@@ -104,7 +104,7 @@ export default class TimeCell extends React.Component {
           <FlatList
             horizontal={true}
             renderItem={this.renderViewFlatListCell}
-            data={this.viewFlatListMockData}
+            data={this.props.hourData}
             style={styles.viewFlatList}
           />
         </View>
