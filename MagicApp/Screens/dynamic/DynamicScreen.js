@@ -8,16 +8,17 @@
 
 import React from 'react';
 import {FlatList, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import firebase from 'react-native-firebase';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import TimeCell from './TimeCell';
+import TimeCell from '../../models/TimeCell';
 
+import {loadRestaurants} from '../../api/load';
+import {user} from '../../api/config';
 
 export default class DynamicScreen extends React.Component {
-
   static navigationOptions = ({navigation}) => {
     const {params = {}} = navigation.state;
     return {
@@ -28,104 +29,40 @@ export default class DynamicScreen extends React.Component {
     };
   };
 
-  _isMounted = false;
-
   constructor (props) {
     super (props);
 
-    const {currentUser} = firebase.auth();
-
     this.state = {
-      user: currentUser,
-      allHours: []
-    }
-
-    var db = firebase.firestore();
-    console.log("constructing...")
-    this.loadRestaurants(this, db);
-
-  }
-
-  loadRestaurants(that, db){
-
-    baseHours = []
-    for(var i = 0; i < 24; i++){
-      baseHours[i] = {key: i.toString(), data: []}
-    }
-
-    db.collection("restaurants").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-          // doc.data() is never undefined for query doc snapshots
-          // console.log(doc.id, " => ", doc.data());
-          var restaurantId = doc.id;
-          var restaurantData = doc.data();
-          console.log("working with: " + restaurantId)
-
-          var hoursRef = db.collection("restaurants").doc(restaurantId).collection("hours");
-          var hourQuery = hoursRef.where("hour_is_active", "==", true);
-          hourQuery.get().then(function (querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // console.log(doc.id, ' => ', doc.data());
-                    var hourData = doc.data();
-
-                    var currentDiscount = -1;
-                    for(var i = 0; i < hourData.discounts.length; i++){
-                        if(hourData.discounts[i].is_active == true){
-                          currentDiscount = hourData.discounts[i].percent_discount;
-                          break;
-                        }
-                    }
-
-                    var resCard = {
-                        key: restaurantId,
-                        name: restaurantData.restaurant_name,
-                        percent_discount: currentDiscount
-                    }
-                    console.log(hourData.start_id)
-                    baseHours[parseInt(hourData.start_id)].data.push(resCard)
-
-                });
-                  console.log(baseHours)
-                  if(that._isMounted){
-                    that.setState({
-                      allHours: baseHours
-                    })
-                  }
-
-
-            });
-      });
-    });
-
+      user: user,
+      allHours: [],
+    };
   }
 
   componentDidMount () {
-    this._isMounted = true;
-    console.log("mounted")
+    loadRestaurants (this);
   }
 
   componentWillUnmount () {
-    console.log("leaving...");
-    this._isMounted = false;
+    // remove listeners
   }
 
-  viewFlatListMockData = [
-    {
-      key: '1',
-    },
-  ];
-
   renderViewFlatListCell = ({item}) => {
-    return <TimeCell navigation={this.props.navigation} hourId={item.key} hourData={item.data} />;
+    return (
+      <TimeCell
+        navigation={this.props.navigation}
+        hourId={item.key}
+        hourData={item.data}
+      />
+    );
   };
 
   render () {
-    const allHours = this.state.allHours
+    const allHours = this.state.allHours;
     return (
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate ('CurrentOrder');
+            this.props.navigation.navigate ('CurrentOrderScreen');
           }}
         >
           <View style={styles.viewView}>

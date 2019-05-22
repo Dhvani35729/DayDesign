@@ -15,9 +15,9 @@ import GiftCell from "./GiftCell"
 
 
 export default class Friendsfriends extends React.Component {
-    
+
     static navigationOptions = ({ navigation }) => {
-        
+
         const { params = {} } = navigation.state
         return {
         header: null,
@@ -25,21 +25,21 @@ export default class Friendsfriends extends React.Component {
         headerRight: null,
         }
     }
-    
+
     constructor(props) {
         super(props)
     }
-    
+
     componentDidMount() {
-        
+
     }
-    
-   
-    
+
+
+
     onCellsButtonCellPressed = () => {
-        
+
     }
-    
+
     viewFlatListMockData = [{
                             key: "1",
                             }, {
@@ -47,13 +47,13 @@ export default class Friendsfriends extends React.Component {
                             }, {
                             key: "3",
                             }]
-    
+
     renderViewFlatListCell = ({ item }) => {
-        
+
         return <LoyaltyCells
         navigation={this.props.navigation}/>
     }
-    
+
     viewTwoFlatListMockData = [{
                                key: "1",
                                }, {
@@ -75,15 +75,15 @@ export default class Friendsfriends extends React.Component {
                                }, {
                                key: "10",
                                }]
-    
+
     renderViewTwoFlatListCell = ({ item }) => {
-        
+
         return <GiftCell
         navigation={this.props.navigation}/>
     }
-    
+
     render() {
-        
+
         return <View
         style={styles.artboardView}>
         <Text
@@ -107,15 +107,15 @@ export default class Friendsfriends extends React.Component {
         data={this.viewTwoFlatListMockData}
         style={styles.viewTwoFlatList}/>
         </View>
-    
-        
+
+
         <TouchableOpacity
         onPress={() => {
             this.props.navigation.navigate("AddFriend");
         }}
         style={styles.cellsButtonCellButton}>
 
-        
+
         <Text
         style={styles.cellsButtonCellButtonText}>Add Friends</Text>
         </TouchableOpacity>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
                                  width: "100%",
                                  height: "100%",
                                  },
-                                
+
                                  viewTwoFlatListViewWrapper: {
                                  marginLeft: 4,
                                  marginRight: 9,

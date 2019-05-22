@@ -11,9 +11,9 @@ import React from "react"
 
 
 export default class Onboarding2 extends React.Component {
-    
+
     static navigationOptions = ({ navigation }) => {
-        
+
         const { params = {} } = navigation.state
         return {
         header: null,
@@ -21,7 +21,7 @@ export default class Onboarding2 extends React.Component {
         headerRight: null,
         }
     }
-    
+
     constructor(props) {
         super(props)
         this.state = {
@@ -30,19 +30,19 @@ export default class Onboarding2 extends React.Component {
         bitmapImage: new Animated.Value(0.01),
         }
     }
-    
+
     componentDidMount() {
-        
+
         this.startAnimationOne()
         this.startAnimationTwo()
         this.startAnimationThree()
     }
-    
+
     startAnimationOne() {
-        
+
         // Set animation initial values to all animated properties
         this.state.smallRest1View.setValue(true)
-        
+
         // Configure animation and trigger
         Animated.parallel([Animated.parallel([Animated.timing(this.state.smallRest1View, {
                                                               duration: 7000,
@@ -52,12 +52,12 @@ export default class Onboarding2 extends React.Component {
                                              delay: 3000,
                                              })]).start()
     }
-    
+
     startAnimationTwo() {
-        
+
         // Set animation initial values to all animated properties
         this.state.bitmapImage.setValue(true)
-        
+
         // Configure animation and trigger
         Animated.parallel([Animated.parallel([Animated.timing(this.state.bitmapImage, {
                                                               duration: 1500,
@@ -65,12 +65,12 @@ export default class Onboarding2 extends React.Component {
                                                               toValue: 0.01,
                                                               })])]).start()
     }
-    
+
     startAnimationThree() {
-        
+
         // Set animation initial values to all animated properties
         this.state.smallRest1TwoView.setValue(true)
-        
+
         // Configure animation and trigger
         Animated.parallel([Animated.parallel([Animated.timing(this.state.smallRest1TwoView, {
                                                               duration: 4000,
@@ -78,9 +78,9 @@ export default class Onboarding2 extends React.Component {
                                                               toValue: 0.01,
                                                               })])]).start()
     }
-    
+
     render() {
-        
+
         return <View
         style={styles.onboarding2View}>
         <View
@@ -97,7 +97,7 @@ export default class Onboarding2 extends React.Component {
         <View
         style={styles.smallRest1View}>
         <Image
-        source={require("./../../assets/images/rectangle-3.png")}
+        source={require("../../../assets/images/rectangle-3.png")}
         style={styles.rectangle3Image}/>
         <View
         pointerEvents="box-none"
@@ -193,7 +193,7 @@ export default class Onboarding2 extends React.Component {
                 : this.state.bitmapImage,
                 }, styles.bitmapImageAnimated]}>
         <Image
-        source={require("./../../assets/images/bitmap.png")}
+        source={require("../../../assets/images/bitmap.png")}
         style={styles.bitmapImage}/>
         </Animated.View>
         <Animated.View
@@ -203,7 +203,7 @@ export default class Onboarding2 extends React.Component {
         <View
         style={styles.smallRest1TwoView}>
         <Image
-        source={require("./../../assets/images/rectangle-3.png")}
+        source={require("../../../assets/images/rectangle-3.png")}
         style={styles.rectangle3TwoImage}/>
         <View
         pointerEvents="box-none"

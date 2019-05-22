@@ -12,9 +12,9 @@ import FriendGiftCell from "./FriendGiftCell"
 
 
 export default class SendGift extends React.Component {
-    
+
     static navigationOptions = ({ navigation }) => {
-        
+
         const { params = {} } = navigation.state
         return {
         header: null,
@@ -22,23 +22,23 @@ export default class SendGift extends React.Component {
         headerRight: null,
         }
     }
-    
+
     constructor(props) {
         super(props)
     }
-    
+
     componentDidMount() {
-        
+
     }
-    
+
     onSkipPressed = () => {
-        
+
     }
-    
+
     onFriendNotOnVibePressed = () => {
-        
+
     }
-    
+
     viewFlatListMockData = [{
                             key: "1",
                             }, {
@@ -60,15 +60,15 @@ export default class SendGift extends React.Component {
                             }, {
                             key: "10",
                             }]
-    
+
     renderViewFlatListCell = ({ item }) => {
-        
+
         return <FriendGiftCell
         navigation={this.props.navigation}/>
     }
-    
+
     render() {
-        
+
         return <View
         style={styles.sendgiftView}>
         <View

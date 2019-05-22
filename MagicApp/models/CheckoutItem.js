@@ -20,6 +20,8 @@ export default class CheckoutItem extends React.Component {
 
   componentDidMount() {}
 
+  componentWillUnmount () {}
+
   render() {
     return (
       <View style={styles.listRest1}>

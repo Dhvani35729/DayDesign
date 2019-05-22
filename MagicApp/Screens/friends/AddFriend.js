@@ -15,9 +15,9 @@ import {
 } from "react-native-responsive-screen";
 
 export default class Addfriends extends React.Component {
-    
+
     static navigationOptions = ({ navigation }) => {
-        
+
         const { params = {} } = navigation.state
         return {
         header: null,
@@ -25,19 +25,19 @@ export default class Addfriends extends React.Component {
         headerRight: null,
         }
     }
-    
+
     constructor(props) {
         super(props)
     }
-    
+
     componentDidMount() {
-        
+
     }
-    
+
     onFriendNotOnVibePressed = () => {
-        
+
     }
-    
+
     viewFlatListMockData = [{
                             key: "1",
                             }, {
@@ -59,25 +59,25 @@ export default class Addfriends extends React.Component {
                             }, {
                             key: "10",
                             }]
-    
+
     renderViewFlatListCell = ({ item }) => {
-        
+
         return <FriendCell
         navigation={this.props.navigation}/>
     }
-    
+
     render() {
-        
+
         return <View
         style={styles.artboardView}>
-        
+
         <TouchableOpacity
         style={styles.buttonButton}
         onPress={() => this.props.navigation.goBack()}>
         <Text
         style={styles.buttonButtonText}>Cancel </Text>
         </TouchableOpacity>
-        
+
         <TextInput
         placeholder="Search Usernames"
         onChangeText={text => this.searchFilterFunction(text)}
