@@ -12,11 +12,11 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
-  AsyncStorage,
   Alert,
   Platform,
   BackHandler,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import firebase from 'react-native-firebase';
 import DeviceInfo from 'react-native-device-info';
