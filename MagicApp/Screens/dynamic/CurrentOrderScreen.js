@@ -1,12 +1,13 @@
 import {Text, StyleSheet, FlatList, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import CheckoutItem from './CheckoutItem';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-export default class CurrentOrder extends React.Component {
+import CheckoutItem from '../../models/CheckoutItem';
+
+export default class CurrentOrderScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
     const {params = {}} = navigation.state;
     return {
@@ -22,36 +23,11 @@ export default class CurrentOrder extends React.Component {
 
   componentDidMount () {}
 
+  componentWillUnmount () {}
+
   viewFlatListMockData = [
     {
       key: '1',
-    },
-    {
-      key: '2',
-    },
-    {
-      key: '3',
-    },
-    {
-      key: '4',
-    },
-    {
-      key: '5',
-    },
-    {
-      key: '6',
-    },
-    {
-      key: '7',
-    },
-    {
-      key: '8',
-    },
-    {
-      key: '9',
-    },
-    {
-      key: '10',
     },
   ];
 

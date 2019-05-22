@@ -19,36 +19,28 @@ import {
   createMaterialBottomTabNavigator,
 } from 'react-navigation-material-bottom-tabs';
 
-import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
-
+// General
 import Loading from './Screens/Loading';
-
 import Login from './Screens/Login';
 import SignUp from './Screens/SignUp';
 
-import GroupScreen from './Screens/GroupScreen';
-import DynamicScreen from './Screens/DynamicScreen';
-import ProfileScreen from './Screens/Profile';
+// Vibe
+import GroupScreen from './Screens/groups/GroupScreen';
 
-import VendorList from './Screens/VendorList';
-import PickMenu from './Screens/PickMenu';
-import AddItem from './Screens/AddItem';
-import Checkout from './Screens/Checkout';
-import Payment from './Screens/payment';
-import CurrentOrder from './Screens/CurrentOrder';
-import SendGift from './Screens/SendGift';
-import AddFriend from './Screens/AddFriend';
+// Trofi
+import DynamicScreen from './Screens/dynamic/DynamicScreen';
+import VendorListScreen from './Screens/dynamic/VendorListScreen';
+import MenuScreen from './Screens/dynamic/MenuScreen';
+import AddItemScreen from './Screens/dynamic/AddItemScreen';
+import CheckoutScreen from './Screens/dynamic/CheckoutScreen';
+import PaymentScreen from './Screens/dynamic/PaymentScreen';
+import CurrentOrderScreen from './Screens/dynamic/CurrentOrderScreen';
 
-class LoadingScreen extends React.Component {
-  render () {
-    return (
-      <View style={styles.container}>
-        <Text>Loading</Text>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
-}
+// Friends
+import SendGift from './Screens/friends/SendGift';
+import AddFriend from './Screens/friends/AddFriend';
+import ProfileScreen from './Screens/friends/Profile';
+
 
 const DynamicNavigator = createStackNavigator (
   {
@@ -56,25 +48,22 @@ const DynamicNavigator = createStackNavigator (
       screen: DynamicScreen,
     },
     VendorListScreen: {
-      screen: VendorList,
+      screen: VendorListScreen,
     },
-    PickMenu: {
-      screen: PickMenu,
+    MenuScreen: {
+      screen: MenuScreen,
     },
-    AddItem: {
-      screen: AddItem,
+    AddItemScreen: {
+      screen: AddItemScreen,
     },
-    Payment: {
-      screen: Payment,
+    PaymentScreen: {
+      screen: PaymentScreen,
     },
-    CurrentOrder: {
-      screen: CurrentOrder,
+    CurrentOrderScreen: {
+      screen: CurrentOrderScreen,
     },
-    SendGift: {
-      screen: SendGift,
-    },
-    Checkout: {
-      screen: Checkout,
+    CheckoutScreen: {
+      screen: CheckoutScreen,
     },
   },
   {
@@ -147,11 +136,3 @@ export const createRootNavigator = (signedIn = false) => {
     )
   );
 };
-
-const styles = StyleSheet.create ({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

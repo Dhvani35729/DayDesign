@@ -36,9 +36,9 @@ import {
 } from "react-native-responsive-screen";
 
 import Group from "./Group";
-import Friend from "./Friend";
+import Friend from "../friends/Friend";
 import CreateGroupModal from "./CreateGroupModal";
-import OfflineNotice from "./OfflineNotice";
+import OfflineNotice from "../OfflineNotice";
 
 // Function convert 24hour time to 12hour format
 export function tConvert(time) {
@@ -46,14 +46,14 @@ export function tConvert(time) {
     time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
                                                                                  time
                                                                                  ];
-    
+
     if (time.length > 1) {
         // If time format correct
         time = time.slice(1); // Remove full string match value
         time[5] = +time[0] < 12 ? "AM" : "PM"; // Set AM/PM
         time[0] = +time[0] % 12 || 12; // Adjust hours
     }
-    
+
     return time.join(""); // return adjusted time or original string
 }
 
@@ -80,9 +80,9 @@ export default class GroupScreen extends React.Component {
     appState: AppState.currentState,
     loading: true
     };
-    
+
     _isMounted = false;
-    
+
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state;
         return {
@@ -91,38 +91,38 @@ export default class GroupScreen extends React.Component {
         headerRight: null
         };
     };
-    
+
     constructor(props) {
         super(props);
-        
+
         this.updateDetailModal = this.updateDetailModal;
-        
+
         // Configure notifications
         PushNotification.configure({
                                    // (optional) Called when Token is generated (iOS and Android)
                                    onRegister: function(token) {
                                    console.log("TOKEN:", token);
                                    },
-                                   
+
                                    // (required) Called when a remote or local notification is opened or received
                                    onNotification: function(notification) {
                                    console.log("NOTIFICATION:", notification);
                                    },
-                                   
+
                                    // ANDROID ONLY: (optional) GCM Sender ID.
                                    senderID: "YOUR GCM SENDER ID",
-                                   
+
                                    // IOS ONLY (optional): default: all - Permissions to register.
                                    permissions: {
                                    alert: true,
                                    badge: true,
                                    sound: true
                                    },
-                                   
+
                                    // Should the initial notification be popped automatically
                                    // default: true
                                    popInitialNotification: true,
-                                   
+
                                    /**
                                     * (optional) default: true
                                     * - Specified if permissions (ios) and token (android and ios) will requested or not,
@@ -131,26 +131,26 @@ export default class GroupScreen extends React.Component {
                                    requestPermissions: true
                                    });
     }
-    
+
     setCreateModalVisible(visible) {
         this.setState({ modalCreateVisible: visible });
     }
-    
+
     setDetailModalVisible(visible) {
         this.setState({ modalDetailVisible: visible });
     }
-    
+
     setJoinModalVisible(visible) {
         this.setState({ modalJoinVisible: visible });
     }
-    
+
     updateCreateState() {
         this.setState({ modalCreateVisible: false });
     }
-    
+
     loadEverything(my) {
         // console.log("constructing...");
-        
+
         let root = firebase.database();
         let solid = root.ref("build_version");
         // console.log( solid.once('value'));
@@ -163,7 +163,7 @@ export default class GroupScreen extends React.Component {
               console.log(snapshot.val().localeCompare(DeviceInfo.getVersion()));
               console.log(DeviceInfo.getVersion());
               console.log('load now');
-              
+
               if (snapshot.val().localeCompare(DeviceInfo.getVersion()) <= 0) {
               let fireID = root
               .ref("users/" + my.state.uniqueId)
@@ -233,24 +233,24 @@ export default class GroupScreen extends React.Component {
                alert("Data could not be loaded. Try reopening app." + error);
                });
     }
-    
+
     loadGroups(my, root) {
         // console.log('loading groups...')
-        
+
         var getKey = my.state.key;
-        
+
         root.ref("groups").on("value", function(snapshot) {
                               // console.log(snapshot.val());
                               // console.log(my.state)
-                              
+
                               var date = new Date().getDate(); //Current Date
                               var month = new Date().getMonth(); //Current Month
                               var year = new Date().getFullYear(); //Current Year
                               var now = new Date(year, month, date);
                               // console.log(date+'-'+month+'-'+year+' '+hours+':'+min+':'+sec);
-                              
+
                               var todayGroups = [];
-                              
+
                               for (var i = 0; i < snapshot.val().length; i++) {
                               // console.log(snapshot.val())
                               var full_date = snapshot.val()[i].date_stamp;
@@ -272,15 +272,15 @@ export default class GroupScreen extends React.Component {
                               }
                               }
                               // console.log(todayGroups);
-                              
+
                               // Sort from earliest time to latest time
                               todayGroups.sort(function(a, b) {
                                                var aHours = a.time.substr(0, 2);
                                                var aMin = a.time.substr(3, 5);
-                                               
+
                                                var bHours = b.time.substr(0, 2);
                                                var bMin = b.time.substr(3, 5);
-                                               
+
                                                if (aHours < bHours) {
                                                // console.log("less than");
                                                return 1;
@@ -299,11 +299,11 @@ export default class GroupScreen extends React.Component {
                                                return -1;
                                                }
                                                });
-                              
+
                               if (my._isMounted) {
                               my.setState({ data: todayGroups, loading: false }, function() {
                                           // console.log("set state with group data");
-                                          
+
                                           if (my.state.modalDetailVisible == true) {
                                           // console.log(my.state.key);
                                           getKey = my.state.key;
@@ -315,7 +315,7 @@ export default class GroupScreen extends React.Component {
                                           item = todayGroups[i];
                                           }
                                           }
-                                          
+
                                           my.loadFriends(
                                                          my,
                                                          item.key,
@@ -325,7 +325,7 @@ export default class GroupScreen extends React.Component {
                                                          );
                                           }
                                           }
-                                          
+
                                           root
                                           .ref("users/" + my.state.uniqueId)
                                           .once("value")
@@ -341,15 +341,15 @@ export default class GroupScreen extends React.Component {
                                                 }
                                                 }
                                                 });
-                                          
+
                                           my.arrayholder = todayGroups;
-                                          
+
                                           // console.log("finished setting all data")});
                                           });
                               }
                               });
     }
-    
+
     loadFriends(my, key, numPeople, people, joined) {
         if (
             !my.state.friendData ||
@@ -360,10 +360,10 @@ export default class GroupScreen extends React.Component {
                         friendData: [{ key: "0", name: "Loading", prompt: "Loading" }]
                         });
             var counter = 1;
-            
+
             var found = false;
             var sliced = false;
-            
+
             for (var i = 0; i < numPeople; i++) {
                 firebase
                 .database()
@@ -378,15 +378,15 @@ export default class GroupScreen extends React.Component {
                     found = true;
                     my.setState({ notInEvent: false });
                     }
-                    
+
                     friend["prompt"] = people[friendID].prompt;
                     friend["key"] = counter.toString();
                     friend["id"] = friendID;
                     friend["name"] = snapshot.val().name;
-                    
+
                     my.state.friendData.push(friend);
                     counter++;
-                    
+
                     if (numPeople == 1) {
                     my.setState({ friendData: my.state.friendData.slice(1) });
                     } else {
@@ -402,18 +402,18 @@ export default class GroupScreen extends React.Component {
                     }
                     );
             }
-            
+
             if (found == false) {
                 my.setState({ notInEvent: true });
             }
-            
+
             // console.log(my.state.friendData);
             // console.log("got all users");
-            
+
             if (joined == false) {
                 my.setState({ modalDetailVisible: !my.state.modalDetailVisible });
             }
-            
+
             my.setState({ key: key });
         } else {
             if (joined == false) {
@@ -421,7 +421,7 @@ export default class GroupScreen extends React.Component {
             }
         }
     }
-    
+
     _handleAppStateChange = nextAppState => {
         if (
             this.state.appState.match(/inactive|background/) &&
@@ -439,7 +439,7 @@ export default class GroupScreen extends React.Component {
         }
         this.setState({ appState: nextAppState });
     };
-    
+
     searchFilterFunction = text => {
         // console.log(this.arrayholder);
         if (this.arrayholder != null) {
@@ -453,11 +453,11 @@ export default class GroupScreen extends React.Component {
                           });
         }
     };
-    
+
     onCreateButtonPressed = () => {
         this.setCreateModalVisible(!this.state.modalCreateVisible);
     };
-    
+
     renderGroupFlatListCell = ({ item }) => {
         return (
                 <Group
@@ -468,32 +468,32 @@ export default class GroupScreen extends React.Component {
                 />
                 );
     };
-    
+
     renderViewFlatListCell = ({ item }) => {
         return <Friend item={item} />;
     };
-    
+
     showEmptyListView = () => {
         <View>
         <Text>Loading</Text>
         </View>;
     };
-    
+
     setScroll = item => {
         this.setState({ scrollEnabled: item });
     };
-    
+
     setHasName = item => {
         this.setState({ hasName: item });
     };
-    
+
     updateDetailModal = item => {
         // console.log(item);
         this.setState({ item: item });
         this.setState({ scrollEnabled: true });
         this.loadFriends(this, item.key, item.number_going, item.people, false);
     };
-    
+
     openReport = () => {
         Linking.canOpenURL("https://wbc-magic.weebly.com/report").then(
                                                                        supported => {
@@ -507,20 +507,20 @@ export default class GroupScreen extends React.Component {
                                                                        }
                                                                        );
     };
-    
+
     joinEvent() {
         userID = this.state.uniqueId;
-        
+
         const { newName, newIntro, friendData } = this.state;
-        
+
         var numPeople = friendData.length;
         var that = this;
-        
+
         if (newName.trim() == "") {
             this.setState({ errorMessage: "Please fill in your name!" });
         } else {
             this.setState({ errorMessage: null });
-            
+
             var updates_1 = {};
             updates_1["/name/"] = newName;
             firebase
@@ -528,28 +528,28 @@ export default class GroupScreen extends React.Component {
             .ref("users/" + userID)
             .update(updates_1);
             this.setState({ hasName: true });
-            
+
             var updates = {};
             updates["/people/" + userID + "/prompt"] = newIntro;
-            
+
             updates["/number_going"] = numPeople + 1;
             firebase
             .database()
             .ref("groups/" + this.state.key)
             .update(updates);
-            
+
             this.setJoinModalVisible(!this.state.modalJoinVisible);
-            
+
             var date = new Date().getDate(); //Current Date
             var month = new Date().getMonth(); //Current Month
             var year = new Date().getFullYear(); //Current Year
             var hours = new Date().getHours(); //Current Hours
             var min = new Date().getMinutes(); //Current Minutes
-            
+
             var now = new Date(year, month, date, hours, min);
             var eventHour = parseInt(this.state.item.time.substr(0, 2));
             var eventMin = parseInt(this.state.item.time.substr(3, 5));
-            
+
             var notifMessage =
             "Event Now: " +
             this.state.item.group_name +
@@ -576,11 +576,11 @@ export default class GroupScreen extends React.Component {
                     " in 10 minutes";
                 }
             }
-            
+
             var eventDate = new Date(year, month, date, eventHour, eventMin);
             var timeLeft = eventDate - now;
             // console.log(timeLeft);
-            
+
             PushNotification.localNotificationSchedule({
                                                        //... You can use all the options from localNotifications
                                                        message: notifMessage, // (required)
@@ -588,43 +588,43 @@ export default class GroupScreen extends React.Component {
                                                        });
         }
     }
-    
+
     componentDidMount() {
         // console.log('In main group screen');
-        
+
         this._isMounted = true;
-        
+
         // console.log(DeviceInfo.getUniqueID());
         //     const uniqueId = DeviceInfo.getUniqueID();
-        
+
         if (firebase.auth().currentUser !== null) {
             // console.log("user id: " + firebase.auth().currentUser.uid);
             this.setState({ uniqueId: firebase.auth().currentUser.uid });
-            
+
             // this.setState({uniqueId: uniqueId});
-            
+
             AppState.addEventListener("change", this._handleAppStateChange);
-            
+
             let my = this;
             this.loadEverything(my);
         }
-        
+
         // console.log('Done loading everything');
     }
-    
+
     // Remove all listeners
     componentWillUnmount() {
         console.log("leaving...");
         this._isMounted = false;
         AppState.removeEventListener("change", this._handleAppStateChange);
     }
-    
+
     // called when prop updates
     componentDidUpdate(prevProps) {
         // console.log('updating...');
         // console.log(this.state);
     }
-    
+
     render() {
         return (
                 <View style={styles.groupsView}>
@@ -664,7 +664,7 @@ export default class GroupScreen extends React.Component {
                 }}
                 >
                 <Image
-                source={require("./../assets/images/ic-close.png")}
+                source={require("../../assets/images/ic-close.png")}
                 style={styles.buttonButtonImage}
                 />
                 </TouchableOpacity>
@@ -676,7 +676,7 @@ export default class GroupScreen extends React.Component {
                                            }}
                                            >
                                            <Image
-                                           source={require("./../assets/images/bob-2.png")}
+                                           source={require("../../assets/images/bob-2.png")}
                                            style={styles.buttonButtonImage}
                                            />
                                            </TouchableOpacity>
@@ -707,7 +707,7 @@ export default class GroupScreen extends React.Component {
                 />
                 </View>
                 </View>
-                
+
                 <Modal
                 animationType="slide"
                 transparent={true}
@@ -730,7 +730,7 @@ export default class GroupScreen extends React.Component {
                 style={styles.icCloseButton}
                 >
                 <Image
-                source={require("./../assets/images/ic-close-2.png")}
+                source={require("../../assets/images/ic-close-2.png")}
                 style={styles.icCloseButtonImage}
                 />
                 </TouchableOpacity>
@@ -749,14 +749,14 @@ export default class GroupScreen extends React.Component {
                 style={styles.icCartButton}
                 >
                 <Image
-                source={require("./../assets/images/bob-2.png")}
+                source={require("../../assets/images/bob-2.png")}
                 style={styles.buttonButtonImage}
                 />
                 </TouchableOpacity>
                 </View>
                 </View>
                 </View>
-                
+
                 <View style={styles.contentView}>
                 <View style={styles.formView}>
                 <View style={styles.edittextTextonlyPlaceholderView}>
@@ -791,7 +791,7 @@ export default class GroupScreen extends React.Component {
                 />
                 </View>
                 </View>
-                
+
                 {this.state.errorMessage && (
                                              <Text style={{ color: "red", marginTop: 5 }}>
                                              {this.state.errorMessage}
@@ -802,7 +802,7 @@ export default class GroupScreen extends React.Component {
                 </View>
                 </Modal>
                 </Modal>
-                
+
                 <TextInput
                 placeholder="Search groups or restaurants"
                 onChangeText={text => this.searchFilterFunction(text)}
@@ -826,7 +826,7 @@ export default class GroupScreen extends React.Component {
                 >
                 Today's Groups
                 </Text>
-                
+
                 <View
                 style={{
                 flex: 0.5,
@@ -947,7 +947,7 @@ const styles = StyleSheet.create({
                                  marginRight: wp("4%"),
                                  flex: 1
                                  },
-                                 
+
                                  group5TwoTextInput: {
                                  color: "rgb(0, 0, 0)",
                                  //   fontFamily: ".SFNSText",
@@ -1242,10 +1242,10 @@ const styles = StyleSheet.create({
                                  marginLeft: 20,
                                  //width: 74,
                                  marginTop: hp("1%"),
-                                 
+
                                  height: hp("3%")
                                  },
-                                 
+
                                  viewFlatList: {
                                  backgroundColor: "rgb(246, 246, 246)",
                                  width: "100%",

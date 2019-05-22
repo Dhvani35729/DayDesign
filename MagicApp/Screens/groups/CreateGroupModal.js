@@ -91,7 +91,7 @@ export default class CreateGroupModal extends React.Component {
 
 
  //   var addMessage = firebase.functions().httpsCallable('addMessage');
- // //  console.log(addMessage({text: "Test"}))
+// ../..//  console.log(addMessage({text: "Test"}))
  // addMessage({text: "Test Patel", state: this.state}).then(function(result) {
  //   // Read result of the Cloud Function.
  //   var sanitizedMessage = result.data.text;
@@ -340,7 +340,7 @@ export default class CreateGroupModal extends React.Component {
         onPress={() => {this.setState({errorMessage: null}); this._setModalVisible(!this.state.isModalVisible); }}
         style={styles.icCloseButton}>
       <Image
-        source={require("./../assets/images/ic-close-2.png")}
+        source={require("../../assets/images/ic-close-2.png")}
         style={styles.icCloseButtonImage}/>
       </TouchableOpacity>
       <View
@@ -354,7 +354,7 @@ export default class CreateGroupModal extends React.Component {
         onPress={() => {this.createNewGroup()}}
         style={styles.icCartButton}>
       <Image
-        source={require("./../assets/images/ic-cart.png")}
+        source={require("../../assets/images/ic-cart.png")}
         style={styles.icCartButtonImage}/>
       <View
         style={{
@@ -363,7 +363,7 @@ export default class CreateGroupModal extends React.Component {
           position: "absolute",
         }}>
         <Image
-          source={require("./../assets/images/bitmap-3.png")}
+          source={require("../../assets/images/bitmap-3.png")}
           style={styles.bitmapImage}/>
       </View>
       </TouchableOpacity>
