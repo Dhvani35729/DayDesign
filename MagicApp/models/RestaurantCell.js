@@ -23,6 +23,7 @@ export default class RestaurantCell extends React.Component {
     return (
       <View style={styles.restaurantcell}>
         <TouchableOpacity
+          disabled={!this.props.enabled}
           onPress={() => {
             this.props.navigation.navigate ('MenuScreen', {
               resData: resData,

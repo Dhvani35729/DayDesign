@@ -13,7 +13,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import TimeCell from '../../models/TimeCell';
+import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
 
 import {loadRestaurants} from '../../api/load';
 import {user} from '../../api/config';
@@ -40,6 +40,7 @@ export default class DynamicScreen extends React.Component {
 
   componentDidMount () {
     loadRestaurants (this);
+
   }
 
   componentWillUnmount () {
@@ -58,6 +59,7 @@ export default class DynamicScreen extends React.Component {
 
   render () {
     const allHours = this.state.allHours;
+    const currentHour = (new Date()).getHours();
     return (
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
@@ -135,9 +137,14 @@ export default class DynamicScreen extends React.Component {
         <View style={styles.viewFlatListViewWrapper}>
           <FlatList
             horizontal={false}
+            ref={(ref) => { this.flatListRef = ref; }}
             renderItem={this.renderViewFlatListCell}
             data={allHours}
             style={styles.viewFlatList}
+            initialScrollIndex={allHours.length > 0 ? currentHour : 0}
+            getItemLayout={(data, index) => (
+              {length: TIME_CELL_HEIGHT, offset: TIME_CELL_HEIGHT * index, index}
+            )}
           />
         </View>
       </View>

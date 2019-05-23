@@ -19,7 +19,9 @@ import React from 'react';
 import RestaurantCell from './RestaurantCell';
 import {tConvert} from '../utils/index';
 
-export default class TimeCell extends React.Component {
+var TIME_CELL_HEIGHT = 152;
+
+class TimeCell extends React.Component {
   constructor (props) {
     super (props);
 
@@ -32,9 +34,22 @@ export default class TimeCell extends React.Component {
       displayHour = tConvert (hourId.toString () + ':00');
     }
 
-    this.state = {
-      displayHour: displayHour,
-    };
+
+
+    const currentHour = (new Date()).getHours();
+    if(hourId < currentHour){
+      this.state = {
+        displayHour: displayHour,
+        enabled: false
+      };
+    }
+    else{
+      this.state = {
+        displayHour: displayHour,
+        enabled: true
+      };
+    }
+
   }
 
   componentDidMount () {}
@@ -42,7 +57,7 @@ export default class TimeCell extends React.Component {
   componentWillUnmount () {}
 
   renderViewFlatListCell = ({item}) => {
-    return <RestaurantCell navigation={this.props.navigation} resData={item} />;
+    return <RestaurantCell navigation={this.props.navigation} resData={item} enabled={this.state.enabled} />;
   };
 
   openVendorList () {
@@ -54,7 +69,7 @@ export default class TimeCell extends React.Component {
   render () {
     var displayHour = this.state.displayHour;
     return (
-      <View style={styles.timecell}>
+      <View style={[styles.timecell, {opacity: this.state.enabled ? 1 : 0.3}]}>
         <View
           style={{
             flexDirection: 'row',
@@ -72,6 +87,7 @@ export default class TimeCell extends React.Component {
               onPress={() => {
                 this.openVendorList ();
               }}
+              disabled={!this.state.enabled}
               style={styles.seeallButton}
             >
               <Text style={styles.seeallButtonText}>See All</Text>
@@ -98,7 +114,7 @@ export default class TimeCell extends React.Component {
 const styles = StyleSheet.create ({
   timecell: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    height: 152,
+    height: TIME_CELL_HEIGHT,
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
     marginLeft: 10,
@@ -150,3 +166,5 @@ const styles = StyleSheet.create ({
     height: 106,
   },
 });
+
+export {TimeCell, TIME_CELL_HEIGHT};
