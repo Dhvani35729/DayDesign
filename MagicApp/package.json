@@ -31,6 +31,7 @@
     "react-native-elements": "^1.1.0",
     "react-native-exit-app": "^1.0.0",
     "react-native-firebase": "^5.3.1",
+    "react-native-flash-message": "^0.1.13",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-maps": "^0.22.1",

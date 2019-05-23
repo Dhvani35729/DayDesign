@@ -184,7 +184,7 @@ export default class App extends React.Component {
       .doc ('user-verification')
       .collection (user.uid)
       .doc ('map');
-    console.log ('starting work');
+
     mapRef
       .get ()
       .then (function (doc) {
@@ -199,7 +199,7 @@ export default class App extends React.Component {
             .get ()
             .then (function (doc) {
               if (doc.exists) {
-                console.log ('Document data:', doc.data ());
+                // console.log ('Document data:', doc.data ());
 
                 if (doc.data ().last_opened == today) {
                   usersPrivateRef

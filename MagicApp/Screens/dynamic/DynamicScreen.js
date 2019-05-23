@@ -13,8 +13,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
+import FlashMessage from "react-native-flash-message";
 
+import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
 import {loadRestaurants} from '../../api/load';
 import {user} from '../../api/config';
 
@@ -64,7 +65,7 @@ export default class DynamicScreen extends React.Component {
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate ('CurrentOrderScreen');
+            // this.props.navigation.navigate ('CurrentOrderScreen');
           }}
         >
           <View style={styles.viewView}>
@@ -146,7 +147,9 @@ export default class DynamicScreen extends React.Component {
               {length: TIME_CELL_HEIGHT, offset: TIME_CELL_HEIGHT * index, index}
             )}
           />
+
         </View>
+        <FlashMessage position="top" />
       </View>
     );
   }

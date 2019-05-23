@@ -1,3 +1,11 @@
+import { showMessage, hideMessage } from "react-native-flash-message";
+
+function showDatabaseUpdateMessage(){
+  showMessage({
+    message: "Database updated!",
+    type: "info",
+  });
+}
 
 function tConvert (time) {
     // Check correct time format and split into components
@@ -11,4 +19,4 @@ function tConvert (time) {
     return time.join (''); // return adjusted time or original string
   }
 
-export {tConvert};
+export {tConvert, showDatabaseUpdateMessage};
