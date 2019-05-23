@@ -20,26 +20,26 @@ import {
 } from 'react-navigation-material-bottom-tabs';
 
 // General
-import Loading from './Screens/Loading';
-import Login from './Screens/Login';
-import SignUp from './Screens/SignUp';
+import Loading from './screens/Loading';
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
 
 // Vibe
-import GroupScreen from './Screens/groups/GroupScreen';
+import GroupScreen from './screens/groups/GroupScreen';
 
 // Trofi
-import DynamicScreen from './Screens/dynamic/DynamicScreen';
-import VendorListScreen from './Screens/dynamic/VendorListScreen';
-import MenuScreen from './Screens/dynamic/MenuScreen';
-import AddItemScreen from './Screens/dynamic/AddItemScreen';
-import CheckoutScreen from './Screens/dynamic/CheckoutScreen';
-import PaymentScreen from './Screens/dynamic/PaymentScreen';
-import CurrentOrderScreen from './Screens/dynamic/CurrentOrderScreen';
+import DynamicScreen from './screens/dynamic/DynamicScreen';
+import VendorListScreen from './screens/dynamic/VendorListScreen';
+import MenuScreen from './screens/dynamic/MenuScreen';
+import AddItemScreen from './screens/dynamic/AddItemScreen';
+import CheckoutScreen from './screens/dynamic/CheckoutScreen';
+import PaymentScreen from './screens/dynamic/PaymentScreen';
+import CurrentOrderScreen from './screens/dynamic/CurrentOrderScreen';
 
 // Friends
-import SendGift from './Screens/friends/SendGift';
-import AddFriend from './Screens/friends/AddFriend';
-import ProfileScreen from './Screens/friends/Profile';
+import SendGift from './screens/friends/SendGift';
+import AddFriend from './screens/friends/AddFriend';
+import ProfileScreen from './screens/friends/Profile';
 
 
 const DynamicNavigator = createStackNavigator (
