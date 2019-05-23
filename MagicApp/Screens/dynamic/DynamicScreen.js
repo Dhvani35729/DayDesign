@@ -36,16 +36,24 @@ export default class DynamicScreen extends React.Component {
     this.state = {
       user: user,
       allHours: [],
+      refresh: false,
+      all_listeners: []
     };
   }
 
   componentDidMount () {
-    loadRestaurants (this);
+    listeners = loadRestaurants (this);
+    this.setState({
+      all_listeners: listeners
+    })
 
   }
 
   componentWillUnmount () {
     // remove listeners
+    this.state.all_listeners.forEach(function(listener) {
+      listener()
+  });
   }
 
   renderViewFlatListCell = ({item}) => {
@@ -141,6 +149,7 @@ export default class DynamicScreen extends React.Component {
             ref={(ref) => { this.flatListRef = ref; }}
             renderItem={this.renderViewFlatListCell}
             data={allHours}
+            extraData={this.state.refresh}
             style={styles.viewFlatList}
             initialScrollIndex={allHours.length > 0 ? currentHour : 0}
             getItemLayout={(data, index) => (

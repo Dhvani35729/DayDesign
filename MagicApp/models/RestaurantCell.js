@@ -63,7 +63,7 @@ export default class RestaurantCell extends React.Component {
                     position: 'absolute',
                   }}
                 >
-                  <Text style={styles.nextmoneyText}>10%</Text>
+                  <Text style={styles.nextmoneyText}>0%</Text>
                 </View>
               </View>
             </View>
@@ -77,7 +77,7 @@ export default class RestaurantCell extends React.Component {
                 alignItems: 'stretch',
               }}
             >
-              <Text style={styles.storetypeText}>Middle Eastern</Text>
+              <Text style={styles.storetypeText}>{resData.tags.join(",")}</Text>
             </View>
           </View>
         </TouchableOpacity>
