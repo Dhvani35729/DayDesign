@@ -1,10 +1,9 @@
 import {db} from './config';
+import {showDatabaseUpdateMessage} from '../utils/index'
 
 function loadRestaurants (that) {
-  baseHours = [];
-  for (var i = 0; i < 24; i++) {
-    baseHours[i] = {key: i.toString (), data: []};
-  }
+
+  var firstLoad = true;
 
   db.collection ('restaurants').get ().then (function (querySnapshot) {
     querySnapshot.forEach (function (doc) {
@@ -16,8 +15,14 @@ function loadRestaurants (that) {
         .doc (restaurantId)
         .collection ('hours');
       var hourQuery = hoursRef.where ('hour_is_active', '==', true);
-      hourQuery.get ().then (function (querySnapshot) {
-        querySnapshot.forEach (function (doc) {
+      hourQuery.onSnapshot(function(querySnapshot) {
+
+        baseHours = [];
+        for (var i = 0; i < 24; i++) {
+          baseHours[i] = {key: i.toString (), data: []};
+        }
+
+        querySnapshot.forEach(function(doc) {
           var hourData = doc.data ();
 
           var currentDiscount = -1;
@@ -39,8 +44,15 @@ function loadRestaurants (that) {
 
         that.setState ({
           allHours: baseHours,
-        });
+        }, () => {
+          if(!firstLoad){
+            showDatabaseUpdateMessage();
+          }
+          firstLoad = false
       });
+
+      });
+
     });
   });
 }
