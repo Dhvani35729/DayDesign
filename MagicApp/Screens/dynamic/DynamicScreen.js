@@ -6,18 +6,18 @@
 //  Copyright © 2019 magic. All rights reserved.
 //
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {FlatList, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import FlashMessage from "react-native-flash-message";
 
 import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
-import {loadRestaurants} from '../../api/load';
+import {loadRestaurants, loadCurrentOrder} from '../../api/load';
 import {user} from '../../api/config';
+import { tConvert } from '../../utils';
 
 export default class DynamicScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -31,29 +31,44 @@ export default class DynamicScreen extends React.Component {
   };
 
   constructor (props) {
+
     super (props);
 
     this.state = {
       user: user,
       allHours: [],
       refresh: false,
+      currentOrder: null,
       all_listeners: []
     };
+
+
   }
 
-  componentDidMount () {
-    listeners = loadRestaurants (this);
-    this.setState({
-      all_listeners: listeners
-    })
 
+
+  componentDidMount () {
+
+    this.props.navigation.addListener('willBlur', (playload)=>{
+      this.detachListeners()
+    });
+
+    this.props.navigation.addListener('willFocus', (playload)=>{
+      loadRestaurants (this);
+      loadCurrentOrder(this);
+    });
+
+  }
+
+  detachListeners(){
+    this.state.all_listeners.forEach(function(listener) {
+      listener()
+  });
   }
 
   componentWillUnmount () {
     // remove listeners
-    this.state.all_listeners.forEach(function(listener) {
-      listener()
-  });
+    this.detachListeners()
   }
 
   renderViewFlatListCell = ({item}) => {
@@ -66,14 +81,27 @@ export default class DynamicScreen extends React.Component {
     );
   };
 
+  formatPickupTime(pickup_time){
+    if(pickup_time-1 < 10){
+      return tConvert("0" + (pickup_time-1).toString() + ":59")
+    }
+    else{
+      return tConvert((pickup_time-1).toString() + ":59")
+    }
+  }
+
   render () {
     const allHours = this.state.allHours;
+    const currentOrder = this.state.currentOrder;
     const currentHour = (new Date()).getHours();
     return (
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
+        disabled={currentOrder == null}
           onPress={() => {
-            // this.props.navigation.navigate ('CurrentOrderScreen');
+            this.props.navigation.navigate ('CurrentOrderScreen', {
+              currentOrder: currentOrder
+            });
           }}
         >
           <View style={styles.viewView}>
@@ -85,7 +113,7 @@ export default class DynamicScreen extends React.Component {
                 position: 'absolute',
               }}
             >
-              <Text style={styles.labelText}>Shawerma Plus</Text>
+              <Text style={styles.labelText}>{currentOrder ? currentOrder.res_name : "No Current Orders"}</Text>
               <View
                 style={{
                   flex: 1,
@@ -93,7 +121,7 @@ export default class DynamicScreen extends React.Component {
                 }}
               >
                 <View style={styles.viewFourView}>
-                  <Text style={styles.labelSixText}>368b3</Text>
+                  <Text style={styles.labelSixText}>{currentOrder ? currentOrder.order_number : "-"}</Text>
                   <View
                     style={{
                       flex: 1,
@@ -101,7 +129,7 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <Text style={styles.labelFiveText}>11:59AM</Text>
+                    <Text style={styles.labelFiveText}>{currentOrder ? this.formatPickupTime(currentOrder.pickup_time) : "-"}</Text>
                   </View>
                   <View
                     style={{
@@ -112,7 +140,7 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'center',
                     }}
                   >
-                    <Text style={styles.labelSevenText}>Ready</Text>
+                    <Text style={styles.labelSevenText}>{currentOrder ? currentOrder.status ? "Ready" : "Not Ready" : "-"}</Text>
                   </View>
                 </View>
                 <View style={styles.viewThreeView}>
@@ -158,7 +186,6 @@ export default class DynamicScreen extends React.Component {
           />
 
         </View>
-        <FlashMessage position="top" />
       </View>
     );
   }

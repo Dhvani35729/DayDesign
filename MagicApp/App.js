@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
 import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
+import FlashMessage from "react-native-flash-message";
 
 import {createRootNavigator} from './router';
 
@@ -189,7 +190,8 @@ export default class App extends React.Component {
       .get ()
       .then (function (doc) {
         if (doc.exists) {
-          publicId = doc.data ().public_id;
+          var publicId = doc.data ().public_id;
+          global.publicId = publicId;
           const usersRef = db.collection ('users').doc (publicId);
           const usersPrivateRef = usersRef
             .collection ('private')
@@ -274,6 +276,7 @@ export default class App extends React.Component {
               // console.log("Document written with ID: ", docRef.id);
               usersPrivateRef
                 .set ({
+                  active_orders: [],
                   avg_time: 0.0,
                   card_token: '',
                   date_joined: today,
@@ -363,7 +366,12 @@ export default class App extends React.Component {
         );
       }
       const Layout = createRootNavigator (signedIn);
-      return <Layout />;
+      return (
+        <View style={{ flex: 1 }}>
+      <Layout />
+      <FlashMessage position="top" />
+      </View>
+      );
     }
   }
 }

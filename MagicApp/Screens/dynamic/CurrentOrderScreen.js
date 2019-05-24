@@ -6,19 +6,29 @@ import {
 } from 'react-native-responsive-screen';
 
 import CheckoutItem from '../../models/CheckoutItem';
+import { tConvert } from '../../utils';
 
 export default class CurrentOrderScreen extends React.Component {
+
   static navigationOptions = ({navigation}) => {
     const {params = {}} = navigation.state;
     return {
       header: null,
       headerLeft: null,
       headerRight: null,
+      currentUser: null,
     };
   };
 
   constructor (props) {
     super (props);
+
+    const {navigation} = this.props;
+    var currentOrder = navigation.getParam ('currentOrder', null);
+    this.state = {
+      currentOrder: currentOrder,
+    };
+
   }
 
   componentDidMount () {}
@@ -32,10 +42,22 @@ export default class CurrentOrderScreen extends React.Component {
   ];
 
   renderViewFlatListCell = ({item}) => {
-    return <CheckoutItem />;
+    return <CheckoutItem food={item} />;
   };
 
+  formatPickupTime(pickup_time){
+    if(pickup_time-1 < 10){
+      return tConvert("0" + (pickup_time-1).toString() + ":59")
+    }
+    else{
+      return tConvert((pickup_time-1).toString() + ":59")
+    }
+  }
+
+  _keyExtractor = (item, index) => item.food_id;
+
   render () {
+    var currentOrder = this.state.currentOrder;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -63,19 +85,20 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={this.viewFlatListMockData}
+              data={currentOrder.foods}
+              keyExtractor={this._keyExtractor}
               style={styles.viewFlatList}
             />
           </View>
           <View style={styles.viewTwoView}>
             <View style={styles.viewThreeView}>
               <Text style={styles.statusText}>Status:</Text>
-              <Text style={styles.readyText}>Waiting</Text>
+              <Text style={styles.readyText}>{currentOrder ? currentOrder.status ? "Ready" : "Not Ready" : "-"}</Text>
             </View>
             <View style={{}}>
               <View style={styles.viewView}>
                 <Text style={styles.pickUpBeforeText}>Pick-Up Before:</Text>
-                <Text style={styles.amText}>11:30 AM</Text>
+                <Text style={styles.amText}>{currentOrder ? this.formatPickupTime(currentOrder.pickup_time) : "-"}</Text>
               </View>
             </View>
           </View>
@@ -91,7 +114,7 @@ export default class CurrentOrderScreen extends React.Component {
               }}
             >
               <Text style={styles.orderNumberText}>Order Number:</Text>
-              <Text style={styles.mb2Text}>36MB2</Text>
+              <Text style={styles.mb2Text}>{currentOrder ? currentOrder.order_number : "-"}</Text>
             </View>
           </View>
         </View>

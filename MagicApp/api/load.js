@@ -1,5 +1,66 @@
-import {db} from './config';
-import {showDatabaseUpdateMessage} from '../utils/index'
+import {db, user} from './config';
+import {showUpdateMessage} from '../utils/index'
+
+function loadCurrentOrder(that){
+  var unsubscribeList = []
+  var firstLoad = true;
+
+  var user_private_ref = db.collection("users").doc(global.publicId).collection("private").doc(user.uid);
+
+  userListener = user_private_ref.onSnapshot(function(doc) {
+      var user_private_data = doc.data()
+
+      var currentOrder = user_private_data.active_orders[0];
+      if(currentOrder){
+
+        var orderRef = db.collection("orders").doc(currentOrder)
+
+        orderListener = orderRef
+          .onSnapshot(function(doc) {
+              var orderData = doc.data();
+
+              var order = {
+                res_name: orderData.restaurant_name,
+                order_number: orderData.order_id,
+                status: orderData.status_ready,
+                pickup_time: parseInt(orderData.hours_order.substring(3)),
+                foods: orderData.foods,
+              }
+
+              that.setState({
+                  currentOrder: order
+              }, () => {
+                if(!firstLoad){
+                  showUpdateMessage("Order Updated!", "bottom");
+                }
+                firstLoad = false
+            });
+
+          });
+
+          that.setState({
+            all_listeners: [...that.state.all_listeners, orderListener]
+          })
+
+      }
+      else{
+        that.setState({
+          currentOrder: null
+      }, () => {
+        if(!firstLoad){
+          showUpdateMessage("Order Updated!", "bottom");
+        }
+        firstLoad = false
+    });
+      }
+
+  });
+
+  that.setState({
+    all_listeners: [...that.state.all_listeners, userListener]
+  })
+
+}
 
 function loadRestaurants (that) {
   var unsubscribeList = []
@@ -15,7 +76,7 @@ function loadRestaurants (that) {
         .doc (restaurantId)
         .collection ('hours');
       var hourQuery = hoursRef.where ('hour_is_active', '==', true);
-      unsubscribeList.push(hourQuery.onSnapshot(function(querySnapshot) {
+      var hourListener = hourQuery.onSnapshot(function(querySnapshot) {
 
         baseHours = [];
         for (var i = 0; i < 24; i++) {
@@ -49,26 +110,33 @@ function loadRestaurants (that) {
           allHours: baseHours,
         }, () => {
           if(!firstLoad){
-            showDatabaseUpdateMessage();
+            showUpdateMessage("Database Updated!", "top");
           }
           firstLoad = false
       });
 
-      }));
+      });
+
+      that.setState({
+        all_listeners: [...that.state.all_listeners, hourListener]
+      })
+
     });
   });
-  return unsubscribeList;
+
 }
 
 function loadMenu (that, resId, hourId) {
   var unsubscribeList = []
   var firstLoad = true;
+  var loadedNum = 0;
   var menuQuery = db.collection ('restaurants').doc(resId).collection('hours').doc(hourId)
-  unsubscribeList.push(menuQuery.onSnapshot(function(doc) {
+  var hourListener = menuQuery.onSnapshot(function(doc) {
 
     var hourData = doc.data()
     var menu = [];
-    if(hourData.foods_active.length == 0){
+    var arrNum = hourData.foods_active.length
+    if(arrNum == 0){
       that.setState ({
         menu: menu,
       });
@@ -77,7 +145,7 @@ function loadMenu (that, resId, hourId) {
     hourData.foods_active.forEach(function(foodId) {
       // console.log(foodId);
       var foodQuery = db.collection ('foods').doc(foodId)
-      unsubscribeList.push(foodQuery.onSnapshot(function(doc) {
+      var foodListener = foodQuery.onSnapshot(function(doc) {
           // console.log("Current data: ", doc.data());
 
           var food_id = doc.id;
@@ -116,18 +184,36 @@ function loadMenu (that, resId, hourId) {
             menu: menu,
           }, () => {
             if(!firstLoad){
-              showDatabaseUpdateMessage();
+              showUpdateMessage("Database Updated!", "bottom");
             }
-            firstLoad = false
+            if(loadedNum >= arrNum){
+              firstLoad = false;
+            }
+            else{
+              loadedNum += 1;
+              if(loadedNum >= arrNum){
+                firstLoad = false;
+              }
+            }
         });
 
-      }));
+      });
+
+
+      that.setState({
+        all_listeners: [...that.state.all_listeners, foodListener]
+      })
 
     });
 
-}));
 
-  return unsubscribeList;
+
+});
+
+that.setState({
+  all_listeners: [...that.state.all_listeners, hourListener]
+})
+
 }
 
-export {loadRestaurants, loadMenu};
+export {loadRestaurants, loadMenu, loadCurrentOrder};
