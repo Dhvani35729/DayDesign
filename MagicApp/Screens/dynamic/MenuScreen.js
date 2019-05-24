@@ -19,12 +19,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import FlashMessage from "react-native-flash-message";
 
 import MenuItem from '../../models/MenuItem';
 import {loadMenu} from '../../api/load';
 
-import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default class MenuScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -52,20 +50,27 @@ export default class MenuScreen extends React.Component {
 
   componentDidMount () {
 
-    var that = this;
-    var resId = this.state.resData.key
-    var hourId = this.state.resData.hour_id.toString()
-    listeners = loadMenu (that, resId, hourId);
-    this.setState({
-      all_listeners: listeners
-    })
+    this.props.navigation.addListener('willBlur', (playload)=>{
+      this.detachListeners()
+    });
+
+    this.props.navigation.addListener('willFocus', (playload)=>{
+      var that = this;
+      var resId = this.state.resData.key
+      var hourId = this.state.resData.hour_id.toString()
+      loadMenu (that, resId, hourId);
+    });
   }
 
-  componentWillUnmount () {
-    // remove listeners
+
+  detachListeners(){
     this.state.all_listeners.forEach(function(listener) {
       listener()
   });
+  }
+  componentWillUnmount () {
+    // remove listeners
+    this.detachListeners()
   }
 
   renderViewFlatListCell = ({item}) => {
@@ -169,7 +174,7 @@ export default class MenuScreen extends React.Component {
             />
           </View>
         </View>
-        <FlashMessage position="bottom" />
+
       </View>
     );
   }

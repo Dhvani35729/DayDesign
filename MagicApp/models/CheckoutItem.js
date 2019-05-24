@@ -23,6 +23,7 @@ export default class CheckoutItem extends React.Component {
   componentWillUnmount () {}
 
   render() {
+    var food = this.props.food;
     return (
       <View style={styles.listRest1}>
         <View style={styles.group3View}>
@@ -32,9 +33,9 @@ export default class CheckoutItem extends React.Component {
             }}
           >
             <Text style={styles.jawadSStyleChickText}>
-              Jawad's Style: Chicken Shawarma Wrap rwrwerwertyuiytuuuyu
+              {food.name}
             </Text>
-            <Text style={styles.textText}>$11.00</Text>
+            <Text style={styles.textText}>${food.initial_price}</Text>
           </View>
           <View
             style={{
@@ -48,7 +49,7 @@ export default class CheckoutItem extends React.Component {
                 alignItems: "flex-end"
               }}
             >
-              <Text style={styles.servingsText}>3 Servings</Text>
+              <Text style={styles.servingsText}>{food.quantity} Servings</Text>
               <View style={styles.groupView}>
                 <Text style={styles.textTwoText}>+23</Text>
               </View>
