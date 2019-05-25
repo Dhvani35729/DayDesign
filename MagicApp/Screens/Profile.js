@@ -87,7 +87,7 @@ export default class Friendsfriends extends React.Component {
         return <View
         style={styles.artboardView}>
         <Text
-        style={styles.dhrumilwbcText}>dhrumilwbc</Text>
+        style={styles.dhrumilwbcText}>username</Text>
         <Text
         style={styles.yourgiftstext}>Your Reward Cards</Text>
         <View

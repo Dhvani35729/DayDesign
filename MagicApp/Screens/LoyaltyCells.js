@@ -52,7 +52,7 @@ export default class RestHeader extends React.Component {
         justifyContent: "flex-end",
         }}>
         <Text
-        style={styles.textTwoText}>Jawaes fdg drgy trdtdf trr fytfty</Text>
+        style={styles.textTwoText}>Chicken on the Rocks</Text>
         </View>
         </View>
         </TouchableWithoutFeedback>

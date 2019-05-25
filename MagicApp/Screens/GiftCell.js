@@ -36,7 +36,7 @@ export default class ListRest1Four extends React.Component {
         navigation={this.props.navigation}
         style={styles.listRest1}>
         <Text
-        style={styles.bobDrakeGiftedYouText}>Bob Drake Gifted You +3 at Shawerma Plushhhhjjj</Text>
+        style={styles.bobDrakeGiftedYouText}>Bob Drake Gifted You +3 at Shawerma Plus</Text>
         </View>
         </TouchableWithoutFeedback>
     }

@@ -6,7 +6,7 @@
 //  Copyright © 2018 hackathon. All rights reserved.
 //
 
-import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList, TextInput  } from "react-native"
+import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList, TextInput, Linking  } from "react-native"
 import React from "react"
 import FriendCell from "./FriendCell"
 import {
@@ -35,7 +35,7 @@ export default class Addfriends extends React.Component {
     }
     
     onFriendNotOnVibePressed = () => {
-        
+
     }
     
     viewFlatListMockData = [{
