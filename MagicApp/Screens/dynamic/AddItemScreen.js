@@ -16,14 +16,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import {CheckBox} from 'react-native-elements';
+import {ListItem} from 'native-base'
 
 import {RNNumberStepper} from 'react-native-number-stepper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-community/async-storage';
 
-import Topping from '../../models/Topping';
+import {user} from '../../api/config';
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -39,9 +42,16 @@ export default class AddItemScreen extends React.Component {
     super (props);
 
     const {navigation} = this.props;
+    var hourId = navigation.getParam ('hourId', null);
     var foodData = navigation.getParam ('foodData', []);
+    var resData = navigation.getParam ('resData', []);
     this.state = {
+      hourId: hourId,
+      resData: resData,
       foodData: foodData,
+      selectedToppings: [],
+      extraInstructions: "",
+      quantity: 1,
     };
 
   }
@@ -55,6 +65,98 @@ export default class AddItemScreen extends React.Component {
   renderViewFlatListCell = ({item}) => {
     return <Topping toppingData={item} />;
   };
+
+  addItem(foodData){
+    console.log("add item locally")
+
+    var resData = this.state.resData;
+    var hourId = this.state.hourId;
+
+    // AsyncStorage.clear()
+
+    var item = {
+      id: foodData.key,
+      name: foodData.name,
+      price: foodData.original_price,
+      toppings: this.state.selectedToppings.join(),
+      extraInfo: this.state.extraInstructions,
+      quantity: this.state.quantity,
+      timeStamp: + new Date(),
+    }
+    console.log(item)
+    console.log(hourId)
+
+      AsyncStorage.getItem('@trofi-current-order' + hourId.toString()).then (currentOrder => {
+        if(currentOrder !== null) {
+          // value previously stored
+          console.log("not null")
+
+          updatedCurrentOrder = JSON.parse(currentOrder);
+          updatedCurrentOrder.foods.push(item)
+          updatedCurrentOrder.total_price += item.price * item.quantity
+
+          console.log(updatedCurrentOrder)
+          AsyncStorage.setItem ('@trofi-current-order' + hourId.toString(), JSON.stringify(updatedCurrentOrder));
+
+        }
+        else{
+          // create new
+          hours_order = ""
+          hourIdNext = parseInt(hourId) + 1;
+          if(hourId < 9){
+            hours_order = "0" + hourId.toString() + "-0" + (hourIdNext).toString()
+          }
+          else if(hourId == 9){
+            hours_order = "0" + hourId.toString() + "-" + (hourIdNext).toString()
+          }
+          else{
+            hours_order = hourId.toString() + "-" + (hourIdNext).toString()
+          }
+
+          initCurrentOrder = {
+            final_discount: null,
+            foods_received: false,
+            hours_order: hours_order,
+            restaurant_id: resData.key,
+            restaurant_name: resData.name,
+            status_ready: false,
+            total_price: item.price * item.quantity,
+            transaction_token: null,
+            user: user.uid,
+            order_id: "generate",
+            placed_at: null,
+            foods: [item],
+          }
+
+          console.log(initCurrentOrder)
+          AsyncStorage.setItem ('@trofi-current-order' + hourId.toString(), JSON.stringify(initCurrentOrder));
+
+        }
+
+      });
+
+
+
+
+
+
+  }
+
+  onCheckBoxPress(id){
+    let tmp = this.state.selectedToppings;
+
+    if(tmp.includes(id)){
+      tmp.splice(tmp.indexOf(id), 1);
+    }
+    else{
+      tmp.push(id);
+    }
+
+    this.setState({
+      selectedToppings: tmp
+    });
+
+  }
 
   render () {
     const foodData = this.state.foodData;
@@ -76,7 +178,7 @@ export default class AddItemScreen extends React.Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => this.props.navigation.goBack ()}
+            onPress={() => this.addItem(foodData)}
             style={styles.icCartButton}
           >
 
@@ -212,6 +314,7 @@ export default class AddItemScreen extends React.Component {
           <TextInput
             multiline={true}
             autoCorrect={false}
+            onChangeText={(text) => this.setState({extraInstructions: text})}
             placeholder="Extra instructions or special requests. "
             style={styles.extraInstructionsOTextInput}
           />
@@ -221,10 +324,19 @@ export default class AddItemScreen extends React.Component {
             <Text style={styles.toppingsText}>Toppings</Text>
 
             <View style={styles.viewFlatListViewWrapper}>
-
               <FlatList
-                renderItem={this.renderViewFlatListCell}
+                renderItem={ ({item}) => {
+                  return (  <ListItem>
+                    <CheckBox
+                          title={item.key}
+                          checked={this.state.selectedToppings.includes(item.key) ? true : false}
+                          onPress={() => this.onCheckBoxPress(item.key)}
+                        />
+                  </ListItem>
+                  )
+                }}
                 data={foodData.toppings}
+                extraData={this.state}
                 style={styles.viewFlatList}
               />
 
@@ -240,10 +352,12 @@ export default class AddItemScreen extends React.Component {
             style={styles.stepper}
             value={1}
             size={1}
-            autoRepeat={true}
+            minValue={1}
+            autoRepeat={false}
             stepValue={1}
             onChange={(nValue, oValue) => {
               console.log ('New Value: ' + nValue + ', Old Value: ' + oValue);
+              this.setState({quantity: nValue})
             }}
             width={wp ('70%')}
             height={40}
@@ -346,8 +460,7 @@ const styles = StyleSheet.create ({
     width: 70,
   },
   viewTwoView: {
-    backgroundColor: 'white',
-    marginBottom: hp ('1%'),
+    marginBottom: hp ('3%'),
     height: 40,
     alignItems: 'center',
   },

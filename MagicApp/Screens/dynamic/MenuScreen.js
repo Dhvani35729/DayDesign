@@ -39,8 +39,10 @@ export default class MenuScreen extends React.Component {
     super (props);
 
     const {navigation} = this.props;
+    var hourId = navigation.getParam ('hourId', null);
     var resData = navigation.getParam ('resData', []);
     this.state = {
+      hourId: hourId,
       resData: resData,
       menu: [],
       all_listeners: [],
@@ -74,10 +76,11 @@ export default class MenuScreen extends React.Component {
   }
 
   renderViewFlatListCell = ({item}) => {
-    return <MenuItem navigation={this.props.navigation} foodData={item} />;
+    return <MenuItem navigation={this.props.navigation} foodData={item} hourId={this.state.hourId} resData={this.state.resData} />;
   };
 
   render () {
+    var resData = this.state.resData
     var menu = this.state.menu;
     return (
       <View style={styles.menuView}>
@@ -136,7 +139,7 @@ export default class MenuScreen extends React.Component {
             flex: 1,
           }}
         >
-          <Text style={styles.shawarmaPlusText}>Shawarma Plus</Text>
+          <Text style={styles.shawarmaPlusText}>{resData.name}</Text>
 
           <View style={styles.restHeaderTwoView}>
             <Text style={styles.unlockFreeText}>unlock free</Text>

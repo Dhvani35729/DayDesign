@@ -57,7 +57,7 @@ class TimeCell extends React.Component {
   componentWillUnmount () {}
 
   renderViewFlatListCell = ({item}) => {
-    return <RestaurantCell navigation={this.props.navigation} resData={item} enabled={this.state.enabled} />;
+    return <RestaurantCell navigation={this.props.navigation} resData={item} hourId={this.props.hourId} enabled={this.state.enabled} />;
   };
 
   openVendorList () {

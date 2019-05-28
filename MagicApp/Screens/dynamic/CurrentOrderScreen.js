@@ -35,12 +35,6 @@ export default class CurrentOrderScreen extends React.Component {
 
   componentWillUnmount () {}
 
-  viewFlatListMockData = [
-    {
-      key: '1',
-    },
-  ];
-
   renderViewFlatListCell = ({item}) => {
     return <CheckoutItem food={item} />;
   };
