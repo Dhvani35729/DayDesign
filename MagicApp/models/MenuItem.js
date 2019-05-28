@@ -23,6 +23,8 @@ export default class MenuItem extends React.Component {
   componentWillUnmount () {}
 
   render () {
+    var hourId = this.props.hourId;
+    var resData = this.props.resData;
     var foodData = this.props.foodData;
     return (
       <View style={styles.listRest1}>
@@ -30,6 +32,8 @@ export default class MenuItem extends React.Component {
           onPress={() =>
             this.props.navigation.navigate ('AddItemScreen', {
               foodData: foodData,
+              resData: resData,
+              hourId: hourId,
             })}
         >
 

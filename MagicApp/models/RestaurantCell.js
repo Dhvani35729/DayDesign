@@ -20,6 +20,7 @@ export default class RestaurantCell extends React.Component {
 
   render () {
     var resData = this.props.resData;
+    var hourId = this.props.hourId;
     return (
       <View style={styles.restaurantcell}>
         <TouchableOpacity
@@ -27,6 +28,7 @@ export default class RestaurantCell extends React.Component {
           onPress={() => {
             this.props.navigation.navigate ('MenuScreen', {
               resData: resData,
+              hourId: hourId,
             });
           }}
         >
