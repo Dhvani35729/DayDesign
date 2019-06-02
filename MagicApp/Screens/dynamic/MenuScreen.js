@@ -141,32 +141,7 @@ export default class MenuScreen extends React.Component {
         >
           <Text style={styles.shawarmaPlusText}>{resData.name}</Text>
 
-          <View style={styles.restHeaderTwoView}>
-            <Text style={styles.unlockFreeText}>unlock free</Text>
-            <View
-              pointerEvents="box-none"
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-              }}
-            >
-              <Text style={styles.textText}>7/10</Text>
-            </View>
-            <View
-              pointerEvents="box-none"
-              style={{
-                width: '100%',
-                height: '100%',
-                flex: 1,
-                position: 'absolute',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <Text style={styles.textTwoText}>
-                Jawaes fdg drgy trdtdf trr fytfty
-              </Text>
-            </View>
-          </View>
+         
 
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
@@ -203,7 +178,7 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     padding: 0,
     marginLeft: wp ('5%'),
-    marginTop: hp ('5%'),
+    marginTop: hp ('7%'),
     width: 50,
     height: 50,
   },
@@ -226,7 +201,7 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginLeft: wp ('61%'),
-    marginTop: hp ('5%'),
+    marginTop: hp ('7%'),
     width: 50,
     height: 50,
   },
@@ -258,7 +233,7 @@ const styles = StyleSheet.create ({
     borderWidth: 2,
     borderColor: 'rgb(246, 246, 246)',
     borderStyle: 'solid',
-    marginTop: hp ('3%'),
+    marginTop: hp ('5%'),
     marginRight: wp ('95%'),
     position: 'relative',
     width: 70,

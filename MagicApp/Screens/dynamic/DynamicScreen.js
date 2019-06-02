@@ -210,7 +210,7 @@ const styles = StyleSheet.create ({
     backgroundColor: 'transparent',
     marginLeft: wp ('4%'),
     marginRight: wp ('4%'),
-    marginTop: hp ('4%'),
+    marginTop: hp ('6%'),
     height: 75,
   },
   viewTwoView: {
