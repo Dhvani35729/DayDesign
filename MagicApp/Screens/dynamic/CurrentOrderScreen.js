@@ -61,14 +61,17 @@ export default class CurrentOrderScreen extends React.Component {
               style={{
                 flex: 1,
                 justifyContent: 'flex-end',
-              }}
-            >
+              }}>
               <Text style={styles.buyersneededText}>$95/100</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.buttonButton}>
+            <TouchableOpacity
+            onPress={() => {
+            this.props.navigation.navigate ('History');
+            }}
+            style={styles.buttonButton}>
             <Text style={styles.buttonButtonText}>History</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
         </View>
         <View
           style={{
@@ -79,7 +82,7 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={currentOrder.foods}
+              //data={currentOrder.foods}
               keyExtractor={this._keyExtractor}
               style={styles.viewFlatList}
             />
@@ -133,7 +136,7 @@ const styles = StyleSheet.create ({
     borderWidth: 2,
     borderColor: 'rgb(246, 246, 246)',
     borderStyle: 'solid',
-    marginTop: hp ('4%'),
+    marginTop: hp ('5%'),
     justifyContent: 'center',
     width: 70,
     height: 70,
@@ -212,7 +215,7 @@ const styles = StyleSheet.create ({
     backgroundColor: 'transparent',
     marginLeft: 6,
     marginRight: 6,
-    marginBottom: hp ('2%'),
+    marginBottom: hp ('4%'),
   },
   pickUpBeforeText: {
     color: 'rgb(74, 74, 74)',
@@ -266,9 +269,9 @@ const styles = StyleSheet.create ({
     width: 362,
   },
   buttonButton: {
-    //   position: "absolute",
+    //position: "absolute",
     marginLeft: wp ('75%'),
-    marginTop: hp ('-13%'),
+    marginTop: hp ('-8%'),
   },
   buttonButtonText: {
     color: 'white',

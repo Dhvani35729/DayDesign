@@ -35,6 +35,8 @@ import AddItemScreen from './screens/dynamic/AddItemScreen';
 import CheckoutScreen from './screens/dynamic/CheckoutScreen';
 import PaymentScreen from './screens/dynamic/PaymentScreen';
 import CurrentOrderScreen from './screens/dynamic/CurrentOrderScreen';
+import History from './screens/dynamic/History';
+
 
 // Friends
 import SendGift from './screens/friends/SendGift';
@@ -62,12 +64,15 @@ const DynamicNavigator = createStackNavigator (
     CurrentOrderScreen: {
       screen: CurrentOrderScreen,
     },
+    History: {
+      screen: History,
+    },
     CheckoutScreen: {
       screen: CheckoutScreen,
     },
   },
   {
-    initialRouteName: 'DynamicScreen',
+    initialRouteName: 'CurrentOrderScreen',
   }
 );
 
