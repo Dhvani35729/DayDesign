@@ -154,7 +154,7 @@ export default class App extends React.Component {
       if (user) {
         if (this.state.ranAuthWork == false) {
           this.setState ({ranAuthWork: true});
-          // firebase.auth().signOut()
+           //firebase.auth().signOut()
           that.initUser (db, user, that, totalUsers);
         }
       } else {
@@ -310,7 +310,7 @@ export default class App extends React.Component {
                         .then (function () {
                           that.setState ({
                             firstLaunch: false,
-                            signedIn: true,
+                            //signedIn: true,
                             checkedSignIn: true,
                           });
                         })
