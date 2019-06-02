@@ -124,7 +124,7 @@ export default class Vendor extends React.Component {
                   }}
                 />
                 <Text style={styles.textText}>10%</Text>
-                <Text style={styles.textThreeText}>5%</Text>
+                 <Text style={styles.textThreeText}>5%</Text>
               </View>
             </View>
           </View>
