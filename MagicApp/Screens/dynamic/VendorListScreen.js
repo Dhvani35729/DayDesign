@@ -46,13 +46,6 @@ export default class VendorListScreen extends React.Component {
     return (
       <View style={styles.vendorlistView}>
 
-        <TouchableOpacity
-          style={styles.buttonButton}
-          onPress={() => this.props.navigation.goBack ()}
-        >
-          <Text style={styles.buttonButtonText}>Go Back to All Hours </Text>
-        </TouchableOpacity>
-
         <TextInput
           placeholder="Search Restaurants"
           onChangeText={text => this.searchFilterFunction (text)}
