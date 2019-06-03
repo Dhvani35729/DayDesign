@@ -72,7 +72,7 @@ const DynamicNavigator = createStackNavigator (
     },
   },
   {
-    initialRouteName: 'CurrentOrderScreen',
+    initialRouteName: 'DynamicScreen',
   }
 );
 

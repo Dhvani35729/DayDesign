@@ -112,7 +112,7 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-            //  data={currentOrder.foods}
+             data={currentOrder.foods}
               keyExtractor={this._keyExtractor}
               style={styles.viewFlatList}
             />
