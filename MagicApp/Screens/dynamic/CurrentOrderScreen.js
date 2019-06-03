@@ -112,7 +112,7 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={currentOrder.foods}
+            //  data={currentOrder.foods}
               keyExtractor={this._keyExtractor}
               style={styles.viewFlatList}
             />
@@ -129,6 +129,7 @@ export default class CurrentOrderScreen extends React.Component {
               </View>
             </View>
           </View>
+            <Text style={styles.formatforinvite}>Invite Your Friends for More Savings</Text>
           <View style={styles.viewFourView}>
             <View style={styles.backgroundTwoView} />
             <View
@@ -292,6 +293,18 @@ const styles = StyleSheet.create ({
     marginLeft: 1,
     width: 360,
   },
+                                  formatforinvite: {
+                                  color: 'rgb(114, 167, 228)',
+                                  fontSize: 14,
+                                  fontStyle: 'normal',
+                                  fontWeight: 'normal',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  marginLeft: 1,
+                                  marginBottom: 6,
+                                  width: wp('100%'),
+                                  },
+                                  
   readyText: {
     color: 'rgb(74, 74, 74)',
     fontSize: 20,
