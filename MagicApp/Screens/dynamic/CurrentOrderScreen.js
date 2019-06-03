@@ -62,7 +62,7 @@ export default class CurrentOrderScreen extends React.Component {
             style={styles.icCloseButton}
             >
             <Image
-            source={require ('../../assets/images/ic-close.png')}
+            source={require ('../../assets/images/home.png')}
             style={styles.buttonButtonImage}
             />
             </TouchableOpacity>
@@ -171,8 +171,8 @@ const styles = StyleSheet.create ({
                                   padding: 0,
                                   marginLeft: wp ('5%'),
                                   marginTop: hp ('7%'),
-                                  width: 50,
-                                  height: 50,
+                                  width: 60,
+                                  height: 60,
                                   },
                                   icCloseButtonText: {
                                   color: 'black',
