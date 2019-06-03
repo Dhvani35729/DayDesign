@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-
+import firebase from "react-native-firebase";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -53,6 +53,8 @@ export default class AddItemScreen extends React.Component {
     componentWillUnmount () {
        
     }
+    
+
 
     viewFlatListMockData = [
                             {
@@ -83,6 +85,25 @@ export default class AddItemScreen extends React.Component {
               style={styles.buttonButtonImage}
             />
           </TouchableOpacity>
+            
+            <TouchableOpacity
+            style={styles.icCartButton}
+            onPress={() => {
+            firebase
+            .auth()
+            .signOut()
+            .then(
+                  () => {
+                  navigation.navigate("Login");
+                  },
+                  function(error) {
+                  // An error happened.
+                  }
+                  );
+            }}            >
+            <Text style={styles.buttonButtonText}>Logout</Text>
+            </TouchableOpacity>
+            
         </View>
         <View
           style={{
@@ -332,4 +353,11 @@ const styles = StyleSheet.create ({
     marginTop: hp ('1%'),
     height: hp ('35%'),
   },
+                                  buttonButtonText: {
+                                  color: 'white',
+                                  fontSize: 12,
+                                  fontStyle: 'normal',
+                                  fontWeight: 'normal',
+                                  textAlign: 'center',
+                                  },
 });
