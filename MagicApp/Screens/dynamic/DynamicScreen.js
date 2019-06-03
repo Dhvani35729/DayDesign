@@ -114,6 +114,17 @@ export default class DynamicScreen extends React.Component {
               }}
             >
               <Text style={styles.labelText}>{currentOrder ? currentOrder.res_name : "No Current Orders"}</Text>
+            
+            <TouchableOpacity
+            style={styles.labelTexthistory}
+            disabled={currentOrder != null}
+            onPress={() => {
+            this.props.navigation.navigate ('History');
+            }}>
+            <Text style={styles.labelTexthistory}>{!currentOrder ? "Click for Purchase History" : ""}</Text>
+            </TouchableOpacity>
+
+            
               <View
                 style={{
                   flex: 1,
@@ -121,7 +132,7 @@ export default class DynamicScreen extends React.Component {
                 }}
               >
                 <View style={styles.viewFourView}>
-                  <Text style={styles.labelSixText}>{currentOrder ? currentOrder.order_number : "-"}</Text>
+                  <Text style={styles.labelSixText}>{currentOrder ? currentOrder.order_number : ""}</Text>
                   <View
                     style={{
                       flex: 1,
@@ -129,7 +140,7 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <Text style={styles.labelFiveText}>{currentOrder ? this.formatPickupTime(currentOrder.pickup_time) : "-"}</Text>
+                    <Text style={styles.labelFiveText}>{currentOrder ? this.formatPickupTime(currentOrder.pickup_time) : ""}</Text>
                   </View>
                   <View
                     style={{
@@ -140,11 +151,13 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'center',
                     }}
                   >
-                    <Text style={styles.labelSevenText}>{currentOrder ? currentOrder.status ? "Ready" : "Not Ready" : "-"}</Text>
+                    <Text style={styles.labelSevenText}>{currentOrder ? currentOrder.status ? "Ready" : "Not Ready" : ""}</Text>
                   </View>
                 </View>
                 <View style={styles.viewThreeView}>
-                  <Text style={styles.labelThreeText}>Order Number</Text>
+            
+            <Text style={styles.labelThreeText}>{currentOrder ? "Order Number" : ""}</Text>
+            
                   <View
                     style={{
                       flex: 1,
@@ -152,7 +165,10 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <Text style={styles.labelTwoText}>Pick Up By</Text>
+            
+            <Text style={styles.labelTwoText}>{currentOrder ? "Pick Up By" : ""}</Text>
+
+            
                   </View>
                   <View
                     style={{
@@ -163,7 +179,9 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'center',
                     }}
                   >
-                    <Text style={styles.labelFourText}>Status</Text>
+            
+            <Text style={styles.labelFourText}>{currentOrder ? "Status" : ""}</Text>
+
                   </View>
                 </View>
               </View>
@@ -228,6 +246,17 @@ const styles = StyleSheet.create ({
     backgroundColor: 'transparent',
     marginTop: 3,
   },
+                                  labelTexthistory: {
+                                  height: 40,
+                                  width: wp('90%'),
+                                  color: 'white',
+                                  fontSize: 15,
+                                  fontStyle: 'normal',
+                                  fontWeight: '400',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  marginTop: 8,
+                                  },
   viewFourView: {
     backgroundColor: 'transparent',
     marginLeft: 9,
