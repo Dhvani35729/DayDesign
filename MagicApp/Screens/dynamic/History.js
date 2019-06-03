@@ -22,6 +22,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import MenuItem from '../../models/HistoryOrders';
+
+
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -37,23 +40,38 @@ export default class AddItemScreen extends React.Component {
     super (props);
 
     const {navigation} = this.props;
-
+      
     this.state = {
-  
+    
     };
 
   }
 
-  componentWillUnmount () {
-    // remove listeners
-  }
+    componentDidMount () {
+    }
     
-   
+    componentWillUnmount () {
+       
+    }
 
+    viewFlatListMockData = [
+                            {
+                            key: '1',
+                            },
+                            {
+                            key: '2',
+                            },
+                            {
+                            key: '3',
+                            },
+                            ];
+    
+    renderViewFlatListCell = ({item}) => {
+        return <MenuItem/>;
+    };
+    
     
   render () {
-//      var resData = this.state.resData
-//      var menu = this.state.menu;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -76,9 +94,8 @@ export default class AddItemScreen extends React.Component {
             <View style={styles.viewFlatListViewWrapper}>
             
             <FlatList
-//            renderItem={this.renderViewFlatListCell}
-//            data={menu}
-//            extraData={this.state.refresh}
+            data={this.viewFlatListMockData}
+            renderItem={this.renderViewFlatListCell}
             style={styles.viewFlatList}
             />
             
