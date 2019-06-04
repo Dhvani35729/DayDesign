@@ -35,9 +35,12 @@ export default class CheckoutScreen extends React.Component {
 
   constructor (props) {
     super (props);
+
     this.state = {
       currentOrder: null,
     };
+
+
   }
 
   componentDidMount () {
@@ -45,34 +48,26 @@ export default class CheckoutScreen extends React.Component {
     AsyncStorage.getItem('@trofi-current-order').then (currentOrder => {
       if(currentOrder != null){
 
-        that.setState({
+        this.setState({
           currentOrder: JSON.parse(currentOrder)
-      });
+        });
 
       }
-      else{
-        that.setState({
-          currentOrder: null
-        });
-      }
     });
+
 
   }
 
   componentWillUnmount () {}
 
-  viewFlatListMockData = [
-    {
-      key: '1',
-    },
-  ];
+  _keyExtractor = (item, index) => item.key.toString();
 
   renderViewFlatListCell = ({item}) => {
     return <CheckoutItem food={item}/>;
   };
 
   render () {
-    var currentOrder = this.state.currentOrder;
+    currentOrder = this.state ? this.state.currentOrder : null;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -117,6 +112,7 @@ export default class CheckoutScreen extends React.Component {
               renderItem={this.renderViewFlatListCell}
               data={currentOrder ? currentOrder.foods : []}
               style={styles.viewFlatList}
+              keyExtractor={this._keyExtractor}
             />
           </View>
           <View style={styles.group3View}>
