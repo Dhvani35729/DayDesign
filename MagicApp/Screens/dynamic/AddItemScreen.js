@@ -19,7 +19,6 @@ import React from 'react';
 import {CheckBox} from 'react-native-elements';
 import {ListItem} from 'native-base'
 
-
 import {RNNumberStepper} from 'react-native-number-stepper';
 import {
   widthPercentageToDP as wp,
@@ -28,6 +27,8 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {user} from '../../api/config';
+
+import * as shortid from 'shortid'
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -68,14 +69,13 @@ export default class AddItemScreen extends React.Component {
   };
 
   addItem(foodData){
-    console.log("add item locally")
-
     var resData = this.state.resData;
     var hourId = this.state.hourId;
 
     // AsyncStorage.clear()
 
     var item = {
+      key: 0,
       id: foodData.key,
       name: foodData.name,
       price: foodData.original_price,
@@ -84,20 +84,22 @@ export default class AddItemScreen extends React.Component {
       quantity: this.state.quantity,
       timeStamp: + new Date(),
     }
-    console.log(item)
-    console.log(hourId)
-
-      AsyncStorage.getItem('@trofi-current-order' + hourId.toString()).then (currentOrder => {
+      AsyncStorage.getItem('@trofi-current-order').then (currentOrder => {
         if(currentOrder !== null) {
           // value previously stored
-          console.log("not null")
 
           updatedCurrentOrder = JSON.parse(currentOrder);
-          updatedCurrentOrder.foods.push(item)
-          updatedCurrentOrder.total_price += item.price * item.quantity
-
-          console.log(updatedCurrentOrder)
-          AsyncStorage.setItem ('@trofi-current-order' + hourId.toString(), JSON.stringify(updatedCurrentOrder));
+          if(hourId != updatedCurrentOrder.hour_id){
+              // notify can only place order for one hour
+              return;
+          }
+          else{
+            item["key"] = updatedCurrentOrder.foods.length
+            updatedCurrentOrder.foods.push(item)
+            console.log(updatedCurrentOrder)
+            AsyncStorage.setItem ('@trofi-current-order', JSON.stringify(updatedCurrentOrder));
+            this.props.navigation.goBack ()
+          }
 
         }
         else{
@@ -115,22 +117,26 @@ export default class AddItemScreen extends React.Component {
           }
 
           initCurrentOrder = {
+            hour_id: parseInt(hourId),
             final_discount: null,
             foods_received: false,
             hours_order: hours_order,
+            pickup_time: parseInt(hours_order.substring(3)),
             restaurant_id: resData.key,
-            restaurant_name: resData.name,
-            status_ready: false,
+            res_name: resData.name,
+            status: false,
+            state: "building",
             total_price: item.price * item.quantity,
             transaction_token: null,
             user: user.uid,
-            order_id: "generate",
+            order_number: shortid.generate(),
             placed_at: null,
             foods: [item],
           }
 
           console.log(initCurrentOrder)
-          AsyncStorage.setItem ('@trofi-current-order' + hourId.toString(), JSON.stringify(initCurrentOrder));
+          AsyncStorage.setItem ('@trofi-current-order', JSON.stringify(initCurrentOrder));
+          this.props.navigation.goBack ()
 
         }
 
@@ -378,7 +384,7 @@ const styles = StyleSheet.create ({
   },
   backgroundView: {
     backgroundColor: 'rgba(55, 58, 61, 0.9)',
-    height: hp ('16.5%'),
+    height: 100,
     flexDirection: 'row',
   },
   icCloseButton: {
@@ -390,7 +396,7 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: wp ('5%'),
-    marginTop: hp ('7%'),
+    marginTop: hp ('4%'),
     width: 50,
     height: 50,
   },
@@ -413,7 +419,7 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginLeft: wp ('60%'),
-    marginTop: hp ('7%'),
+    marginTop: hp ('4%'),
     width: 50,
     height: 50,
   },
@@ -433,7 +439,7 @@ const styles = StyleSheet.create ({
     borderWidth: 2,
     borderColor: 'rgb(246, 246, 246)',
     borderStyle: 'solid',
-    marginTop: hp ('5%'),
+    marginTop: hp ('2%'),
     marginRight: wp ('95%'),
     position: 'relative',
     width: 70,

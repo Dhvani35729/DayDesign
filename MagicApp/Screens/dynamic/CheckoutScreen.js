@@ -19,6 +19,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import CheckoutItem from '../../models/CheckoutItem';
 
@@ -34,9 +35,29 @@ export default class CheckoutScreen extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      currentOrder: null,
+    };
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+
+    AsyncStorage.getItem('@trofi-current-order').then (currentOrder => {
+      if(currentOrder != null){
+
+        that.setState({
+          currentOrder: JSON.parse(currentOrder)
+      });
+
+      }
+      else{
+        that.setState({
+          currentOrder: null
+        });
+      }
+    });
+
+  }
 
   componentWillUnmount () {}
 
@@ -47,10 +68,11 @@ export default class CheckoutScreen extends React.Component {
   ];
 
   renderViewFlatListCell = ({item}) => {
-    return <CheckoutItem />;
+    return <CheckoutItem food={item}/>;
   };
 
   render () {
+    var currentOrder = this.state.currentOrder;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -93,7 +115,7 @@ export default class CheckoutScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={this.viewFlatListMockData}
+              data={currentOrder ? currentOrder.foods : []}
               style={styles.viewFlatList}
             />
           </View>

@@ -24,6 +24,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.1",
     "add": "^2.0.6",
+    "hashids": "^1.2.2",
     "native-base": "^2.12.1",
     "or": "^0.2.0",
     "react": "^16.8.3",
@@ -33,7 +34,7 @@
     "react-native-exit-app": "^1.0.0",
     "react-native-firebase": "^5.3.1",
     "react-native-flash-message": "^0.1.13",
-    "react-native-gesture-handler": "^1.0.12",
+    "react-native-gesture-handler": "^1.3.0",
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-maps": "^0.22.1",
     "react-native-modal-datetime-picker": "^6.0.0",
@@ -53,6 +54,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "segmented-control-react": "^2.1.3",
+    "shortid": "^2.2.14",
     "stripe": "^6.25.1",
     "tipsi-stripe": "^7.3.0",
     "yarn": "^1.13.0"
