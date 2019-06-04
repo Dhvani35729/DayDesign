@@ -17,7 +17,7 @@ import {
 import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
 import {loadRestaurants, loadCurrentOrder} from '../../api/load';
 import {user} from '../../api/config';
-import { tConvert } from '../../utils';
+import {tConvert} from '../../utils';
 
 export default class DynamicScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -31,7 +31,6 @@ export default class DynamicScreen extends React.Component {
   };
 
   constructor (props) {
-
     super (props);
 
     this.state = {
@@ -39,36 +38,30 @@ export default class DynamicScreen extends React.Component {
       allHours: [],
       refresh: false,
       currentOrder: null,
-      all_listeners: []
+      all_listeners: [],
     };
-
-
   }
-
-
 
   componentDidMount () {
-
-    this.props.navigation.addListener('willBlur', (playload)=>{
-      this.detachListeners()
+    this.props.navigation.addListener ('willBlur', playload => {
+      this.detachListeners ();
     });
 
-    this.props.navigation.addListener('willFocus', (playload)=>{
+    this.props.navigation.addListener ('willFocus', playload => {
       loadRestaurants (this);
-      loadCurrentOrder(this);
+      loadCurrentOrder (this);
     });
-
   }
 
-  detachListeners(){
-    this.state.all_listeners.forEach(function(listener) {
-      listener()
-  });
+  detachListeners () {
+    this.state.all_listeners.forEach (function (listener) {
+      listener ();
+    });
   }
 
   componentWillUnmount () {
     // remove listeners
-    this.detachListeners()
+    this.detachListeners ();
   }
 
   renderViewFlatListCell = ({item}) => {
@@ -81,27 +74,26 @@ export default class DynamicScreen extends React.Component {
     );
   };
 
-  formatPickupTime(pickup_time){
-    if(pickup_time-1 < 10){
-      return tConvert("0" + (pickup_time-1).toString() + ":59")
-    }
-    else{
-      return tConvert((pickup_time-1).toString() + ":59")
+  formatPickupTime (pickup_time) {
+    if (pickup_time - 1 < 10) {
+      return tConvert ('0' + (pickup_time - 1).toString () + ':59');
+    } else {
+      return tConvert ((pickup_time - 1).toString () + ':59');
     }
   }
 
   render () {
     const allHours = this.state.allHours;
     const currentOrder = this.state.currentOrder;
-    const currentHour = (new Date()).getHours();
+    const currentHour = new Date ().getHours ();
     return (
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
-        disabled={currentOrder == null}
           onPress={() => {
+            currentOrder ?
             this.props.navigation.navigate ('CurrentOrderScreen', {
-              currentOrder: currentOrder
-            });
+              currentOrder: currentOrder,
+            }) : this.props.navigation.navigate ('History');
           }}
         >
           <View style={styles.viewView}>
@@ -113,26 +105,28 @@ export default class DynamicScreen extends React.Component {
                 position: 'absolute',
               }}
             >
-              <Text style={styles.labelText}>{currentOrder ? currentOrder.res_name : "No Current Orders"}</Text>
-            
-            <TouchableOpacity
-            style={styles.labelTexthistory}
-            disabled={currentOrder != null}
-            onPress={() => {
-            this.props.navigation.navigate ('History');
-            }}>
-            <Text style={styles.labelTexthistory}>{!currentOrder ? "Click for Purchase History" : ""}</Text>
-            </TouchableOpacity>
-
-            
               <View
                 style={{
                   flex: 1,
                   justifyContent: 'flex-end',
                 }}
               >
+
+                <Text style={styles.labelText}>
+                {currentOrder ? currentOrder.res_name : 'No Current Orders'}
+              </Text>
+
+
+            {!currentOrder
+              &&
+                <Text style={styles.labelTexthistory}>
+                  {!currentOrder ? 'Click for Purchase History' : ''}
+                </Text>
+            }
+
+
                 <View style={styles.viewFourView}>
-                  <Text style={styles.labelSixText}>{currentOrder ? currentOrder.order_number : ""}</Text>
+                  <Text style={styles.labelSixText}>{currentOrder ? currentOrder.order_number : ''}</Text>
                   <View
                     style={{
                       flex: 1,
@@ -140,7 +134,11 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <Text style={styles.labelFiveText}>{currentOrder ? this.formatPickupTime(currentOrder.pickup_time) : ""}</Text>
+                    <Text style={styles.labelFiveText}>
+                      {currentOrder
+                        ? this.formatPickupTime (currentOrder.pickup_time)
+                        : ''}
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -151,13 +149,22 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'center',
                     }}
                   >
-                    <Text style={styles.labelSevenText}>{currentOrder ? currentOrder.status ? "Ready" : "Not Ready" : ""}</Text>
+                    <Text style={styles.labelSevenText}>
+                      {currentOrder
+                        ? currentOrder.state == 'building' ? 'Building' :
+                        currentOrder.status ? 'Ready' : 'Not Ready'
+                        : ''}
+                    </Text>
                   </View>
                 </View>
+
+
                 <View style={styles.viewThreeView}>
-            
-            <Text style={styles.labelThreeText}>{currentOrder ? "Order Number" : ""}</Text>
-            
+
+                  <Text style={styles.labelThreeText}>
+                    {currentOrder ? 'Order Number' : ''}
+                  </Text>
+
                   <View
                     style={{
                       flex: 1,
@@ -165,10 +172,11 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'flex-end',
                     }}
                   >
-            
-            <Text style={styles.labelTwoText}>{currentOrder ? "Pick Up By" : ""}</Text>
 
-            
+                    <Text style={styles.labelTwoText}>
+                      {currentOrder ? 'Pick Up By' : ''}
+                    </Text>
+
                   </View>
                   <View
                     style={{
@@ -179,11 +187,14 @@ export default class DynamicScreen extends React.Component {
                       justifyContent: 'center',
                     }}
                   >
-            
-            <Text style={styles.labelFourText}>{currentOrder ? "Status" : ""}</Text>
+
+                    <Text style={styles.labelFourText}>
+                      {currentOrder ? 'Status' : ''}
+                    </Text>
 
                   </View>
                 </View>
+
               </View>
             </View>
           </View>
@@ -192,15 +203,19 @@ export default class DynamicScreen extends React.Component {
         <View style={styles.viewFlatListViewWrapper}>
           <FlatList
             horizontal={false}
-            ref={(ref) => { this.flatListRef = ref; }}
+            ref={ref => {
+              this.flatListRef = ref;
+            }}
             renderItem={this.renderViewFlatListCell}
             data={allHours}
             extraData={this.state.refresh}
             style={styles.viewFlatList}
             initialScrollIndex={allHours.length > 0 ? currentHour : 0}
-            getItemLayout={(data, index) => (
-              {length: TIME_CELL_HEIGHT, offset: TIME_CELL_HEIGHT * index, index}
-            )}
+            getItemLayout={(data, index) => ({
+              length: TIME_CELL_HEIGHT,
+              offset: TIME_CELL_HEIGHT * index,
+              index,
+            })}
           />
 
         </View>
@@ -244,19 +259,16 @@ const styles = StyleSheet.create ({
     fontWeight: '600',
     textAlign: 'center',
     backgroundColor: 'transparent',
-    marginTop: 3,
   },
-                                  labelTexthistory: {
-                                  height: 40,
-                                  width: wp('90%'),
-                                  color: 'white',
-                                  fontSize: 15,
-                                  fontStyle: 'normal',
-                                  fontWeight: '400',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  marginTop: 8,
-                                  },
+  labelTexthistory: {
+    color: 'white',
+    fontSize: 15,
+    fontStyle: 'normal',
+    fontWeight: '600',
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    marginBottom: 15,
+  },
   viewFourView: {
     backgroundColor: 'transparent',
     marginLeft: 9,

@@ -1,5 +1,6 @@
 import {db, user} from './config';
 import {showUpdateMessage} from '../utils/index'
+import AsyncStorage from '@react-native-community/async-storage';
 
 function loadCurrentOrder(that){
   var unsubscribeList = []
@@ -44,14 +45,31 @@ function loadCurrentOrder(that){
 
       }
       else{
-        that.setState({
-          currentOrder: null
-      }, () => {
-        if(!firstLoad){
-          showUpdateMessage("Order Updated!", "bottom");
-        }
-        firstLoad = false
-    });
+
+        AsyncStorage.getItem('@trofi-current-order').then (currentOrder => {
+          if(currentOrder != null){
+
+            that.setState({
+              currentOrder: JSON.parse(currentOrder)
+          }, () => {
+            if(!firstLoad){
+              showUpdateMessage("Order Updated!", "bottom");
+            }
+            firstLoad = false
+        });
+
+          }
+          else{
+            that.setState({
+              currentOrder: null
+          }, () => {
+            if(!firstLoad){
+              showUpdateMessage("Order Updated!", "bottom");
+            }
+            firstLoad = false
+        });
+          }
+        });
       }
 
   });

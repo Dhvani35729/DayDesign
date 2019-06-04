@@ -48,7 +48,7 @@ export default class CurrentOrderScreen extends React.Component {
     }
   }
 
-  _keyExtractor = (item, index) => item.food_id;
+  _keyExtractor = (item, index) => item.key.toString();
 
   render () {
     var currentOrder = this.state.currentOrder;
@@ -66,7 +66,7 @@ export default class CurrentOrderScreen extends React.Component {
             style={styles.buttonButtonImage}
             />
             </TouchableOpacity>
-            
+
             <TouchableOpacity
             style={styles.icCartButton}
             onPress={() => {
@@ -75,7 +75,7 @@ export default class CurrentOrderScreen extends React.Component {
             >
             <Text style={styles.buttonButtonText}>History</Text>
             </TouchableOpacity>
-            
+
             <View
             style={{
             //position: "absolute",
@@ -120,7 +120,7 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewTwoView}>
             <View style={styles.viewThreeView}>
               <Text style={styles.statusText}>Status:</Text>
-              <Text style={styles.readyText}>{currentOrder ? currentOrder.status ? "Ready" : "Not Ready" : "-"}</Text>
+              <Text style={styles.readyText}>{currentOrder ? currentOrder.state == 'building' ? 'Building' : currentOrder.status ? "Ready" : "Not Ready" : "-"}</Text>
             </View>
             <View style={{}}>
               <View style={styles.viewView}>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create ({
                                   icCartButtonImage: {
                                   resizeMode: 'contain',
                                   },
-                                  
+
                                   buttonButtonImage: {
                                   resizeMode: 'contain',
                                   width: 60,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create ({
                                   width: 60,
                                   height: 60,
                                   },
-                                  
+
                                   graybackgroundView: {
                                   backgroundColor: 'rgba(226, 175, 47, 0.99)',
                                   borderRadius: 35,
@@ -304,7 +304,7 @@ const styles = StyleSheet.create ({
                                   marginBottom: 6,
                                   width: wp('100%'),
                                   },
-                                  
+
   readyText: {
     color: 'rgb(74, 74, 74)',
     fontSize: 20,

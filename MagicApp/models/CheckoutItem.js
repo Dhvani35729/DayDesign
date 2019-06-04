@@ -35,7 +35,7 @@ export default class CheckoutItem extends React.Component {
             <Text style={styles.jawadSStyleChickText}>
               {food.name}
             </Text>
-            <Text style={styles.textText}>${food.initial_price}</Text>
+            <Text style={styles.textText}>${food.price}</Text>
           </View>
           <View
             style={{
