@@ -24,7 +24,6 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.1",
     "add": "^2.0.6",
-    "hashids": "^1.2.2",
     "native-base": "^2.12.1",
     "or": "^0.2.0",
     "react": "^16.8.3",
