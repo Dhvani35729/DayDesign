@@ -225,7 +225,7 @@ dependencies {
    * -------------------------------- */
 
   // For Firebase Ads
-  implementation "com.android.support:customtabs:27.1.1"
+  implementation 'androidx.browser:browser:1.0.0'
 
   // For React Native Firebase Notifications
   implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
