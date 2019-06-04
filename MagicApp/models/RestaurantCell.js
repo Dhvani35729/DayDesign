@@ -72,15 +72,7 @@ export default class RestaurantCell extends React.Component {
           </View>
           <View style={styles.nameofstoreView}>
             <Text style={styles.storenameText}>{resData.name}</Text>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'stretch',
-              }}
-            >
               <Text style={styles.storetypeText}>{resData.tags.join(",")}</Text>
-            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -190,6 +182,6 @@ const styles = StyleSheet.create ({
     textAlign: 'left',
     letterSpacing: -0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    marginRight: 11,
+                                  marginTop: 3,
   },
 });
