@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import { SearchBar } from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 
 import {
   widthPercentageToDP as wp,
@@ -29,35 +29,34 @@ export default class VendorListScreen extends React.Component {
     super (props);
     const {navigation} = this.props;
     var hourData = navigation.getParam ('hourData', []);
-      this.arrayholder = [];
+    this.arrayholder = [];
     this.state = {
       hourData: hourData,
-      search: ''
+      search: '',
     };
   }
-    
-    componentDidMount() {
-        this.arrayholder = this.state.hourData;
-    }
-    
 
-    search = text => {
-        console.log(text);
-    };
-    clear = () => {
-        this.search.clear();
-    };
-    SearchFilterFunction(text) {
-        const newData = this.arrayholder.filter(function(item) {
-                                                const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
-                                                const textData = text.toUpperCase();
-                                                return itemData.indexOf(textData) > -1;
-                                                });
-        this.setState({
-                      hourData: newData,
-                      search:text,
-                      });
-    }
+  componentDidMount () {
+    this.arrayholder = this.state.hourData;
+  }
+
+  search = text => {
+    console.log (text);
+  };
+  clear = () => {
+    this.search.clear ();
+  };
+  SearchFilterFunction (text) {
+    const newData = this.arrayholder.filter (function (item) {
+      const itemData = item.name ? item.name.toUpperCase () : ''.toUpperCase ();
+      const textData = text.toUpperCase ();
+      return itemData.indexOf (textData) > -1;
+    });
+    this.setState ({
+      hourData: newData,
+      search: text,
+    });
+  }
 
   componentWillUnmount () {}
 
@@ -68,12 +67,12 @@ export default class VendorListScreen extends React.Component {
   render () {
     return (
       <View style={styles.vendorlistView}>
-            
+
         <TextInput
           placeholder="Search Restaurants"
-            onChangeText={text => this.SearchFilterFunction(text)}
-            onClear={text => this.SearchFilterFunction('')}
-        value={this.state.search}
+          onChangeText={text => this.SearchFilterFunction (text)}
+          onClear={text => this.SearchFilterFunction ('')}
+          value={this.state.search}
           style={styles.group5TwoTextInput}
         />
         <View style={styles.viewFlatListViewWrapper}>

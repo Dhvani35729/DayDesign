@@ -15,9 +15,11 @@ import {
 } from 'react-native-responsive-screen';
 
 import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
-import {loadRestaurants, loadCurrentOrder} from '../../api/load';
 import {user} from '../../api/config';
-import {tConvert} from '../../utils';
+import {tConvert, showUpdateMessage} from '../../utils';
+
+// 5 minutes = 300000
+FETCH_INTERVAL = 300000;
 
 export default class DynamicScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -42,21 +44,38 @@ export default class DynamicScreen extends React.Component {
     };
   }
 
-  componentDidMount () {
-    // this.props.navigation.addListener ('willBlur', playload => {
-    //   this.detachListeners ();
-    // });
-    // this.props.navigation.addListener ('willFocus', playload => {
-    //   loadRestaurants (this);
-    //   loadCurrentOrder (this);
-    // });
-    var that = this;
+  attached = true;
+
+  async fetchCurrentOrder (that) {
+    uid = that.state.user.uid;
+    fetch (
+      'http://localhost:8000/api/users/' + uid.toString () + '/orders/current',
+      {method: 'GET'}
+    )
+      .then (response => response.json ())
+      .then (responseData => {
+        //set your data here
+        // console.log (responseData);
+        if (that.state.currentOrder != null) {
+          showUpdateMessage ('Order Updated!', 'bottom');
+        }
+        that.setState ({
+          currentOrder: responseData,
+        });
+      })
+      .catch (error => {
+        console.error (error);
+      });
+  }
+
+  async fetchRestaurants (that) {
     fetch ('http://localhost:8000/api/restaurants/hours/', {method: 'GET'})
       .then (response => response.json ())
       .then (responseData => {
         //set your data here
-        console.log ('HELLO');
-        console.log (responseData);
+        if (that.state.allHours.length != 0) {
+          showUpdateMessage ('Database Updated!', 'top');
+        }
         that.setState ({
           allHours: responseData['list'],
         });
@@ -66,15 +85,29 @@ export default class DynamicScreen extends React.Component {
       });
   }
 
-  detachListeners () {
-    this.state.all_listeners.forEach (function (listener) {
-      listener ();
+  componentDidMount () {
+    var restaurant_listener = null;
+    var current_order_listener = null;
+    this.props.navigation.addListener ('willBlur', playload => {
+      clearInterval (restaurant_listener);
+      clearInterval (current_order_listener);
+    });
+    this.props.navigation.addListener ('willFocus', playload => {
+      this.fetchRestaurants (this);
+      this.fetchCurrentOrder (this);
+      restaurant_listener = setInterval (
+        () => this.fetchRestaurants (this),
+        FETCH_INTERVAL
+      );
+      current_order_listener = setInterval (
+        () => this.fetchCurrentOrder (this),
+        FETCH_INTERVAL + 60000
+      );
     });
   }
 
   componentWillUnmount () {
     // remove listeners
-    this.detachListeners ();
   }
 
   renderViewFlatListCell = ({item}) => {

@@ -21,8 +21,10 @@ import {
 } from 'react-native-responsive-screen';
 
 import MenuItem from '../../models/MenuItem';
-import {loadMenu} from '../../api/load';
+import {showUpdateMessage} from '../../utils';
 
+// 5 minutes = 300000
+FETCH_INTERVAL = 300000;
 
 export default class MenuScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -47,40 +49,84 @@ export default class MenuScreen extends React.Component {
       menu: [],
       all_listeners: [],
       refresh: false,
+      refreshing: false,
     };
   }
 
+  async fetchMenu (that, resId, hourId) {
+    fetch (
+      'http://localhost:8000/api/restaurant/' +
+        resId +
+        '/hours/' +
+        hourId +
+        '/menu/',
+      {method: 'GET'}
+    )
+      .then (response => response.json ())
+      .then (responseData => {
+        //set your data here
+        console.log (responseData);
+        if (that.state.menu.length != 0) {
+          showUpdateMessage ('Database Updated!', 'bottom');
+        }
+        that.setState ({
+          menu: responseData['list'],
+          refreshing: false,
+        });
+      })
+      .catch (error => {
+        console.error (error);
+      });
+  }
+
   componentDidMount () {
+    var menu_listener = null;
 
-    this.props.navigation.addListener('willBlur', (playload)=>{
-      this.detachListeners()
+    this.props.navigation.addListener ('willBlur', playload => {
+      clearInterval (menu_listener);
     });
+    this.props.navigation.addListener ('willFocus', playload => {
+      var resId = this.state.resData.key;
+      var hourId = this.state.resData.hour_id.toString ();
+      this.fetchMenu (this, resId, hourId);
 
-    this.props.navigation.addListener('willFocus', (playload)=>{
-      var that = this;
-      var resId = this.state.resData.key
-      var hourId = this.state.resData.hour_id.toString()
-      loadMenu (that, resId, hourId);
+      restaurant_listener = setInterval (
+        () => this.fetchMenu (this, resId, hourId),
+        FETCH_INTERVAL
+      );
     });
   }
 
-
-  detachListeners(){
-    this.state.all_listeners.forEach(function(listener) {
-      listener()
-  });
-  }
   componentWillUnmount () {
     // remove listeners
-    this.detachListeners()
   }
 
   renderViewFlatListCell = ({item}) => {
-    return <MenuItem navigation={this.props.navigation} foodData={item} hourId={this.state.hourId} resData={this.state.resData} />;
+    return (
+      <MenuItem
+        navigation={this.props.navigation}
+        foodData={item}
+        hourId={this.state.hourId}
+        resData={this.state.resData}
+      />
+    );
+  };
+
+  handleRefresh = () => {
+    this.setState (
+      {
+        refreshing: true,
+      },
+      () => {
+        var resId = this.state.resData.key;
+        var hourId = this.state.resData.hour_id.toString ();
+        this.fetchMenu (this, resId, hourId);
+      }
+    );
   };
 
   render () {
-    var resData = this.state.resData
+    var resData = this.state.resData;
     var menu = this.state.menu;
     return (
       <View style={styles.menuView}>
@@ -116,7 +162,9 @@ export default class MenuScreen extends React.Component {
             }}
           >
             <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>10%</Text>
+              <Text style={styles.nextmoneyText}>
+                {(resData.current_discount * 100).toFixed (0)}%
+              </Text>
               <View
                 style={{
                   // width: "100%",
@@ -126,7 +174,9 @@ export default class MenuScreen extends React.Component {
                   justifyContent: 'flex-end',
                 }}
               >
-                <Text style={styles.buyersneededText}>$95/100</Text>
+                <Text style={styles.buyersneededText}>
+                  ${resData.current_contribution}/{resData.needed_contribution}
+                </Text>
               </View>
             </View>
           </View>
@@ -141,14 +191,14 @@ export default class MenuScreen extends React.Component {
         >
           <Text style={styles.shawarmaPlusText}>{resData.name}</Text>
 
-         
-
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
               data={menu}
               extraData={this.state.refresh}
               style={styles.viewFlatList}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
             />
           </View>
         </View>
