@@ -43,14 +43,27 @@ export default class DynamicScreen extends React.Component {
   }
 
   componentDidMount () {
-    this.props.navigation.addListener ('willBlur', playload => {
-      this.detachListeners ();
-    });
-
-    this.props.navigation.addListener ('willFocus', playload => {
-      loadRestaurants (this);
-      loadCurrentOrder (this);
-    });
+    // this.props.navigation.addListener ('willBlur', playload => {
+    //   this.detachListeners ();
+    // });
+    // this.props.navigation.addListener ('willFocus', playload => {
+    //   loadRestaurants (this);
+    //   loadCurrentOrder (this);
+    // });
+    var that = this;
+    fetch ('http://localhost:8000/api/restaurants/hours/', {method: 'GET'})
+      .then (response => response.json ())
+      .then (responseData => {
+        //set your data here
+        console.log ('HELLO');
+        console.log (responseData);
+        that.setState ({
+          allHours: responseData['list'],
+        });
+      })
+      .catch (error => {
+        console.error (error);
+      });
   }
 
   detachListeners () {
@@ -90,10 +103,11 @@ export default class DynamicScreen extends React.Component {
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
           onPress={() => {
-            currentOrder ?
-            this.props.navigation.navigate ('CurrentOrderScreen', {
-              currentOrder: currentOrder,
-            }) : this.props.navigation.navigate ('History');
+            currentOrder
+              ? this.props.navigation.navigate ('CurrentOrderScreen', {
+                  currentOrder: currentOrder,
+                })
+              : this.props.navigation.navigate ('History');
           }}
         >
           <View style={styles.viewView}>
@@ -113,20 +127,18 @@ export default class DynamicScreen extends React.Component {
               >
 
                 <Text style={styles.labelText}>
-                {currentOrder ? currentOrder.res_name : 'No Current Orders'}
-              </Text>
-
-
-            {!currentOrder
-              &&
-                <Text style={styles.labelTexthistory}>
-                  {!currentOrder ? 'Click for Purchase History' : ''}
+                  {currentOrder ? currentOrder.res_name : 'No Current Orders'}
                 </Text>
-            }
 
+                {!currentOrder &&
+                  <Text style={styles.labelTexthistory}>
+                    {!currentOrder ? 'Click for Purchase History' : ''}
+                  </Text>}
 
                 <View style={styles.viewFourView}>
-                  <Text style={styles.labelSixText}>{currentOrder ? currentOrder.order_number : ''}</Text>
+                  <Text style={styles.labelSixText}>
+                    {currentOrder ? currentOrder.order_number : ''}
+                  </Text>
                   <View
                     style={{
                       flex: 1,
@@ -151,13 +163,13 @@ export default class DynamicScreen extends React.Component {
                   >
                     <Text style={styles.labelSevenText}>
                       {currentOrder
-                        ? currentOrder.state == 'building' ? 'Building' :
-                        currentOrder.status ? 'Ready' : 'Not Ready'
+                        ? currentOrder.state == 'building'
+                            ? 'Building'
+                            : currentOrder.status ? 'Ready' : 'Not Ready'
                         : ''}
                     </Text>
                   </View>
                 </View>
-
 
                 <View style={styles.viewThreeView}>
 
