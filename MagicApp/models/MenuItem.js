@@ -59,7 +59,7 @@ export default class MenuItem extends React.Component {
             >
               <View style={styles.group2View}>
                 <Text style={styles.textTwoText}>
-                  ${foodData.original_price}
+                  ${foodData.original_price.toFixed (2)}
                 </Text>
                 <View
                   style={{
@@ -67,7 +67,11 @@ export default class MenuItem extends React.Component {
                     justifyContent: 'flex-end',
                   }}
                 >
-                  <Text style={styles.textText}>$11.00</Text>
+                  <Text style={styles.textText}>
+                    $
+                    {(foodData.original_price *
+                      (1 - resData.current_discount)).toFixed (2)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -79,7 +83,9 @@ export default class MenuItem extends React.Component {
             }}
           >
             <View style={styles.groupView}>
-              <Text style={styles.textThreeText}>+23</Text>
+              <Text style={styles.textThreeText}>
+                +{foodData.contribution}
+              </Text>
             </View>
           </View>
 

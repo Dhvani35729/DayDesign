@@ -85,13 +85,18 @@ export default class Vendor extends React.Component {
                     alignItems: 'flex-end',
                   }}
                 >
-                  <Text style={styles.textFourText}>$90/100</Text>
+                  <Text style={styles.textFourText}>REMOVE</Text>
                   <View
                     style={{
                       flex: 1,
                     }}
                   />
-                  <Text style={styles.textTwoText}>$95/100</Text>
+                  <Text style={styles.textTwoText}>
+                    $
+                    {resData.current_contribution}
+                    /
+                    {resData.needed_contribution}
+                  </Text>
                   <Text style={styles.discountText}>discount</Text>
                 </View>
               </View>
@@ -117,14 +122,18 @@ export default class Vendor extends React.Component {
                   alignItems: 'center',
                 }}
               >
-                <Text style={styles.textFiveText}>15%</Text>
+                <Text style={styles.textFiveText}>-0%</Text>
                 <View
                   style={{
                     flex: 1,
                   }}
                 />
-                <Text style={styles.textText}>10%</Text>
-                 <Text style={styles.textThreeText}>5%</Text>
+                <Text style={styles.textText}>
+                  {(resData.next_discount * 100).toFixed (0)}%
+                </Text>
+                <Text style={styles.textThreeText}>
+                  {(resData.current_discount * 100).toFixed (0)}%
+                </Text>
               </View>
             </View>
           </View>

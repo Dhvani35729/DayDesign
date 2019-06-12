@@ -44,7 +44,7 @@ export default class RestaurantCell extends React.Component {
                 }}
               >
                 <Text style={styles.currentmoneyText}>
-                  {resData.percent_discount}%
+                  {(resData.current_discount * 100).toFixed (0)}%
                 </Text>
               </View>
             </View>
@@ -56,7 +56,9 @@ export default class RestaurantCell extends React.Component {
               }}
             >
               <View style={styles.nextdealView}>
-                <Text style={styles.buyersneededText}>$95/100</Text>
+                <Text style={styles.buyersneededText}>
+                  ${resData.current_contribution}/{resData.needed_contribution}
+                </Text>
                 <View
                   style={{
                     width: '100%',
@@ -65,14 +67,16 @@ export default class RestaurantCell extends React.Component {
                     position: 'absolute',
                   }}
                 >
-                  <Text style={styles.nextmoneyText}>0%</Text>
+                  <Text style={styles.nextmoneyText}>
+                    {(resData.next_discount * 100).toFixed (0)}%
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.nameofstoreView}>
             <Text style={styles.storenameText}>{resData.name}</Text>
-              <Text style={styles.storetypeText}>{resData.tags.join(",")}</Text>
+            <Text style={styles.storetypeText}>{resData.tags.join (',')}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -182,6 +186,6 @@ const styles = StyleSheet.create ({
     textAlign: 'left',
     letterSpacing: -0,
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
-                                  marginTop: 3,
+    marginTop: 3,
   },
 });
