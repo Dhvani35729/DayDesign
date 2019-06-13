@@ -1,0 +1,4 @@
+// 5 minutes = 300000
+var FETCH_INTERVAL = 300000;
+
+export {FETCH_INTERVAL};

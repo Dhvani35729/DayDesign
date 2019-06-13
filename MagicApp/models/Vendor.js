@@ -14,6 +14,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import {showPercentage} from '../utils';
+
 export default class Vendor extends React.Component {
   constructor (props) {
     super (props);
@@ -129,10 +131,10 @@ export default class Vendor extends React.Component {
                   }}
                 />
                 <Text style={styles.textText}>
-                  {(resData.next_discount * 100).toFixed (0)}%
+                  {showPercentage (resData.next_discount)}%
                 </Text>
                 <Text style={styles.textThreeText}>
-                  {(resData.current_discount * 100).toFixed (0)}%
+                  {showPercentage (resData.current_discount)}%
                 </Text>
               </View>
             </View>

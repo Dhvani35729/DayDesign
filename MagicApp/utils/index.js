@@ -1,24 +1,48 @@
-import { showMessage, hideMessage } from "react-native-flash-message";
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
+function showPercentage (decimal) {
+  return (decimal * 100).toFixed (0);
+}
 
-function showUpdateMessage(msg, pos){
-  showMessage({
+function showMoney (decimal) {
+  return decimal.toFixed (2);
+}
+
+function showUpdateMessage (msg, pos) {
+  showMessage ({
     position: pos,
     message: msg,
-    type: "info",
+    type: 'info',
+  });
+}
+
+function showErrorMessage (msg, pos) {
+  showMessage ({
+    position: pos,
+    message: msg,
+    type: 'danger',
   });
 }
 
 function tConvert (time) {
-    // Check correct time format and split into components
-    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+  // Check correct time format and split into components
+  time = time
+    .toString ()
+    .match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 
-    if (time.length > 1) { // If time format correct
-      time = time.slice (1);  // Remove full string match value
-      time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
-      time[0] = +time[0] % 12 || 12; // Adjust hours
-    }
-    return time.join (''); // return adjusted time or original string
+  if (time.length > 1) {
+    // If time format correct
+    time = time.slice (1); // Remove full string match value
+    time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+    time[0] = +time[0] % 12 || 12; // Adjust hours
   }
+  return time.join (''); // return adjusted time or original string
+}
 
-export {tConvert, showUpdateMessage};
+export {
+  tConvert,
+  showUpdateMessage,
+  showErrorMessage,
+  showPercentage,
+  showMoney,
+};
