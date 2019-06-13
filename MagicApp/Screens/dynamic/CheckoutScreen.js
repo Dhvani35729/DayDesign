@@ -55,7 +55,8 @@ export default class CheckoutScreen extends React.Component {
       if (currentOrder != null) {
         var resId = this.state.resData.key;
         var hourId = this.state.resData.hour_id.toString ();
-        syncDB (that, resId, hourId, JSON.parse (currentOrder));
+        currentOrder = JSON.parse (currentOrder);
+        syncDB (that, resId, currentOrder.hour_id, currentOrder);
         // update cart to reflect current item contribution
         // this.setState ({
         //   currentOrder: JSON.parse (currentOrder),

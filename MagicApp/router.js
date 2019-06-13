@@ -35,14 +35,12 @@ import AddItemScreen from './screens/dynamic/AddItemScreen';
 import CheckoutScreen from './screens/dynamic/CheckoutScreen';
 import PaymentScreen from './screens/dynamic/PaymentScreen';
 import CurrentOrderScreen from './screens/dynamic/CurrentOrderScreen';
-import History from './screens/dynamic/History';
-
+import HistoryScreen from './screens/dynamic/HistoryScreen';
 
 // Friends
 import SendGift from './screens/friends/SendGift';
 import AddFriend from './screens/friends/AddFriend';
 import ProfileScreen from './screens/friends/Profile';
-
 
 const DynamicNavigator = createStackNavigator (
   {
@@ -64,8 +62,8 @@ const DynamicNavigator = createStackNavigator (
     CurrentOrderScreen: {
       screen: CurrentOrderScreen,
     },
-    History: {
-      screen: History,
+    HistoryScreen: {
+      screen: HistoryScreen,
     },
     CheckoutScreen: {
       screen: CheckoutScreen,
@@ -104,29 +102,40 @@ const SignUpNavigator = createSwitchNavigator (
   }
 );
 
-const AppNavigator = createMaterialBottomTabNavigator( {
-  ProfileScreen: {
-    screen: ProfileNavigator,
-    navigationOptions: ({ navigation }) => (
-      { title: "Profile", tabBarIcon: <Icon name="user-circle-o" color="#FFFF" size={20} /> }) },
+const AppNavigator = createMaterialBottomTabNavigator (
+  {
+    ProfileScreen: {
+      screen: ProfileNavigator,
+      navigationOptions: ({navigation}) => ({
+        title: 'Profile',
+        tabBarIcon: <Icon name="user-circle-o" color="#FFFF" size={20} />,
+      }),
+    },
 
     DynamicScreen: {
       screen: DynamicNavigator,
-      navigationOptions: ({ navigation }) => (
-        { title: "Restaurants", tabBarIcon: <Icon name="cutlery" color="#FFFF" size={20} /> }) },
+      navigationOptions: ({navigation}) => ({
+        title: 'Restaurants',
+        tabBarIcon: <Icon name="cutlery" color="#FFFF" size={20} />,
+      }),
+    },
 
     GroupScreen: {
       screen: GroupScreen,
-      navigationOptions: ({ navigation }) => (
-        { title: "Groups", tabBarIcon: <Icon name="group" color="#FFFF" size={20} /> }) }, },
-        {
-          initialRouteName: "DynamicScreen",
-          activeColor: "#f0edf6",
-          inactiveColor: "#3e2465",
-          barStyle: { backgroundColor: "#72A7E4" },
-          shifting: true
-        }
-  );
+      navigationOptions: ({navigation}) => ({
+        title: 'Groups',
+        tabBarIcon: <Icon name="group" color="#FFFF" size={20} />,
+      }),
+    },
+  },
+  {
+    initialRouteName: 'DynamicScreen',
+    activeColor: '#f0edf6',
+    inactiveColor: '#3e2465',
+    barStyle: {backgroundColor: '#72A7E4'},
+    shifting: true,
+  }
+);
 
 export const createRootNavigator = (signedIn = false) => {
   return createAppContainer (

@@ -184,7 +184,7 @@ export default class DynamicScreen extends React.Component {
               ? this.props.navigation.navigate ('CurrentOrderScreen', {
                   currentOrder: currentOrder,
                 })
-              : this.props.navigation.navigate ('History');
+              : this.props.navigation.navigate ('HistoryScreen');
           }}
         >
           <View style={styles.viewView}>
