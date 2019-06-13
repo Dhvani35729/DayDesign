@@ -13,6 +13,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import {showMoney} from '../utils';
+
 export default class MenuItem extends React.Component {
   constructor (props) {
     super (props);
@@ -59,7 +61,7 @@ export default class MenuItem extends React.Component {
             >
               <View style={styles.group2View}>
                 <Text style={styles.textTwoText}>
-                  ${foodData.original_price.toFixed (2)}
+                  ${showMoney (foodData.original_price)}
                 </Text>
                 <View
                   style={{
@@ -69,8 +71,9 @@ export default class MenuItem extends React.Component {
                 >
                   <Text style={styles.textText}>
                     $
-                    {(foodData.original_price *
-                      (1 - resData.current_discount)).toFixed (2)}
+                    {showMoney (
+                      foodData.original_price * (1 - resData.current_discount)
+                    )}
                   </Text>
                 </View>
               </View>

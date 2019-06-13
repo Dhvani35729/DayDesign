@@ -16,10 +16,9 @@ import {
 
 import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
 import {user} from '../../api/config';
-import {tConvert, showUpdateMessage} from '../../utils';
+import {tConvert, showUpdateMessage, showErrorMessage} from '../../utils';
 
-// 5 minutes = 300000
-FETCH_INTERVAL = 300000;
+import {FETCH_INTERVAL} from '../../constants';
 
 export default class DynamicScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -65,6 +64,10 @@ export default class DynamicScreen extends React.Component {
       })
       .catch (error => {
         console.error (error);
+        showErrorMessage (
+          'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
+          'top'
+        );
       });
   }
 
@@ -82,12 +85,18 @@ export default class DynamicScreen extends React.Component {
       })
       .catch (error => {
         console.error (error);
+        showErrorMessage (
+          'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
+          'top'
+        );
       });
   }
 
   componentDidMount () {
+    // console.log (FETCH_INTERVAL);
     var restaurant_listener = null;
     var current_order_listener = null;
+
     this.props.navigation.addListener ('willBlur', playload => {
       clearInterval (restaurant_listener);
       clearInterval (current_order_listener);

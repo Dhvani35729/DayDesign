@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {CheckBox} from 'react-native-elements';
-import {ListItem} from 'native-base'
+import {ListItem} from 'native-base';
 
 import {RNNumberStepper} from 'react-native-number-stepper';
 import {
@@ -27,8 +27,14 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {user} from '../../api/config';
+import {
+  showMoney,
+  showPercentage,
+  showErrorMessage,
+  tConvert,
+} from '../../utils';
 
-import * as shortid from 'shortid'
+import * as shortid from 'shortid';
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -52,10 +58,9 @@ export default class AddItemScreen extends React.Component {
       resData: resData,
       foodData: foodData,
       selectedToppings: [],
-      extraInstructions: "",
+      extraInstructions: '',
       quantity: 1,
     };
-
   }
 
   componentDidMount () {}
@@ -68,104 +73,95 @@ export default class AddItemScreen extends React.Component {
     return <Topping toppingData={item} />;
   };
 
-  addItem(foodData){
+  addItem (foodData) {
     var resData = this.state.resData;
     var hourId = this.state.hourId;
 
-    // AsyncStorage.clear()
+    // AsyncStorage.clear ();
 
     var item = {
       key: 0,
       id: foodData.key,
       name: foodData.name,
       price: foodData.original_price,
-      toppings: this.state.selectedToppings.join(),
+      toppings: this.state.selectedToppings.join (),
       extraInfo: this.state.extraInstructions,
       quantity: this.state.quantity,
-      timeStamp: + new Date(),
-    }
-      AsyncStorage.getItem('@trofi-current-order').then (currentOrder => {
-        if(currentOrder !== null) {
-          // value previously stored
+      timeStamp: +new Date (),
+      contribution: null,
+    };
+    AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
+      if (currentOrder !== null) {
+        // value previously stored
 
-          updatedCurrentOrder = JSON.parse(currentOrder);
-          if(hourId != updatedCurrentOrder.hour_id){
-              // notify can only place order for one hour
-              return;
-          }
-          else{
-            item["key"] = updatedCurrentOrder.foods.length
-            updatedCurrentOrder.foods.push(item)
-            console.log(updatedCurrentOrder)
-            AsyncStorage.setItem ('@trofi-current-order', JSON.stringify(updatedCurrentOrder));
-            this.props.navigation.goBack ()
-          }
-
+        updatedCurrentOrder = JSON.parse (currentOrder);
+        if (hourId != updatedCurrentOrder.hour_id) {
+          // notify can only place order for one hour
+          showErrorMessage (
+            'Cannot place orders from multiple hours!' +
+              ' Current order: ' +
+              tConvert (updatedCurrentOrder.hour_id + ':00'),
+            'bottom'
+          );
+          return;
+        } else {
+          item['key'] = updatedCurrentOrder.foods.length;
+          updatedCurrentOrder.foods.push (item);
+          console.log (updatedCurrentOrder);
+          AsyncStorage.setItem (
+            '@trofi-current-order',
+            JSON.stringify (updatedCurrentOrder)
+          );
+          this.props.navigation.goBack ();
         }
-        else{
-          // create new
-          hours_order = ""
-          hourIdNext = parseInt(hourId) + 1;
-          if(hourId < 9){
-            hours_order = "0" + hourId.toString() + "-0" + (hourIdNext).toString()
-          }
-          else if(hourId == 9){
-            hours_order = "0" + hourId.toString() + "-" + (hourIdNext).toString()
-          }
-          else{
-            hours_order = hourId.toString() + "-" + (hourIdNext).toString()
-          }
+      } else {
+        // create new
 
-          initCurrentOrder = {
-            hour_id: parseInt(hourId),
-            final_discount: null,
-            foods_received: false,
-            hours_order: hours_order,
-            pickup_time: parseInt(hours_order.substring(3)),
-            restaurant_id: resData.key,
-            res_name: resData.name,
-            status: false,
-            state: "building",
-            total_price: item.price * item.quantity,
-            transaction_token: null,
-            user: user.uid,
-            order_number: shortid.generate(),
-            placed_at: null,
-            foods: [item],
-          }
+        initCurrentOrder = {
+          hour_id: parseInt (hourId),
+          initial_discount: null,
+          final_discount: null,
+          foods_received: false,
+          hour_start: parseInt (hourId),
+          hour_end: parseInt (hourId) + 1,
+          restaurant_id: resData.key,
+          res_name: resData.name,
+          status: false,
+          state: 'building',
+          total_price: 0,
+          transaction_token: null,
+          user: user.uid,
+          order_number: null,
+          placed_at: null,
+          foods: [item],
+        };
 
-          console.log(initCurrentOrder)
-          AsyncStorage.setItem ('@trofi-current-order', JSON.stringify(initCurrentOrder));
-          this.props.navigation.goBack ()
-
-        }
-
-      });
-
-
-
-
-
-
+        console.log (initCurrentOrder);
+        AsyncStorage.setItem (
+          '@trofi-current-order',
+          JSON.stringify (initCurrentOrder)
+        );
+        this.props.navigation.goBack ();
+      }
+    });
   }
 
-  onCheckBoxPress(id){
+  onCheckBoxPress (id) {
     let tmp = this.state.selectedToppings;
 
-    if(tmp.includes(id)){
-      tmp.splice(tmp.indexOf(id), 1);
-    }
-    else{
-      tmp.push(id);
+    if (tmp.includes (id)) {
+      tmp.splice (tmp.indexOf (id), 1);
+    } else {
+      tmp.push (id);
     }
 
-    this.setState({
-      selectedToppings: tmp
+    this.setState ({
+      selectedToppings: tmp,
     });
-
   }
 
   render () {
+    const resData = this.state.resData;
     const foodData = this.state.foodData;
     return (
       <View style={styles.menuView}>
@@ -185,7 +181,7 @@ export default class AddItemScreen extends React.Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => this.addItem(foodData)}
+            onPress={() => this.addItem (foodData)}
             style={styles.icCartButton}
           >
 
@@ -210,7 +206,9 @@ export default class AddItemScreen extends React.Component {
 
             <View style={styles.graybackgroundView}>
 
-              <Text style={styles.nextmoneyText}>10%</Text>
+              <Text style={styles.nextmoneyText}>
+                {showPercentage (resData.current_discount)}%
+              </Text>
 
               <View
                 style={{
@@ -226,7 +224,9 @@ export default class AddItemScreen extends React.Component {
                 }}
               >
 
-                <Text style={styles.buyersneededText}>$95/100</Text>
+                <Text style={styles.buyersneededText}>
+                  ${resData.current_contribution}/{resData.needed_contribution}
+                </Text>
 
               </View>
 
@@ -242,7 +242,7 @@ export default class AddItemScreen extends React.Component {
           }}
         >
 
-          <Text style={styles.shawarmaPlusText}>Shawarma Plus</Text>
+          <Text style={styles.shawarmaPlusText}>{resData.name}</Text>
 
           <View style={styles.rectangle4View}>
 
@@ -279,7 +279,7 @@ export default class AddItemScreen extends React.Component {
                 <View style={styles.group2View}>
 
                   <Text style={styles.textTwoText}>
-                    ${foodData.original_price}
+                    ${showMoney (foodData.original_price)}
                   </Text>
 
                   <View
@@ -290,7 +290,12 @@ export default class AddItemScreen extends React.Component {
                     }}
                   >
 
-                    <Text style={styles.textText}>$11.00</Text>
+                    <Text style={styles.textText}>
+                      $
+                      {showMoney (
+                        foodData.original_price * (1 - resData.current_discount)
+                      )}
+                    </Text>
 
                   </View>
 
@@ -310,7 +315,9 @@ export default class AddItemScreen extends React.Component {
 
               <View style={styles.groupView}>
 
-                <Text style={styles.textThreeText}>+23</Text>
+                <Text style={styles.textThreeText}>
+                  +{foodData.contribution}
+                </Text>
 
               </View>
 
@@ -321,7 +328,7 @@ export default class AddItemScreen extends React.Component {
           <TextInput
             multiline={true}
             autoCorrect={false}
-            onChangeText={(text) => this.setState({extraInstructions: text})}
+            onChangeText={text => this.setState ({extraInstructions: text})}
             placeholder="Extra instructions or special requests. "
             style={styles.extraInstructionsOTextInput}
           />
@@ -332,15 +339,20 @@ export default class AddItemScreen extends React.Component {
 
             <View style={styles.viewFlatListViewWrapper}>
               <FlatList
-                renderItem={ ({item}) => {
-                  return (  <ListItem>
-                    <CheckBox
-                          title={item.key}
-                          checked={this.state.selectedToppings.includes(item.key) ? true : false}
-                          onPress={() => this.onCheckBoxPress(item.key)}
-                        />
-                  </ListItem>
-                  )
+                renderItem={({item}) => {
+                  return (
+                    <ListItem>
+                      <CheckBox
+                        title={item.key}
+                        checked={
+                          this.state.selectedToppings.includes (item.key)
+                            ? true
+                            : false
+                        }
+                        onPress={() => this.onCheckBoxPress (item.key)}
+                      />
+                    </ListItem>
+                  );
                 }}
                 data={foodData.toppings}
                 extraData={this.state}
@@ -363,8 +375,8 @@ export default class AddItemScreen extends React.Component {
             autoRepeat={false}
             stepValue={1}
             onChange={(nValue, oValue) => {
-              console.log ('New Value: ' + nValue + ', Old Value: ' + oValue);
-              this.setState({quantity: nValue})
+              // console.log ('New Value: ' + nValue + ', Old Value: ' + oValue);
+              this.setState ({quantity: nValue});
             }}
             width={wp ('70%')}
             height={40}

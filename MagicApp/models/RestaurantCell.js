@@ -8,6 +8,7 @@
 
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
+import {showPercentage} from '../utils';
 
 export default class RestaurantCell extends React.Component {
   constructor (props) {
@@ -44,7 +45,7 @@ export default class RestaurantCell extends React.Component {
                 }}
               >
                 <Text style={styles.currentmoneyText}>
-                  {(resData.current_discount * 100).toFixed (0)}%
+                  {showPercentage (resData.current_discount)}%
                 </Text>
               </View>
             </View>
@@ -68,7 +69,7 @@ export default class RestaurantCell extends React.Component {
                   }}
                 >
                   <Text style={styles.nextmoneyText}>
-                    {(resData.next_discount * 100).toFixed (0)}%
+                    {showPercentage (resData.next_discount)}%
                   </Text>
                 </View>
               </View>

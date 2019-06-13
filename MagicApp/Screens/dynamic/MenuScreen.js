@@ -21,10 +21,8 @@ import {
 } from 'react-native-responsive-screen';
 
 import MenuItem from '../../models/MenuItem';
-import {showUpdateMessage} from '../../utils';
-
-// 5 minutes = 300000
-FETCH_INTERVAL = 300000;
+import {showUpdateMessage, showPercentage} from '../../utils';
+import {FETCH_INTERVAL} from '../../constants';
 
 export default class MenuScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -39,7 +37,6 @@ export default class MenuScreen extends React.Component {
 
   constructor (props) {
     super (props);
-
     const {navigation} = this.props;
     var hourId = navigation.getParam ('hourId', null);
     var resData = navigation.getParam ('resData', []);
@@ -65,7 +62,7 @@ export default class MenuScreen extends React.Component {
       .then (response => response.json ())
       .then (responseData => {
         //set your data here
-        console.log (responseData);
+        // console.log (responseData);
         if (that.state.menu.length != 0) {
           showUpdateMessage ('Database Updated!', 'bottom');
         }
@@ -81,7 +78,6 @@ export default class MenuScreen extends React.Component {
 
   componentDidMount () {
     var menu_listener = null;
-
     this.props.navigation.addListener ('willBlur', playload => {
       clearInterval (menu_listener);
     });
@@ -90,7 +86,7 @@ export default class MenuScreen extends React.Component {
       var hourId = this.state.resData.hour_id.toString ();
       this.fetchMenu (this, resId, hourId);
 
-      restaurant_listener = setInterval (
+      menu_listener = setInterval (
         () => this.fetchMenu (this, resId, hourId),
         FETCH_INTERVAL
       );
@@ -163,7 +159,7 @@ export default class MenuScreen extends React.Component {
           >
             <View style={styles.graybackgroundView}>
               <Text style={styles.nextmoneyText}>
-                {(resData.current_discount * 100).toFixed (0)}%
+                {showPercentage (resData.current_discount)}%
               </Text>
               <View
                 style={{
