@@ -7,7 +7,14 @@
 //
 
 import React, {useContext} from 'react';
-import {FlatList, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 
 import {
   widthPercentageToDP as wp,
@@ -20,6 +27,7 @@ import {fetchCurrentOrder, fetchRestaurants} from '../../api/load';
 import {tConvert} from '../../utils';
 
 import {FETCH_INTERVAL} from '../../constants';
+import {thisTypeAnnotation} from '@babel/types';
 
 export default class DynamicScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -38,9 +46,15 @@ export default class DynamicScreen extends React.Component {
     this.state = {
       user: user,
       allHours: [],
+      currentHours: [],
+      showHours: [],
       refresh: false,
       currentOrder: null,
       all_listeners: [],
+      loading: true,
+      fetching_from_server: false,
+      showingPastHours: false,
+      refreshing: false,
     };
   }
 
@@ -83,6 +97,71 @@ export default class DynamicScreen extends React.Component {
     );
   };
 
+  handleRefresh = () => {
+    this.setState (
+      {
+        refreshing: true,
+      },
+      () => {
+        fetchRestaurants (this);
+      }
+    );
+  };
+
+  loadMoreData = () => {
+    this.setState ({fetching_from_server: true}, () => {
+      if (this.state.showingPastHours) {
+        this.setState (
+          {
+            showHours: this.state.currentHours,
+          },
+          () => {
+            this.setState ({
+              fetching_from_server: false,
+              showingPastHours: false,
+            });
+          }
+        );
+      } else {
+        this.setState (
+          {
+            showHours: this.state.allHours,
+          },
+          () => {
+            this.setState ({
+              fetching_from_server: false,
+              showingPastHours: true,
+            });
+          }
+        );
+      }
+    });
+  };
+
+  renderFooter () {
+    const showingPastHours = this.state.showingPastHours;
+    return (
+      //Footer View with Load More button
+      (
+        <View style={styles.footer}>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={this.loadMoreData}
+            //On Click of button calling loadMoreData function to load more data
+            style={styles.loadMoreBtn}
+          >
+            <Text style={styles.btnText}>
+              {showingPastHours ? 'Hide Past Hours' : 'Load Past Hours'}
+            </Text>
+            {this.state.fetching_from_server
+              ? <ActivityIndicator color="white" style={{marginLeft: 8}} />
+              : null}
+          </TouchableOpacity>
+        </View>
+      )
+    );
+  }
+
   formatPickupTime (pickup_time) {
     if (pickup_time - 1 < 10) {
       return tConvert ('0' + (pickup_time - 1).toString () + ':59');
@@ -93,8 +172,10 @@ export default class DynamicScreen extends React.Component {
 
   render () {
     const allHours = this.state.allHours;
+    const showHours = this.state.showHours;
     const currentOrder = this.state.currentOrder;
     const currentHour = new Date ().getHours ();
+    const showingPastHours = this.state.showingPastHours;
     return (
       <View style={styles.restauranthomeView}>
         <TouchableOpacity
@@ -209,23 +290,29 @@ export default class DynamicScreen extends React.Component {
         </TouchableOpacity>
 
         <View style={styles.viewFlatListViewWrapper}>
-          <FlatList
-            horizontal={false}
-            ref={ref => {
-              this.flatListRef = ref;
-            }}
-            renderItem={this.renderViewFlatListCell}
-            data={allHours}
-            extraData={this.state.refresh}
-            style={styles.viewFlatList}
-            initialScrollIndex={allHours.length > 0 ? currentHour : 0}
-            getItemLayout={(data, index) => ({
-              length: TIME_CELL_HEIGHT,
-              offset: TIME_CELL_HEIGHT * index,
-              index,
-            })}
-          />
-
+          {this.state.loading
+            ? <ActivityIndicator size="large" />
+            : <FlatList
+                horizontal={false}
+                ref={ref => {
+                  this.flatListRef = ref;
+                }}
+                renderItem={this.renderViewFlatListCell}
+                data={showHours}
+                extraData={this.state.refresh}
+                style={styles.viewFlatList}
+                initialScrollIndex={
+                  showingPastHours ? (allHours.length > 0 ? currentHour : 0) : 0
+                }
+                getItemLayout={(data, index) => ({
+                  length: TIME_CELL_HEIGHT,
+                  offset: TIME_CELL_HEIGHT * index,
+                  index,
+                })}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
+                ListFooterComponent={this.renderFooter.bind (this)}
+              />}
         </View>
       </View>
     );
@@ -339,5 +426,24 @@ const styles = StyleSheet.create ({
     fontWeight: '300',
     textAlign: 'center',
     backgroundColor: 'transparent',
+  },
+  footer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: '#800000',
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'center',
   },
 });
