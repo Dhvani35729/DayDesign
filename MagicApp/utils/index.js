@@ -1,5 +1,13 @@
 import {showMessage, hideMessage} from 'react-native-flash-message';
 
+function getTaxPercentage (amount) {
+  tax = 0.05;
+  if (amount > 4.0) {
+    tax = 0.13;
+  }
+  return tax;
+}
+
 function showPercentage (decimal) {
   return (decimal * 100).toFixed (0);
 }
@@ -45,4 +53,5 @@ export {
   showErrorMessage,
   showPercentage,
   showMoney,
+  getTaxPercentage,
 };

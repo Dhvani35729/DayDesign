@@ -21,7 +21,8 @@ import {
 } from 'react-native-responsive-screen';
 
 import MenuItem from '../../models/MenuItem';
-import {showUpdateMessage, showPercentage} from '../../utils';
+import {fetchMenu} from '../../api/load';
+import {showPercentage} from '../../utils';
 import {FETCH_INTERVAL} from '../../constants';
 
 export default class MenuScreen extends React.Component {
@@ -50,32 +51,6 @@ export default class MenuScreen extends React.Component {
     };
   }
 
-  async fetchMenu (that, resId, hourId) {
-    fetch (
-      'http://localhost:8000/api/restaurant/' +
-        resId +
-        '/hours/' +
-        hourId +
-        '/menu/',
-      {method: 'GET'}
-    )
-      .then (response => response.json ())
-      .then (responseData => {
-        //set your data here
-        // console.log (responseData);
-        if (that.state.menu.length != 0) {
-          showUpdateMessage ('Database Updated!', 'bottom');
-        }
-        that.setState ({
-          menu: responseData['list'],
-          refreshing: false,
-        });
-      })
-      .catch (error => {
-        console.error (error);
-      });
-  }
-
   componentDidMount () {
     var menu_listener = null;
     this.props.navigation.addListener ('willBlur', playload => {
@@ -84,10 +59,10 @@ export default class MenuScreen extends React.Component {
     this.props.navigation.addListener ('willFocus', playload => {
       var resId = this.state.resData.key;
       var hourId = this.state.resData.hour_id.toString ();
-      this.fetchMenu (this, resId, hourId);
+      fetchMenu (this, resId, hourId);
 
       menu_listener = setInterval (
-        () => this.fetchMenu (this, resId, hourId),
+        () => fetchMenu (this, resId, hourId),
         FETCH_INTERVAL
       );
     });
@@ -116,7 +91,7 @@ export default class MenuScreen extends React.Component {
       () => {
         var resId = this.state.resData.key;
         var hourId = this.state.resData.hour_id.toString ();
-        this.fetchMenu (this, resId, hourId);
+        fetchMenu (this, resId, hourId);
       }
     );
   };
@@ -140,7 +115,9 @@ export default class MenuScreen extends React.Component {
           <TouchableOpacity
             style={styles.icCartButton}
             onPress={() => {
-              this.props.navigation.navigate ('CheckoutScreen');
+              this.props.navigation.navigate ('CheckoutScreen', {
+                resData: resData,
+              });
             }}
           >
             <Image

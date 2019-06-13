@@ -57,9 +57,13 @@ export default class RestaurantCell extends React.Component {
               }}
             >
               <View style={styles.nextdealView}>
-                <Text style={styles.buyersneededText}>
-                  ${resData.current_contribution}/{resData.needed_contribution}
-                </Text>
+                {!resData.max_discount_reached &&
+                  <Text style={styles.buyersneededText}>
+                    $
+                    {resData.current_contribution}
+                    /
+                    {resData.needed_contribution}
+                  </Text>}
                 <View
                   style={{
                     width: '100%',
@@ -68,9 +72,10 @@ export default class RestaurantCell extends React.Component {
                     position: 'absolute',
                   }}
                 >
-                  <Text style={styles.nextmoneyText}>
-                    {showPercentage (resData.next_discount)}%
-                  </Text>
+                  {!resData.max_discount_reached &&
+                    <Text style={styles.nextmoneyText}>
+                      {showPercentage (resData.next_discount)}%
+                    </Text>}
                 </View>
               </View>
             </View>
