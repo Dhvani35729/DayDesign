@@ -16,15 +16,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import firebase from "react-native-firebase";
+import firebase from 'react-native-firebase';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import MenuItem from '../../models/HistoryOrders';
-
-
+import HistoryItem from '../../models/HistoryItem';
+import {fetchAllOrders} from '../../api/load';
+import {FETCH_INTERVAL} from '../../constants';
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -40,70 +40,61 @@ export default class AddItemScreen extends React.Component {
     super (props);
 
     const {navigation} = this.props;
-      
-    this.state = {
-    
-    };
 
+    this.state = {
+      allOrders: null,
+    };
   }
 
-    componentDidMount () {
-    }
-    
-    componentWillUnmount () {
-       
-    }
-    
+  componentDidMount () {
+    var order_listener = null;
+    this.props.navigation.addListener ('willBlur', playload => {
+      clearInterval (order_listener);
+    });
+    this.props.navigation.addListener ('willFocus', playload => {
+      fetchAllOrders (this);
 
+      order_listener = setInterval (
+        () => fetchAllOrders (this),
+        FETCH_INTERVAL
+      );
+    });
+  }
 
-    viewFlatListMockData = [
-                            {
-                            key: '1',
-                            },
-                            {
-                            key: '2',
-                            },
-                            {
-                            key: '3',
-                            },
-                            ];
-    
-    renderViewFlatListCell = ({item}) => {
-        return <MenuItem/>;
-    };
-    
-    
+  componentWillUnmount () {}
+
+  renderViewFlatListCell = ({item}) => {
+    return <HistoryItem order={item} navigation={this.props.navigation} />;
+  };
+
   render () {
+    var allOrders = this.state.allOrders;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack ()}
-            style={styles.icCloseButton}>
+            style={styles.icCloseButton}
+          >
             <Image
               source={require ('../../assets/images/ic-close.png')}
               style={styles.buttonButtonImage}
             />
           </TouchableOpacity>
-            
-            <TouchableOpacity
+
+          <TouchableOpacity
             style={styles.icCartButton}
             onPress={() => {
-            firebase
-            .auth()
-            .signOut()
-            .then(
-                  () => {
-                  navigation.navigate("Login");
-                  },
-                  function(error) {
-                  // An error happened.
-                  }
-                  );
-            }}            >
+              firebase.auth ().signOut ().then (() => {
+                console.log ('logged out');
+              }, function (error) {
+                // An error happened.
+              });
+            }}
+          >
             <Text style={styles.buttonButtonText}>Logout</Text>
-            </TouchableOpacity>
-            
+          </TouchableOpacity>
+
         </View>
         <View
           style={{
@@ -113,18 +104,17 @@ export default class AddItemScreen extends React.Component {
           <Text style={styles.shawarmaPlusText}>History</Text>
           <View style={styles.viewView}>
             <View style={styles.viewFlatListViewWrapper}>
-            
-            <FlatList
-            data={this.viewFlatListMockData}
-            renderItem={this.renderViewFlatListCell}
-            style={styles.viewFlatList}
-            />
-            
+
+              <FlatList
+                data={allOrders}
+                renderItem={this.renderViewFlatListCell}
+                style={styles.viewFlatList}
+              />
+
             </View>
           </View>
         </View>
-        <View style={styles.viewTwoView}>
-        </View>
+        <View style={styles.viewTwoView} />
       </View>
     );
   }
@@ -224,19 +214,19 @@ const styles = StyleSheet.create ({
     height: 40,
     alignItems: 'center',
   },
-                                  shawarmaPlusText: {
-                                  color: 'rgb(246, 246, 246)',
-                                  fontSize: hp ('4%'),
-                                  fontStyle: 'normal',
-                                  fontWeight: 'normal',
-                                  textAlign: 'center',
-                                  backgroundColor: 'rgb(114, 167, 228)',
-                                  overflow: 'hidden',
-                                  // marginTop: hp('14%'),
-                                  width: wp ('100%'),
-                                  height: hp ('5%'),
-                                  //flex: 1,
-                                  },
+  shawarmaPlusText: {
+    color: 'rgb(246, 246, 246)',
+    fontSize: hp ('4%'),
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textAlign: 'center',
+    backgroundColor: 'rgb(114, 167, 228)',
+    overflow: 'hidden',
+    // marginTop: hp('14%'),
+    width: wp ('100%'),
+    height: hp ('5%'),
+    //flex: 1,
+  },
   rectangle4View: {
     backgroundColor: 'white',
     marginTop: hp ('1%'),
@@ -353,11 +343,11 @@ const styles = StyleSheet.create ({
     marginTop: hp ('1%'),
     height: hp ('35%'),
   },
-                                  buttonButtonText: {
-                                  color: 'white',
-                                  fontSize: 12,
-                                  fontStyle: 'normal',
-                                  fontWeight: 'normal',
-                                  textAlign: 'center',
-                                  },
+  buttonButtonText: {
+    color: 'white',
+    fontSize: 12,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textAlign: 'center',
+  },
 });

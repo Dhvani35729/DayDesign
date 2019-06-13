@@ -6,6 +6,35 @@ import {
 } from '../utils/index';
 import AsyncStorage from '@react-native-community/async-storage';
 
+async function fetchAllOrders (that) {
+  uid = user.uid;
+  fetch ('http://localhost:8000/api/users/' + uid.toString () + '/orders/', {
+    method: 'GET',
+  })
+    .then (response => response.json ())
+    .then (responseData => {
+      //set your data here
+      // console.log (responseData);
+      if (that.state.allOrders != null) {
+        showUpdateMessage ('Orders Updated!', 'bottom');
+      }
+      console.log (responseData['list']);
+      responseData['list'].forEach (order => {
+        order.key = order.order_number;
+      });
+      that.setState ({
+        allOrders: responseData['list'],
+      });
+    })
+    .catch (error => {
+      console.error (error);
+      showErrorMessage (
+        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
+        'top'
+      );
+    });
+}
+
 async function fetchCurrentOrder (that) {
   uid = that.state.user.uid;
   fetch (
@@ -19,11 +48,19 @@ async function fetchCurrentOrder (that) {
       if (that.state.currentOrder != null) {
         showUpdateMessage ('Order Updated!', 'bottom');
       }
-      if (responseData['error'].code == 'CurrentOrderNotFound') {
+      if (
+        responseData['error'] &&
+        responseData['error'].code == 'CurrentOrderNotFound'
+      ) {
         that.setState ({
           currentOrder: null,
         });
       } else {
+        counter = 0;
+        responseData.foods.forEach (food => {
+          food.key = counter;
+          counter += 1;
+        });
         that.setState ({
           currentOrder: responseData,
         });
@@ -127,9 +164,10 @@ async function syncDB (that, resId, hourId, currentOrder) {
             responseData['data'][0].current_discount;
 
           contribution_map = {};
+          //   console.log (responseDataMenu['list']);
           responseDataMenu['list'].forEach (food => {
             contribution_map[food.key] = {
-              price: food.original_price,
+              initial_price: food.original_price,
               contribution: food.contribution,
             };
           });
@@ -137,7 +175,7 @@ async function syncDB (that, resId, hourId, currentOrder) {
           subTotal = 0.0;
           currentOrder.foods.forEach (food => {
             food.contribution = contribution_map[food.id].contribution;
-            food.price = contribution_map[food.id].price;
+            food.initial_price = contribution_map[food.id].initial_price;
             subTotal += food.price * food.quantity;
           });
 
@@ -163,4 +201,4 @@ async function syncDB (that, resId, hourId, currentOrder) {
     });
 }
 
-export {fetchRestaurants, fetchMenu, fetchCurrentOrder, syncDB};
+export {fetchRestaurants, fetchMenu, fetchCurrentOrder, fetchAllOrders, syncDB};

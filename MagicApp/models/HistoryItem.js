@@ -13,7 +13,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-export default class MenuItem extends React.Component {
+export default class HistoryItem extends React.Component {
   constructor (props) {
     super (props);
   }
@@ -23,9 +23,16 @@ export default class MenuItem extends React.Component {
   componentWillUnmount () {}
 
   render () {
+    const order = this.props.order;
+    // console.log (order);
     return (
       <View style={styles.listRest1}>
-
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate ('CurrentOrderScreen', {
+              currentOrder: order,
+            })}
+        >
           <View
             style={{
               flexDirection: 'row',
@@ -33,11 +40,11 @@ export default class MenuItem extends React.Component {
           >
             <View style={styles.group3View}>
               <Text style={styles.jawadSStyleChickText}>
-                Jawad's Style Shawarma
-            </Text>
+                {order.res_name}
+              </Text>
               <Text style={styles.pitaBreadStuffedWText}>
-                Shawarma Plus
-            </Text>
+                {order.order_number}
+              </Text>
             </View>
             <View
               style={{
@@ -48,8 +55,8 @@ export default class MenuItem extends React.Component {
             >
               <View style={styles.group2View}>
                 <Text style={styles.textTwoText}>
-            $13.30
-            </Text>
+                  $13.30
+                </Text>
                 <View
                   style={{
                     flex: 1,
@@ -61,8 +68,7 @@ export default class MenuItem extends React.Component {
               </View>
             </View>
           </View>
-         
-
+        </TouchableOpacity>
       </View>
     );
   }

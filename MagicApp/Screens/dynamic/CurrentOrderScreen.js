@@ -56,6 +56,7 @@ export default class CurrentOrderScreen extends React.Component {
 
   render () {
     var currentOrder = this.state.currentOrder;
+    // console.log (currentOrder);
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
