@@ -16,7 +16,8 @@ import {
 
 import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
 import {user} from '../../api/config';
-import {tConvert, showUpdateMessage, showErrorMessage} from '../../utils';
+import {fetchCurrentOrder, fetchRestaurants} from '../../api/load';
+import {tConvert} from '../../utils';
 
 import {FETCH_INTERVAL} from '../../constants';
 
@@ -45,53 +46,6 @@ export default class DynamicScreen extends React.Component {
 
   attached = true;
 
-  async fetchCurrentOrder (that) {
-    uid = that.state.user.uid;
-    fetch (
-      'http://localhost:8000/api/users/' + uid.toString () + '/orders/current',
-      {method: 'GET'}
-    )
-      .then (response => response.json ())
-      .then (responseData => {
-        //set your data here
-        // console.log (responseData);
-        if (that.state.currentOrder != null) {
-          showUpdateMessage ('Order Updated!', 'bottom');
-        }
-        that.setState ({
-          currentOrder: responseData,
-        });
-      })
-      .catch (error => {
-        console.error (error);
-        showErrorMessage (
-          'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-          'top'
-        );
-      });
-  }
-
-  async fetchRestaurants (that) {
-    fetch ('http://localhost:8000/api/restaurants/hours/', {method: 'GET'})
-      .then (response => response.json ())
-      .then (responseData => {
-        //set your data here
-        if (that.state.allHours.length != 0) {
-          showUpdateMessage ('Database Updated!', 'top');
-        }
-        that.setState ({
-          allHours: responseData['list'],
-        });
-      })
-      .catch (error => {
-        console.error (error);
-        showErrorMessage (
-          'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-          'top'
-        );
-      });
-  }
-
   componentDidMount () {
     // console.log (FETCH_INTERVAL);
     var restaurant_listener = null;
@@ -102,14 +56,14 @@ export default class DynamicScreen extends React.Component {
       clearInterval (current_order_listener);
     });
     this.props.navigation.addListener ('willFocus', playload => {
-      this.fetchRestaurants (this);
-      this.fetchCurrentOrder (this);
+      fetchRestaurants (this);
+      fetchCurrentOrder (this);
       restaurant_listener = setInterval (
-        () => this.fetchRestaurants (this),
+        () => fetchRestaurants (this),
         FETCH_INTERVAL
       );
       current_order_listener = setInterval (
-        () => this.fetchCurrentOrder (this),
+        () => fetchCurrentOrder (this),
         FETCH_INTERVAL + 60000
       );
     });

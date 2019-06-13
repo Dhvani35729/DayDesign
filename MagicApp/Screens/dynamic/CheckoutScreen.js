@@ -22,6 +22,8 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 import CheckoutItem from '../../models/CheckoutItem';
+import {syncDB} from '../../api/load';
+import {showPercentage, showMoney} from '../../utils';
 
 export default class CheckoutScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -35,39 +37,48 @@ export default class CheckoutScreen extends React.Component {
 
   constructor (props) {
     super (props);
-
+    const {navigation} = this.props;
+    var resData = navigation.getParam ('resData', null);
     this.state = {
+      resData: resData,
       currentOrder: null,
+      subTotal: 0,
+      tax: 0,
+      total: 0,
+      totalSaved: 0,
     };
-
-
   }
 
   componentDidMount () {
-
-    AsyncStorage.getItem('@trofi-current-order').then (currentOrder => {
-      if(currentOrder != null){
-
-        this.setState({
-          currentOrder: JSON.parse(currentOrder)
-        });
-
+    var that = this;
+    AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
+      if (currentOrder != null) {
+        var resId = this.state.resData.key;
+        var hourId = this.state.resData.hour_id.toString ();
+        syncDB (that, resId, hourId, JSON.parse (currentOrder));
+        // update cart to reflect current item contribution
+        // this.setState ({
+        //   currentOrder: JSON.parse (currentOrder),
+        // });
       }
     });
-
-
   }
 
   componentWillUnmount () {}
 
-  _keyExtractor = (item, index) => item.key.toString();
+  _keyExtractor = (item, index) => item.key.toString ();
 
   renderViewFlatListCell = ({item}) => {
-    return <CheckoutItem food={item}/>;
+    return <CheckoutItem food={item} />;
   };
 
   render () {
-    currentOrder = this.state ? this.state.currentOrder : null;
+    const resData = this.state.resData;
+    const currentOrder = this.state.currentOrder;
+    const subTotal = this.state.subTotal;
+    const tax = this.state.tax;
+    const total = this.state.total;
+    const totalSaved = this.state.totalSaved;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -89,14 +100,18 @@ export default class CheckoutScreen extends React.Component {
             }}
           >
             <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>10%</Text>
+              <Text style={styles.nextmoneyText}>
+                {showPercentage (resData.current_discount)}%
+              </Text>
               <View
                 style={{
                   flex: 1,
                   justifyContent: 'flex-end',
                 }}
               >
-                <Text style={styles.buyersneededText}>$95/100</Text>
+                <Text style={styles.buyersneededText}>
+                  ${resData.current_contribution}/{resData.needed_contribution}
+                </Text>
               </View>
             </View>
           </View>
@@ -115,13 +130,22 @@ export default class CheckoutScreen extends React.Component {
               keyExtractor={this._keyExtractor}
             />
           </View>
+
+          <Text style={styles.subtotal4400Text}>
+            You will be refunded: ${showMoney (totalSaved)}
+          </Text>
+
           <View style={styles.group3View}>
-            <Text style={styles.subtotal4400Text}>SubTotal: $44.00</Text>
+            <Text style={styles.subtotal4400Text}>
+              SubTotal: ${showMoney (subTotal)}
+            </Text>
             <View>
-              <Text style={styles.total5000Text}>Total: $50.00</Text>
+              <Text style={styles.tax600Text}>Tax: ${showMoney (tax)}</Text>
             </View>
             <View>
-              <Text style={styles.tax600Text}>Tax: $6.00</Text>
+              <Text style={styles.total5000Text}>
+                Total: ${showMoney (total)}
+              </Text>
             </View>
           </View>
           <TouchableOpacity
