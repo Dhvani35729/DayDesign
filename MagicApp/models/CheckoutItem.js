@@ -6,7 +6,8 @@
 //  Copyright © 2018 magic. All rights reserved.
 //
 
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import { CheckBox } from 'react-native-elements'
 import React from 'react';
 import {
   widthPercentageToDP as wp,
@@ -28,8 +29,19 @@ export default class CheckoutItem extends React.Component {
     var food = this.props.food;
     return (
       <View style={styles.listRest1}>
+            
+            <CheckBox
+            center
+            checkedIcon="minus-circle"
+            uncheckedIcon="minus-circle"
+            uncheckedColor="grey"
+            checkedColor='red'
+            containerStyle={styles.checkBox}
+            />
+          
         <View style={styles.group3View}>
-          <View
+            
+        <View
             style={{
               flexDirection: 'row',
             }}
@@ -55,7 +67,7 @@ export default class CheckoutItem extends React.Component {
             >
               <Text style={styles.servingsText}>{food.quantity} Servings</Text>
               <View style={styles.groupView}>
-                <Text style={styles.textTwoText}>+{food.contribution}</Text>
+                <Text style={styles.textTwoText}>+{food.contribution*food.quantity}</Text>
               </View>
             </View>
           </View>
@@ -66,68 +78,85 @@ export default class CheckoutItem extends React.Component {
 }
 
 const styles = StyleSheet.create ({
-  listRest1: {
-    backgroundColor: 'white',
-    height: 66,
-    marginBottom: 4,
-  },
-  group3View: {
-    backgroundColor: 'transparent',
-    width: wp ('100%'),
-    height: 66,
-  },
-  jawadSStyleChickText: {
-    color: 'rgb(55, 58, 61)',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    textAlign: 'left',
-    backgroundColor: 'transparent',
-    width: wp ('80%'),
-    marginTop: 5,
-    marginLeft: 5,
-  },
-  textText: {
-    color: 'rgb(55, 58, 61)',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    backgroundColor: 'transparent',
-    marginRight: 5,
-    marginTop: 5,
-    textAlign: 'right',
-    flex: 1,
-    width: wp ('20%'),
-  },
-  servingsText: {
-    color: 'rgb(55, 58, 61)',
-    fontSize: 12,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    textAlign: 'right',
-    backgroundColor: 'transparent',
-    marginBottom: 5,
-    marginLeft: 5,
-  },
-  groupView: {
-    backgroundColor: 'transparent',
-    borderRadius: 11,
-    borderWidth: 1,
-    borderColor: 'rgb(226, 175, 47)',
-    borderStyle: 'solid',
-    marginLeft: 15,
-    marginBottom: 1,
-    width: 39,
-    height: 22,
-    justifyContent: 'center',
-  },
-  textTwoText: {
-    color: 'rgb(226, 175, 47)',
-    fontSize: 10,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    width: 39,
-  },
-});
+                                  listRest1: {
+                                  backgroundColor: "white",
+                                  width: "100%",
+                                  height: 66,
+                                  flexDirection: "row",
+                                  alignItems: "flex-end",
+                                  marginBottom: 4,
+                                  },
+                                  
+                                  
+                                  checkBox: {
+                                  backgroundColor: 'transparent',
+                                  width: wp ('4%'),
+                                  justifyContent: 'center',
+                                  height: 66,
+                                
+                                  margin: 0,
+                                  },
+                                  
+        
+                                  group3View: {
+                                  backgroundColor: "transparent",
+                                  flex: 1,
+                                  alignSelf: "flex-start",
+                                  height: 66,
+                                  alignItems: "flex-start",
+                                  },
+                                  jawadSStyleChickText: {
+                                  backgroundColor: "transparent",
+                                  color: "rgb(55, 58, 61)",
+                                  width: wp ('69%'),
+                                  marginTop: 5,
+                                  marginLeft: wp ('2%'),
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  textAlign: "left",
+                                  },
+                                 
+                                  textText: {
+                                  backgroundColor: "transparent",
+                                  color: 'rgb(55, 58, 61)',
+                                  fontStyle: "normal",
+                                  marginRight: wp ('3%'),
+                                  marginTop: 5,
+                                  fontWeight: "normal",
+                                  textAlign: 'right',
+                                  flex: 1,
+                                  width: wp ('15%'),
+                                  },
+                                  servingsText: {
+                                  backgroundColor: "transparent",
+                                  color: "rgb(55, 58, 61)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  textAlign: "right",
+                                  marginBottom: 5,
+                                  marginLeft: wp ('3%'),
+
+                                  },
+                                  groupView: {
+                                  backgroundColor: 'transparent',
+                                  borderRadius: 11,
+                                  borderWidth: 1,
+                                  borderColor: 'rgb(226, 175, 47)',
+                                  borderStyle: 'solid',
+                                  marginLeft: 15,
+                                  marginBottom: 1,
+                                  width: 45,
+                                  height: 22,
+                                  justifyContent: 'center',
+                                  },
+                                  textTwoText: {
+                                  color: 'rgb(226, 175, 47)',
+                                  fontSize: 10,
+                                  fontStyle: 'normal',
+                                  fontWeight: 'normal',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  width: 45,
+                                  },
+                                  })
