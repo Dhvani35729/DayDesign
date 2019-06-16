@@ -117,7 +117,7 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={currentOrder.foods}
+             data={currentOrder.foods}
               keyExtractor={this._keyExtractor}
               style={styles.viewFlatList}
             />
@@ -144,9 +144,7 @@ export default class CurrentOrderScreen extends React.Component {
               </View>
             </View>
           </View>
-          <Text style={styles.formatforinvite}>
-            Invite Your Friends for More Savings
-          </Text>
+         
           <View style={styles.viewFourView}>
             <View style={styles.backgroundTwoView} />
             <View
@@ -165,6 +163,9 @@ export default class CurrentOrderScreen extends React.Component {
             </View>
           </View>
         </View>
+            <Text style={styles.formatforinvite}>
+            Your savings will be reimbursed when the hour ends. Save more by inviting friends.
+            </Text>
       </View>
     );
   }
@@ -313,15 +314,15 @@ const styles = StyleSheet.create ({
     width: 360,
   },
   formatforinvite: {
-    color: 'rgb(114, 167, 228)',
+    color: 'rgb(190, 190, 190)',
     fontSize: 14,
     fontStyle: 'normal',
     fontWeight: 'normal',
     textAlign: 'center',
     backgroundColor: 'transparent',
-    marginLeft: 1,
-    marginBottom: 6,
-    width: wp ('100%'),
+    marginLeft: wp ('2%'),
+    marginBottom: hp ('4%'),
+    width: wp ('96%'),
   },
 
   readyText: {
@@ -337,7 +338,7 @@ const styles = StyleSheet.create ({
     backgroundColor: 'transparent',
     marginLeft: 6,
     marginRight: 6,
-    marginBottom: hp ('4%'),
+    marginBottom: hp ('1%'),
   },
   pickUpBeforeText: {
     color: 'rgb(74, 74, 74)',

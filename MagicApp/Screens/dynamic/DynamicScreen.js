@@ -196,13 +196,8 @@ export default class DynamicScreen extends React.Component {
                 position: 'absolute',
               }}
             >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                }}
-              >
-
+              <View>
+            
                 <Text style={styles.labelText}>
                   {currentOrder ? currentOrder.res_name : 'No Current Orders'}
                 </Text>
@@ -210,7 +205,8 @@ export default class DynamicScreen extends React.Component {
                 {!currentOrder &&
                   <Text style={styles.labelTexthistory}>
                     {!currentOrder ? 'Click for Purchase History' : ''}
-                  </Text>}
+                  </Text>
+            }
 
                 <View style={styles.viewFourView}>
                   <Text style={styles.labelSixText}>
@@ -320,130 +316,128 @@ export default class DynamicScreen extends React.Component {
 }
 
 const styles = StyleSheet.create ({
-  restauranthomeView: {
-    backgroundColor: 'rgb(255, 255, 255)',
-    flex: 1,
-  },
-  viewFlatList: {
-    backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    width: '100%',
-    height: '100%',
-  },
-  viewFlatListViewWrapper: {
-    marginTop: hp ('1%'),
-    marginBottom: 6,
-    flex: 1,
-  },
-  viewView: {
-    backgroundColor: 'transparent',
-    marginLeft: wp ('4%'),
-    marginRight: wp ('4%'),
-    marginTop: hp ('6%'),
-    height: 75,
-  },
-  viewTwoView: {
-    backgroundColor: '#72A7E4',
-    borderRadius: 8,
-    height: 75,
-    alignItems: 'flex-start',
-  },
-  labelText: {
-    color: 'white',
-    fontSize: 18,
-    fontStyle: 'normal',
-    fontWeight: '600',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  labelTexthistory: {
-    color: 'white',
-    fontSize: 15,
-    fontStyle: 'normal',
-    fontWeight: '600',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    marginBottom: 15,
-  },
-  viewFourView: {
-    backgroundColor: 'transparent',
-    marginLeft: 9,
-    marginRight: 9,
-    marginBottom: hp ('1%'),
-    flexDirection: 'row',
-  },
-  labelSixText: {
-    color: 'white',
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: '500',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  labelFiveText: {
-    color: 'white',
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: '500',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    marginRight: 1,
-  },
-  labelSevenText: {
-    color: 'white',
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: '500',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  viewThreeView: {
-    backgroundColor: 'transparent',
-    marginLeft: 9,
-    marginRight: 9,
-    marginBottom: 7,
-    flexDirection: 'row',
-  },
-  labelThreeText: {
-    color: 'white',
-    fontSize: 10,
-    fontStyle: 'normal',
-    fontWeight: '300',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  labelTwoText: {
-    color: 'white',
-    fontSize: 10,
-    fontStyle: 'normal',
-    fontWeight: '300',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  labelFourText: {
-    color: 'white',
-    fontSize: 10,
-    fontStyle: 'normal',
-    fontWeight: '300',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  footer: {
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  loadMoreBtn: {
-    padding: 10,
-    backgroundColor: '#800000',
-    borderRadius: 4,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnText: {
-    color: 'white',
-    fontSize: 15,
-    textAlign: 'center',
-  },
-});
+                                  restauranthomeView: {
+                                  backgroundColor: 'rgb(255, 255, 255)',
+                                  flex: 1,
+                                  },
+                                  viewFlatList: {
+                                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                                  width: '100%',
+                                  height: '100%',
+                                  },
+                                  viewFlatListViewWrapper: {
+                                  marginTop: hp ('1%'),
+                                  marginBottom: 6,
+                                  flex: 1,
+                                  },
+                                  viewView: {
+                                  backgroundColor: 'transparent',
+                                  marginLeft: wp ('4%'),
+                                  marginRight: wp ('4%'),
+                                  marginTop: hp ('6%'),
+                                  height: 75,
+                                  },
+                                  viewTwoView: {
+                                  backgroundColor: '#72A7E4',
+                                  borderRadius: 8,
+                                  height: 75,
+                                  alignItems: 'flex-start',
+                                  },
+                                  labelText: {
+                                  color: 'white',
+                                  fontSize: 18,
+                                  fontStyle: 'normal',
+                                  fontWeight: '600',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  marginTop: 3,
+                                  },
+                                  labelTexthistory: {
+                                  height: 40,
+                                  width: wp('90%'),
+                                  color: 'white',
+                                  fontSize: 15,
+                                  fontStyle: 'normal',
+                                  fontWeight: '400',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  marginTop: 8,
+                                  },
+                                  viewFourView: {
+                                  backgroundColor: 'transparent',
+                                  marginLeft: 9,
+                                  marginRight: 9,
+                                  marginBottom: hp ('1%'),
+                                  flexDirection: 'row',
+                                  },
+                                  labelSixText: {
+                                  color: 'white',
+                                  fontSize: 14,
+                                  fontStyle: 'normal',
+                                  fontWeight: '500',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  },
+                                  labelFiveText: {
+                                  color: 'white',
+                                  fontSize: 14,
+                                  fontStyle: 'normal',
+                                  fontWeight: '500',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  marginRight: 1,
+                                  },
+                                  labelSevenText: {
+                                  color: 'white',
+                                  fontSize: 14,
+                                  fontStyle: 'normal',
+                                  fontWeight: '500',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  },
+                                  viewThreeView: {
+                                  backgroundColor: 'transparent',
+                                  marginLeft: 9,
+                                  marginRight: 9,
+                                  marginBottom: 7,
+                                  flexDirection: 'row',
+                                  },
+                                  labelThreeText: {
+                                  color: 'white',
+                                  fontSize: 10,
+                                  fontStyle: 'normal',
+                                  fontWeight: '300',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  },
+                                  labelTwoText: {
+                                  color: 'white',
+                                  fontSize: 10,
+                                  fontStyle: 'normal',
+                                  fontWeight: '300',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  },
+                                  labelFourText: {
+                                  color: 'white',
+                                  fontSize: 10,
+                                  fontStyle: 'normal',
+                                  fontWeight: '300',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  },
+                                  loadMoreBtn: {
+                                  padding: 10,
+                                  flexDirection: 'row',
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  },
+                                  btnText: {
+                                  color: 'rgb(200, 200, 200)',
+                                  fontSize: 13,
+                                  textAlign: 'center',
+                                  },
+
+                                  });
+
+
