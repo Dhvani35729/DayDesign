@@ -131,11 +131,6 @@ export default class CheckoutScreen extends React.Component {
               keyExtractor={this._keyExtractor}
             />
           </View>
-
-          <Text style={styles.subtotal4400Text}>
-            You will be refunded: ${showMoney (totalSaved)}
-          </Text>
-
           <View style={styles.group3View}>
             <Text style={styles.subtotal4400Text}>
               SubTotal: ${showMoney (subTotal)}
@@ -149,6 +144,11 @@ export default class CheckoutScreen extends React.Component {
               </Text>
             </View>
           </View>
+            
+            <Text style={styles.reimbursedText}>
+            ${showMoney (totalSaved)} will be reimbursed. Save more by inviting friends and unlocking discounts.
+            </Text>
+            
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate ('PaymentScreen');
@@ -157,7 +157,19 @@ export default class CheckoutScreen extends React.Component {
           >
             <Text style={styles.payWithCardButtonText}>Pay With Card</Text>
           </TouchableOpacity>
+            
+            <TouchableOpacity
+            onPress={() => {
+            this.props.navigation.navigate ('PaymentScreen');
+            }}
+            style={styles.changeCardButton}
+            >
+            <Text style={styles.changeCardButtonText}>Change Card</Text>
+            </TouchableOpacity>
+            
+            
         </View>
+
       </View>
     );
   }
@@ -224,14 +236,24 @@ const styles = StyleSheet.create ({
   },
   viewFlatListViewWrapper: {
     marginTop: hp ('1%'),
-    height: hp ('45%'),
+    height: hp ('40%'),
   },
   group3View: {
     backgroundColor: 'transparent',
     marginLeft: 8,
     marginRight: 8,
-    marginTop: hp ('3%'),
+    marginTop: hp ('0%'),
   },
+                                  reimbursedText: {
+                                  color: 'rgb(190, 190, 190)',
+                                  fontStyle: 'normal',
+                                  fontWeight: 'normal',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  marginLeft: wp ('2%'),
+                                  marginTop: hp ('2%'),
+                                  width: wp ('96%'),
+                                  },
   subtotal4400Text: {
     color: 'rgb(55, 58, 61)',
     fontSize: 16,
@@ -285,12 +307,13 @@ const styles = StyleSheet.create ({
     marginTop: hp ('2%'),
   },
   payWithCardButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgb(91, 158, 236)',
+                                  borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    //    padding: 0,
-    marginTop: hp ('2%'),
+       padding: 9,
+    marginTop: hp ('5%'),
     //    width: 121,
     //    height: 25,
     alignSelf: 'center',
@@ -299,10 +322,32 @@ const styles = StyleSheet.create ({
     resizeMode: 'contain',
   },
   payWithCardButtonText: {
-    color: 'rgb(91, 158, 236)',
-    fontSize: 18,
+    color: 'white',
+    fontSize: 17,
     fontStyle: 'normal',
     fontWeight: 'normal',
     textAlign: 'left',
   },
+                                  
+                                  changeCardButton: {
+                                  backgroundColor: 'transparent',
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  //    padding: 0,
+                                  marginTop: hp ('3%'),
+                                  //    width: 121,
+                                  //    height: 25,
+                                  alignSelf: 'center',
+                                  },
+                                changeCardButtonImage: {
+                                  resizeMode: 'contain',
+                                  },
+                                 changeCardButtonText: {
+                                  color: 'rgb(91, 158, 236)',
+                                  fontSize: 13,
+                                  fontStyle: 'normal',
+                                  fontWeight: 'normal',
+                                  textAlign: 'left',
+                                  },
 });

@@ -164,8 +164,7 @@ export default class CurrentOrderScreen extends React.Component {
           </View>
         </View>
             <Text style={styles.formatforinvite}>
-            Your savings will be reimbursed when the hour ends. Save more by inviting friends.
-            </Text>
+${showMoney (totalSaved)} will be reimbursed. Save more by inviting friends and unlocking discounts.            </Text>
       </View>
     );
   }
