@@ -12,7 +12,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import CheckoutItem from '../../models/CheckoutItem';
+import CurrentOrderItem from '../../models/CurrentOrderItem';
 import {tConvert} from '../../utils';
 
 export default class CurrentOrderScreen extends React.Component {
@@ -41,7 +41,7 @@ export default class CurrentOrderScreen extends React.Component {
   componentWillUnmount () {}
 
   renderViewFlatListCell = ({item}) => {
-    return <CheckoutItem food={item} />;
+    return <CurrentOrderItem food={item} />;
   };
 
   formatPickupTime (pickup_time) {
@@ -164,7 +164,7 @@ export default class CurrentOrderScreen extends React.Component {
           </View>
         </View>
             <Text style={styles.formatforinvite}>
-${showMoney (totalSaved)} will be reimbursed. Save more by inviting friends and unlocking discounts.            </Text>
+$0.00 will be reimbursed. Save more by inviting friends and unlocking discounts. </Text>
       </View>
     );
   }
