@@ -21,6 +21,9 @@ export default class PaymentScreen extends Component {
   }
 
   componentDidMount () {
+    const charge_amount = 1000;
+    const charge_currency = 'cad';
+
     const options = {
       smsAutofillDisabled: true,
       theme,
@@ -31,7 +34,7 @@ export default class PaymentScreen extends Component {
       .then (response => {
         // let res = charge (response.tokenId, charge_amount, charge_currency);
 
-        this.props.navigation.navigate ('CurrentOrderScreen');
+        // this.props.navigation.navigate ('CurrentOrderScreen');
         console.log (response);
       })
       .catch (error => {});
