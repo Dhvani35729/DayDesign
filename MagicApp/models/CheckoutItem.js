@@ -53,6 +53,12 @@ export default class CheckoutItem extends React.Component {
               ${showMoney (food.initial_price)}
             </Text>
           </View>
+            
+            <Text style={styles.toppings}>
+            topping1, topping2, topping3, topping4, topping1, topping2, topping3, topping4
+            </Text>
+            
+            
           <View
             style={{
               flex: 1,
@@ -81,7 +87,7 @@ const styles = StyleSheet.create ({
                                   listRest1: {
                                   backgroundColor: "white",
                                   width: "100%",
-                                  height: 66,
+                                  height: 76,
                                   flexDirection: "row",
                                   alignItems: "flex-end",
                                   marginBottom: 4,
@@ -92,8 +98,7 @@ const styles = StyleSheet.create ({
                                   backgroundColor: 'transparent',
                                   width: wp ('4%'),
                                   justifyContent: 'center',
-                                  height: 66,
-                                
+                                  height: 76,
                                   margin: 0,
                                   },
                                   
@@ -102,12 +107,13 @@ const styles = StyleSheet.create ({
                                   backgroundColor: "transparent",
                                   flex: 1,
                                   alignSelf: "flex-start",
-                                  height: 66,
+                                  height: 76,
                                   alignItems: "flex-start",
                                   },
                                   jawadSStyleChickText: {
                                   backgroundColor: "transparent",
                                   color: "rgb(55, 58, 61)",
+                                  fontSize: 16,
                                   width: wp ('69%'),
                                   marginTop: 5,
                                   marginLeft: wp ('2%'),
@@ -120,6 +126,7 @@ const styles = StyleSheet.create ({
                                   backgroundColor: "transparent",
                                   color: 'rgb(55, 58, 61)',
                                   fontStyle: "normal",
+                                  fontSize: 16,
                                   marginRight: wp ('3%'),
                                   marginTop: 5,
                                   fontWeight: "normal",
@@ -130,13 +137,24 @@ const styles = StyleSheet.create ({
                                   servingsText: {
                                   backgroundColor: "transparent",
                                   color: "rgb(55, 58, 61)",
-                                  fontSize: 12,
+                                  fontSize: 13,
                                   fontStyle: "normal",
                                   fontWeight: "normal",
                                   textAlign: "right",
                                   marginBottom: 5,
-                                  marginLeft: wp ('3%'),
-
+                                  marginLeft: wp ('2%'),
+                                  },
+                                  toppings: {
+                                  backgroundColor: "transparent",
+                                  color: "rgb(55, 58, 61)",
+                                  fontSize: 10,
+                                  fontStyle: "normal",
+                                  fontWeight: "300",
+                                  textAlign: "left",
+                                  marginBottom: 1,
+                                  width: wp ('69%'),
+                                  height: 35,
+                                  marginLeft: wp ('2%'),
                                   },
                                   groupView: {
                                   backgroundColor: 'transparent',
