@@ -33,7 +33,7 @@ import VendorListScreen from './screens/dynamic/VendorListScreen';
 import MenuScreen from './screens/dynamic/MenuScreen';
 import AddItemScreen from './screens/dynamic/AddItemScreen';
 import CheckoutScreen from './screens/dynamic/CheckoutScreen';
-import PaymentScreen from './screens/dynamic/PaymentScreen';
+import CardScreen from './screens/dynamic/CardScreen';
 import CurrentOrderScreen from './screens/dynamic/CurrentOrderScreen';
 import HistoryScreen from './screens/dynamic/HistoryScreen';
 
@@ -56,8 +56,8 @@ const DynamicNavigator = createStackNavigator (
     AddItemScreen: {
       screen: AddItemScreen,
     },
-    PaymentScreen: {
-      screen: PaymentScreen,
+    CardScreen: {
+      screen: CardScreen,
     },
     CurrentOrderScreen: {
       screen: CurrentOrderScreen,

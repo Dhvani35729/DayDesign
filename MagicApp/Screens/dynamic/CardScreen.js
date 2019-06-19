@@ -19,20 +19,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import AsyncStorage from '@react-native-community/async-storage';
 
-import CheckoutItem from '../../models/CheckoutItem';
-import {syncDB, getDefaultCard} from '../../api/load';
-import {doPayment} from '../../api/post';
-import {showPercentage, showMoney} from '../../utils';
 import stripe from 'tipsi-stripe';
 import {user} from '../../api/config';
+import Card from '../../models/Card';
+import {getCards} from '../../api/load';
+import {doPayment} from '../../api/post';
 
 stripe.setOptions ({
   publishableKey: 'pk_test_ihRia1aLHxyCBjEMl0p7oqNk',
 });
 
-export default class CheckoutScreen extends React.Component {
+export default class CardScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
     const {params = {}} = navigation.state;
     return {
@@ -45,78 +43,50 @@ export default class CheckoutScreen extends React.Component {
   constructor (props) {
     super (props);
     const {navigation} = this.props;
-    var resData = navigation.getParam ('resData', null);
+    var orderData = navigation.getParam ('orderData', null);
     this.state = {
-      resData: resData,
       user: user,
-      currentOrder: null,
-      defaultCard: null,
-      subTotal: 0,
-      tax: 0,
-      total: 0,
-      totalSaved: 0,
+      cards: null,
+      orderData: orderData,
     };
   }
 
   requestPayment = order => {
     this.setState ({isPaymentPending: true});
-    if (this.state.defaultCard != null) {
-      return doPayment (order.amount, null, 'default');
-    } else {
-      return stripe
-        .paymentRequestWithCardForm ()
-        .then (stripeTokenInfo => {
-          return doPayment (order.amount, stripeTokenInfo.tokenId, 'default');
-        })
-        .then (() => {
-          console.log ('Payment succeeded!');
-          // this.props.navigation.navigate ('CurrentOrderScreen');
-        })
-        .catch (error => {
-          console.log ('Payment failed', {error});
-        })
-        .finally (() => {
-          this.setState ({isPaymentPending: false});
-        });
-    }
+    return stripe
+      .paymentRequestWithCardForm ()
+      .then (stripeTokenInfo => {
+        return doPayment (order.amount, stripeTokenInfo.tokenId, 'not-default');
+      })
+      .then (() => {
+        console.log ('Payment succeeded!');
+        // this.props.navigation.navigate ('CurrentOrderScreen');
+      })
+      .catch (error => {
+        console.log ('Payment failed', {error});
+      })
+      .finally (() => {
+        this.setState ({isPaymentPending: false});
+      });
   };
 
   componentDidMount () {
     var that = this;
 
-    getDefaultCard (that);
-
-    AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
-      if (currentOrder != null) {
-        var resId = this.state.resData.key;
-        var hourId = this.state.resData.hour_id.toString ();
-        currentOrder = JSON.parse (currentOrder);
-        syncDB (that, resId, currentOrder.hour_id, currentOrder);
-        // update cart to reflect current item contribution
-        // this.setState ({
-        //   currentOrder: JSON.parse (currentOrder),
-        // });
-      }
-    });
+    getCards (that);
   }
 
   componentWillUnmount () {}
 
-  _keyExtractor = (item, index) => item.key.toString ();
-
   renderViewFlatListCell = ({item}) => {
-    return <CheckoutItem food={item} />;
+    return <Card navigation={this.props.navigation} card={item} />;
   };
 
+  _keyExtractor = (item, index) => item.key.toString ();
+
   render () {
-    const resData = this.state.resData;
-    const currentOrder = this.state.currentOrder;
-    const subTotal = this.state.subTotal;
-    const tax = this.state.tax;
-    const total = this.state.total;
-    const totalSaved = this.state.totalSaved;
-    const defaultCard = this.state.defaultCard;
-    const order = {amount: total * 100};
+    const order = this.state.orderData;
+    const cardsData = this.state.cards;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -130,90 +100,30 @@ export default class CheckoutScreen extends React.Component {
             />
           </TouchableOpacity>
 
-          <View
-            style={{
-              //position: "absolute",
-              //flex: 1,
-              // flexDirection: "row",
-            }}
-          >
-            <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>
-                {showPercentage (resData.current_discount)}%
-              </Text>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <Text style={styles.buyersneededText}>
-                  ${resData.current_contribution}/{resData.needed_contribution}
-                </Text>
-              </View>
-            </View>
-          </View>
         </View>
         <View
           style={{
             flex: 1,
           }}
         >
-          <Text style={styles.shawarmaPlusText}>Checkout</Text>
+          <Text style={styles.shawarmaPlusText}>Your Cards</Text>
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-              data={currentOrder ? currentOrder.foods : []}
+              data={cardsData}
               style={styles.viewFlatList}
               keyExtractor={this._keyExtractor}
             />
           </View>
-          <View style={styles.group3View}>
-            <Text style={styles.subtotal4400Text}>
-              SubTotal: ${showMoney (subTotal)}
-            </Text>
-            <View>
-              <Text style={styles.tax600Text}>Tax: ${showMoney (tax)}</Text>
-            </View>
-            <View>
-              <Text style={styles.total5000Text}>
-                Total: ${showMoney (total)}
-              </Text>
-            </View>
-          </View>
-
-          <Text style={styles.reimbursedText}>
-            $
-            {showMoney (totalSaved)}
-            {' '}
-            will be reimbursed. Save more by inviting friends and unlocking discounts.
-          </Text>
 
           <TouchableOpacity
             onPress={() => {
               this.requestPayment (order);
             }}
-            style={styles.payWithCardButton}
+            style={styles.changeCardButton}
           >
-            {defaultCard == null
-              ? <Text style={styles.payWithCardButtonText}>Pay With Card </Text>
-              : <Text style={styles.payWithCardButtonText}>
-                  Pay With Card ending in {defaultCard}
-                </Text>}
-
+            <Text style={styles.changeCardButtonText}>Use a new card</Text>
           </TouchableOpacity>
-
-          {defaultCard != null &&
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate ('CardScreen', {
-                  orderData: order,
-                });
-              }}
-              style={styles.changeCardButton}
-            >
-              <Text style={styles.changeCardButtonText}>Change Card</Text>
-            </TouchableOpacity>}
 
         </View>
 
