@@ -137,6 +137,74 @@ async function fetchMenu (that, resId, hourId) {
     });
 }
 
+async function getDefaultCard (that) {
+  uid = that.state.user.uid;
+  fetch ('http://localhost:8000/api/users/' + uid.toString () + '/card/', {
+    method: 'GET',
+  })
+    .then (response => response.json ())
+    .then (responseData => {
+      //set your data here
+      // console.log (responseData);
+      if (
+        responseData['error'] &&
+        responseData['error'].code == 'DefaultCardNotFound'
+      ) {
+        that.setState ({
+          defaultCard: null,
+        });
+      } else {
+        that.setState ({
+          defaultCard: responseData.last4,
+        });
+      }
+    })
+    .catch (error => {
+      console.error (error);
+      showErrorMessage (
+        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
+        'top'
+      );
+    });
+}
+
+async function getCards (that) {
+  uid = that.state.user.uid;
+  fetch ('http://localhost:8000/api/users/' + uid.toString () + '/cards/', {
+    method: 'GET',
+  })
+    .then (response => response.json ())
+    .then (responseData => {
+      //set your data here
+      // console.log (responseData);
+      if (
+        responseData['error'] &&
+        responseData['error'].code == 'CardsNotFound'
+      ) {
+        that.setState ({
+          cards: [],
+        });
+      } else {
+        counter = 0;
+        responseData['list'].forEach (order => {
+          order.key = counter;
+          counter += 1;
+        });
+        console.log (responseData['list']);
+        that.setState ({
+          cards: responseData['list'],
+        });
+      }
+    })
+    .catch (error => {
+      console.error (error);
+      showErrorMessage (
+        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
+        'top'
+      );
+    });
+}
+
 async function syncDB (that, resId, hourId, currentOrder) {
   fetch ('http://localhost:8000/api/restaurant/' + resId + '/hours/' + hourId, {
     method: 'GET',
@@ -201,4 +269,12 @@ async function syncDB (that, resId, hourId, currentOrder) {
     });
 }
 
-export {fetchRestaurants, fetchMenu, fetchCurrentOrder, fetchAllOrders, syncDB};
+export {
+  fetchRestaurants,
+  fetchMenu,
+  fetchCurrentOrder,
+  fetchAllOrders,
+  syncDB,
+  getDefaultCard,
+  getCards,
+};

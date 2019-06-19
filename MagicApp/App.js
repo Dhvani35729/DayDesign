@@ -21,7 +21,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
 import DeviceInfo from 'react-native-device-info';
 import RNExitApp from 'react-native-exit-app';
-import FlashMessage from "react-native-flash-message";
+import FlashMessage from 'react-native-flash-message';
 
 import {createRootNavigator} from './router';
 
@@ -154,7 +154,7 @@ export default class App extends React.Component {
       if (user) {
         if (this.state.ranAuthWork == false) {
           this.setState ({ranAuthWork: true});
-           //firebase.auth().signOut()
+          //firebase.auth().signOut()
           that.initUser (db, user, that, totalUsers);
         }
       } else {
@@ -278,7 +278,8 @@ export default class App extends React.Component {
                 .set ({
                   active_orders: [],
                   avg_time: 0.0,
-                  card_token: '',
+                  stripe_id: '',
+                  default_card: -1,
                   date_joined: today,
                   last_opened: today,
                   num_opened: 1,
@@ -367,10 +368,10 @@ export default class App extends React.Component {
       }
       const Layout = createRootNavigator (signedIn);
       return (
-        <View style={{ flex: 1 }}>
-      <Layout />
-      <FlashMessage position="top" />
-      </View>
+        <View style={{flex: 1}}>
+          <Layout />
+          <FlashMessage position="top" />
+        </View>
       );
     }
   }
