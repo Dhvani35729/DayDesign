@@ -23,7 +23,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import CheckoutItem from '../../models/CheckoutItem';
 import {syncDB, getDefaultCard} from '../../api/load';
-import {doPayment} from '../../api/post';
+import {doPayment, addCard} from '../../api/post';
 import {showPercentage, showMoney} from '../../utils';
 import stripe from 'tipsi-stripe';
 import {user} from '../../api/config';
@@ -67,7 +67,7 @@ export default class CheckoutScreen extends React.Component {
       return stripe
         .paymentRequestWithCardForm ()
         .then (stripeTokenInfo => {
-          return doPayment (order.amount, stripeTokenInfo.tokenId, 'default');
+          return addCard (this, stripeTokenInfo.tokenId, 'CheckoutScreen');
         })
         .then (() => {
           console.log ('Payment succeeded!');
@@ -136,18 +136,6 @@ export default class CheckoutScreen extends React.Component {
     this.props.navigation.addListener ('willFocus', playload => {
       getDefaultCard (that);
       this.getCurrentOrder ();
-      // AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
-      //   if (currentOrder != null) {
-      //     var resId = this.state.resData.key;
-      //     var hourId = this.state.resData.hour_id.toString ();
-      //     currentOrder = JSON.parse (currentOrder);
-      //     syncDB (that, resId, currentOrder.hour_id, currentOrder);
-      //     // update cart to reflect current item contribution
-      //     // this.setState ({
-      //     //   currentOrder: JSON.parse (currentOrder),
-      //     // });
-      //   }
-      // });
     });
   }
 
@@ -258,7 +246,7 @@ export default class CheckoutScreen extends React.Component {
             >
               {defaultCard == null
                 ? <Text style={styles.payWithCardButtonText}>
-                    Pay With Card{' '}
+                    Add a Card{' '}
                   </Text>
                 : <Text style={styles.payWithCardButtonText}>
                     Pay With Card ending in {defaultCard}

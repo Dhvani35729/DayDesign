@@ -27,7 +27,6 @@ import {fetchCurrentOrder, fetchRestaurants} from '../../api/load';
 import {tConvert} from '../../utils';
 
 import {FETCH_INTERVAL} from '../../constants';
-import {thisTypeAnnotation} from '@babel/types';
 
 export default class DynamicScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -197,7 +196,7 @@ export default class DynamicScreen extends React.Component {
               }}
             >
               <View>
-            
+
                 <Text style={styles.labelText}>
                   {currentOrder ? currentOrder.res_name : 'No Current Orders'}
                 </Text>
