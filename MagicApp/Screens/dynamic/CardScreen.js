@@ -56,7 +56,7 @@ export default class CardScreen extends React.Component {
     return stripe
       .paymentRequestWithCardForm ()
       .then (stripeTokenInfo => {
-        return addCard (this, stripeTokenInfo.tokenId);
+        return addCard (this, stripeTokenInfo.tokenId, 'CardScreen');
       })
       .then (() => {
         console.log ('Payment succeeded!');

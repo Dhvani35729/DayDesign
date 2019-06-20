@@ -139,9 +139,12 @@ async function fetchMenu (that, resId, hourId) {
 
 async function getDefaultCard (that) {
   uid = that.state.user.uid;
-  fetch ('http://localhost:8000/api/users/' + uid.toString () + '/card/', {
-    method: 'GET',
-  })
+  fetch (
+    'http://localhost:8000/api/users/' + uid.toString () + '/cards/default',
+    {
+      method: 'GET',
+    }
+  )
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
