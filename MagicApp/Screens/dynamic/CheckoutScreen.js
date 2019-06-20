@@ -55,6 +55,7 @@ export default class CheckoutScreen extends React.Component {
       tax: 0,
       total: 0,
       totalSaved: 0,
+      refreshing: false,
     };
   }
 
@@ -79,6 +80,31 @@ export default class CheckoutScreen extends React.Component {
           this.setState ({isPaymentPending: false});
         });
     }
+  };
+
+  handleRefresh = () => {
+    var that = this;
+    this.setState (
+      {
+        refreshing: true,
+      },
+      () => {
+        getDefaultCard (that);
+
+        AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
+          if (currentOrder != null) {
+            var resId = this.state.resData.key;
+            var hourId = this.state.resData.hour_id.toString ();
+            currentOrder = JSON.parse (currentOrder);
+            syncDB (that, resId, currentOrder.hour_id, currentOrder);
+            // update cart to reflect current item contribution
+            // this.setState ({
+            //   currentOrder: JSON.parse (currentOrder),
+            // });
+          }
+        });
+      }
+    );
   };
 
   componentDidMount () {
@@ -107,7 +133,13 @@ export default class CheckoutScreen extends React.Component {
   _keyExtractor = (item, index) => item.key.toString ();
 
   renderViewFlatListCell = ({item}) => {
-    return <CheckoutItem food={item} />;
+    return (
+      <CheckoutItem
+        navigation={this.props.navigation}
+        food={item}
+        resData={this.state.resData}
+      />
+    );
   };
 
   render () {
@@ -168,6 +200,8 @@ export default class CheckoutScreen extends React.Component {
               data={currentOrder ? currentOrder.foods : []}
               style={styles.viewFlatList}
               keyExtractor={this._keyExtractor}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
             />
           </View>
           <View style={styles.group3View}>

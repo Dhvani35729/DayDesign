@@ -258,6 +258,7 @@ async function syncDB (that, resId, hourId, currentOrder) {
             tax: tax,
             total: total,
             totalSaved: totalSaved,
+            refreshing: false,
           });
         })
         .catch (error => {
