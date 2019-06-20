@@ -24,7 +24,7 @@ import stripe from 'tipsi-stripe';
 import {user} from '../../api/config';
 import Card from '../../models/Card';
 import {getCards} from '../../api/load';
-import {doPayment} from '../../api/post';
+import {addCard} from '../../api/post';
 
 stripe.setOptions ({
   publishableKey: 'pk_test_ihRia1aLHxyCBjEMl0p7oqNk',
@@ -56,7 +56,7 @@ export default class CardScreen extends React.Component {
     return stripe
       .paymentRequestWithCardForm ()
       .then (stripeTokenInfo => {
-        return doPayment (order.amount, stripeTokenInfo.tokenId, 'not-default');
+        return addCard (this, stripeTokenInfo.tokenId);
       })
       .then (() => {
         console.log ('Payment succeeded!');
@@ -73,7 +73,9 @@ export default class CardScreen extends React.Component {
   componentDidMount () {
     var that = this;
 
-    getCards (that);
+    this.props.navigation.addListener ('willFocus', playload => {
+      getCards (that);
+    });
   }
 
   componentWillUnmount () {}

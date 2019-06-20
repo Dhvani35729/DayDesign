@@ -84,19 +84,21 @@ export default class CheckoutScreen extends React.Component {
   componentDidMount () {
     var that = this;
 
-    getDefaultCard (that);
+    this.props.navigation.addListener ('willFocus', playload => {
+      getDefaultCard (that);
 
-    AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
-      if (currentOrder != null) {
-        var resId = this.state.resData.key;
-        var hourId = this.state.resData.hour_id.toString ();
-        currentOrder = JSON.parse (currentOrder);
-        syncDB (that, resId, currentOrder.hour_id, currentOrder);
-        // update cart to reflect current item contribution
-        // this.setState ({
-        //   currentOrder: JSON.parse (currentOrder),
-        // });
-      }
+      AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
+        if (currentOrder != null) {
+          var resId = this.state.resData.key;
+          var hourId = this.state.resData.hour_id.toString ();
+          currentOrder = JSON.parse (currentOrder);
+          syncDB (that, resId, currentOrder.hour_id, currentOrder);
+          // update cart to reflect current item contribution
+          // this.setState ({
+          //   currentOrder: JSON.parse (currentOrder),
+          // });
+        }
+      });
     });
   }
 
