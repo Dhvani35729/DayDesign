@@ -12,6 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {changeDefaultCard} from '../api/post';
 
 export default class HistoryItem extends React.Component {
   constructor (props) {
@@ -24,9 +25,12 @@ export default class HistoryItem extends React.Component {
 
   render () {
     const card = this.props.card;
+    const navigation = this.props.navigation;
     return (
       <View style={styles.listRest1}>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack ()}>
+        <TouchableOpacity
+          onPress={() => changeDefaultCard (navigation, card.id, card.last4)}
+        >
           <View
             style={{
               flexDirection: 'row',
