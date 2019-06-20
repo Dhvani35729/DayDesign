@@ -50,12 +50,13 @@ export default class CheckoutItem extends React.Component {
             JSON.stringify (updatedCurrentOrder)
           );
         } else {
-          AsyncStorage.setItem ('@trofi-current-order', null);
+          AsyncStorage.removeItem ('@trofi-current-order');
         }
 
-        this.props.navigation.push ('CheckoutScreen', {
-          resData: this.props.resData,
-        });
+        this.props.getCurrentOrder ();
+        // this.props.navigation.push ('CheckoutScreen', {
+        //   resData: this.props.resData,
+        // });
       } else {
         // error should not be here
       }

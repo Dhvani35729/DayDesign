@@ -107,24 +107,47 @@ export default class CheckoutScreen extends React.Component {
     );
   };
 
+  getCurrentOrder = () => {
+    AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
+      if (currentOrder != null) {
+        var resId = this.state.resData.key;
+        var hourId = this.state.resData.hour_id.toString ();
+        currentOrder = JSON.parse (currentOrder);
+        syncDB (this, resId, currentOrder.hour_id, currentOrder);
+        // update cart to reflect current item contribution
+        // this.setState ({
+        //   currentOrder: JSON.parse (currentOrder),
+        // });
+      } else {
+        this.setState ({
+          currentOrder: null,
+          subTotal: 0,
+          tax: 0,
+          total: 0,
+          totalSaved: 0,
+        });
+      }
+    });
+  };
+
   componentDidMount () {
     var that = this;
 
     this.props.navigation.addListener ('willFocus', playload => {
       getDefaultCard (that);
-
-      AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
-        if (currentOrder != null) {
-          var resId = this.state.resData.key;
-          var hourId = this.state.resData.hour_id.toString ();
-          currentOrder = JSON.parse (currentOrder);
-          syncDB (that, resId, currentOrder.hour_id, currentOrder);
-          // update cart to reflect current item contribution
-          // this.setState ({
-          //   currentOrder: JSON.parse (currentOrder),
-          // });
-        }
-      });
+      this.getCurrentOrder ();
+      // AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
+      //   if (currentOrder != null) {
+      //     var resId = this.state.resData.key;
+      //     var hourId = this.state.resData.hour_id.toString ();
+      //     currentOrder = JSON.parse (currentOrder);
+      //     syncDB (that, resId, currentOrder.hour_id, currentOrder);
+      //     // update cart to reflect current item contribution
+      //     // this.setState ({
+      //     //   currentOrder: JSON.parse (currentOrder),
+      //     // });
+      //   }
+      // });
     });
   }
 
@@ -138,6 +161,7 @@ export default class CheckoutScreen extends React.Component {
         navigation={this.props.navigation}
         food={item}
         resData={this.state.resData}
+        getCurrentOrder={this.getCurrentOrder}
       />
     );
   };
@@ -225,21 +249,25 @@ export default class CheckoutScreen extends React.Component {
             will be reimbursed. Save more by inviting friends and unlocking discounts.
           </Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              this.requestPayment (order);
-            }}
-            style={styles.payWithCardButton}
-          >
-            {defaultCard == null
-              ? <Text style={styles.payWithCardButtonText}>Pay With Card </Text>
-              : <Text style={styles.payWithCardButtonText}>
-                  Pay With Card ending in {defaultCard}
-                </Text>}
+          {currentOrder &&
+            <TouchableOpacity
+              onPress={() => {
+                this.requestPayment (order);
+              }}
+              style={styles.payWithCardButton}
+            >
+              {defaultCard == null
+                ? <Text style={styles.payWithCardButtonText}>
+                    Pay With Card{' '}
+                  </Text>
+                : <Text style={styles.payWithCardButtonText}>
+                    Pay With Card ending in {defaultCard}
+                  </Text>}
 
-          </TouchableOpacity>
+            </TouchableOpacity>}
 
-          {defaultCard != null &&
+          {currentOrder &&
+            defaultCard != null &&
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate ('CardScreen', {
