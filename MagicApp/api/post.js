@@ -55,13 +55,13 @@ async function addCard (that, tokenId, screen) {
     });
 }
 
-async function doPayment (amount, tokenId, card) {
-  order = {amount: amount, tokenId: tokenId, card: card};
+async function doPayment (order, tokenId, card) {
+  body = {order: order, tokenId: tokenId, card: card};
   fetch (
     'http://localhost:8000/api/users/' + user.uid.toString () + '/order/new',
     {
       method: 'POST',
-      body: JSON.stringify (order),
+      body: JSON.stringify (body),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

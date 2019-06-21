@@ -24,7 +24,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CheckoutItem from '../../models/CheckoutItem';
 import {syncDB, getDefaultCard} from '../../api/load';
 import {doPayment, addCard} from '../../api/post';
-import {showPercentage, showMoney} from '../../utils';
+import {showPercentage, showMoney, tConvert} from '../../utils';
 import stripe from 'tipsi-stripe';
 import {user} from '../../api/config';
 
@@ -62,7 +62,7 @@ export default class CheckoutScreen extends React.Component {
   requestPayment = order => {
     this.setState ({isPaymentPending: true});
     if (this.state.defaultCard != null) {
-      return doPayment (order.amount, null, 'default');
+      return doPayment (order, null, 'default');
     } else {
       return stripe
         .paymentRequestWithCardForm ()
@@ -154,6 +154,14 @@ export default class CheckoutScreen extends React.Component {
     );
   };
 
+  formatTime (time) {
+    if (time < 10) {
+      return tConvert ('0' + time.toString () + ':59');
+    } else {
+      return tConvert (time.toString () + ':59');
+    }
+  }
+
   render () {
     const resData = this.state.resData;
     const currentOrder = this.state.currentOrder;
@@ -162,7 +170,15 @@ export default class CheckoutScreen extends React.Component {
     const total = this.state.total;
     const totalSaved = this.state.totalSaved;
     const defaultCard = this.state.defaultCard;
-    const order = {amount: total * 100};
+    const amount = {
+      subTotal: subTotal,
+      tax: tax,
+      totalSaved: totalSaved,
+      total: total * 100,
+    },
+    const order = {
+      ...currentOrder, ...amount
+    };
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -205,7 +221,14 @@ export default class CheckoutScreen extends React.Component {
             flex: 1,
           }}
         >
-          <Text style={styles.shawarmaPlusText}>Checkout</Text>
+          {currentOrder
+            ? <Text style={styles.shawarmaPlusText}>
+                Checkout
+              </Text>
+            : <Text style={styles.shawarmaPlusText}>
+                No Orders Found
+              </Text>}
+
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
@@ -228,6 +251,12 @@ export default class CheckoutScreen extends React.Component {
                 Total: ${showMoney (total)}
               </Text>
             </View>
+            {currentOrder &&
+              <View>
+                <Text style={styles.total5000Text}>
+                  Pickup by: {this.formatTime (currentOrder.hour_start)}
+                </Text>
+              </View>}
           </View>
 
           <Text style={styles.reimbursedText}>
