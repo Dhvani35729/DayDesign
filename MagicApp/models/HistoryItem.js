@@ -40,7 +40,7 @@ export default class HistoryItem extends React.Component {
           >
             <View style={styles.group3View}>
               <Text style={styles.jawadSStyleChickText}>
-                {order.res_name}
+                {order.restaurant_name}
               </Text>
               <Text style={styles.pitaBreadStuffedWText}>
                 {order.order_number}
@@ -55,7 +55,7 @@ export default class HistoryItem extends React.Component {
             >
               <View style={styles.group2View}>
                 <Text style={styles.textTwoText}>
-                  $13.30
+                  ${order.initial_total / 100}
                 </Text>
                 <View
                   style={{
@@ -63,7 +63,7 @@ export default class HistoryItem extends React.Component {
                     justifyContent: 'flex-end',
                   }}
                 >
-                  <Text style={styles.textText}>$10.30</Text>
+                  <Text style={styles.textText}>$FINAL HERE</Text>
                 </View>
               </View>
             </View>

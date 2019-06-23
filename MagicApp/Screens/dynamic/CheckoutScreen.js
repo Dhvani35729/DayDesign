@@ -51,23 +51,24 @@ export default class CheckoutScreen extends React.Component {
       user: user,
       currentOrder: null,
       defaultCard: null,
-      subTotal: 0,
+      sub_total: 0,
       tax: 0,
-      total: 0,
-      totalSaved: 0,
+      initial_total: 0,
+      total_saved: 0,
       refreshing: false,
     };
   }
 
   requestPayment = order => {
+    var that = this;
     this.setState ({isPaymentPending: true});
     if (this.state.defaultCard != null) {
-      return doPayment (order, null, 'default');
+      return doPayment (this, order, 'default');
     } else {
       return stripe
         .paymentRequestWithCardForm ()
         .then (stripeTokenInfo => {
-          return addCard (this, stripeTokenInfo.tokenId, 'CheckoutScreen');
+          return addCard (that, stripeTokenInfo.tokenId, 'CheckoutScreen');
         })
         .then (() => {
           console.log ('Payment succeeded!');
@@ -121,10 +122,10 @@ export default class CheckoutScreen extends React.Component {
       } else {
         this.setState ({
           currentOrder: null,
-          subTotal: 0,
+          sub_total: 0,
           tax: 0,
           total: 0,
-          totalSaved: 0,
+          total_saved: 0,
         });
       }
     });
@@ -165,19 +166,21 @@ export default class CheckoutScreen extends React.Component {
   render () {
     const resData = this.state.resData;
     const currentOrder = this.state.currentOrder;
-    const subTotal = this.state.subTotal;
+    const sub_total = this.state.sub_total;
     const tax = this.state.tax;
-    const total = this.state.total;
-    const totalSaved = this.state.totalSaved;
+    const total = this.state.initial_total;
+    const total_saved = this.state.total_saved;
     const defaultCard = this.state.defaultCard;
     const amount = {
-      subTotal: subTotal,
+      sub_total: sub_total,
       tax: tax,
-      totalSaved: totalSaved,
-      total: total * 100,
-    },
+      total_saved: total_saved,
+      initial_total: total * 100,
+      final_total: null,
+    };
     const order = {
-      ...currentOrder, ...amount
+      ...currentOrder,
+      ...amount,
     };
     return (
       <View style={styles.menuView}>
@@ -240,8 +243,8 @@ export default class CheckoutScreen extends React.Component {
             />
           </View>
           <View style={styles.group3View}>
-            <Text style={styles.subtotal4400Text}>
-              SubTotal: ${showMoney (subTotal)}
+            <Text style={styles.sub_total4400Text}>
+              sub_total: ${showMoney (sub_total)}
             </Text>
             <View>
               <Text style={styles.tax600Text}>Tax: ${showMoney (tax)}</Text>
@@ -261,7 +264,7 @@ export default class CheckoutScreen extends React.Component {
 
           <Text style={styles.reimbursedText}>
             $
-            {showMoney (totalSaved)}
+            {showMoney (total_saved)}
             {' '}
             will be reimbursed. Save more by inviting friends and unlocking discounts.
           </Text>
@@ -382,7 +385,7 @@ const styles = StyleSheet.create ({
     marginTop: hp ('2%'),
     width: wp ('96%'),
   },
-  subtotal4400Text: {
+  sub_total4400Text: {
     color: 'rgb(55, 58, 61)',
     fontSize: 16,
     fontStyle: 'normal',

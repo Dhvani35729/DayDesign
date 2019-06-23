@@ -16,7 +16,7 @@ async function fetchAllOrders (that) {
       //set your data here
       // console.log (responseData);
       if (that.state.allOrders != null) {
-        showUpdateMessage ('Orders Updated!', 'bottom');
+        // showUpdateMessage ('Orders Updated!', 'bottom');
       }
       console.log (responseData['list']);
       responseData['list'].forEach (order => {
@@ -46,7 +46,7 @@ async function fetchCurrentOrder (that) {
       //set your data here
       // console.log (responseData);
       if (that.state.currentOrder != null) {
-        showUpdateMessage ('Order Updated!', 'bottom');
+        // showUpdateMessage ('Order Updated!', 'bottom');
       }
       if (
         responseData['error'] &&
@@ -81,7 +81,7 @@ async function fetchRestaurants (that) {
     .then (responseData => {
       //set your data here
       if (that.state.allHours.length != 0) {
-        showUpdateMessage ('Database Updated!', 'top');
+        // showUpdateMessage ('Database Updated!', 'top');
       }
 
       const currentHour = new Date ().getHours ();
@@ -125,7 +125,7 @@ async function fetchMenu (that, resId, hourId) {
       //set your data here
       // console.log (responseData);
       if (that.state.menu.length != 0) {
-        showUpdateMessage ('Database Updated!', 'bottom');
+        // showUpdateMessage ('Database Updated!', 'bottom');
       }
       that.setState ({
         menu: responseData['list'],
@@ -140,7 +140,7 @@ async function fetchMenu (that, resId, hourId) {
 async function getDefaultCard (that) {
   uid = that.state.user.uid;
   fetch (
-    'http://localhost:8000/api/users/' + uid.toString () + '/cards/default',
+    'http://localhost:8000/api/users/' + uid.toString () + '/card/default',
     {
       method: 'GET',
     }
@@ -245,22 +245,23 @@ async function syncDB (that, resId, hourId, currentOrder) {
 
           subTotal = 0.0;
           currentOrder.foods.forEach (food => {
-            food.contribution = contribution_map[food.id].contribution;
-            food.initial_price = contribution_map[food.id].initial_price;
-            subTotal += food.price * food.quantity;
+            food.initial_contribution = contribution_map[food.id].contribution;
+            food.sales_price = contribution_map[food.id].initial_price;
+            subTotal += food.sales_price * food.quantity;
           });
 
           tax = subTotal * getTaxPercentage (subTotal);
           total = subTotal + tax;
+          console.log ();
 
           totalSaved = responseData['data'][0].current_discount * subTotal;
           that.setState ({
             resData: responseData['data'][0],
             currentOrder: currentOrder,
-            subTotal: subTotal,
+            sub_total: subTotal,
             tax: tax,
-            total: total,
-            totalSaved: totalSaved,
+            initial_total: total,
+            total_saved: totalSaved,
             refreshing: false,
           });
         })
