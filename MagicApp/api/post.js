@@ -55,8 +55,8 @@ async function addCard (that, tokenId, screen) {
     });
 }
 
-async function doPayment (order, tokenId, card) {
-  body = {order: order, tokenId: tokenId, card: card};
+async function doPayment (that, order, card) {
+  body = {order: order, card: card};
   fetch (
     'http://localhost:8000/api/users/' + user.uid.toString () + '/order/new',
     {
@@ -72,6 +72,9 @@ async function doPayment (order, tokenId, card) {
     .then (responseData => {
       //set your data here
       console.log (responseData);
+      // if success
+      that.navigation.navigate ('CurrentOrderScreen');
+      // AsyncStorage.removeItem ('@trofi-current-order');
     })
     .catch (error => {
       console.error (error);

@@ -13,7 +13,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import CurrentOrderItem from '../../models/CurrentOrderItem';
-import {tConvert} from '../../utils';
+import {tConvert, showMoney} from '../../utils';
 
 export default class CurrentOrderScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -44,11 +44,11 @@ export default class CurrentOrderScreen extends React.Component {
     return <CurrentOrderItem food={item} />;
   };
 
-  formatPickupTime (pickup_time) {
-    if (pickup_time - 1 < 10) {
-      return tConvert ('0' + (pickup_time - 1).toString () + ':59');
+  formatTime (time) {
+    if (time < 10) {
+      return tConvert ('0' + time.toString () + ':59');
     } else {
-      return tConvert ((pickup_time - 1).toString () + ':59');
+      return tConvert (time.toString () + ':59');
     }
   }
 
@@ -75,7 +75,7 @@ export default class CurrentOrderScreen extends React.Component {
           <TouchableOpacity
             style={styles.icCartButton}
             onPress={() => {
-              this.props.navigation.navigate ('History');
+              this.props.navigation.navigate ('HistoryScreen');
             }}
           >
             <Text style={styles.buttonButtonText}>History</Text>
@@ -90,7 +90,9 @@ export default class CurrentOrderScreen extends React.Component {
             }}
           >
             <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>10%</Text>
+              <Text style={styles.nextmoneyText}>
+                {currentOrder.initial_discount}%
+              </Text>
               <View
                 style={{
                   // width: "100%",
@@ -117,7 +119,7 @@ export default class CurrentOrderScreen extends React.Component {
           <View style={styles.viewFlatListViewWrapper}>
             <FlatList
               renderItem={this.renderViewFlatListCell}
-             data={currentOrder.foods}
+              data={currentOrder.foods}
               keyExtractor={this._keyExtractor}
               style={styles.viewFlatList}
             />
@@ -127,9 +129,7 @@ export default class CurrentOrderScreen extends React.Component {
               <Text style={styles.statusText}>Status:</Text>
               <Text style={styles.readyText}>
                 {currentOrder
-                  ? currentOrder.state == 'building'
-                      ? 'Building'
-                      : currentOrder.status ? 'Ready' : 'Not Ready'
+                  ? currentOrder.status_ready ? 'Ready' : 'Not Ready'
                   : '-'}
               </Text>
             </View>
@@ -138,13 +138,13 @@ export default class CurrentOrderScreen extends React.Component {
                 <Text style={styles.pickUpBeforeText}>Pick-Up Before:</Text>
                 <Text style={styles.amText}>
                   {currentOrder
-                    ? this.formatPickupTime (currentOrder.pickup_time)
+                    ? this.formatTime (currentOrder.hour_start)
                     : '-'}
                 </Text>
               </View>
             </View>
           </View>
-         
+
           <View style={styles.viewFourView}>
             <View style={styles.backgroundTwoView} />
             <View
@@ -163,8 +163,13 @@ export default class CurrentOrderScreen extends React.Component {
             </View>
           </View>
         </View>
-            <Text style={styles.formatforinvite}>
-$0.00 will be reimbursed. Save more by inviting friends and unlocking discounts. </Text>
+        <Text style={styles.formatforinvite}>
+          $
+          {showMoney (currentOrder.total_saved)}
+          {' '}
+          will be reimbursed. Save more by inviting friends and unlocking discounts.
+          {' '}
+        </Text>
       </View>
     );
   }

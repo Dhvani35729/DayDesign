@@ -40,12 +40,12 @@ export default class CheckoutItem extends React.Component {
               {food.name}
             </Text>
             <Text style={styles.textText}>
-              ${showMoney (food.initial_price)}
+              ${showMoney (food.sales_price)}
             </Text>
           </View>
 
           <Text style={styles.toppings}>
-            topping1, topping2, topping3, topping4, topping1, topping2, topping3, topping4
+            {food.toppings}
           </Text>
 
           <View
@@ -63,7 +63,7 @@ export default class CheckoutItem extends React.Component {
               <Text style={styles.servingsText}>{food.quantity} Servings</Text>
               <View style={styles.groupView}>
                 <Text style={styles.textTwoText}>
-                  +{food.contribution * food.quantity}
+                  +{food.initial_contribution * food.quantity}
                 </Text>
               </View>
             </View>
