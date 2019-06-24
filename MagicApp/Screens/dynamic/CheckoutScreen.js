@@ -175,7 +175,7 @@ export default class CheckoutScreen extends React.Component {
       sub_total: sub_total,
       tax: tax,
       total_saved: total_saved,
-      initial_total: total * 100,
+      initial_total: parseInt (total * 100),
       final_total: null,
     };
     const order = {

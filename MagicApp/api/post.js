@@ -62,9 +62,12 @@ async function doPayment (that, order, card) {
     {
       method: 'POST',
       body: JSON.stringify (body),
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': 'hi',
+        'X-CSRFTOKEN': 'hi',
       },
     }
   )
