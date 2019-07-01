@@ -118,7 +118,7 @@ export default class CheckoutItem extends React.Component {
               <Text style={styles.servingsText}>{food.quantity} Servings</Text>
               <View style={styles.groupView}>
                 <Text style={styles.textTwoText}>
-                  +{food.initial_contribution * food.quantity}
+                  +{showMoney (food.initial_contribution * food.quantity)}
                 </Text>
               </View>
             </View>

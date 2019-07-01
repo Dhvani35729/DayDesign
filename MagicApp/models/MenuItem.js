@@ -87,7 +87,7 @@ export default class MenuItem extends React.Component {
           >
             <View style={styles.groupView}>
               <Text style={styles.textThreeText}>
-                +{foodData.contribution}
+                +{showMoney (foodData.contribution)}
               </Text>
             </View>
           </View>
