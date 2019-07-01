@@ -13,6 +13,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import {
@@ -62,13 +63,14 @@ export default class CheckoutScreen extends React.Component {
       initial_total: 0,
       total_saved: 0,
       refreshing: false,
-      hasCurrentOrder: false,
+      pendingCurrentOrder: false,
+      loading: true,
     };
   }
 
   requestPayment = order => {
     var that = this;
-    if (this.state.hasCurrentOrder) {
+    if (this.state.pendingCurrentOrder) {
       showErrorMessage (
         'You already have a pending order! You must wait for that to finish.',
         'top'
@@ -117,6 +119,10 @@ export default class CheckoutScreen extends React.Component {
             // this.setState ({
             //   currentOrder: JSON.parse (currentOrder),
             // });
+          } else {
+            this.setState ({
+              refreshing: false,
+            });
           }
         });
       }
@@ -142,6 +148,7 @@ export default class CheckoutScreen extends React.Component {
           tax: 0,
           total: 0,
           total_saved: 0,
+          loading: false,
         });
       }
     });
@@ -169,6 +176,17 @@ export default class CheckoutScreen extends React.Component {
         resData={this.state.resData}
         getCurrentOrder={this.getCurrentOrder}
       />
+    );
+  };
+
+  ListEmpty = () => {
+    return (
+      //View to show when list is empty
+      (
+        <View style={styles.MainContainer}>
+          <Text style={{textAlign: 'center'}}>No Data Found</Text>
+        </View>
+      )
     );
   };
 
@@ -255,14 +273,17 @@ export default class CheckoutScreen extends React.Component {
               </Text>}
 
           <View style={styles.viewFlatListViewWrapper}>
-            <FlatList
-              renderItem={this.renderViewFlatListCell}
-              data={currentOrder ? currentOrder.foods : []}
-              style={styles.viewFlatList}
-              keyExtractor={this._keyExtractor}
-              refreshing={this.state.refreshing}
-              onRefresh={this.handleRefresh}
-            />
+            {this.state.loading
+              ? <ActivityIndicator size="small" />
+              : <FlatList
+                  renderItem={this.renderViewFlatListCell}
+                  data={currentOrder ? currentOrder.foods : []}
+                  style={styles.viewFlatList}
+                  keyExtractor={this._keyExtractor}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh}
+                  ListEmptyComponent={this.ListEmpty}
+                />}
           </View>
           <View style={styles.group3View}>
             <Text style={styles.sub_total4400Text}>

@@ -147,6 +147,17 @@ export default class AddItemScreen extends React.Component {
     });
   }
 
+  ListEmpty = () => {
+    return (
+      //View to show when list is empty
+      (
+        <View style={styles.MainContainer}>
+          <Text style={{textAlign: 'center'}}>No Toppings Found</Text>
+        </View>
+      )
+    );
+  };
+
   onCheckBoxPress (id) {
     let tmp = this.state.selectedToppings;
 
@@ -332,6 +343,7 @@ export default class AddItemScreen extends React.Component {
           <TextInput
             multiline={true}
             autoCorrect={false}
+            maxLength={255}
             onChangeText={text => this.setState ({extraInstructions: text})}
             placeholder="Extra instructions or special requests. "
             style={styles.extraInstructionsOTextInput}
@@ -361,6 +373,7 @@ export default class AddItemScreen extends React.Component {
                 data={foodData.toppings}
                 extraData={this.state}
                 style={styles.viewFlatList}
+                ListEmptyComponent={this.ListEmpty}
               />
 
             </View>
