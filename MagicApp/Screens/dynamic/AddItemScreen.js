@@ -226,7 +226,10 @@ export default class AddItemScreen extends React.Component {
               >
 
                 <Text style={styles.buyersneededText}>
-                  ${resData.current_contribution}/{resData.needed_contribution}
+                  $
+                  {parseInt (resData.current_contribution)}
+                  /
+                  {parseInt (resData.needed_contribution)}
                 </Text>
 
               </View>

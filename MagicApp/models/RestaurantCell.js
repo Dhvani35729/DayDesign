@@ -60,9 +60,9 @@ export default class RestaurantCell extends React.Component {
                 {!resData.max_discount_reached &&
                   <Text style={styles.buyersneededText}>
                     $
-                    {showMoney (resData.current_contribution)}
+                    {parseInt (resData.current_contribution)}
                     /
-                    {showMoney (resData.needed_contribution)}
+                    {parseInt (resData.needed_contribution)}
                   </Text>}
                 <View
                   style={{
