@@ -14,7 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {showPercentage} from '../utils';
+import {showPercentage, showMoney} from '../utils';
 
 export default class Vendor extends React.Component {
   constructor (props) {
@@ -95,9 +95,9 @@ export default class Vendor extends React.Component {
                   />
                   <Text style={styles.textTwoText}>
                     $
-                    {showMoney (resData.current_contribution)}
+                    {parseInt (resData.current_contribution)}
                     /
-                    {showMoney (resData.needed_contribution)}
+                    {parseInt (resData.needed_contribution)}
                   </Text>
                   <Text style={styles.discountText}>discount</Text>
                 </View>
