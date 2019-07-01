@@ -95,9 +95,9 @@ export default class Vendor extends React.Component {
                   />
                   <Text style={styles.textTwoText}>
                     $
-                    {resData.current_contribution}
+                    {showMoney (resData.current_contribution)}
                     /
-                    {resData.needed_contribution}
+                    {showMoney (resData.needed_contribution)}
                   </Text>
                   <Text style={styles.discountText}>discount</Text>
                 </View>
