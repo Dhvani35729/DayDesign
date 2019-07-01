@@ -13,6 +13,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import {
@@ -48,6 +49,8 @@ export default class CardScreen extends React.Component {
       user: user,
       cards: null,
       orderData: orderData,
+      loading: true,
+      refreshing: false,
     };
   }
 
@@ -68,6 +71,18 @@ export default class CardScreen extends React.Component {
       .finally (() => {
         this.setState ({isPaymentPending: false});
       });
+  };
+
+  handleRefresh = () => {
+    var that = this;
+    this.setState (
+      {
+        refreshing: true,
+      },
+      () => {
+        getCards (that);
+      }
+    );
   };
 
   componentDidMount () {
@@ -110,12 +125,16 @@ export default class CardScreen extends React.Component {
         >
           <Text style={styles.shawarmaPlusText}>Your Cards</Text>
           <View style={styles.viewFlatListViewWrapper}>
-            <FlatList
-              renderItem={this.renderViewFlatListCell}
-              data={cardsData}
-              style={styles.viewFlatList}
-              keyExtractor={this._keyExtractor}
-            />
+            {this.state.loading
+              ? <ActivityIndicator size="small" />
+              : <FlatList
+                  renderItem={this.renderViewFlatListCell}
+                  data={cardsData}
+                  style={styles.viewFlatList}
+                  keyExtractor={this._keyExtractor}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh}
+                />}
           </View>
 
           <TouchableOpacity

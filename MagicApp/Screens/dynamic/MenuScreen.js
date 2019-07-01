@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import {
@@ -48,6 +49,7 @@ export default class MenuScreen extends React.Component {
       all_listeners: [],
       refresh: false,
       refreshing: false,
+      loading: true,
     };
   }
 
@@ -93,6 +95,17 @@ export default class MenuScreen extends React.Component {
         var hourId = this.state.resData.hour_id.toString ();
         fetchMenu (this, resId, hourId);
       }
+    );
+  };
+
+  ListEmpty = () => {
+    return (
+      //View to show when list is empty
+      (
+        <View style={styles.MainContainer}>
+          <Text style={{textAlign: 'center'}}>No Foods Found</Text>
+        </View>
+      )
     );
   };
 
@@ -168,14 +181,17 @@ export default class MenuScreen extends React.Component {
           <Text style={styles.shawarmaPlusText}>{resData.name}</Text>
 
           <View style={styles.viewFlatListViewWrapper}>
-            <FlatList
-              renderItem={this.renderViewFlatListCell}
-              data={menu}
-              extraData={this.state.refresh}
-              style={styles.viewFlatList}
-              refreshing={this.state.refreshing}
-              onRefresh={this.handleRefresh}
-            />
+            {this.state.loading
+              ? <ActivityIndicator size="small" />
+              : <FlatList
+                  renderItem={this.renderViewFlatListCell}
+                  data={menu}
+                  extraData={this.state.refresh}
+                  style={styles.viewFlatList}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh}
+                  ListEmptyComponent={this.ListEmpty}
+                />}
           </View>
         </View>
 

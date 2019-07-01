@@ -58,7 +58,7 @@ async function fetchCurrentOrder (that, screen) {
           });
         } else if (screen == 'CheckoutScreen') {
           that.setState ({
-            hasCurrentOrder: false,
+            pendingCurrentOrder: false,
           });
         }
       } else {
@@ -72,9 +72,15 @@ async function fetchCurrentOrder (that, screen) {
             currentOrder: responseData,
           });
         } else if (screen == 'CheckoutScreen') {
-          that.setState ({
-            hasCurrentOrder: true,
-          });
+          if (responseData['status_ready']) {
+            that.setState ({
+              pendingCurrentOrder: false,
+            });
+          } else {
+            that.setState ({
+              pendingCurrentOrder: true,
+            });
+          }
         } else if (screen == 'post') {
           AsyncStorage.removeItem ('@trofi-current-order');
           that.props.navigation.navigate ('CurrentOrderScreen', {
@@ -147,6 +153,7 @@ async function fetchMenu (that, resId, hourId) {
       that.setState ({
         menu: responseData['list'],
         refreshing: false,
+        loading: false,
       });
     })
     .catch (error => {
@@ -203,6 +210,8 @@ async function getCards (that) {
       ) {
         that.setState ({
           cards: [],
+          loading: false,
+          refreshing: false,
         });
       } else {
         counter = 0;
@@ -213,6 +222,8 @@ async function getCards (that) {
         console.log (responseData['list']);
         that.setState ({
           cards: responseData['list'],
+          loading: false,
+          refreshing: false,
         });
       }
     })
@@ -280,6 +291,7 @@ async function syncDB (that, resId, hourId, currentOrder) {
             total: total,
             total_saved: totalSaved,
             refreshing: false,
+            loading: false,
           });
         })
         .catch (error => {

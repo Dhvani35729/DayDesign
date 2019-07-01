@@ -58,6 +58,17 @@ export default class VendorListScreen extends React.Component {
     });
   }
 
+  ListEmpty = () => {
+    return (
+      //View to show when list is empty
+      (
+        <View style={styles.MainContainer}>
+          <Text style={{textAlign: 'center'}}>No Restaurants Found</Text>
+        </View>
+      )
+    );
+  };
+
   componentWillUnmount () {}
 
   renderViewFlatListCell = ({item}) => {
@@ -81,6 +92,7 @@ export default class VendorListScreen extends React.Component {
             renderItem={this.renderViewFlatListCell}
             data={this.state.hourData}
             style={styles.viewFlatList}
+            ListEmptyComponent={this.ListEmpty}
           />
         </View>
 
