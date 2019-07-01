@@ -22,9 +22,14 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 import CheckoutItem from '../../models/CheckoutItem';
-import {syncDB, getDefaultCard} from '../../api/load';
+import {fetchCurrentOrder, syncDB, getDefaultCard} from '../../api/load';
 import {doPayment, addCard} from '../../api/post';
-import {showPercentage, showMoney, tConvert} from '../../utils';
+import {
+  showPercentage,
+  showMoney,
+  showErrorMessage,
+  tConvert,
+} from '../../utils';
 import stripe from 'tipsi-stripe';
 import {user} from '../../api/config';
 
@@ -53,33 +58,42 @@ export default class CheckoutScreen extends React.Component {
       defaultCard: null,
       sub_total: 0,
       tax: 0,
+      total: 0,
       initial_total: 0,
       total_saved: 0,
       refreshing: false,
+      hasCurrentOrder: false,
     };
   }
 
   requestPayment = order => {
     var that = this;
-    this.setState ({isPaymentPending: true});
-    if (this.state.defaultCard != null) {
-      return doPayment (this, order, 'default');
+    if (this.state.hasCurrentOrder) {
+      showErrorMessage (
+        'You already have a pending order! You must wait for that to finish.',
+        'top'
+      );
     } else {
-      return stripe
-        .paymentRequestWithCardForm ()
-        .then (stripeTokenInfo => {
-          return addCard (that, stripeTokenInfo.tokenId, 'CheckoutScreen');
-        })
-        .then (() => {
-          console.log ('Payment succeeded!');
-          // this.props.navigation.navigate ('CurrentOrderScreen');
-        })
-        .catch (error => {
-          console.log ('Payment failed', {error});
-        })
-        .finally (() => {
-          this.setState ({isPaymentPending: false});
-        });
+      this.setState ({isPaymentPending: true});
+      if (this.state.defaultCard != null) {
+        return doPayment (that, order, 'default');
+      } else {
+        return stripe
+          .paymentRequestWithCardForm ()
+          .then (stripeTokenInfo => {
+            return addCard (that, stripeTokenInfo.tokenId, 'CheckoutScreen');
+          })
+          .then (() => {
+            console.log ('Payment succeeded!');
+            // this.props.navigation.navigate ('CurrentOrderScreen');
+          })
+          .catch (error => {
+            console.log ('Payment failed', {error});
+          })
+          .finally (() => {
+            this.setState ({isPaymentPending: false});
+          });
+      }
     }
   };
 
@@ -91,6 +105,7 @@ export default class CheckoutScreen extends React.Component {
       },
       () => {
         getDefaultCard (that);
+        fetchCurrentOrder (that, 'CheckoutScreen');
 
         AsyncStorage.getItem ('@trofi-current-order').then (currentOrder => {
           if (currentOrder != null) {
@@ -114,6 +129,7 @@ export default class CheckoutScreen extends React.Component {
         var resId = this.state.resData.key;
         var hourId = this.state.resData.hour_id.toString ();
         currentOrder = JSON.parse (currentOrder);
+        console.log (currentOrder);
         syncDB (this, resId, currentOrder.hour_id, currentOrder);
         // update cart to reflect current item contribution
         // this.setState ({
@@ -137,6 +153,7 @@ export default class CheckoutScreen extends React.Component {
     this.props.navigation.addListener ('willFocus', playload => {
       getDefaultCard (that);
       this.getCurrentOrder ();
+      fetchCurrentOrder (that, 'CheckoutScreen');
     });
   }
 
@@ -164,13 +181,15 @@ export default class CheckoutScreen extends React.Component {
   }
 
   render () {
-    const resData = this.state.resData;
-    const currentOrder = this.state.currentOrder;
-    const sub_total = this.state.sub_total;
-    const tax = this.state.tax;
-    const total = this.state.initial_total;
-    const total_saved = this.state.total_saved;
-    const defaultCard = this.state.defaultCard;
+    const {
+      resData,
+      currentOrder,
+      sub_total,
+      tax,
+      total,
+      total_saved,
+      defaultCard,
+    } = this.state;
     const amount = {
       sub_total: sub_total,
       tax: tax,

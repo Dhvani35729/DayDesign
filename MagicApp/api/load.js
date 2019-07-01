@@ -35,7 +35,7 @@ async function fetchAllOrders (that) {
     });
 }
 
-async function fetchCurrentOrder (that) {
+async function fetchCurrentOrder (that, screen) {
   uid = that.state.user.uid;
   fetch (
     'http://localhost:8000/api/users/' + uid.toString () + '/orders/current',
@@ -52,18 +52,35 @@ async function fetchCurrentOrder (that) {
         responseData['error'] &&
         responseData['error'].code == 'CurrentOrderNotFound'
       ) {
-        that.setState ({
-          currentOrder: null,
-        });
+        if (screen == 'DynamicScreen') {
+          that.setState ({
+            currentOrder: null,
+          });
+        } else if (screen == 'CheckoutScreen') {
+          that.setState ({
+            hasCurrentOrder: false,
+          });
+        }
       } else {
-        counter = 0;
-        responseData.foods.forEach (food => {
-          food.key = counter;
-          counter += 1;
-        });
-        that.setState ({
-          currentOrder: responseData,
-        });
+        if (screen == 'DynamicScreen') {
+          counter = 0;
+          responseData.foods.forEach (food => {
+            food.key = counter;
+            counter += 1;
+          });
+          that.setState ({
+            currentOrder: responseData,
+          });
+        } else if (screen == 'CheckoutScreen') {
+          that.setState ({
+            hasCurrentOrder: true,
+          });
+        } else if (screen == 'post') {
+          AsyncStorage.removeItem ('@trofi-current-order');
+          that.props.navigation.navigate ('CurrentOrderScreen', {
+            currentOrder: responseData,
+          });
+        }
       }
     })
     .catch (error => {
@@ -260,7 +277,7 @@ async function syncDB (that, resId, hourId, currentOrder) {
             currentOrder: currentOrder,
             sub_total: subTotal,
             tax: tax,
-            initial_total: total,
+            total: total,
             total_saved: totalSaved,
             refreshing: false,
           });
