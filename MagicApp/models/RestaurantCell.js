@@ -8,7 +8,7 @@
 
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {showPercentage} from '../utils';
+import {showPercentage, showMoney} from '../utils';
 
 export default class RestaurantCell extends React.Component {
   constructor (props) {
