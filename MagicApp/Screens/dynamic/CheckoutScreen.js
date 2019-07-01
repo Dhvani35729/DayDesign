@@ -263,7 +263,7 @@ export default class CheckoutScreen extends React.Component {
           </View>
           <View style={styles.group3View}>
             <Text style={styles.sub_total4400Text}>
-              sub_total: ${showMoney (sub_total)}
+              Sub Total: ${showMoney (sub_total)}
             </Text>
             <View>
               <Text style={styles.tax600Text}>Tax: ${showMoney (tax)}</Text>
