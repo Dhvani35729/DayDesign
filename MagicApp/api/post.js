@@ -1,5 +1,5 @@
 import {db, user} from './config';
-import {getDefaultCard} from './load';
+import {getDefaultCard, fetchCurrentOrder} from './load';
 
 async function changeDefaultCard (navigation, cardId, last4) {
   body = {cardId: cardId, last4: last4};
@@ -74,10 +74,9 @@ async function doPayment (that, order, card) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
+      fetchCurrentOrder (that, 'post');
       console.log (responseData);
       // if success
-      that.navigation.navigate ('CurrentOrderScreen');
-      // AsyncStorage.removeItem ('@trofi-current-order');
     })
     .catch (error => {
       console.error (error);

@@ -70,13 +70,13 @@ export default class DynamicScreen extends React.Component {
     });
     this.props.navigation.addListener ('willFocus', playload => {
       fetchRestaurants (this);
-      fetchCurrentOrder (this);
+      fetchCurrentOrder (this, 'DynamicScreen');
       restaurant_listener = setInterval (
         () => fetchRestaurants (this),
         FETCH_INTERVAL
       );
       current_order_listener = setInterval (
-        () => fetchCurrentOrder (this),
+        () => fetchCurrentOrder (this, 'DynamicScreen'),
         FETCH_INTERVAL + 60000
       );
     });
