@@ -22,7 +22,7 @@ import {
 
 import MenuItem from '../../models/MenuItem';
 import {fetchMenu} from '../../api/load';
-import {showPercentage} from '../../utils';
+import {showPercentage, showMoney} from '../../utils';
 import {FETCH_INTERVAL} from '../../constants';
 
 export default class MenuScreen extends React.Component {
@@ -148,7 +148,10 @@ export default class MenuScreen extends React.Component {
                 }}
               >
                 <Text style={styles.buyersneededText}>
-                  ${resData.current_contribution}/{resData.needed_contribution}
+                  $
+                  {parseInt (resData.current_contribution)}
+                  /
+                  {parseInt (resData.needed_contribution)}
                 </Text>
               </View>
             </View>
