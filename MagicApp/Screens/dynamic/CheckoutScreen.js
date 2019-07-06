@@ -13,7 +13,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import {
@@ -21,6 +20,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Overlay} from 'react-native-elements';
+import {ActivityIndicator} from 'react-native-paper';
+import LottieView from 'lottie-react-native';
 
 import CheckoutItem from '../../models/CheckoutItem';
 import {fetchCurrentOrder, syncDB, getDefaultCard} from '../../api/load';
@@ -65,6 +67,9 @@ export default class CheckoutScreen extends React.Component {
       refreshing: false,
       pendingCurrentOrder: false,
       loading: true,
+      isPaymentPending: false,
+      tryingPayment: false,
+      donePayment: false,
     };
   }
 
@@ -76,7 +81,7 @@ export default class CheckoutScreen extends React.Component {
         'top'
       );
     } else {
-      this.setState ({isPaymentPending: true});
+      this.setState ({isPaymentPending: true, tryingPayment: true});
       if (this.state.defaultCard != null) {
         return doPayment (that, order, 'default');
       } else {
@@ -93,7 +98,7 @@ export default class CheckoutScreen extends React.Component {
             console.log ('Payment failed', {error});
           })
           .finally (() => {
-            this.setState ({isPaymentPending: false});
+            // this.setState ({isPaymentPending: false});
           });
       }
     }
@@ -312,6 +317,24 @@ export default class CheckoutScreen extends React.Component {
             will be reimbursed. Save more by inviting friends and unlocking discounts.
           </Text>
 
+          <Overlay
+            isVisible={this.state.isPaymentPending}
+            width="70%"
+            height="70%"
+          >
+            {this.state.tryingPayment &&
+              <LottieView
+                source={require ('../../assets/animations/machine.json')}
+                autoPlay
+                loop
+              />}
+            {this.state.donePayment &&
+              <LottieView
+                source={require ('../../assets/animations/checkmark.json')}
+                autoPlay
+              />}
+          </Overlay>
+
           {currentOrder &&
             <TouchableOpacity
               onPress={() => {
@@ -519,6 +542,13 @@ const styles = StyleSheet.create ({
   },
   changeCardButtonText: {
     color: 'rgb(91, 158, 236)',
+    fontSize: 13,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textAlign: 'left',
+  },
+  processingText: {
+    padding: 10,
     fontSize: 13,
     fontStyle: 'normal',
     fontWeight: 'normal',

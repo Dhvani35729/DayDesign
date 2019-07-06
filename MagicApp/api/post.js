@@ -1,6 +1,6 @@
 import {db, user} from './config';
 import {getDefaultCard, fetchCurrentOrder} from './load';
-
+import {showAPIErrorMessage} from '../utils/index';
 async function changeDefaultCard (navigation, cardId, last4) {
   body = {cardId: cardId, last4: last4};
   console.log (body);
@@ -74,12 +74,31 @@ async function doPayment (that, order, card) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
-      fetchCurrentOrder (that, 'post');
-      console.log (responseData);
+      // console.log (responseData);
       // if success
+      that.setState (
+        {
+          tryingPayment: false,
+          donePayment: true,
+        },
+        () => {
+          setTimeout (function () {
+            that.setState ({
+              isPaymentPending: false,
+            });
+            fetchCurrentOrder (that, 'post');
+          }, 1500);
+        }
+      );
     })
     .catch (error => {
       console.error (error);
+      that.setState ({
+        isPaymentPending: false,
+        tryingPayment: false,
+        donePayment: false,
+      });
+      showAPIErrorMessage ('bottom');
     });
 }
 
