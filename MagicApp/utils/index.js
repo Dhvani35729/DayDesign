@@ -28,7 +28,16 @@ function showErrorMessage (msg, pos) {
   showMessage ({
     position: pos,
     message: msg,
+    type: 'warning',
+  });
+}
+
+function showAPIErrorMessage (pos) {
+  showMessage ({
+    position: pos,
+    message: 'BiteClub server error! Restart app...if problem persists, contact software.wbc@gmail.com',
     type: 'danger',
+    autoHide: false,
   });
 }
 
@@ -54,4 +63,5 @@ export {
   showPercentage,
   showMoney,
   getTaxPercentage,
+  showAPIErrorMessage,
 };

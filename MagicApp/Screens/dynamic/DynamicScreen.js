@@ -69,16 +69,20 @@ export default class DynamicScreen extends React.Component {
       clearInterval (current_order_listener);
     });
     this.props.navigation.addListener ('willFocus', playload => {
-      fetchRestaurants (this);
-      fetchCurrentOrder (this, 'DynamicScreen');
-      restaurant_listener = setInterval (
-        () => fetchRestaurants (this),
-        FETCH_INTERVAL
-      );
-      current_order_listener = setInterval (
-        () => fetchCurrentOrder (this, 'DynamicScreen'),
-        FETCH_INTERVAL + 60000
-      );
+      fetchRestaurants (this).catch (error => {
+        console.error (error);
+      });
+      // fetchCurrentOrder (this, 'DynamicScreen').catch (error => {
+      //   console.error (error);
+      // });
+      // restaurant_listener = setInterval (
+      //   () => fetchRestaurants (this),
+      //   FETCH_INTERVAL
+      // );
+      // current_order_listener = setInterval (
+      //   () => fetchCurrentOrder (this, 'DynamicScreen'),
+      //   FETCH_INTERVAL + 60000
+      // );
     });
   }
 
@@ -103,6 +107,7 @@ export default class DynamicScreen extends React.Component {
       },
       () => {
         fetchRestaurants (this);
+        fetchCurrentOrder (this, 'DynamicScreen');
       }
     );
   };

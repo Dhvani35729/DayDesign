@@ -54,6 +54,8 @@ target 'magic' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'ReactNativeExceptionHandler', :path => '../node_modules/react-native-exception-handler'
+
 end
 
 post_install do |installer|

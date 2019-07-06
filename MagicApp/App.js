@@ -24,6 +24,52 @@ import RNExitApp from 'react-native-exit-app';
 import FlashMessage from 'react-native-flash-message';
 
 import {createRootNavigator} from './router';
+import {
+  setJSExceptionHandler,
+  setNativeExceptionHandler,
+} from 'react-native-exception-handler';
+
+const reporter = error => {
+  // Logic for reporting to devs
+  // Example : Log issues to github issues using github apis.
+  console.log (error); // sample
+};
+
+const errorHandler = (e, isFatal) => {
+  if (isFatal) {
+    reporter (e);
+    if (Platform.OS == 'android') {
+      Alert.alert (
+        'Unexpected error occurred',
+        `
+            Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}
+            We have reported this to our team ! Please close the app and start again!
+            `[{text: 'Exit App', onPress: () => BackHandler.exitApp ()}],
+        {cancelable: false}
+      );
+    } else if (Platform.OS == 'ios') {
+      Alert.alert (
+        'Unexpected error occurred',
+        `
+            Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}
+            We have reported this to our team ! Please close the app and start again!
+            `[{text: 'Exit App', onPress: () => RNExitApp.exitApp ()}],
+        {cancelable: false}
+      );
+    }
+  } else {
+    console.log (e); // So that we can see it in the ADB logs in case of Android if needed
+  }
+};
+
+setJSExceptionHandler (errorHandler, true);
+setNativeExceptionHandler (errorString => {
+  //You can do something like call an api to report to dev team here
+  //example
+  // fetch('http://<YOUR API TO REPORT TO DEV TEAM>?error='+errorString);
+  //
+  console.log ('gotcha');
+});
 
 export default class App extends React.Component {
   constructor (props) {

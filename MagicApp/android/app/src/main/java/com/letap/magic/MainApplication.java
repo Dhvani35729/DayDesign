@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
         new MainReactPackage(),
+            new ReactNativeExceptionHandlerPackage(),
             new AsyncStoragePackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
