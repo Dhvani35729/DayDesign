@@ -1,9 +1,5 @@
-import {db, user} from './config';
-import {
-  getTaxPercentage,
-  showUpdateMessage,
-  showErrorMessage,
-} from '../utils/index';
+import {user} from './config';
+import {getTaxPercentage, showAPIErrorMessage} from '../utils/index';
 import AsyncStorage from '@react-native-community/async-storage';
 
 async function fetchAllOrders (that) {
@@ -14,11 +10,10 @@ async function fetchAllOrders (that) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
-      // console.log (responseData);
       if (that.state.allOrders != null) {
         // showUpdateMessage ('Orders Updated!', 'bottom');
       }
-      console.log (responseData['list']);
+      // console.log (responseData['list']);
       responseData['list'].forEach (order => {
         order.key = order.order_number;
       });
@@ -28,10 +23,8 @@ async function fetchAllOrders (that) {
     })
     .catch (error => {
       console.error (error);
-      showErrorMessage (
-        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-        'top'
-      );
+      showAPIErrorMessage ('bottom');
+      return;
     });
 }
 
@@ -44,7 +37,6 @@ async function fetchCurrentOrder (that, screen) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
-      // console.log (responseData);
       if (that.state.currentOrder != null) {
         // showUpdateMessage ('Order Updated!', 'bottom');
       }
@@ -91,10 +83,7 @@ async function fetchCurrentOrder (that, screen) {
     })
     .catch (error => {
       console.error (error);
-      showErrorMessage (
-        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-        'top'
-      );
+      showAPIErrorMessage ('bottom');
     });
 }
 
@@ -127,10 +116,12 @@ async function fetchRestaurants (that) {
     })
     .catch (error => {
       console.error (error);
-      showErrorMessage (
-        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-        'top'
-      );
+      that.setState ({
+        loading: false,
+        refreshing: false,
+      });
+      showAPIErrorMessage ('bottom');
+      return;
     });
 }
 
@@ -146,7 +137,6 @@ async function fetchMenu (that, resId, hourId) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
-      // console.log (responseData);
       if (that.state.menu.length != 0) {
         // showUpdateMessage ('Database Updated!', 'bottom');
       }
@@ -158,6 +148,12 @@ async function fetchMenu (that, resId, hourId) {
     })
     .catch (error => {
       console.error (error);
+      that.setState ({
+        loading: false,
+        refreshing: false,
+      });
+      showAPIErrorMessage ('bottom');
+      return;
     });
 }
 
@@ -188,10 +184,8 @@ async function getDefaultCard (that) {
     })
     .catch (error => {
       console.error (error);
-      showErrorMessage (
-        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-        'top'
-      );
+      showAPIErrorMessage ('bottom');
+      return;
     });
 }
 
@@ -203,7 +197,6 @@ async function getCards (that) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
-      // console.log (responseData);
       if (
         responseData['error'] &&
         responseData['error'].code == 'CardsNotFound'
@@ -219,7 +212,7 @@ async function getCards (that) {
           order.key = counter;
           counter += 1;
         });
-        console.log (responseData['list']);
+        // console.log (responseData['list']);
         that.setState ({
           cards: responseData['list'],
           loading: false,
@@ -229,10 +222,12 @@ async function getCards (that) {
     })
     .catch (error => {
       console.error (error);
-      showErrorMessage (
-        'Database error! Restart app...if problem persists, contact software.duomo@gmail.com',
-        'top'
-      );
+      that.setState ({
+        loading: false,
+        refreshing: false,
+      });
+      showAPIErrorMessage ('bottom');
+      return;
     });
 }
 
@@ -243,8 +238,6 @@ async function syncDB (that, resId, hourId, currentOrder) {
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
-      //   console.log (currentOrder);
-      //   console.log (responseData['data'][0]);
 
       fetch (
         'http://localhost:8000/api/restaurant/' +
@@ -280,7 +273,6 @@ async function syncDB (that, resId, hourId, currentOrder) {
 
           tax = subTotal * getTaxPercentage (subTotal);
           total = subTotal + tax;
-          console.log ();
 
           totalSaved = responseData['data'][0].current_discount * subTotal;
           that.setState ({
@@ -295,11 +287,21 @@ async function syncDB (that, resId, hourId, currentOrder) {
           });
         })
         .catch (error => {
-          console.error (error);
+          that.setState ({
+            loading: false,
+            refreshing: false,
+          });
+          showAPIErrorMessage ('bottom');
+          return;
         });
     })
     .catch (error => {
-      console.error (error);
+      that.setState ({
+        loading: false,
+        refreshing: false,
+      });
+      showAPIErrorMessage ('bottom');
+      return;
     });
 }
 

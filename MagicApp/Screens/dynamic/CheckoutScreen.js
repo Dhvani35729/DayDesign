@@ -81,7 +81,7 @@ export default class CheckoutScreen extends React.Component {
         return doPayment (that, order, 'default');
       } else {
         return stripe
-          .paymentRequestWithCardForm ()
+          .paymentRequestWithCardForm ({requiredBillingAddressFields: 'zip'})
           .then (stripeTokenInfo => {
             return addCard (that, stripeTokenInfo.tokenId, 'CheckoutScreen');
           })

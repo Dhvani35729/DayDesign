@@ -34,7 +34,6 @@ import {
   tConvert,
 } from '../../utils';
 
-import * as shortid from 'shortid';
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
