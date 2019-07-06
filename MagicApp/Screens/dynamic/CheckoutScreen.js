@@ -189,7 +189,7 @@ export default class CheckoutScreen extends React.Component {
       //View to show when list is empty
       (
         <View style={styles.MainContainer}>
-          <Text style={{textAlign: 'center'}}>No Data Found</Text>
+          <Text style={{textAlign: 'center'}}>No foods found!</Text>
         </View>
       )
     );
@@ -224,6 +224,7 @@ export default class CheckoutScreen extends React.Component {
       ...currentOrder,
       ...amount,
     };
+    const isCartEmpty = currentOrder ? currentOrder.foods.length == 0 : true;
     return (
       <View style={styles.menuView}>
         <View style={styles.backgroundView}>
@@ -289,6 +290,12 @@ export default class CheckoutScreen extends React.Component {
                   onRefresh={this.handleRefresh}
                   ListEmptyComponent={this.ListEmpty}
                 />}
+            {isCartEmpty &&
+              <LottieView
+                source={require ('../../assets/animations/food.json')}
+                autoPlay
+                loop
+              />}
           </View>
           <View style={styles.group3View}>
             <Text style={styles.sub_total4400Text}>
