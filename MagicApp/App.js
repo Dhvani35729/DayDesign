@@ -28,6 +28,7 @@ import {
   setJSExceptionHandler,
   setNativeExceptionHandler,
 } from 'react-native-exception-handler';
+import LottieView from 'lottie-react-native';
 
 const reporter = error => {
   // Logic for reporting to devs
@@ -408,7 +409,11 @@ export default class App extends React.Component {
         return (
           <View style={styles.container}>
             <Text>Loading</Text>
-            <ActivityIndicator size="large" />
+            <LottieView
+              source={require ('./assets/animations/pizza.json')}
+              autoPlay
+              loop
+            />
           </View>
         );
       }

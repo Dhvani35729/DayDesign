@@ -25,6 +25,7 @@ import {TimeCell, TIME_CELL_HEIGHT} from '../../models/TimeCell';
 import {user} from '../../api/config';
 import {fetchCurrentOrder, fetchRestaurants} from '../../api/load';
 import {tConvert} from '../../utils';
+import LottieView from 'lottie-react-native';
 
 import {FETCH_INTERVAL} from '../../constants';
 
@@ -288,7 +289,11 @@ export default class DynamicScreen extends React.Component {
 
         <View style={styles.viewFlatListViewWrapper}>
           {this.state.loading
-            ? <ActivityIndicator size="large" />
+            ? <LottieView
+                source={require ('../../assets/animations/pizza.json')}
+                autoPlay
+                loop
+              />
             : <FlatList
                 horizontal={false}
                 ref={ref => {
