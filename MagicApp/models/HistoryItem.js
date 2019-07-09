@@ -27,12 +27,7 @@ export default class HistoryItem extends React.Component {
     // console.log (order);
     return (
       <View style={styles.listRest1}>
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate ('CurrentOrderScreen', {
-              currentOrder: order,
-            })}
-        >
+        <TouchableOpacity onPress={() => console.log ('go to history item')}>
           <View
             style={{
               flexDirection: 'row',

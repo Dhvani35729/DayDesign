@@ -55,6 +55,7 @@ export default class DynamicScreen extends React.Component {
       fetching_from_server: false,
       showingPastHours: false,
       refreshing: false,
+      loadingOrder: true,
     };
   }
 
@@ -73,9 +74,9 @@ export default class DynamicScreen extends React.Component {
       fetchRestaurants (this).catch (error => {
         console.error (error);
       });
-      // fetchCurrentOrder (this, 'DynamicScreen').catch (error => {
-      //   console.error (error);
-      // });
+      fetchCurrentOrder (this, 'DynamicScreen').catch (error => {
+        console.error (error);
+      });
       // restaurant_listener = setInterval (
       //   () => fetchRestaurants (this),
       //   FETCH_INTERVAL
@@ -178,7 +179,9 @@ export default class DynamicScreen extends React.Component {
   render () {
     const allHours = this.state.allHours;
     const showHours = this.state.showHours;
-    const currentOrder = this.state.currentOrder;
+    const currentOrder = this.state.currentOrder
+      ? this.state.currentOrder['order_info']
+      : null;
     const currentHour = new Date ().getHours ();
     const showingPastHours = this.state.showingPastHours;
     return (
@@ -186,9 +189,7 @@ export default class DynamicScreen extends React.Component {
         <TouchableOpacity
           onPress={() => {
             currentOrder
-              ? this.props.navigation.navigate ('CurrentOrderScreen', {
-                  currentOrder: currentOrder,
-                })
+              ? this.props.navigation.navigate ('CurrentOrderScreen')
               : this.props.navigation.navigate ('HistoryScreen');
           }}
         >
@@ -203,11 +204,20 @@ export default class DynamicScreen extends React.Component {
             >
               <View>
 
-                <Text style={styles.labelText}>
-                  {currentOrder ? currentOrder.res_name : 'No Current Orders'}
-                </Text>
+                {this.state.loadingOrder &&
+                  <ActivityIndicator
+                    style={styles.orderLoadingSpinner}
+                    color="white"
+                    size="large"
+                  />}
 
-                {!currentOrder &&
+                {!this.state.loadingOrder &&
+                  <Text style={styles.labelText}>
+                    {currentOrder ? currentOrder.res_name : 'No Current Orders'}
+                  </Text>}
+
+                {!this.state.loadingOrder &&
+                  !currentOrder &&
                   <Text style={styles.labelTexthistory}>
                     {!currentOrder ? 'Click for Purchase History' : ''}
                   </Text>}
@@ -442,5 +452,8 @@ const styles = StyleSheet.create ({
     color: 'rgb(200, 200, 200)',
     fontSize: 13,
     textAlign: 'center',
+  },
+  orderLoadingSpinner: {
+    marginTop: 20,
   },
 });

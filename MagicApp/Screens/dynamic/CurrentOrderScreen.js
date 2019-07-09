@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import {
@@ -13,7 +14,9 @@ import {
 } from 'react-native-responsive-screen';
 
 import CurrentOrderItem from '../../models/CurrentOrderItem';
-import {tConvert, showMoney} from '../../utils';
+import {tConvert, showMoney, showPercentage} from '../../utils';
+import {fetchCurrentOrder} from '../../api/load';
+import {user} from '../../api/config';
 
 export default class CurrentOrderScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -30,13 +33,30 @@ export default class CurrentOrderScreen extends React.Component {
     super (props);
 
     const {navigation} = this.props;
-    var currentOrder = navigation.getParam ('currentOrder', null);
+
     this.state = {
-      currentOrder: currentOrder,
+      user: user,
+      currentOrder: null,
+      refreshing: false,
+      loading: true,
     };
   }
 
-  componentDidMount () {}
+  handleRefresh = () => {
+    var that = this;
+    this.setState (
+      {
+        refreshing: true,
+      },
+      () => {
+        fetchCurrentOrder (that, 'CurrentOrderScreen');
+      }
+    );
+  };
+
+  componentDidMount () {
+    fetchCurrentOrder (this, 'CurrentOrderScreen');
+  }
 
   componentWillUnmount () {}
 
@@ -55,7 +75,12 @@ export default class CurrentOrderScreen extends React.Component {
   _keyExtractor = (item, index) => item.key.toString ();
 
   render () {
-    var currentOrder = this.state.currentOrder;
+    var currentOrder = this.state.currentOrder
+      ? this.state.currentOrder['order_info']
+      : null;
+    var orderHour = this.state.currentOrder
+      ? this.state.currentOrder['hour_info']['data'][0]
+      : null;
     // console.log (currentOrder);
     return (
       <View style={styles.menuView}>
@@ -90,9 +115,10 @@ export default class CurrentOrderScreen extends React.Component {
             }}
           >
             <View style={styles.graybackgroundView}>
-              <Text style={styles.nextmoneyText}>
-                {currentOrder.initial_discount}%
-              </Text>
+              {orderHour &&
+                <Text style={styles.nextmoneyText}>
+                  {showPercentage (orderHour['current_discount'])}%
+                </Text>}
               <View
                 style={{
                   // width: "100%",
@@ -102,7 +128,13 @@ export default class CurrentOrderScreen extends React.Component {
                   justifyContent: 'flex-end',
                 }}
               >
-                <Text style={styles.buyersneededText}>$95/100</Text>
+                {orderHour &&
+                  <Text style={styles.buyersneededText}>
+                    $
+                    {parseInt (orderHour['current_contribution'])}
+                    /
+                    {parseInt (orderHour['needed_contribution'])}
+                  </Text>}
               </View>
             </View>
           </View>
@@ -117,12 +149,16 @@ export default class CurrentOrderScreen extends React.Component {
         >
           <Text style={styles.shawarmaPlusText}>Current Order</Text>
           <View style={styles.viewFlatListViewWrapper}>
-            <FlatList
-              renderItem={this.renderViewFlatListCell}
-              data={currentOrder.foods}
-              keyExtractor={this._keyExtractor}
-              style={styles.viewFlatList}
-            />
+            {this.state.loading
+              ? <ActivityIndicator size="large" />
+              : <FlatList
+                  renderItem={this.renderViewFlatListCell}
+                  data={currentOrder ? currentOrder.foods : []}
+                  keyExtractor={this._keyExtractor}
+                  style={styles.viewFlatList}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh}
+                />}
           </View>
           <View style={styles.viewTwoView}>
             <View style={styles.viewThreeView}>
@@ -163,13 +199,16 @@ export default class CurrentOrderScreen extends React.Component {
             </View>
           </View>
         </View>
-        <Text style={styles.formatforinvite}>
-          $
-          {showMoney (currentOrder.total_saved)}
-          {' '}
-          will be reimbursed. Save more by inviting friends and unlocking discounts.
-          {' '}
-        </Text>
+        {currentOrder &&
+          <Text style={styles.formatforinvite}>
+            $
+            {showMoney (
+              currentOrder.initial_total * orderHour['current_discount']
+            )}
+            {' '}
+            will be reimbursed. Save more by inviting friends and unlocking discounts.
+            {' '}
+          </Text>}
       </View>
     );
   }
