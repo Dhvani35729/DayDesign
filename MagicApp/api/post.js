@@ -1,6 +1,7 @@
 import {db, user} from './config';
 import {getDefaultCard, fetchCurrentOrder} from './load';
 import {showAPIErrorMessage} from '../utils/index';
+
 async function changeDefaultCard (navigation, cardId, last4) {
   body = {cardId: cardId, last4: last4};
   console.log (body);
@@ -28,7 +29,6 @@ async function changeDefaultCard (navigation, cardId, last4) {
 
 async function addCard (that, tokenId, screen) {
   body = {tokenId: tokenId};
-  console.log (body);
   fetch (
     'http://localhost:8000/api/users/' + user.uid.toString () + '/card/new',
     {

@@ -29,6 +29,7 @@ import {
   setNativeExceptionHandler,
 } from 'react-native-exception-handler';
 import LottieView from 'lottie-react-native';
+import {showAPIErrorMessage} from './utils/index';
 
 const reporter = error => {
   // Logic for reporting to devs
@@ -121,59 +122,30 @@ export default class App extends React.Component {
   }
 
   checkWork (that) {
-    var db = firebase.firestore ();
-
-    const maintRef = db.collection ('general').doc ('maint');
-    maintRef
-      .get ()
-      .then (function (doc) {
-        if (doc.exists) {
-          if (
-            doc
-              .data ()
-              .build_version.localeCompare (DeviceInfo.getVersion ()) <= 0
-          ) {
-            if (doc.data ().status == true) {
-              if (Platform.OS == 'android') {
-                Alert.alert (
-                  'App Under Maintenance',
-                  doc.data ().message,
-                  [{text: 'Exit App', onPress: () => BackHandler.exitApp ()}],
-                  {cancelable: false}
-                );
-              } else if (Platform.OS == 'ios') {
-                Alert.alert (
-                  'App Under Maintenance',
-                  doc.data ().message,
-                  [
-                    {
-                      text: 'Exit App',
-                      onPress: () => {
-                        RNExitApp.exitApp ();
-                      },
-                    },
-                  ],
-                  {cancelable: false}
-                );
-              }
-            } else {
-              totalUsers = doc.data ().total_users;
-              that.launchWork (db, that, totalUsers);
-            }
-          } else {
+    fetch ('http://localhost:8000/api/maint/app', {
+      method: 'GET',
+    })
+      .then (response => response.json ())
+      .then (responseData => {
+        //set your data here
+        console.log (responseData);
+        if (
+          responseData['build_version'].localeCompare (
+            DeviceInfo.getVersion ()
+          ) <= 0
+        ) {
+          if (responseData['status'] == true) {
             if (Platform.OS == 'android') {
               Alert.alert (
-                'Old Version of App',
-                'App is not up to date!\nPlease update the app.\nYour version: ' +
-                  DeviceInfo.getVersion (),
+                'App Under Maintenance',
+                responseData['message'],
                 [{text: 'Exit App', onPress: () => BackHandler.exitApp ()}],
                 {cancelable: false}
               );
             } else if (Platform.OS == 'ios') {
               Alert.alert (
-                'Old Version of App',
-                'App is not up to date!\nPlease update the app.\nYour version: ' +
-                  DeviceInfo.getVersion (),
+                'App Under Maintenance',
+                responseData['message'],
                 [
                   {
                     text: 'Exit App',
@@ -185,25 +157,52 @@ export default class App extends React.Component {
                 {cancelable: false}
               );
             }
+          } else {
+            totalUsers = responseData['total_users'];
+            that.launchWork (that, totalUsers);
           }
         } else {
-          // doc.data() will be undefined in this case
-          console.log ('No such document!');
+          if (Platform.OS == 'android') {
+            Alert.alert (
+              'Old Version of App',
+              'App is not up to date!\nPlease update the app.\nYour version: ' +
+                DeviceInfo.getVersion (),
+              [{text: 'Exit App', onPress: () => BackHandler.exitApp ()}],
+              {cancelable: false}
+            );
+          } else if (Platform.OS == 'ios') {
+            Alert.alert (
+              'Old Version of App',
+              'App is not up to date!\nPlease update the app.\nYour version: ' +
+                DeviceInfo.getVersion (),
+              [
+                {
+                  text: 'Exit App',
+                  onPress: () => {
+                    RNExitApp.exitApp ();
+                  },
+                },
+              ],
+              {cancelable: false}
+            );
+          }
         }
       })
-      .catch (function (error) {
-        console.log ('Error getting document:', error);
+      .catch (error => {
+        console.error (error);
+        showAPIErrorMessage ('bottom');
+        that.setState ({
+          loading: false,
+        });
+        return;
       });
   }
 
-  launchWork (db, that, totalUsers) {
+  launchWork (that, totalUsers) {
     firebase.auth ().onAuthStateChanged (user => {
       if (user) {
-        if (this.state.ranAuthWork == false) {
-          this.setState ({ranAuthWork: true});
-          //firebase.auth().signOut()
-          that.initUser (db, user, that, totalUsers);
-        }
+        // firebase.auth ().signOut ();
+        that.initUser (user, that, totalUsers);
       } else {
         that.setState ({
           firstLaunch: false,
@@ -214,184 +213,36 @@ export default class App extends React.Component {
     });
   }
 
-  initUser (db, user, that, totalUsers) {
-    var today = new Date ();
-    var dd = today.getDate ();
-    var mm = today.getMonth () + 1; //January is 0!
-    var yyyy = today.getFullYear ();
-    if (dd < 10) {
-      dd = '0' + dd;
-    }
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-    var today = mm + '/' + dd + '/' + yyyy;
-
-    const mapRef = db
-      .collection ('general')
-      .doc ('user-verification')
-      .collection (user.uid)
-      .doc ('map');
-
-    mapRef
-      .get ()
-      .then (function (doc) {
-        if (doc.exists) {
-          var publicId = doc.data ().public_id;
-          global.publicId = publicId;
-          const usersRef = db.collection ('users').doc (publicId);
-          const usersPrivateRef = usersRef
-            .collection ('private')
-            .doc (user.uid);
-
-          usersPrivateRef
-            .get ()
-            .then (function (doc) {
-              if (doc.exists) {
-                // console.log ('Document data:', doc.data ());
-
-                if (doc.data ().last_opened == today) {
-                  usersPrivateRef
-                    .update ({
-                      num_opened: doc.data ().num_opened + 1,
-                    })
-                    .then (function () {
-                      // console.log("Document successfully updated!");
-
-                      that.setState ({
-                        firstLaunch: false,
-                        signedIn: true,
-                        checkedSignIn: true,
-                      });
-                    })
-                    .catch (function (error) {
-                      // The document probably doesn't exist.
-                      // console.error("Error updating document: ", error);
-                      that.setState ({
-                        errorMessage: error.message,
-                        loading: false,
-                      });
-                    });
-                } else {
-                  usersPrivateRef
-                    .update ({
-                      num_opened: doc.data ().num_opened + 1,
-                      last_opened: today,
-                    })
-                    .then (function () {
-                      // console.log("Document successfully updated!");
-                      that.setState ({
-                        firstLaunch: false,
-                        signedIn: true,
-                        checkedSignIn: true,
-                      });
-                    })
-                    .catch (function (error) {
-                      // The document probably doesn't exist.
-                      //console.error("Error updating document: ", error);
-                      that.setState ({
-                        errorMessage: error.message,
-                        loading: false,
-                      });
-                    });
-                }
-              } else {
-                // doc.data() will be undefined in this case
-                // console.log("No such document!");
-              }
-            })
-            .catch (function (error) {
-              // console.log("Error getting document:", error);
-              that.setState ({errorMessage: error.message, loading: false});
-            });
+  initUser (user, that, totalUsers) {
+    fetch (
+      'http://localhost:8000/api/users/' + user.uid.toString () + '/auth',
+      {
+        method: 'GET',
+      }
+    )
+      .then (response => response.json ())
+      .then (responseData => {
+        //set your data here
+        if (responseData['success']) {
+          // global.csrfToken = responseData['success']['csrf_token'];
+          that.setState ({
+            firstLaunch: false,
+            signedIn: true,
+            checkedSignIn: true,
+          });
         } else {
-          // doc.data() will be undefined in this case
-          console.log ('User not initialized!');
-
-          publicId = 'trofi-user-' + (totalUsers + 1).toString ();
-          const usersRef = db.collection ('users').doc (publicId);
-          const usersPrivateRef = usersRef
-            .collection ('private')
-            .doc (user.uid);
-
-          usersRef
-            .set ({
-              name: '',
-              friends: [],
-            })
-            .then (function (docRef) {
-              // console.log("Document written with ID: ", docRef.id);
-              usersPrivateRef
-                .set ({
-                  active_orders: [],
-                  avg_time: 0.0,
-                  stripe_id: '',
-                  default_card: -1,
-                  date_joined: today,
-                  last_opened: today,
-                  num_opened: 1,
-                  transactions: [],
-                })
-                .then (function (docRef) {
-                  // console.log("Document written with ID: ", docRef.id);
-
-                  // update user map
-                  var userMapref = db
-                    .collection ('general')
-                    .doc ('user-verification')
-                    .collection (user.uid)
-                    .doc ('map');
-                  userMapref
-                    .set ({
-                      public_id: publicId,
-                    })
-                    .then (function () {
-                      // update user count
-                      var userCountRef = db
-                        .collection ('general')
-                        .doc ('maint');
-
-                      userCountRef
-                        .update ({
-                          total_users: totalUsers + 1,
-                        })
-                        .then (function () {
-                          that.setState ({
-                            firstLaunch: false,
-                            //signedIn: true,
-                            checkedSignIn: true,
-                          });
-                        })
-                        .catch (function (error) {
-                          // The document probably doesn't exist.
-                          that.setState ({
-                            errorMessage: error.message,
-                            loading: false,
-                          });
-                        });
-                    })
-                    .catch (function (error) {
-                      // The document probably doesn't exist.
-                      that.setState ({
-                        errorMessage: error.message,
-                        loading: false,
-                      });
-                    });
-                })
-                .catch (function (error) {
-                  //console.error("Error adding document: ", error);
-                  that.setState ({errorMessage: error.message, loading: false});
-                });
-            })
-            .catch (function (error) {
-              //console.error("Error adding document: ", error);
-              that.setState ({errorMessage: error.message, loading: false});
-            });
+          that.setState ({
+            errorMessage: responseData['error']['message'],
+            loading: false,
+          });
         }
       })
-      .catch (function (error) {
-        // console.log("Error getting document:", error);
-        that.setState ({errorMessage: error.message, loading: false});
+      .catch (error => {
+        console.error (error);
+        showAPIErrorMessage ('bottom');
+        that.setState ({
+          loading: false,
+        });
       });
   }
 
@@ -408,12 +259,12 @@ export default class App extends React.Component {
       if (!checkedSignIn) {
         return (
           <View style={styles.container}>
-            <Text>Loading</Text>
             <LottieView
               source={require ('./assets/animations/pizza.json')}
               autoPlay
               loop
             />
+            <FlashMessage position="top" />
           </View>
         );
       }
