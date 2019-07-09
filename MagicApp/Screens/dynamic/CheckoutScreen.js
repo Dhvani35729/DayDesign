@@ -81,12 +81,12 @@ export default class CheckoutScreen extends React.Component {
         'top'
       );
     } else {
-      this.setState ({isPaymentPending: true, tryingPayment: true});
       if (this.state.defaultCard != null) {
+        this.setState ({isPaymentPending: true, tryingPayment: true});
         return doPayment (that, order, 'default');
       } else {
         return stripe
-          .paymentRequestWithCardForm ({requiredBillingAddressFields: 'zip'})
+          .paymentRequestWithCardForm ()
           .then (stripeTokenInfo => {
             return addCard (that, stripeTokenInfo.tokenId, 'CheckoutScreen');
           })
