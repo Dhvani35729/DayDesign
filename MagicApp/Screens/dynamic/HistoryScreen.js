@@ -25,6 +25,7 @@ import {
 import HistoryItem from '../../models/HistoryItem';
 import {fetchAllOrders} from '../../api/load';
 import {FETCH_INTERVAL} from '../../constants';
+import {user} from '../../api/config';
 
 export default class AddItemScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -42,6 +43,7 @@ export default class AddItemScreen extends React.Component {
     const {navigation} = this.props;
 
     this.state = {
+      user: user,
       allOrders: null,
     };
   }

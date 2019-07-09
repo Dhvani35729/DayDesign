@@ -44,9 +44,11 @@ async function fetchCurrentOrder (that, screen) {
         responseData['error'] &&
         responseData['error'].code == 'CurrentOrderNotFound'
       ) {
-        if (screen == 'DynamicScreen') {
+        if (screen == 'DynamicScreen' || screen == 'CurrentOrderScreen') {
           that.setState ({
             currentOrder: null,
+            loading: false,
+            loadingOrder: false,
           });
         } else if (screen == 'CheckoutScreen') {
           that.setState ({
@@ -54,17 +56,24 @@ async function fetchCurrentOrder (that, screen) {
           });
         }
       } else {
+        counter = 0;
+        responseData['order_info'].foods.forEach (food => {
+          food.key = counter;
+          counter += 1;
+        });
         if (screen == 'DynamicScreen') {
-          counter = 0;
-          responseData.foods.forEach (food => {
-            food.key = counter;
-            counter += 1;
-          });
           that.setState ({
             currentOrder: responseData,
+            loadingOrder: false,
+          });
+        } else if (screen == 'CurrentOrderScreen') {
+          that.setState ({
+            currentOrder: responseData,
+            refreshing: false,
+            loading: false,
           });
         } else if (screen == 'CheckoutScreen') {
-          if (responseData['status_ready']) {
+          if (responseData['order_info']['status_ready']) {
             that.setState ({
               pendingCurrentOrder: false,
             });
@@ -75,9 +84,7 @@ async function fetchCurrentOrder (that, screen) {
           }
         } else if (screen == 'post') {
           AsyncStorage.removeItem ('@trofi-current-order');
-          that.props.navigation.navigate ('CurrentOrderScreen', {
-            currentOrder: responseData,
-          });
+          that.props.navigation.navigate ('CurrentOrderScreen');
         }
       }
     })
