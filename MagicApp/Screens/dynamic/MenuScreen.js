@@ -63,10 +63,10 @@ export default class MenuScreen extends React.Component {
       var hourId = this.state.resData.hour_id.toString ();
       fetchMenu (this, resId, hourId);
 
-      menu_listener = setInterval (
-        () => fetchMenu (this, resId, hourId),
-        FETCH_INTERVAL
-      );
+      // menu_listener = setInterval (
+      //   () => fetchMenu (this, resId, hourId),
+      //   FETCH_INTERVAL
+      // );
     });
   }
 

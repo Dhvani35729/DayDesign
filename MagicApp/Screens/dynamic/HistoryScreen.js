@@ -56,10 +56,10 @@ export default class AddItemScreen extends React.Component {
     this.props.navigation.addListener ('willFocus', playload => {
       fetchAllOrders (this);
 
-      order_listener = setInterval (
-        () => fetchAllOrders (this),
-        FETCH_INTERVAL
-      );
+      // order_listener = setInterval (
+      //   () => fetchAllOrders (this),
+      //   FETCH_INTERVAL
+      // );
     });
   }
 
