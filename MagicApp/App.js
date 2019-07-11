@@ -30,6 +30,7 @@ import {
 } from 'react-native-exception-handler';
 import LottieView from 'lottie-react-native';
 import {showAPIErrorMessage} from './utils/index';
+import {API_SERVER} from './api/config';
 
 const reporter = error => {
   // Logic for reporting to devs
@@ -122,7 +123,7 @@ export default class App extends React.Component {
   }
 
   checkWork (that) {
-    fetch ('http://localhost:8000/api/maint/app', {
+    fetch (API_SERVER + '/api/maint/app', {
       method: 'GET',
     })
       .then (response => response.json ())
@@ -214,12 +215,9 @@ export default class App extends React.Component {
   }
 
   initUser (user, that, totalUsers) {
-    fetch (
-      'http://localhost:8000/api/users/' + user.uid.toString () + '/auth',
-      {
-        method: 'GET',
-      }
-    )
+    fetch (API_SERVER + '/api/users/' + user.uid.toString () + '/auth', {
+      method: 'GET',
+    })
       .then (response => response.json ())
       .then (responseData => {
         //set your data here

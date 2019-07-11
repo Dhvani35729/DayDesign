@@ -1,10 +1,10 @@
-import {user} from './config';
+import {user, API_SERVER} from './config';
 import {getTaxPercentage, showAPIErrorMessage} from '../utils/index';
 import AsyncStorage from '@react-native-community/async-storage';
 
 async function fetchAllOrders (that) {
   uid = user.uid;
-  fetch ('http://localhost:8000/api/users/' + uid.toString () + '/orders/', {
+  fetch (API_SERVER + '/api/users/' + uid.toString () + '/orders/', {
     method: 'GET',
   })
     .then (response => response.json ())
@@ -30,10 +30,9 @@ async function fetchAllOrders (that) {
 
 async function fetchCurrentOrder (that, screen) {
   uid = that.state.user.uid;
-  fetch (
-    'http://localhost:8000/api/users/' + uid.toString () + '/orders/current',
-    {method: 'GET'}
-  )
+  fetch (API_SERVER + '/api/users/' + uid.toString () + '/orders/current', {
+    method: 'GET',
+  })
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
@@ -95,7 +94,7 @@ async function fetchCurrentOrder (that, screen) {
 }
 
 async function fetchRestaurants (that) {
-  fetch ('http://localhost:8000/api/restaurants/hours/', {method: 'GET'})
+  fetch (API_SERVER + '/api/restaurants/hours/', {method: 'GET'})
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
@@ -134,11 +133,7 @@ async function fetchRestaurants (that) {
 
 async function fetchMenu (that, resId, hourId) {
   fetch (
-    'http://localhost:8000/api/restaurant/' +
-      resId +
-      '/hours/' +
-      hourId +
-      '/menu/',
+    API_SERVER + '/api/restaurant/' + resId + '/hours/' + hourId + '/menu/',
     {method: 'GET'}
   )
     .then (response => response.json ())
@@ -166,12 +161,9 @@ async function fetchMenu (that, resId, hourId) {
 
 async function getDefaultCard (that) {
   uid = that.state.user.uid;
-  fetch (
-    'http://localhost:8000/api/users/' + uid.toString () + '/card/default',
-    {
-      method: 'GET',
-    }
-  )
+  fetch (API_SERVER + '/api/users/' + uid.toString () + '/card/default', {
+    method: 'GET',
+  })
     .then (response => response.json ())
     .then (responseData => {
       //set your data here
@@ -198,7 +190,7 @@ async function getDefaultCard (that) {
 
 async function getCards (that) {
   uid = that.state.user.uid;
-  fetch ('http://localhost:8000/api/users/' + uid.toString () + '/cards/', {
+  fetch (API_SERVER + '/api/users/' + uid.toString () + '/cards/', {
     method: 'GET',
   })
     .then (response => response.json ())
@@ -239,7 +231,7 @@ async function getCards (that) {
 }
 
 async function syncDB (that, resId, hourId, currentOrder) {
-  fetch ('http://localhost:8000/api/restaurant/' + resId + '/hours/' + hourId, {
+  fetch (API_SERVER + '/api/restaurant/' + resId + '/hours/' + hourId, {
     method: 'GET',
   })
     .then (response => response.json ())
@@ -247,11 +239,7 @@ async function syncDB (that, resId, hourId, currentOrder) {
       //set your data here
 
       fetch (
-        'http://localhost:8000/api/restaurant/' +
-          resId +
-          '/hours/' +
-          hourId +
-          '/menu/',
+        API_SERVER + '/api/restaurant/' + resId + '/hours/' + hourId + '/menu/',
         {method: 'GET'}
       )
         .then (response => response.json ())
